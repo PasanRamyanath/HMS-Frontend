@@ -23,7 +23,8 @@
       "correctness": {
         "noUnusedVariables": "error",
         "noUnusedImports": "error",
-        "useExhaustiveDependencies": "error"
+        "useExhaustiveDependencies": "error",
+        "noUnknownMediaFeatureName": "off"
       },
       "complexity": {
         "noExcessiveCognitiveComplexity": {

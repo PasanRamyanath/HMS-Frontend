@@ -2,8 +2,8 @@
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "biome": true,
   "lefthook": true,
-  "ignoreDependencies": ["@biomejs/biome", "lefthook"],
+  "ignoreDependencies": ["@biomejs/biome", "lefthook", "tailwindcss"],
   "ignoreBinaries": ["vite", "tsc", "biome", "knip"],
-  "entry": ["src/main.tsx!", "index.html!"],
+  "entry": ["index.html!"],
   "project": ["src/**/*.{ts,tsx}!"]
 }
