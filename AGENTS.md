@@ -17,9 +17,11 @@
 
 ## 3. Anti-Noise & Code Quality Standards
 - No arbitrary LOC caps: Keep code human-understandable, accessible, and maintainable.
+- Ponytail Anti-Bloat: Eliminate speculative abstractions and unused code while strictly preserving Apple HIG styling, Liquid Glass vibrancy, and touch targets.
 - Zero `console.log`, `console.error`, or `debugger` statements (`suspicious.noConsole: "error"` in Biome).
 - Zero dead components, unused hooks, or phantom imports (`npx knip`).
 - Maximum cognitive complexity <= 12.
+
 
 ## 4. Step Protocol & Git Push Gate
 - Each frontend step corresponds to `plan.md` in root and `PROGRESS.md` in this repository.
