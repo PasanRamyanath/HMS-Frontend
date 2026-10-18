@@ -4,6 +4,7 @@
   "lefthook": true,
   "ignoreDependencies": ["@biomejs/biome", "lefthook", "tailwindcss"],
   "ignoreBinaries": ["vite", "tsc", "biome", "knip"],
+  "ignore": ["src/generated/**"],
   "entry": ["index.html!"],
   "project": ["src/**/*.{ts,tsx}!"]
 }
