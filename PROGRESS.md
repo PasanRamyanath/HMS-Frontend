@@ -20,4 +20,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 
 ## Phase 05: Apple Human Interface Guidelines (Apple HIG) & Liquid Glass Frontend Foundation, AppSync WebSocket Client & Auth
 - [x] Step 101: Author Apple HIG & Liquid Glass Tailwind CSS v4 Theme (`src/styles/apple-hig-theme.css`)
+- [x] Step 102: Create Ultra-Lean Native `fetch` GraphQL Client with Tenant & QR HMAC Headers (`src/lib/graphqlClient.ts`)
+
 
