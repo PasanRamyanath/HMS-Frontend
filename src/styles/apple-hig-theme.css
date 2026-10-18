@@ -1,0 +1,106 @@
+@theme {
+  --color-apple-blue: #007aff;
+  --color-apple-green: #34c759;
+  --color-apple-amber: #ff9500;
+  --color-apple-red: #ff3b30;
+  --color-apple-indigo: #5856d6;
+  --color-apple-purple: #af52de;
+  --color-apple-teal: #30b0c7;
+  --color-hms-coral: #e8772e;
+
+  --color-apple-gray-50: #fbfbfd;
+  --color-apple-gray-100: #f5f5f7;
+  --color-apple-gray-200: #e5e5ea;
+  --color-apple-gray-300: #d1d1d6;
+  --color-apple-gray-400: #c7c7cc;
+  --color-apple-gray-500: #8e8e93;
+  --color-apple-gray-600: #636366;
+  --color-apple-gray-700: #48484a;
+  --color-apple-gray-800: #2c2c2e;
+  --color-apple-gray-900: #1c1c1e;
+
+  --font-sf-pro: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-sf-mono: "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  --ease-apple-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-apple-smooth: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --radius-squircle-sm: 8px;
+  --radius-squircle-md: 12px;
+  --radius-squircle-lg: 18px;
+  --radius-squircle-xl: 24px;
+}
+
+/* Apple Liquid Glass dynamic translucency material */
+.apple-liquid-glass {
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.65), 0 8px 32px 0 rgba(0, 0, 0, 0.06);
+}
+
+.dark .apple-liquid-glass {
+  background-color: rgba(28, 28, 30, 0.78);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.18), 0 8px 32px 0 rgba(0, 0, 0, 0.28);
+}
+
+/* Clear Liquid Glass variant for rich media / photo overlays */
+.apple-liquid-glass-clear {
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4), 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+}
+
+.dark .apple-liquid-glass-clear {
+  background-color: rgba(20, 20, 22, 0.45);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1), 0 4px 20px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Accessibility: fallback for users who prefer reduced transparency */
+@media (prefers-reduced-transparency: reduce) {
+  .apple-liquid-glass,
+  .apple-liquid-glass-clear {
+    background-color: #ffffff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid #d1d1d6;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
+  }
+
+  .dark .apple-liquid-glass,
+  .dark .apple-liquid-glass-clear {
+    background-color: #1c1c1e;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid #38383a;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Optical tabular numbers for Sri Lankan Rupee (LKR) / USD folios & timers */
+.tabular-nums-lkr {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Apple HIG 44x44pt ergonomic minimum touch target */
+.apple-touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Smooth Apple spring physics transitions */
+.transition-apple-spring {
+  transition-timing-function: var(--ease-apple-spring);
+  transition-duration: 350ms;
+}
