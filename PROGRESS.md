@@ -24,6 +24,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 103: Create Native Browser WebSocket Client for AppSync Real-Time Subscriptions (`src/lib/wsClient.ts`)
 - [x] Step 104: Implement Lightweight Cognito Auth, RBAC Role Guard & Shift Session Client (`src/lib/auth.ts`)
 - [x] Step 105: Create URL-Based Lazy Router with Apple Spring View Transitions (`src/lib/router.ts`)
+- [x] Step 106: Create Trilingual Dictionary (English, සිංහල, தமிழ்) with SF Pro & Noto Optical Line-Height Tuning (`src/lib/i18n.ts`)
 
 
 
