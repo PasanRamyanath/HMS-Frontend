@@ -113,3 +113,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 207: Build Front-Desk Customer-Facing LankaQR & Alipay+ Dynamic Display Modal (`src/admin/folios/FrontDeskLankaQrModal.tsx`)
 - [x] Step 208: Build Official IRD / SLTDA A4 Tax Invoice & Commercial Invoice Template (`src/admin/folios/PrintableTaxInvoice.tsx`)
 - [x] Step 209: Build 80mm Thermal Interim Bill / Express Check-Out Slip (`src/admin/folios/PrintableThermalFolio.tsx`)
+- [x] Step 210: Build One-Click Guest Check-Out & Room QR Revocation Workflow (`src/admin/folios/CheckOutConfirmDialog.tsx`)
