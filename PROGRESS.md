@@ -48,3 +48,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 ## Phase 06: Multi-Tenant Property Configuration, Room Types, Dual-Currency Rates & Tax Toggles
 - [x] Step 126: Build Property Profile & Branding Settings Form (`src/admin/settings/PropertyProfileForm.tsx`)
 - [x] Step 127: Build Sri Lankan Statutory Tax & SLTDA Registration Configurator (`src/admin/settings/TaxSettingsForm.tsx`)
+- [x] Step 128: Build Central Bank of Sri Lanka (CBSL) Exchange Rate & Currency Manager (`src/admin/settings/ExchangeRateCard.tsx`)
