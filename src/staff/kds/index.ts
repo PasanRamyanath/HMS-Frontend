@@ -37,3 +37,16 @@ export {
   type KdsMobileTab,
   type KdsMobileCompactProps,
 } from "./KdsMobileCompact.js";
+
+export {
+  BarBotView,
+  DEFAULT_BAR_TICKETS,
+  getBarDestinationMeta,
+  getBarAdvanceButtonText,
+  filterBarTickets,
+  type BarDestinationType,
+  type BarBeverageCategory,
+  type BarOrderItem,
+  type BarTicket,
+  type BarBotViewProps,
+} from "./BarBotView.js";

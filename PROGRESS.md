@@ -175,4 +175,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 276: Build Touch-First 3-Column Kitchen Display System (KDS) Kanban Board (`src/staff/kds/KdsKanbanView.tsx`)
 - [x] Step 277: Build KDS Order Ticket Card with SLA Color Escalation & Spice/Allergen Highlights (`src/staff/kds/KdsTicketCard.tsx`)
 - [x] Step 278: Build Smartphone Single-Column Compact KDS Mode for Small Hotel Kitchens (`src/staff/kds/KdsMobileCompact.tsx`)
+- [x] Step 279: Build Bar Order Ticket (BOT) Display & Cocktail/Beverage Queue (`src/staff/kds/BarBotView.tsx`)
+
 
