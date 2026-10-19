@@ -165,5 +165,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 265: Build In-Room Minibar Self-Declaration & Refill Tab (`src/qr/GuestMinibarTab.tsx`)
 - [x] Step 266: Build Scheduled Pre-Order Picker for Early-Morning Safari / Airport Breakfast Packs (`src/qr/PackedMealModal.tsx`)
 - [x] Step 267: Build Guest Wi-Fi Auto-Copy & Property Info Card (`src/qr/HotelInfoSheet.tsx`)
+- [x] Step 268: Build Instant Post-Delivery 5-Star Rating & Manager Alert Prompt (`src/qr/OrderFeedbackPrompt.tsx`)
 
 

@@ -17,6 +17,7 @@ import type { SupportedLanguage } from "../lib/i18n.js";
 import { playOrderBell } from "../lib/soundAlert.js";
 import { type SubscriptionHandle, subscribeAppSync } from "../lib/wsClient.js";
 import { formatLkr, formatUsdEstimate } from "./GuestDishCard.js";
+import { OrderFeedbackPrompt } from "./OrderFeedbackPrompt.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -479,6 +480,7 @@ export const LiveOrderTracker: FC<LiveOrderTrackerProps> = ({
   );
   const [isSummaryOpen, setIsSummaryOpen] = useState<boolean>(true);
   const [butlerCalled, setButlerCalled] = useState<boolean>(false);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState<boolean>(false);
   const sectionHeadingId = useId();
 
   const t = getTrackerText(language);
@@ -688,6 +690,39 @@ export const LiveOrderTracker: FC<LiveOrderTrackerProps> = ({
           </div>
         )}
       </div>
+
+      {/* Instant Post-Delivery 5-Star Rating Card (Step 268) */}
+      {order.status === "DELIVERED" && (
+        <div className="p-4 rounded-2xl bg-amber-500/10 dark:bg-amber-500/15 border border-amber-500/30 flex items-center justify-between gap-3 shadow-xs">
+          <div>
+            <p className="text-xs font-bold text-amber-800 dark:text-amber-200">
+              Enjoying your meal?
+            </p>
+            <p className="text-[11px] text-amber-700 dark:text-amber-300">
+              Rate your food & service in 1 tap
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsFeedbackOpen(true)}
+            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-900 font-extrabold text-xs transition-all min-h-[44px] cursor-pointer shadow-sm flex items-center gap-1.5"
+          >
+            <span>⭐</span> Rate Meal
+          </button>
+        </div>
+      )}
+
+      {/* Post-Delivery Rating Prompt Sheet */}
+      <OrderFeedbackPrompt
+        isOpen={isFeedbackOpen}
+        orderId={order.orderId}
+        roomNumber={order.locationName}
+        language={language}
+        onClose={() => setIsFeedbackOpen(false)}
+        onSubmitFeedback={() => {
+          setIsFeedbackOpen(false);
+        }}
+      />
     </div>
   );
 };
