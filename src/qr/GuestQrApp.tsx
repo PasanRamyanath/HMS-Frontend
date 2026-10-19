@@ -12,6 +12,7 @@ import { CategoryPillsBar } from "./CategoryPillsBar.js";
 import { DepartmentTabs, type QrDepartment } from "./DepartmentTabs.js";
 import { DishModifierSheet } from "./DishModifierSheet.js";
 import { FloatingCartBar } from "./FloatingCartBar.js";
+import { GuestCartDrawer } from "./GuestCartDrawer.js";
 import { DEFAULT_SAMPLE_DISHES, type GuestDish, GuestDishCard } from "./GuestDishCard.js";
 import { type DisplayCurrency, GuestHeaderBar } from "./GuestHeaderBar.js";
 import { useGuestCart } from "./useGuestCart.js";
@@ -675,6 +676,24 @@ export function GuestQrApp({
         language={currentLanguage}
         isVisible={!isCartDrawerOpen && cart.cartItemCount > 0}
         onViewCart={() => setIsCartDrawerOpen(true)}
+      />
+
+      {/* Transparent Cart & 4-Stage Statutory Tax Review Sheet (Step 259) */}
+      <GuestCartDrawer
+        isOpen={isCartDrawerOpen}
+        items={cart.items}
+        summary={cart.summary}
+        guestMealPlan={cart.guestMealPlan}
+        currency={activeCurrency}
+        language={currentLanguage}
+        onIncrementItem={(itemId) => cart.incrementItem(itemId)}
+        onDecrementItem={(itemId) => cart.decrementItem(itemId)}
+        onRemoveItem={(itemId) => cart.removeItem(itemId)}
+        onClearCart={() => cart.clearCart()}
+        onClose={() => setIsCartDrawerOpen(false)}
+        onProceedToCheckout={() => {
+          // Will connect to RoomChargeAuthBox in Step 260
+        }}
       />
     </div>
   );
