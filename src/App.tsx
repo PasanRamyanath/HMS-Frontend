@@ -4,6 +4,7 @@ import { GlassCard } from "./components/GlassCard.js";
 import { PriceTag } from "./components/PriceTag.js";
 import { RESIDENCY_TIER_OPTIONS, SegmentedControl } from "./components/SegmentedControl.js";
 import { StatusBadge } from "./components/StatusBadge.js";
+import { WebpUploadField } from "./components/WebpUploadField.js";
 
 export function App() {
   const [tier, setTier] = useState<"RESIDENT_LKR" | "FOREIGN_USD">("RESIDENT_LKR");
@@ -89,6 +90,13 @@ export function App() {
               Total Room Charges
             </span>
             <PriceTag amountLkr={100757.25} size="md" layout="stacked" />
+          </div>
+          <div className="pt-2 border-t border-slate-200/50 dark:border-white/10">
+            <WebpUploadField
+              label="Guest ID / Passport Scan"
+              preset="SQUARE_500"
+              description="Drop guest photo for contactless check-in"
+            />
           </div>
         </div>
       </DialogModal>

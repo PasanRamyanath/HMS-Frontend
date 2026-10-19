@@ -33,4 +33,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 112: Build Apple HIG Sheet & Center <dialog> Modal Component (`src/components/DialogModal.tsx`)
 - [x] Step 113: Build Apple Semantic Vibrancy Status Pill Component (`src/components/StatusBadge.tsx`)
 - [x] Step 114: Build Tabular-Numeral Dual-Currency Price Component (`src/components/PriceTag.tsx`)
-- [ ] Step 115: Build Apple HIG Drag-and-Drop WebP Image Uploader with Aspect-Ratio Guides (`src/components/WebpUploadField.tsx`)
+- [x] Step 115: Build Apple HIG Drag-and-Drop WebP Image Uploader with Aspect-Ratio Guides (`src/components/WebpUploadField.tsx`)
+- [ ] Step 116: Build Apple HIG Liquid Glass Sign-In Screen (`src/admin/auth/LoginView.tsx`)
