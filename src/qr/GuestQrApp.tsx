@@ -15,6 +15,7 @@ import { FloatingCartBar } from "./FloatingCartBar.js";
 import { GuestCartDrawer } from "./GuestCartDrawer.js";
 import { DEFAULT_SAMPLE_DISHES, type GuestDish, GuestDishCard } from "./GuestDishCard.js";
 import { type DisplayCurrency, GuestHeaderBar } from "./GuestHeaderBar.js";
+import { RoomChargeAuthBox, type RoomChargeAuthResult } from "./RoomChargeAuthBox.js";
 import { useGuestCart } from "./useGuestCart.js";
 
 // ============================================================================
@@ -525,6 +526,7 @@ export function GuestQrApp({
   const cart = useGuestCart();
   const [customizingDish, setCustomizingDish] = useState<GuestDish | null>(null);
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState<boolean>(false);
+  const [isRoomAuthOpen, setIsRoomAuthOpen] = useState<boolean>(false);
 
   const cartQuantities = useMemo(() => {
     const map: Record<string, number> = {};
@@ -692,9 +694,28 @@ export function GuestQrApp({
         onClearCart={() => cart.clearCart()}
         onClose={() => setIsCartDrawerOpen(false)}
         onProceedToCheckout={() => {
-          // Will connect to RoomChargeAuthBox in Step 260
+          setIsCartDrawerOpen(false);
+          setIsRoomAuthOpen(true);
         }}
       />
+
+      {/* Room Charge Verification Prompt Modal (Step 260) */}
+      {isRoomAuthOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
+          <div className="w-full max-w-md">
+            <RoomChargeAuthBox
+              roomNumber={location.displayName}
+              grandTotalLkr={cart.summary.grandTotalLkr}
+              language={currentLanguage}
+              onAuthorize={(_result: RoomChargeAuthResult) => {
+                setIsRoomAuthOpen(false);
+                cart.clearCart();
+              }}
+              onCancel={() => setIsRoomAuthOpen(false)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
