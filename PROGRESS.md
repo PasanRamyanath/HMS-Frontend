@@ -93,7 +93,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 ## Phase 08: Channel Manager (Channex.io & iCal) & Commission-Free Direct Booking Engine
 - [x] Step 183: Build Channel Manager Mapping & Sync Health Screen (`src/admin/channels/ChannelManagerView.tsx`)
 - [x] Step 184: Build OTA Commission & Net Revenue Reconciliation Table (`src/admin/channels/OtaCommissionTable.tsx`)
-- [ ] Step 185: Build Public Direct Booking Engine Route (`/book/:tenantId` -> `src/qr/booking/DirectBookingEngine.tsx`)
+- [x] Step 185: Build Public Direct Booking Engine Route (`/book/:tenantId` -> `src/qr/booking/DirectBookingEngine.tsx`)
 - [ ] Step 186: Build Direct Booking Add-Ons Step (`src/qr/booking/BookingAddonsStep.tsx`)
 - [ ] Step 187: Build Dual-Gateway Direct Booking Checkout (`src/qr/booking/DirectBookingCheckout.tsx`)
 - [ ] Step 188: Build Embeddable 1-Line `<script>` Booking Bar Widget (`public/booking-widget.js`)

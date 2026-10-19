@@ -10,6 +10,7 @@ import {
   DynamicToastPill,
   type ToastType,
 } from "./components/DynamicToastPill.js";
+import { formatLkr } from "./lib/i18n.js";
 import { isOnline, registerServiceWorker, subscribeToOnlineStatus } from "./lib/offlineQueue.js";
 import {
   type AppRoute,
@@ -18,6 +19,7 @@ import {
   parseRoute,
   subscribeToRoute,
 } from "./lib/router.js";
+import { DirectBookingEngine } from "./qr/booking/DirectBookingEngine.js";
 
 // ============================================================================
 // Root Application Component
@@ -134,6 +136,26 @@ export function App() {
           }}
           onNavigateSignIn={() => navigateTo("/login")}
         />
+      </>
+    );
+  }
+
+  if (currentRoute.kind === "BOOKING") {
+    return (
+      <>
+        <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
+        <main className="min-h-screen bg-apple-gray-50 p-4 sm:p-6 md:p-8 dark:bg-apple-gray-900">
+          <DirectBookingEngine
+            tenantId={currentRoute.params.tenantId}
+            onProceedToCheckout={(_selection, tax) => {
+              showToast(
+                "Room Selected",
+                `Proceeding to Add-Ons: Total ${formatLkr(tax.grandTotalLkr)}`,
+                "success",
+              );
+            }}
+          />
+        </main>
       </>
     );
   }
