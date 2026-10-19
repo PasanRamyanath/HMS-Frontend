@@ -73,4 +73,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 154: Build Reservation & Walk-In Creation Modal (`src/admin/frontdesk/ReservationModal.tsx`)
 - [x] Step 155: Build Instant Sri Lankan NIC & Foreign Passport Scanner/Input Field (`src/admin/frontdesk/GuestIdentityField.tsx`)
 - [x] Step 156: Build Chauffeur / Guide Accommodation & Meal Voucher Sub-Form (`src/admin/frontdesk/DriverQuartersSubform.tsx`)
+- [x] Step 157: Build Destination Management Company (DMC) & Travel Agent Contract Directory (`src/admin/frontdesk/DmcContractManager.tsx`)
 
