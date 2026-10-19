@@ -19,3 +19,16 @@ export {
   type PosSettlementPayload,
   type PosTerminalViewProps,
 } from "./PosTerminalView.js";
+
+export {
+  PosTableMap,
+  DEFAULT_RESTAURANT_TABLES,
+  computeTableMapSummary,
+  filterTablesByZone,
+  type TableStatus,
+  type RestaurantZone,
+  type OrderSource,
+  type PosTableData,
+  type TableMapSummary,
+  type PosTableMapProps,
+} from "./PosTableMap.js";
