@@ -63,3 +63,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 140: Build SaaS Subscription Plan & WebXPay Billing Portal (`src/admin/settings/SaasBillingCard.tsx`)
 - [x] Step 143: Build Interactive Rate Quote Simulator Widget in Admin (`src/admin/rooms/RateSimulatorDialog.tsx`)
 - [x] Step 145: Build Property Onboarding Checklist Banner (`src/admin/settings/OnboardingChecklist.tsx`)
+- [x] Step 146: Add Bulk CSV Room & Rate Importer (`src/admin/rooms/csvRoomImporter.ts`)
