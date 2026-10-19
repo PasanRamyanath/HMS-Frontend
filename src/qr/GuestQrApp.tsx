@@ -18,6 +18,7 @@ import { DEFAULT_SAMPLE_DISHES, type GuestDish, GuestDishCard } from "./GuestDis
 import { type DisplayCurrency, GuestHeaderBar } from "./GuestHeaderBar.js";
 import { GuestLankaQrPay, type GuestPaymentResult } from "./GuestLankaQrPay.js";
 import { GuestLaundryTab } from "./GuestLaundryTab.js";
+import { GuestMinibarTab } from "./GuestMinibarTab.js";
 import { LiveOrderTracker } from "./LiveOrderTracker.js";
 import { RoomChargeAuthBox, type RoomChargeAuthResult } from "./RoomChargeAuthBox.js";
 import { useGuestCart } from "./useGuestCart.js";
@@ -490,6 +491,14 @@ function GuestActiveServiceView({
     return (
       <section data-testid="guest-qr-active-view">
         <GuestLaundryTab roomNumber={locationName} language={language} />
+      </section>
+    );
+  }
+
+  if (activeTab === "MINIBAR") {
+    return (
+      <section data-testid="guest-qr-active-view">
+        <GuestMinibarTab roomNumber={locationName} language={language} />
       </section>
     );
   }
