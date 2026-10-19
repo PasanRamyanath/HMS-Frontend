@@ -116,3 +116,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 210: Build One-Click Guest Check-Out & Room QR Revocation Workflow (`src/admin/folios/CheckOutConfirmDialog.tsx`)
 - [x] Step 211: Build City Ledger (B2B Accounts Receivable) Aging & DMC Statement View (`src/admin/folios/CityLedgerView.tsx`)
 - [x] Step 212: Build Foreign Currency Encashment Certificate Generator (`src/admin/folios/FxEncashmentReceipt.tsx`)
+- [x] Step 213: Build Cashier Shift Handover & Cash Drawer Drop Reconciliation Modal (`src/admin/folios/CashierShiftModal.tsx`)
