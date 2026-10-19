@@ -41,3 +41,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 120: Build macOS/iPadOS-Style Translucent Vibrancy Sidebar & Top Toolbar Shell (`src/admin/layout/AdminShell.tsx`)
 - [x] Step 121: Build Apple Health / Stocks-Inspired Pure SVG Analytics Charts (`src/components/SimpleCharts.tsx`)
 - [x] Step 122: Build Apple Bento-Grid Executive Hotel Dashboard (`src/admin/DashboardView.tsx`)
+- [x] Step 123: Add `@media print` Stylesheets for 80mm Thermal KOT/POS Slips & A4 IRD Tax Invoices (`src/styles/apple-hig-theme.css`)

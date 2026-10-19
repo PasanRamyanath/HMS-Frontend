@@ -220,3 +220,157 @@
   transition-timing-function: var(--ease-apple-spring);
   transition-duration: 350ms;
 }
+
+/* ============================================================================
+ * Screen vs Print Utility Rules
+ * ============================================================================ */
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+}
+
+/* ============================================================================
+ * Apple HIG & Sri Lankan Statutory @media print Stylesheets
+ * Strip glass blurs, drop-shadows and vibrant fills for crisp monochrome output:
+ * 1. 80mm Thermal Paper Rolls (Kitchen Order Tickets / KOT, Bar BOT & Guest POS Slips)
+ * 2. A4 Laser/Inkjet Invoices (SLTDA / IRD RAMIS Statutory Tax Folios & Audit Receipts)
+ * ============================================================================ */
+@media print {
+  @page {
+    margin: 8mm 10mm;
+    size: auto;
+  }
+
+  /* Automatically strip glass materials and vibrancy on paper */
+  *,
+  *::before,
+  *::after {
+    background-color: transparent !important;
+    background-image: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    color: #000000 !important;
+  }
+
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+    line-height: 1.35;
+  }
+
+  /* Hide interactive UI elements (sidebars, nav bars, buttons, floating controls) */
+  .no-print,
+  button,
+  nav,
+  aside,
+  header,
+  footer,
+  [role="toolbar"],
+  [role="dialog"] {
+    display: none !important;
+  }
+
+  /* Ensure print-only content is visible */
+  .print-only {
+    display: block !important;
+  }
+
+  /* --------------------------------------------------------------------------
+   * 1. 80mm Thermal Receipt Slip (.print-80mm-receipt)
+   * Designed for Epson TM-T88 / Star Micronics / Bixolon 80mm POS & KDS printers
+   * -------------------------------------------------------------------------- */
+  .print-80mm-receipt {
+    width: 72mm !important;
+    max-width: 72mm !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    font-family: var(--font-sf-mono), "Courier New", Courier, monospace !important;
+    font-size: 9.5pt !important;
+    line-height: 1.25 !important;
+    color: #000000 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .print-80mm-receipt table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  .print-80mm-receipt th,
+  .print-80mm-receipt td {
+    padding: 1.5mm 0 !important;
+  }
+
+  .print-80mm-divider {
+    border-top: 1px dashed #000000 !important;
+    margin: 2mm 0 !important;
+  }
+
+  .print-80mm-divider-double {
+    border-top: 2px solid #000000 !important;
+    margin: 2mm 0 !important;
+  }
+
+  /* --------------------------------------------------------------------------
+   * 2. A4 Statutory Guest Folio & IRD Tax Invoice (.print-a4-invoice)
+   * Designed for Inland Revenue Department (IRD) & SLTDA statutory audit print
+   * -------------------------------------------------------------------------- */
+  .print-a4-invoice {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 4mm 6mm !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-family: var(--font-sf-pro), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif !important;
+    font-size: 10pt !important;
+    line-height: 1.4 !important;
+    page-break-after: auto;
+  }
+
+  .print-a4-invoice table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin-top: 4mm !important;
+    margin-bottom: 4mm !important;
+  }
+
+  .print-a4-invoice th {
+    border-top: 1px solid #000000 !important;
+    border-bottom: 1px solid #000000 !important;
+    padding: 2.5mm 2mm !important;
+    text-align: left !important;
+    font-size: 9pt !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  .print-a4-invoice td {
+    border-bottom: 1px solid #e5e5e5 !important;
+    padding: 2.5mm 2mm !important;
+    font-size: 9.5pt !important;
+  }
+
+  .print-a4-invoice tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .print-a4-invoice-totals {
+    border-top: 1.5px solid #000000 !important;
+    margin-top: 4mm !important;
+    padding-top: 2mm !important;
+  }
+
+  .print-a4-avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
