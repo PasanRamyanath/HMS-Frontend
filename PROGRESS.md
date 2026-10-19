@@ -163,5 +163,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 263: Build 1-Tap Express Housekeeping & Room Amenity Request Panel (`src/qr/ExpressHousekeepingTab.tsx`)
 - [x] Step 264: Build Digital Laundry Pickup Request Form (`src/qr/GuestLaundryTab.tsx`)
 - [x] Step 265: Build In-Room Minibar Self-Declaration & Refill Tab (`src/qr/GuestMinibarTab.tsx`)
+- [x] Step 266: Build Scheduled Pre-Order Picker for Early-Morning Safari / Airport Breakfast Packs (`src/qr/PackedMealModal.tsx`)
 
 

@@ -20,6 +20,7 @@ import { GuestLankaQrPay, type GuestPaymentResult } from "./GuestLankaQrPay.js";
 import { GuestLaundryTab } from "./GuestLaundryTab.js";
 import { GuestMinibarTab } from "./GuestMinibarTab.js";
 import { LiveOrderTracker } from "./LiveOrderTracker.js";
+import { PackedMealModal } from "./PackedMealModal.js";
 import { RoomChargeAuthBox, type RoomChargeAuthResult } from "./RoomChargeAuthBox.js";
 import { useGuestCart } from "./useGuestCart.js";
 
@@ -532,6 +533,67 @@ function GuestActiveServiceView({
   );
 }
 
+interface GuestShortcutBarProps {
+  readonly isRoom: boolean;
+  readonly activeOrderId: string | null;
+  readonly activeTab: string;
+  readonly folioPostingAllowed: boolean;
+  readonly onOpenPackedMeal: () => void;
+  readonly onSelectTab: (tab: string) => void;
+}
+
+function GuestShortcutBar({
+  isRoom,
+  activeOrderId,
+  activeTab,
+  folioPostingAllowed,
+  onOpenPackedMeal,
+  onSelectTab,
+}: GuestShortcutBarProps) {
+  return (
+    <div className="mb-4 flex flex-wrap justify-end gap-2">
+      {isRoom && (
+        <button
+          type="button"
+          onClick={onOpenPackedMeal}
+          className="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 ease-apple-spring inline-flex items-center gap-1.5 min-h-[44px] cursor-pointer apple-liquid-glass text-amber-700 dark:text-amber-300 hover:text-amber-800 border border-amber-500/30"
+        >
+          <span>🦁</span> Safari Breakfast
+        </button>
+      )}
+
+      {activeOrderId && (
+        <button
+          type="button"
+          onClick={() => onSelectTab("ORDER_STATUS")}
+          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 ease-apple-spring inline-flex items-center gap-1.5 min-h-[44px] cursor-pointer ${
+            activeTab === "ORDER_STATUS"
+              ? "bg-[#E8772E] text-white shadow-md"
+              : "apple-liquid-glass text-[#E8772E] border border-orange-500/30"
+          }`}
+        >
+          <span className="w-2 h-2 rounded-full bg-[#E8772E] animate-ping" />
+          <span>🛵 Live Order</span>
+        </button>
+      )}
+
+      {folioPostingAllowed && (
+        <button
+          type="button"
+          onClick={() => onSelectTab("FOLIO")}
+          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 ease-apple-spring inline-flex items-center gap-1.5 min-h-[44px] cursor-pointer ${
+            activeTab === "FOLIO"
+              ? "bg-sky-600 text-white shadow-md"
+              : "apple-liquid-glass text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-white/40 dark:border-white/10"
+          }`}
+        >
+          <span>🧾</span> Live Folio
+        </button>
+      )}
+    </div>
+  );
+}
+
 // ============================================================================
 // Main Container: GuestQrApp
 // ============================================================================
@@ -554,6 +616,7 @@ export function GuestQrApp({
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState<boolean>(false);
   const [isRoomAuthOpen, setIsRoomAuthOpen] = useState<boolean>(false);
   const [isLankaQrOpen, setIsLankaQrOpen] = useState<boolean>(false);
+  const [isPackedMealOpen, setIsPackedMealOpen] = useState<boolean>(false);
   const [activeOrderId, setActiveOrderId] = useState<string | null>(null);
 
   const cartQuantities = useMemo(() => {
@@ -655,37 +718,15 @@ export function GuestQrApp({
           </div>
         )}
 
-        {/* Shortcuts for Live Folio & Active Order Tracking */}
-        <div className="mb-4 flex justify-end gap-2">
-          {activeOrderId && (
-            <button
-              type="button"
-              onClick={() => handleTabChange("ORDER_STATUS")}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 ease-apple-spring inline-flex items-center gap-1.5 min-h-[44px] cursor-pointer ${
-                activeTab === "ORDER_STATUS"
-                  ? "bg-[#E8772E] text-white shadow-md"
-                  : "apple-liquid-glass text-[#E8772E] border border-orange-500/30"
-              }`}
-            >
-              <span className="w-2 h-2 rounded-full bg-[#E8772E] animate-ping" />
-              <span>🛵 Live Order</span>
-            </button>
-          )}
-
-          {location.folioPostingAllowed && (
-            <button
-              type="button"
-              onClick={() => handleTabChange("FOLIO")}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 ease-apple-spring inline-flex items-center gap-1.5 min-h-[44px] cursor-pointer ${
-                activeTab === "FOLIO"
-                  ? "bg-sky-600 text-white shadow-md"
-                  : "apple-liquid-glass text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-white/40 dark:border-white/10"
-              }`}
-            >
-              <span>🧾</span> Live Folio
-            </button>
-          )}
-        </div>
+        {/* Shortcuts for Live Folio, Early Breakfast & Active Order Tracking */}
+        <GuestShortcutBar
+          isRoom={location.type === "IN_ROOM"}
+          activeOrderId={activeOrderId}
+          activeTab={activeTab}
+          folioPostingAllowed={location.folioPostingAllowed}
+          onOpenPackedMeal={() => setIsPackedMealOpen(true)}
+          onSelectTab={handleTabChange}
+        />
 
         {/* Dynamic Service View or Live Order Tracker */}
         {activeTab === "ORDER_STATUS" && activeOrderId ? (
@@ -803,6 +844,20 @@ export function GuestQrApp({
           </div>
         </div>
       )}
+
+      {/* Scheduled Pre-Order Picker for Early-Morning Safari / Airport Breakfast Packs (Step 266) */}
+      <PackedMealModal
+        isOpen={isPackedMealOpen}
+        roomNumber={location.displayName}
+        guestMealPlan={cart.guestMealPlan}
+        language={currentLanguage}
+        usdExchangeRate={brand.approxUsdRate}
+        onClose={() => setIsPackedMealOpen(false)}
+        onConfirmOrder={(payload) => {
+          setActiveOrderId(payload.id);
+          setActiveTab("ORDER_STATUS");
+        }}
+      />
     </div>
   );
 }
