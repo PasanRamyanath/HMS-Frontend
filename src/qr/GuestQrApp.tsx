@@ -8,6 +8,7 @@
 import { useMemo, useState } from "react";
 import { type SupportedLanguage, useTranslation } from "../lib/i18n.js";
 import { getCurrentPath } from "../lib/router.js";
+import { DepartmentTabs, type QrDepartment } from "./DepartmentTabs.js";
 import { type DisplayCurrency, GuestHeaderBar } from "./GuestHeaderBar.js";
 
 // ============================================================================
@@ -415,71 +416,6 @@ export function GuestSessionStatusBar({
   );
 }
 
-interface GuestServiceNavProps {
-  readonly activeTab: string;
-  readonly folioPostingAllowed: boolean;
-  readonly onSelectTab: (tabId: string) => void;
-}
-
-function GuestServiceNav({ activeTab, folioPostingAllowed, onSelectTab }: GuestServiceNavProps) {
-  return (
-    <nav
-      aria-label="Guest Services"
-      className="apple-liquid-glass rounded-2xl p-1.5 border border-white/50 dark:border-white/10 mb-6 flex gap-1.5 overflow-x-auto no-scrollbar shadow-sm"
-    >
-      <button
-        type="button"
-        onClick={() => onSelectTab("DINING")}
-        className={`flex-1 min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold transition-all duration-300 ease-apple-spring whitespace-nowrap flex items-center justify-center gap-1.5 ${
-          activeTab === "DINING"
-            ? "bg-sky-600 text-white shadow-md"
-            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-        }`}
-      >
-        <span>🍽️</span> In-Room Dining
-      </button>
-
-      <button
-        type="button"
-        onClick={() => onSelectTab("BAR")}
-        className={`flex-1 min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold transition-all duration-300 ease-apple-spring whitespace-nowrap flex items-center justify-center gap-1.5 ${
-          activeTab === "BAR"
-            ? "bg-sky-600 text-white shadow-md"
-            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-        }`}
-      >
-        <span>🍹</span> Drinks &amp; Bar
-      </button>
-
-      <button
-        type="button"
-        onClick={() => onSelectTab("HOUSEKEEPING")}
-        className={`flex-1 min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold transition-all duration-300 ease-apple-spring whitespace-nowrap flex items-center justify-center gap-1.5 ${
-          activeTab === "HOUSEKEEPING"
-            ? "bg-sky-600 text-white shadow-md"
-            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-        }`}
-      >
-        <span>🧹</span> Amenities
-      </button>
-
-      {folioPostingAllowed && (
-        <button
-          type="button"
-          onClick={() => onSelectTab("FOLIO")}
-          className={`flex-1 min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold transition-all duration-300 ease-apple-spring whitespace-nowrap flex items-center justify-center gap-1.5 ${
-            activeTab === "FOLIO"
-              ? "bg-sky-600 text-white shadow-md"
-              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-          }`}
-        >
-          <span>🧾</span> Live Folio
-        </button>
-      )}
-    </nav>
-  );
-}
-
 interface GuestActiveServiceViewProps {
   readonly activeTab: string;
   readonly locationName: string;
@@ -594,12 +530,29 @@ export function GuestQrApp({
           allowFolio={brand.allowFolioPost}
         />
 
-        {/* Multi-Service Department Quick Navigation */}
-        <GuestServiceNav
-          activeTab={activeTab}
-          folioPostingAllowed={location.folioPostingAllowed}
-          onSelectTab={handleTabChange}
+        {/* Multi-Department Service Pill Switcher */}
+        <DepartmentTabs
+          activeDepartment={activeTab === "FOLIO" ? "DINING" : (activeTab as QrDepartment)}
+          onSelectDepartment={(dept) => handleTabChange(dept)}
+          isRoomSession={location.type === "IN_ROOM"}
         />
+
+        {/* Live Folio Shortcut for Checked-In Guests */}
+        {location.folioPostingAllowed && (
+          <div className="mb-4 flex justify-end">
+            <button
+              type="button"
+              onClick={() => handleTabChange("FOLIO")}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 ease-apple-spring inline-flex items-center gap-1.5 min-h-[44px] cursor-pointer ${
+                activeTab === "FOLIO"
+                  ? "bg-sky-600 text-white shadow-md"
+                  : "apple-liquid-glass text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-white/40 dark:border-white/10"
+              }`}
+            >
+              <span>🧾</span> Live Folio
+            </button>
+          </div>
+        )}
 
         {/* Dynamic Service View Placeholder */}
         <GuestActiveServiceView activeTab={activeTab} locationName={location.displayName} />
