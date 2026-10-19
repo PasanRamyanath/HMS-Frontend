@@ -29,4 +29,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 108: Implement High-Contrast Apple-Styled SVG QR Code Renderer for Room Stands & LankaQR (`src/lib/qrSvg.ts`)
 - [x] Step 109: Implement Web Audio API Harmonic Chime Synthesizer for New KDS & Housekeeping Alerts (`src/lib/soundAlert.ts`)
 - [x] Step 110: Build Apple HIG Liquid Glass Card & Bento Surface Primitive (`src/components/GlassCard.tsx`)
-- [ ] Step 111: Build iOS/macOS Sliding Pill Segmented Control Component (`src/components/SegmentedControl.tsx`)
+- [x] Step 111: Build iOS/macOS Sliding Pill Segmented Control Component (`src/components/SegmentedControl.tsx`)
+- [ ] Step 112: Build Apple HIG Sheet & Center <dialog> Modal Component (`src/components/DialogModal.tsx`)
