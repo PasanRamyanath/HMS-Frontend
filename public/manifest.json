@@ -1,0 +1,27 @@
+{
+  "name": "Sri Lanka Cloud SaaS HMS & Contactless QR Platform",
+  "short_name": "LankaHMS",
+  "description": "Multi-Tenant Cloud SaaS Hotel Management System purpose-built for Sri Lankan hotels, boutique villas, resorts, and guest room service.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f5f7",
+  "theme_color": "#007aff",
+  "orientation": "any",
+  "dir": "ltr",
+  "lang": "en",
+  "categories": ["business", "productivity", "travel"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
