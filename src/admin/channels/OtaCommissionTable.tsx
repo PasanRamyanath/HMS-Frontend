@@ -8,6 +8,7 @@ import {
 import { StatusBadge, type StatusColor } from "../../components/StatusBadge.js";
 import { formatLkr } from "../../lib/i18n.js";
 import type { OtaChannelId } from "./ChannelManagerView.js";
+import { computeEffectiveCommissionPercent } from "./channelRateMath.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -303,8 +304,10 @@ export function calculateCommissionSummary(
   const totalBookingsCount = invoices.reduce((acc, inv) => acc + inv.totalBookings, 0);
   const discrepancyCount = lineItems.filter((item) => item.hasDiscrepancy).length;
 
-  const effectiveCommissionRate =
-    totalGrossLkr > 0 ? Math.round((totalCommissionLkr / totalGrossLkr) * 1000) / 10 : 0;
+  const effectiveCommissionRate = computeEffectiveCommissionPercent(
+    totalGrossLkr,
+    totalCommissionLkr,
+  );
 
   return {
     totalGrossLkr,

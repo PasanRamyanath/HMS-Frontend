@@ -61,6 +61,10 @@ export const WIDGET_THEMES: ReadonlyArray<{ readonly id: string; readonly name: 
   { id: "amber", name: "Sigiriya Amber" },
 ];
 
+import { computeProjectedDirectSavings } from "./channelRateMath.js";
+
+export { computeProjectedDirectSavings };
+
 // ============================================================================
 // Pure Calculation Helpers (Cognitive Complexity <= 12)
 // ============================================================================
@@ -72,16 +76,6 @@ export function generateBookingEmbedCode(
 ): string {
   const cleanTenant = tenantId.trim() || DEFAULT_TENANT_ID;
   return `<script src="https://cdn.srilankahms.com/booking-widget.js" data-tenant="${cleanTenant}" data-layout="${layout}" data-theme="${theme}" async></script>`;
-}
-
-export function computeProjectedDirectSavings(
-  directRevenueLkr: number,
-  avgOtaCommissionRate = 0.18,
-): number {
-  if (directRevenueLkr <= 0 || avgOtaCommissionRate <= 0) {
-    return 0;
-  }
-  return Math.round(directRevenueLkr * avgOtaCommissionRate);
 }
 
 export function getTabDisplayConfig(tab: ChannelsPageTab): {
@@ -273,7 +267,7 @@ function DirectWidgetStudio({
           <button
             type="button"
             onClick={handleCopyUrl}
-            className="mt-2 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline min-h-[32px] inline-flex items-center"
+            className="mt-2 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline min-h-[44px] inline-flex items-center"
           >
             {copiedUrl ? "Copied URL to Clipboard!" : "Copy Direct Link"}
           </button>

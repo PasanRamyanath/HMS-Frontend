@@ -103,4 +103,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 196: Build Stop-Sell & Minimum Length of Stay (MinLOS) Quick Toggle Bar (`src/admin/channels/QuickRestrictionsBar.tsx`)
 - [x] Step 197: Build Webhook Delivery Log & Retry Inspector (`src/admin/channels/WebhookLogDrawer.tsx`)
 - [x] Step 198: Assemble Unified Distribution & Direct Booking Admin Page (`src/admin/channels/ChannelsAndDirectPage.tsx`)
-- [ ] Step 200: Run Phase 8 Ponytail Review & Code Simplification Checkpoint
+- [x] Step 200: Run Phase 8 Ponytail Review & Code Simplification Checkpoint
