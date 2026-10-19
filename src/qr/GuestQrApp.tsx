@@ -19,6 +19,7 @@ import { type DisplayCurrency, GuestHeaderBar } from "./GuestHeaderBar.js";
 import { GuestLankaQrPay, type GuestPaymentResult } from "./GuestLankaQrPay.js";
 import { GuestLaundryTab } from "./GuestLaundryTab.js";
 import { GuestMinibarTab } from "./GuestMinibarTab.js";
+import { HotelInfoSheet } from "./HotelInfoSheet.js";
 import { LiveOrderTracker } from "./LiveOrderTracker.js";
 import { PackedMealModal } from "./PackedMealModal.js";
 import { RoomChargeAuthBox, type RoomChargeAuthResult } from "./RoomChargeAuthBox.js";
@@ -539,6 +540,7 @@ interface GuestShortcutBarProps {
   readonly activeTab: string;
   readonly folioPostingAllowed: boolean;
   readonly onOpenPackedMeal: () => void;
+  readonly onOpenHotelInfo: () => void;
   readonly onSelectTab: (tab: string) => void;
 }
 
@@ -548,10 +550,19 @@ function GuestShortcutBar({
   activeTab,
   folioPostingAllowed,
   onOpenPackedMeal,
+  onOpenHotelInfo,
   onSelectTab,
 }: GuestShortcutBarProps) {
   return (
     <div className="mb-4 flex flex-wrap justify-end gap-2">
+      <button
+        type="button"
+        onClick={onOpenHotelInfo}
+        className="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 ease-apple-spring inline-flex items-center gap-1.5 min-h-[44px] cursor-pointer apple-liquid-glass text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-white/40 dark:border-white/10"
+      >
+        <span>ℹ️</span> Info & Wi-Fi
+      </button>
+
       {isRoom && (
         <button
           type="button"
@@ -617,6 +628,7 @@ export function GuestQrApp({
   const [isRoomAuthOpen, setIsRoomAuthOpen] = useState<boolean>(false);
   const [isLankaQrOpen, setIsLankaQrOpen] = useState<boolean>(false);
   const [isPackedMealOpen, setIsPackedMealOpen] = useState<boolean>(false);
+  const [isHotelInfoOpen, setIsHotelInfoOpen] = useState<boolean>(false);
   const [activeOrderId, setActiveOrderId] = useState<string | null>(null);
 
   const cartQuantities = useMemo(() => {
@@ -725,6 +737,7 @@ export function GuestQrApp({
           activeTab={activeTab}
           folioPostingAllowed={location.folioPostingAllowed}
           onOpenPackedMeal={() => setIsPackedMealOpen(true)}
+          onOpenHotelInfo={() => setIsHotelInfoOpen(true)}
           onSelectTab={handleTabChange}
         />
 
@@ -857,6 +870,14 @@ export function GuestQrApp({
           setActiveOrderId(payload.id);
           setActiveTab("ORDER_STATUS");
         }}
+      />
+
+      {/* Digital Guest Directory, Wi-Fi Auto-Copy & Property Info Sheet (Step 267) */}
+      <HotelInfoSheet
+        isOpen={isHotelInfoOpen}
+        roomNumber={location.displayName}
+        language={currentLanguage}
+        onClose={() => setIsHotelInfoOpen(false)}
       />
     </div>
   );
