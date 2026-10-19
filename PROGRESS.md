@@ -141,5 +141,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 242: Build Laundry & Dry Cleaning Price List Editor (`src/admin/menus/LaundryCatalogEditor.tsx`)
 - [x] Step 243: Build Bulk Menu Price Adjustment Tool (`src/admin/menus/BulkPriceModal.tsx`)
 - [x] Step 244: Build Printable Physical Restaurant Menu & Wine List PDF/Print View (`src/admin/menus/PrintableMenuSheet.tsx`)
+- [x] Step 245: Build CSV / JSON Menu Import & Export Utility (`src/admin/menus/menuImportExport.ts`)
 
 
