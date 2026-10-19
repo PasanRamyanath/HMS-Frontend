@@ -1,105 +1,171 @@
-import { useState } from "react";
-import { DialogModal } from "./components/DialogModal.js";
-import { GlassCard } from "./components/GlassCard.js";
-import { PriceTag } from "./components/PriceTag.js";
-import { RESIDENCY_TIER_OPTIONS, SegmentedControl } from "./components/SegmentedControl.js";
-import { StatusBadge } from "./components/StatusBadge.js";
-import { WebpUploadField } from "./components/WebpUploadField.js";
+import { useEffect, useState } from "react";
+import { DashboardView } from "./admin/DashboardView.js";
+import { LoginView } from "./admin/auth/LoginView.js";
+import { RegisterStep1, type RegisterStep1Data } from "./admin/auth/RegisterStep1.js";
+import { RegisterStep2 } from "./admin/auth/RegisterStep2.js";
+import { ResetPasswordView } from "./admin/auth/ResetPasswordView.js";
+import { AdminShell } from "./admin/layout/AdminShell.js";
+import {
+  type DynamicToast,
+  DynamicToastPill,
+  type ToastType,
+} from "./components/DynamicToastPill.js";
+import { isOnline, registerServiceWorker, subscribeToOnlineStatus } from "./lib/offlineQueue.js";
+import {
+  type AppRoute,
+  getCurrentPath,
+  navigateTo,
+  parseRoute,
+  subscribeToRoute,
+} from "./lib/router.js";
+
+// ============================================================================
+// Root Application Component
+// ============================================================================
 
 export function App() {
-  const [tier, setTier] = useState<"RESIDENT_LKR" | "FOREIGN_USD">("RESIDENT_LKR");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentRoute, setCurrentRoute] = useState<AppRoute>(() => parseRoute(getCurrentPath()));
+  const [activeToast, setActiveToast] = useState<DynamicToast | null>(null);
+  const [online, setOnline] = useState<boolean>(() => isOnline());
+  const [onboardingOrgData, setOnboardingOrgData] = useState<RegisterStep1Data | null>(null);
+
+  // Subscribe to URL router state changes
+  useEffect(() => {
+    const unsubscribe = subscribeToRoute(() => {
+      setCurrentRoute(parseRoute(getCurrentPath()));
+    });
+    return unsubscribe;
+  }, []);
+
+  // Subscribe to online/offline network transitions & register PWA Service Worker
+  useEffect(() => {
+    registerServiceWorker();
+
+    const unsubscribe = subscribeToOnlineStatus((isNetOnline) => {
+      setOnline(isNetOnline);
+      if (!isNetOnline) {
+        showToast(
+          "Offline Mode Active",
+          "Mutations queued locally in IndexedDB during network cut",
+          "warning",
+        );
+      } else {
+        showToast("Network Restored", "Reconnected to AppSync cloud backend", "success");
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const showToast = (title: string, description?: string, type: ToastType = "info") => {
+    setActiveToast({
+      id: `toast-${Date.now()}`,
+      title,
+      description,
+      type,
+    });
+  };
+
+  const handleOrderAction = (orderId: string, action: string) => {
+    showToast(
+      `Order ${orderId} Updated`,
+      `Action '${action}' dispatched to kitchen KDS ticket queue`,
+      "success",
+    );
+  };
+
+  const handleSpotlight = () => {
+    showToast("Spotlight Quick Search", "Press ⌘K to search folios, rooms, and guests", "info");
+  };
+
+  // Render Auth views
+  if (currentRoute.kind === "LOGIN") {
+    return (
+      <>
+        <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
+        <LoginView
+          onSuccess={() => {
+            showToast("Authenticated", "Welcome to Galle Fort Lighthouse Villa", "success");
+            navigateTo("/admin");
+          }}
+          onNavigateForgotPassword={() => navigateTo("/forgot-password")}
+          onNavigateRegister={() => navigateTo("/register")}
+        />
+      </>
+    );
+  }
+
+  if (currentRoute.kind === "REGISTER") {
+    return (
+      <>
+        <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
+        {!onboardingOrgData ? (
+          <RegisterStep1
+            onNext={(data) => {
+              setOnboardingOrgData(data);
+              showToast("Identity Verified", "Configure property and tax profile", "success");
+            }}
+            onNavigateSignIn={() => navigateTo("/login")}
+          />
+        ) : (
+          <RegisterStep2
+            initialData={{
+              shopName: onboardingOrgData.orgName,
+            }}
+            onBack={() => setOnboardingOrgData(null)}
+            onComplete={() => {
+              showToast("Tenant Registered", "Welcome to Sri Lanka Cloud SaaS HMS", "success");
+              navigateTo("/admin");
+            }}
+          />
+        )}
+      </>
+    );
+  }
+
+  if (currentRoute.path === "/forgot-password") {
+    return (
+      <>
+        <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
+        <ResetPasswordView
+          onSuccess={() => {
+            showToast("Password Reset", "Your password was updated successfully", "success");
+            navigateTo("/login");
+          }}
+          onNavigateSignIn={() => navigateTo("/login")}
+        />
+      </>
+    );
+  }
+
+  // Admin PMS / Operations Portal
+  const activeModule = currentRoute.kind === "ADMIN" ? currentRoute.params.module : "dashboard";
 
   return (
-    <main className="min-h-screen p-8 flex flex-col items-center justify-center bg-slate-50">
-      <GlassCard material="regular" radius="xl" className="p-8 max-w-lg w-full shadow-lg">
-        <div className="flex items-center justify-between">
-          <GlassCard.Title as="h1" className="text-2xl font-semibold tracking-tight text-slate-900">
-            Sri Lanka Cloud SaaS HMS
-          </GlassCard.Title>
-          <StatusBadge status="CLEAN" size="sm" pulse />
-        </div>
-        <GlassCard.Description className="mt-2 text-sm text-slate-600">
-          Apple HIG Liquid Glass & Contactless QR Hospitality Platform
-        </GlassCard.Description>
+    <>
+      {/* Apple Dynamic Island Top Notification Toast Pill */}
+      <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
 
-        <div className="mt-6">
-          <SegmentedControl
-            options={RESIDENCY_TIER_OPTIONS}
-            value={tier}
-            onChange={setTier}
-            fullWidth
-            ariaLabel="Residency Tier"
-          />
-        </div>
-
-        <div className="mt-6 flex items-baseline justify-between border-t border-slate-200/60 pt-4">
-          <span className="text-xs uppercase tracking-wider text-slate-500">
-            {tier === "RESIDENT_LKR" ? "Sample Resident Rate" : "Sample Foreign Rate"}
-          </span>
-          <PriceTag
-            amountLkr={45000}
-            primaryCurrency={tier === "RESIDENT_LKR" ? "LKR" : "USD"}
-            size="md"
-            layout="inline"
-            periodLabel="/ night"
-          />
-        </div>
-
-        <div className="mt-6">
-          <button
-            type="button"
-            onClick={() => setIsModalOpen(true)}
-            className="w-full apple-touch-target py-2 px-4 rounded-xl bg-apple-blue text-white font-medium shadow-sm hover:brightness-105 active:scale-[0.98] transition-apple-spring cursor-pointer"
-          >
-            Open Booking Sheet
-          </button>
-        </div>
-      </GlassCard>
-
-      <DialogModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Direct Reservation Folio"
-        description="Select room category and Sri Lankan residency rate"
-        footer={
-          <button
-            type="button"
-            onClick={() => setIsModalOpen(false)}
-            className="apple-touch-target px-4 py-2 rounded-xl bg-apple-blue text-white font-medium hover:brightness-105 transition-apple-spring"
-          >
-            Confirm
-          </button>
-        }
+      <AdminShell
+        currentModule={activeModule}
+        userRole="HOTEL_ADMIN"
+        staffName="Kasun Perera"
+        activeTenantName="Galle Fort Lighthouse Villa"
+        onOpenSpotlight={handleSpotlight}
+        onLogout={() => {
+          showToast("Signed Out", "Shift session ended safely", "info");
+          navigateTo("/login");
+        }}
       >
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
-              Room 301 Housekeeping
-            </span>
-            <StatusBadge status="CLEAN" size="sm" />
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
-              Kitchen KOT Order
-            </span>
-            <StatusBadge status="IN_PREPARATION" size="sm" pulse />
-          </div>
-          <div className="pt-2 border-t border-slate-200/50 dark:border-white/10 flex items-center justify-between">
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
-              Total Room Charges
-            </span>
-            <PriceTag amountLkr={100757.25} size="md" layout="stacked" />
-          </div>
-          <div className="pt-2 border-t border-slate-200/50 dark:border-white/10">
-            <WebpUploadField
-              label="Guest ID / Passport Scan"
-              preset="SQUARE_500"
-              description="Drop guest photo for contactless check-in"
-            />
-          </div>
-        </div>
-      </DialogModal>
-    </main>
+        <DashboardView
+          propertyTitle="Galle Fort Lighthouse Villa"
+          isLiveSyncing={online}
+          onOrderAction={handleOrderAction}
+          onRefresh={() => {
+            showToast("Refreshed", "Dashboard metrics re-synced", "info");
+          }}
+        />
+      </AdminShell>
+    </>
   );
 }

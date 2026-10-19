@@ -43,3 +43,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 122: Build Apple Bento-Grid Executive Hotel Dashboard (`src/admin/DashboardView.tsx`)
 - [x] Step 123: Add `@media print` Stylesheets for 80mm Thermal KOT/POS Slips & A4 IRD Tax Invoices (`src/styles/apple-hig-theme.css`)
 - [x] Step 124: Build IndexedDB Offline Mutation Queue & PWA Service Worker (`src/lib/offlineQueue.ts` & `public/sw.js`)
+- [x] Step 125: Wire Root `App.tsx` with Apple Dynamic Toast Pill Banner & Run Phase 05 `apple-design-skill` Audit (`src/App.tsx` & `src/main.tsx`)
