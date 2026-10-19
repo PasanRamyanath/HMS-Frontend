@@ -100,7 +100,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 191: Build Bank Card Promotion & Coupon Manager in Admin (`src/admin/channels/BankPromoManager.tsx`)
 - [x] Step 192: Build Direct Booking Confirmation & Printable E-Voucher View (`src/qr/booking/BookingVoucherView.tsx`)
 - [x] Step 193: Build Contactless Pre-Check-In Web Form (`src/qr/booking/PreCheckInForm.tsx`)
-- [ ] Step 196: Build Stop-Sell & Minimum Length of Stay (MinLOS) Quick Toggle Bar (`src/admin/channels/QuickRestrictionsBar.tsx`)
+- [x] Step 196: Build Stop-Sell & Minimum Length of Stay (MinLOS) Quick Toggle Bar (`src/admin/channels/QuickRestrictionsBar.tsx`)
 - [ ] Step 197: Build Webhook Delivery Log & Retry Inspector (`src/admin/channels/WebhookLogDrawer.tsx`)
 - [ ] Step 198: Assemble Unified Distribution & Direct Booking Admin Page (`src/admin/channels/ChannelsAndDirectPage.tsx`)
 - [ ] Step 200: Run Phase 8 Ponytail Review & Code Simplification Checkpoint
