@@ -115,3 +115,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 209: Build 80mm Thermal Interim Bill / Express Check-Out Slip (`src/admin/folios/PrintableThermalFolio.tsx`)
 - [x] Step 210: Build One-Click Guest Check-Out & Room QR Revocation Workflow (`src/admin/folios/CheckOutConfirmDialog.tsx`)
 - [x] Step 211: Build City Ledger (B2B Accounts Receivable) Aging & DMC Statement View (`src/admin/folios/CityLedgerView.tsx`)
+- [x] Step 212: Build Foreign Currency Encashment Certificate Generator (`src/admin/folios/FxEncashmentReceipt.tsx`)
