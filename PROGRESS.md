@@ -82,3 +82,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 163: Build Room Move / Upgrade / Stay Extension Action Dialog (`src/admin/frontdesk/ModifyStayDialog.tsx`)
 - [x] Step 164: Build Advance Deposit & Pre-Arrival PayHere Payment Link Generator (`src/admin/frontdesk/AdvanceDepositModal.tsx`)
 - [x] Step 165: Build Daily Kitchen Meal-Plan Headcount Sheet (`src/admin/frontdesk/MealPlanForecastCard.tsx`)
+- [x] Step 166: Build Tourist Police Foreign Arrival Register View (`src/admin/frontdesk/PoliceBCardRegister.tsx`)
