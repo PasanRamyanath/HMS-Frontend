@@ -11,6 +11,7 @@ import { getCurrentPath } from "../lib/router.js";
 import { CategoryPillsBar } from "./CategoryPillsBar.js";
 import { DepartmentTabs, type QrDepartment } from "./DepartmentTabs.js";
 import { DishModifierSheet } from "./DishModifierSheet.js";
+import { ExpressHousekeepingTab } from "./ExpressHousekeepingTab.js";
 import { FloatingCartBar } from "./FloatingCartBar.js";
 import { GuestCartDrawer } from "./GuestCartDrawer.js";
 import { DEFAULT_SAMPLE_DISHES, type GuestDish, GuestDishCard } from "./GuestDishCard.js";
@@ -476,13 +477,18 @@ function GuestActiveServiceView({
     );
   }
 
+  if (activeTab === "HOUSEKEEPING") {
+    return (
+      <section data-testid="guest-qr-active-view">
+        <ExpressHousekeepingTab roomNumber={locationName} language={language} />
+      </section>
+    );
+  }
+
   let icon = "🍸";
   let title = "Signature Cocktails & Ceylon Teas";
 
-  if (activeTab === "HOUSEKEEPING") {
-    icon = "🧺";
-    title = "Room Amenities & Express Requests";
-  } else if (activeTab === "FOLIO") {
+  if (activeTab === "FOLIO") {
     icon = "📋";
     title = "Guest Stay Folio & Live Billing";
   }
