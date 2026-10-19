@@ -108,3 +108,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 ## Phase 09: Guest Folio Ledger, Split Billing, 4-Stage Compounding Tax Invoice & Payment Settlement
 - [x] Step 203: Build Interactive Guest Folio Workspace (`src/admin/folios/FolioDetailView.tsx`)
 - [x] Step 204: Build Manual Charge, Misc Service & Discount/Rebate Posting Modal (`src/admin/folios/PostFolioLineModal.tsx`)
+- [x] Step 205: Build Live 4-Stage Sri Lankan Tax Breakdown & Reverse-Mode Inspector (`src/admin/folios/TaxBreakdownCard.tsx`)
