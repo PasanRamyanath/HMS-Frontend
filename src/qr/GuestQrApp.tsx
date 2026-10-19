@@ -8,6 +8,7 @@
 import { useMemo, useState } from "react";
 import { type SupportedLanguage, useTranslation } from "../lib/i18n.js";
 import { getCurrentPath } from "../lib/router.js";
+import { CategoryPillsBar } from "./CategoryPillsBar.js";
 import { DepartmentTabs, type QrDepartment } from "./DepartmentTabs.js";
 import { type DisplayCurrency, GuestHeaderBar } from "./GuestHeaderBar.js";
 
@@ -474,6 +475,7 @@ export function GuestQrApp({
   const { currentLanguage } = useTranslation();
   const [activeTab, setActiveTab] = useState<string>(initialTab);
   const [activeCurrency, setActiveCurrency] = useState<DisplayCurrency>("LKR");
+  const [selectedCategory, setSelectedCategory] = useState<string>("CAT-RICE-CURRY");
 
   // Combine brand defaults with any overrides
   const brand: HotelBrandProfile = useMemo(() => {
@@ -536,6 +538,19 @@ export function GuestQrApp({
           onSelectDepartment={(dept) => handleTabChange(dept)}
           isRoomSession={location.type === "IN_ROOM"}
         />
+
+        {/* Horizontal Sticky Category Carousel */}
+        {activeTab !== "FOLIO" && (
+          <div className="mb-4">
+            <CategoryPillsBar
+              activeDepartment={activeTab}
+              selectedCategoryId={selectedCategory}
+              onSelectCategory={(catId) => setSelectedCategory(catId)}
+              language={currentLanguage}
+              isSticky={false}
+            />
+          </div>
+        )}
 
         {/* Live Folio Shortcut for Checked-In Guests */}
         {location.folioPostingAllowed && (

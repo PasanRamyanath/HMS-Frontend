@@ -151,5 +151,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 251: Build QR Entrypoint & HMAC Session Loader (`src/qr/GuestQrApp.tsx`)
 - [x] Step 252: Build Trilingual Language (`EN` / `සිං` / `தமிழ்`) & Currency (`LKR` / `~USD`) Header Bar (`src/qr/GuestHeaderBar.tsx`)
 - [x] Step 253: Build Multi-Department Service Pill Switcher (`src/qr/DepartmentTabs.tsx`)
+- [x] Step 254: Build Horizontal Sticky Category Carousel (`src/qr/CategoryPillsBar.tsx`)
 
 
