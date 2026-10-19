@@ -35,3 +35,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 114: Build Tabular-Numeral Dual-Currency Price Component (`src/components/PriceTag.tsx`)
 - [x] Step 115: Build Apple HIG Drag-and-Drop WebP Image Uploader with Aspect-Ratio Guides (`src/components/WebpUploadField.tsx`)
 - [x] Step 116: Build Apple HIG Liquid Glass Sign-In Screen (`src/admin/auth/LoginView.tsx`)
+- [x] Step 117: Build Hotel SaaS Onboarding Wizard — Step 1: Owner & Organization Identity (`src/admin/auth/RegisterStep1.tsx`)
