@@ -52,3 +52,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 129: Build Payment Gateways & LankaQR Merchant Settings Form (`src/admin/settings/PaymentSettingsForm.tsx`)
 - [x] Step 130: Build SMSGo.lk & Notify.lk Sender Mask Configuration Form (`src/admin/settings/SmsSettingsForm.tsx`)
 - [x] Step 131: Build Room Type Master Editor (`src/admin/rooms/RoomTypeManager.tsx`)
+- [x] Step 132: Build Dual-Tier Residency Rate & Meal-Plan Matrix Editor (`src/admin/rooms/RateMatrixGrid.tsx`)
