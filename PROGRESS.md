@@ -39,3 +39,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 118: Build Hotel SaaS Onboarding Wizard — Step 2: Property Profile, SLTDA/IRD Tax Preset & SaaS Plan (`src/admin/auth/RegisterStep2.tsx`)
 - [x] Step 119: Build Password Reset & SMSGo.lk / Email OTP Verification Sheet (`src/admin/auth/ResetPasswordView.tsx`)
 - [x] Step 120: Build macOS/iPadOS-Style Translucent Vibrancy Sidebar & Top Toolbar Shell (`src/admin/layout/AdminShell.tsx`)
+- [x] Step 121: Build Apple Health / Stocks-Inspired Pure SVG Analytics Charts (`src/components/SimpleCharts.tsx`)
