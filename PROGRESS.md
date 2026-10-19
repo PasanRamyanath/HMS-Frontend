@@ -178,3 +178,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 279: Build Bar Order Ticket (BOT) Display & Cocktail/Beverage Queue (`src/staff/kds/BarBotView.tsx`)
 - [x] Step 280: Build 80mm Thermal KOT / BOT Ticket Auto-Print View (`src/staff/kds/PrintableKotSlip.tsx`)
 - [x] Step 281: Build Chef 1-Tap '86 Item' (Quick Out-of-Stock Toggle) Drawer inside KDS (`src/staff/kds/KdsStockToggleDrawer.tsx`)
+- [x] Step 282: Build Touch-Friendly Restaurant & Counter POS Terminal View (`src/staff/pos/PosTerminalView.tsx`)
