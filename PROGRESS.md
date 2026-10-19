@@ -68,3 +68,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 148: Build Rooms & Rates Master Page (`src/admin/rooms/RoomsAndRatesPage.tsx`)
 - [x] Step 150: Run Phase 6 Ponytail Review & Simplify Admin Configuration Views
 
+## Phase 07: Front-Desk Tape Chart, Reservations, Walk-Ins, Tour Operators (DMC) & Driver Quarters
+- [x] Step 151: Build Horizontal 14/30-Day Front-Desk Room Tape Chart Grid (`src/admin/frontdesk/TapeChartGrid.tsx`)
