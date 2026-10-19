@@ -58,3 +58,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 135: Build Physical Room & Villa Inventory Grid (`src/admin/rooms/RoomInventoryGrid.tsx`)
 - [x] Step 136: Build Chauffeur / Driver Quarters Dormitory Bed Configuration (`src/admin/rooms/DriverDormManager.tsx`)
 - [x] Step 137: Build Restaurant Tables, Pool Loungers & Cabana QR Location Manager (`src/admin/rooms/QrLocationManager.tsx`)
+- [x] Step 138: Build Printable Acrylic Stand & Table Sticker QR Sheet Generator (`src/admin/rooms/QrPrintSheetModal.tsx`)
