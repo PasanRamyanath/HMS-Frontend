@@ -71,4 +71,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 ## Phase 07: Front-Desk Tape Chart, Reservations, Walk-Ins, Tour Operators (DMC) & Driver Quarters
 - [x] Step 151: Build Horizontal 14/30-Day Front-Desk Room Tape Chart Grid (`src/admin/frontdesk/TapeChartGrid.tsx`)
 - [x] Step 154: Build Reservation & Walk-In Creation Modal (`src/admin/frontdesk/ReservationModal.tsx`)
+- [x] Step 155: Build Instant Sri Lankan NIC & Foreign Passport Scanner/Input Field (`src/admin/frontdesk/GuestIdentityField.tsx`)
 
