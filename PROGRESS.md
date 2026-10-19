@@ -31,4 +31,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 110: Build Apple HIG Liquid Glass Card & Bento Surface Primitive (`src/components/GlassCard.tsx`)
 - [x] Step 111: Build iOS/macOS Sliding Pill Segmented Control Component (`src/components/SegmentedControl.tsx`)
 - [x] Step 112: Build Apple HIG Sheet & Center <dialog> Modal Component (`src/components/DialogModal.tsx`)
-- [ ] Step 113: Build Apple Semantic Vibrancy Status Pill Component (`src/components/StatusBadge.tsx`)
+- [x] Step 113: Build Apple Semantic Vibrancy Status Pill Component (`src/components/StatusBadge.tsx`)
+- [ ] Step 114: Build Tabular-Numeral Dual-Currency Price Component (`src/components/PriceTag.tsx`)

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { DialogModal } from "./components/DialogModal.js";
 import { GlassCard } from "./components/GlassCard.js";
 import { RESIDENCY_TIER_OPTIONS, SegmentedControl } from "./components/SegmentedControl.js";
+import { StatusBadge } from "./components/StatusBadge.js";
 
 export function App() {
   const [tier, setTier] = useState<"RESIDENT_LKR" | "FOREIGN_USD">("RESIDENT_LKR");
@@ -10,9 +11,12 @@ export function App() {
   return (
     <main className="min-h-screen p-8 flex flex-col items-center justify-center bg-slate-50">
       <GlassCard material="regular" radius="xl" className="p-8 max-w-lg w-full shadow-lg">
-        <GlassCard.Title as="h1" className="text-2xl font-semibold tracking-tight text-slate-900">
-          Sri Lanka Cloud SaaS HMS
-        </GlassCard.Title>
+        <div className="flex items-center justify-between">
+          <GlassCard.Title as="h1" className="text-2xl font-semibold tracking-tight text-slate-900">
+            Sri Lanka Cloud SaaS HMS
+          </GlassCard.Title>
+          <StatusBadge status="CLEAN" size="sm" pulse />
+        </div>
         <GlassCard.Description className="mt-2 text-sm text-slate-600">
           Apple HIG Liquid Glass & Contactless QR Hospitality Platform
         </GlassCard.Description>
@@ -62,9 +66,23 @@ export function App() {
           </button>
         }
       >
-        <p className="text-sm text-slate-600 dark:text-slate-300">
-          Automated multi-currency billing with LankaQR instant settlement.
-        </p>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+              Room 301 Housekeeping
+            </span>
+            <StatusBadge status="CLEAN" size="sm" />
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+              Kitchen KOT Order
+            </span>
+            <StatusBadge status="IN_PREPARATION" size="sm" pulse />
+          </div>
+          <p className="text-sm text-slate-600 dark:text-slate-300 pt-2">
+            Automated multi-currency billing with LankaQR instant settlement.
+          </p>
+        </div>
       </DialogModal>
     </main>
   );
