@@ -84,3 +84,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 165: Build Daily Kitchen Meal-Plan Headcount Sheet (`src/admin/frontdesk/MealPlanForecastCard.tsx`)
 - [x] Step 166: Build Tourist Police Foreign Arrival Register View (`src/admin/frontdesk/PoliceBCardRegister.tsx`)
 - [x] Step 167: Build Chauffeur / Driver Quarters Live Occupancy & Gate Pass Board (`src/admin/frontdesk/DriverQuartersBoard.tsx`)
+- [x] Step 168: Build Guest CRM History & Blacklist/VIP Preferences Lookup (`src/admin/frontdesk/GuestCrmDrawer.tsx`)
