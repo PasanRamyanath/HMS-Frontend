@@ -50,3 +50,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 127: Build Sri Lankan Statutory Tax & SLTDA Registration Configurator (`src/admin/settings/TaxSettingsForm.tsx`)
 - [x] Step 128: Build Central Bank of Sri Lanka (CBSL) Exchange Rate & Currency Manager (`src/admin/settings/ExchangeRateCard.tsx`)
 - [x] Step 129: Build Payment Gateways & LankaQR Merchant Settings Form (`src/admin/settings/PaymentSettingsForm.tsx`)
+- [x] Step 130: Build SMSGo.lk & Notify.lk Sender Mask Configuration Form (`src/admin/settings/SmsSettingsForm.tsx`)
