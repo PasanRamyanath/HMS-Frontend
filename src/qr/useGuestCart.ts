@@ -549,6 +549,7 @@ export function useGuestCart() {
   return {
     items: state.items,
     totalItemCount,
+    cartItemCount: totalItemCount,
     summary: state.summary,
     guestMealPlan: state.guestMealPlan,
     taxConfig: state.taxConfig,

@@ -11,6 +11,7 @@ import { getCurrentPath } from "../lib/router.js";
 import { CategoryPillsBar } from "./CategoryPillsBar.js";
 import { DepartmentTabs, type QrDepartment } from "./DepartmentTabs.js";
 import { DishModifierSheet } from "./DishModifierSheet.js";
+import { FloatingCartBar } from "./FloatingCartBar.js";
 import { DEFAULT_SAMPLE_DISHES, type GuestDish, GuestDishCard } from "./GuestDishCard.js";
 import { type DisplayCurrency, GuestHeaderBar } from "./GuestHeaderBar.js";
 import { useGuestCart } from "./useGuestCart.js";
@@ -522,6 +523,7 @@ export function GuestQrApp({
   const [selectedCategory, setSelectedCategory] = useState<string>("CAT-RICE-CURRY");
   const cart = useGuestCart();
   const [customizingDish, setCustomizingDish] = useState<GuestDish | null>(null);
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState<boolean>(false);
 
   const cartQuantities = useMemo(() => {
     const map: Record<string, number> = {};
@@ -661,6 +663,18 @@ export function GuestQrApp({
             customizingDish?.freeOnMealPlans,
           );
         }}
+      />
+
+      {/* Floating Bottom Cart Summary Bar (Step 258) */}
+      <FloatingCartBar
+        itemCount={cart.cartItemCount}
+        grandTotalLkr={cart.summary.grandTotalLkr}
+        approxGrandTotalUsd={cart.summary.approxGrandTotalUsd}
+        mealPlanSavingsLkr={cart.summary.mealPlanSavingsLkr}
+        currency={activeCurrency}
+        language={currentLanguage}
+        isVisible={!isCartDrawerOpen && cart.cartItemCount > 0}
+        onViewCart={() => setIsCartDrawerOpen(true)}
       />
     </div>
   );
