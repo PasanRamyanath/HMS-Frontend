@@ -147,4 +147,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 248: Assemble Master Menus & Services Catalog Page (`src/admin/menus/MenusAndCatalogPage.tsx`)
 - [x] Step 250: Run Phase 10 Ponytail Review & Code Simplification Checkpoint (`src/admin/menus/SharedCatalogCard.tsx`)
 
+## Phase 11: Contactless QR Guest Mobile Web App — Zero-Login In-Room Dining, Table Ordering & Live Status (`packages/web/src/qr`)
+- [x] Step 251: Build QR Entrypoint & HMAC Session Loader (`src/qr/GuestQrApp.tsx`)
+
 

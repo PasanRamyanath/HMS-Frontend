@@ -19,6 +19,7 @@ import {
   parseRoute,
   subscribeToRoute,
 } from "./lib/router.js";
+import { GuestQrApp } from "./qr/GuestQrApp.js";
 import { DirectBookingEngine } from "./qr/booking/DirectBookingEngine.js";
 
 // ============================================================================
@@ -156,6 +157,18 @@ export function App() {
             }}
           />
         </main>
+      </>
+    );
+  }
+
+  if (currentRoute.kind === "QR_STAY") {
+    return (
+      <>
+        <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
+        <GuestQrApp
+          tenantId={currentRoute.params.tenantId}
+          locationId={currentRoute.params.locationId}
+        />
       </>
     );
   }
