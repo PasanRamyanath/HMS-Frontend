@@ -10,6 +10,7 @@ import { type SupportedLanguage, useTranslation } from "../lib/i18n.js";
 import { getCurrentPath } from "../lib/router.js";
 import { CategoryPillsBar } from "./CategoryPillsBar.js";
 import { DepartmentTabs, type QrDepartment } from "./DepartmentTabs.js";
+import { DEFAULT_SAMPLE_DISHES, type GuestDish, GuestDishCard } from "./GuestDishCard.js";
 import { type DisplayCurrency, GuestHeaderBar } from "./GuestHeaderBar.js";
 
 // ============================================================================
@@ -420,16 +421,55 @@ export function GuestSessionStatusBar({
 interface GuestActiveServiceViewProps {
   readonly activeTab: string;
   readonly locationName: string;
+  readonly language?: SupportedLanguage | undefined;
+  readonly currency?: DisplayCurrency | undefined;
+  readonly cartQuantities?: Record<string, number> | undefined;
+  readonly onIncrementDish?: ((dish: GuestDish) => void) | undefined;
+  readonly onDecrementDish?: ((dish: GuestDish) => void) | undefined;
 }
 
-function GuestActiveServiceView({ activeTab, locationName }: GuestActiveServiceViewProps) {
-  let icon = "🍛";
-  let title = "Culinary Delights & In-Room Dining";
+function GuestActiveServiceView({
+  activeTab,
+  locationName,
+  language = "en",
+  currency = "LKR",
+  cartQuantities = {},
+  onIncrementDish,
+  onDecrementDish,
+}: GuestActiveServiceViewProps) {
+  if (activeTab === "DINING") {
+    return (
+      <section data-testid="guest-qr-active-view" className="space-y-3">
+        <div className="flex items-center justify-between px-1">
+          <h2 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+            In-Room Dining Menu
+          </h2>
+          <span className="text-xs text-slate-500 dark:text-slate-400">
+            {DEFAULT_SAMPLE_DISHES.length} items
+          </span>
+        </div>
 
-  if (activeTab === "BAR") {
-    icon = "🍸";
-    title = "Signature Cocktails & Ceylon Teas";
-  } else if (activeTab === "HOUSEKEEPING") {
+        <div className="flex flex-col gap-3">
+          {DEFAULT_SAMPLE_DISHES.map((dish) => (
+            <GuestDishCard
+              key={dish.id}
+              dish={dish}
+              quantity={cartQuantities[dish.id] ?? 0}
+              onIncrement={onIncrementDish}
+              onDecrement={onDecrementDish}
+              language={language}
+              currency={currency}
+            />
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  let icon = "🍸";
+  let title = "Signature Cocktails & Ceylon Teas";
+
+  if (activeTab === "HOUSEKEEPING") {
     icon = "🧺";
     title = "Room Amenities & Express Requests";
   } else if (activeTab === "FOLIO") {
@@ -451,9 +491,8 @@ function GuestActiveServiceView({ activeTab, locationName }: GuestActiveServiceV
       </h2>
 
       <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
-        Contactless ordering active for{" "}
-        <strong className="text-slate-800 dark:text-slate-200">{locationName}</strong>. Select
-        dishes or amenities to add to your contactless cart.
+        Contactless service active for{" "}
+        <strong className="text-slate-800 dark:text-slate-200">{locationName}</strong>.
       </p>
     </section>
   );
@@ -476,6 +515,30 @@ export function GuestQrApp({
   const [activeTab, setActiveTab] = useState<string>(initialTab);
   const [activeCurrency, setActiveCurrency] = useState<DisplayCurrency>("LKR");
   const [selectedCategory, setSelectedCategory] = useState<string>("CAT-RICE-CURRY");
+  const [cartQuantities, setCartQuantities] = useState<Record<string, number>>({});
+
+  const totalCartCount = useMemo(() => {
+    return Object.values(cartQuantities).reduce((acc, q) => acc + q, 0);
+  }, [cartQuantities]);
+
+  const handleIncrementDish = (dish: GuestDish) => {
+    setCartQuantities((prev) => ({
+      ...prev,
+      [dish.id]: (prev[dish.id] ?? 0) + 1,
+    }));
+  };
+
+  const handleDecrementDish = (dish: GuestDish) => {
+    setCartQuantities((prev) => {
+      const current = prev[dish.id] ?? 0;
+      if (current <= 1) {
+        const copy = { ...prev };
+        delete copy[dish.id];
+        return copy;
+      }
+      return { ...prev, [dish.id]: current - 1 };
+    });
+  };
 
   // Combine brand defaults with any overrides
   const brand: HotelBrandProfile = useMemo(() => {
@@ -514,6 +577,7 @@ export function GuestQrApp({
         activeCurrency={activeCurrency}
         onCurrencyChange={setActiveCurrency}
         usdExchangeRate={brand.approxUsdRate}
+        cartItemCount={totalCartCount}
       />
 
       <div className="max-w-3xl mx-auto px-3.5 sm:px-6 pt-4">
@@ -569,8 +633,16 @@ export function GuestQrApp({
           </div>
         )}
 
-        {/* Dynamic Service View Placeholder */}
-        <GuestActiveServiceView activeTab={activeTab} locationName={location.displayName} />
+        {/* Dynamic Service View with Dishes */}
+        <GuestActiveServiceView
+          activeTab={activeTab}
+          locationName={location.displayName}
+          language={currentLanguage}
+          currency={activeCurrency}
+          cartQuantities={cartQuantities}
+          onIncrementDish={handleIncrementDish}
+          onDecrementDish={handleDecrementDish}
+        />
       </div>
     </div>
   );

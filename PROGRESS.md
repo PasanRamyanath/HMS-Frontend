@@ -152,5 +152,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 252: Build Trilingual Language (`EN` / `සිං` / `தமிழ்`) & Currency (`LKR` / `~USD`) Header Bar (`src/qr/GuestHeaderBar.tsx`)
 - [x] Step 253: Build Multi-Department Service Pill Switcher (`src/qr/DepartmentTabs.tsx`)
 - [x] Step 254: Build Horizontal Sticky Category Carousel (`src/qr/CategoryPillsBar.tsx`)
+- [x] Step 255: Build DOMSpeed-Style Dish Card with 1:1 Square WebP Thumbnail & Stepper (`src/qr/GuestDishCard.tsx`)
 
 
