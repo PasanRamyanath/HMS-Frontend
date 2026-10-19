@@ -62,3 +62,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 139: Build Staff User, Role & Service Charge Point Weight Manager (`src/admin/settings/StaffUserManager.tsx`)
 - [x] Step 140: Build SaaS Subscription Plan & WebXPay Billing Portal (`src/admin/settings/SaasBillingCard.tsx`)
 - [x] Step 143: Build Interactive Rate Quote Simulator Widget in Admin (`src/admin/rooms/RateSimulatorDialog.tsx`)
+- [x] Step 145: Build Property Onboarding Checklist Banner (`src/admin/settings/OnboardingChecklist.tsx`)
