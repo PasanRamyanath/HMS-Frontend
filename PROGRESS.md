@@ -158,5 +158,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 258: Build Floating Bottom Cart Summary Bar (`src/qr/FloatingCartBar.tsx`)
 - [x] Step 259: Build Transparent Cart & 4-Stage Tax Review Sheet (`src/qr/GuestCartDrawer.tsx`)
 - [x] Step 260: Build Room Charge Verification Prompt (`src/qr/RoomChargeAuthBox.tsx`)
+- [x] Step 261: Build Instant LankaQR & Alipay+ Scan-to-Pay Checkout View (`src/qr/GuestLankaQrPay.tsx`)
 
 

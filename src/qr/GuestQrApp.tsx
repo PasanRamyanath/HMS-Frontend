@@ -15,6 +15,7 @@ import { FloatingCartBar } from "./FloatingCartBar.js";
 import { GuestCartDrawer } from "./GuestCartDrawer.js";
 import { DEFAULT_SAMPLE_DISHES, type GuestDish, GuestDishCard } from "./GuestDishCard.js";
 import { type DisplayCurrency, GuestHeaderBar } from "./GuestHeaderBar.js";
+import { GuestLankaQrPay, type GuestPaymentResult } from "./GuestLankaQrPay.js";
 import { RoomChargeAuthBox, type RoomChargeAuthResult } from "./RoomChargeAuthBox.js";
 import { useGuestCart } from "./useGuestCart.js";
 
@@ -527,6 +528,7 @@ export function GuestQrApp({
   const [customizingDish, setCustomizingDish] = useState<GuestDish | null>(null);
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState<boolean>(false);
   const [isRoomAuthOpen, setIsRoomAuthOpen] = useState<boolean>(false);
+  const [isLankaQrOpen, setIsLankaQrOpen] = useState<boolean>(false);
 
   const cartQuantities = useMemo(() => {
     const map: Record<string, number> = {};
@@ -695,7 +697,11 @@ export function GuestQrApp({
         onClose={() => setIsCartDrawerOpen(false)}
         onProceedToCheckout={() => {
           setIsCartDrawerOpen(false);
-          setIsRoomAuthOpen(true);
+          if (location.folioPostingAllowed) {
+            setIsRoomAuthOpen(true);
+          } else {
+            setIsLankaQrOpen(true);
+          }
         }}
       />
 
@@ -712,6 +718,26 @@ export function GuestQrApp({
                 cart.clearCart();
               }}
               onCancel={() => setIsRoomAuthOpen(false)}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Instant LankaQR & Alipay+ Scan-to-Pay Modal (Step 261) */}
+      {isLankaQrOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
+          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <GuestLankaQrPay
+              locationName={location.displayName}
+              amountLkr={cart.summary.grandTotalLkr}
+              merchantName={resolveTrilingualBrand(brand.name, currentLanguage)}
+              merchantCity={brand.city}
+              language={currentLanguage}
+              onPaymentSuccess={(_result: GuestPaymentResult) => {
+                setIsLankaQrOpen(false);
+                cart.clearCart();
+              }}
+              onCancel={() => setIsLankaQrOpen(false)}
             />
           </div>
         </div>
