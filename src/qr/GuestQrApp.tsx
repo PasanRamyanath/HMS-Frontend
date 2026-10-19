@@ -11,6 +11,7 @@ import { getCurrentPath } from "../lib/router.js";
 import { CategoryPillsBar } from "./CategoryPillsBar.js";
 import { DepartmentTabs, type QrDepartment } from "./DepartmentTabs.js";
 import { DishModifierSheet } from "./DishModifierSheet.js";
+import { ExpiredRoomQrView } from "./ExpiredRoomQrView.js";
 import { ExpressHousekeepingTab } from "./ExpressHousekeepingTab.js";
 import { FloatingCartBar } from "./FloatingCartBar.js";
 import { GuestCartDrawer } from "./GuestCartDrawer.js";
@@ -629,6 +630,7 @@ export function GuestQrApp({
   const [isLankaQrOpen, setIsLankaQrOpen] = useState<boolean>(false);
   const [isPackedMealOpen, setIsPackedMealOpen] = useState<boolean>(false);
   const [isHotelInfoOpen, setIsHotelInfoOpen] = useState<boolean>(false);
+  const [hasDismissedExpiredWarning, setHasDismissedExpiredWarning] = useState<boolean>(false);
   const [activeOrderId, setActiveOrderId] = useState<string | null>(null);
 
   const cartQuantities = useMemo(() => {
@@ -705,6 +707,22 @@ export function GuestQrApp({
           hours={brand.inRoomDiningHours}
           allowFolio={brand.allowFolioPost}
         />
+
+        {/* Expired / Checked-Out Room QR Fallback Notice (Step 269) */}
+        {sessionStatus === "UNVERIFIED_ROOM" && !hasDismissedExpiredWarning && (
+          <div className="mb-4">
+            <ExpiredRoomQrView
+              roomDisplayName={location.displayName}
+              hotelName={resolveTrilingualBrand(brand.name, currentLanguage)}
+              receptionPhone={brand.phone}
+              language={currentLanguage}
+              onContinueAsPrepaidGuest={() => setHasDismissedExpiredWarning(true)}
+              onVerifyRoomCode={(_pin) => {
+                setHasDismissedExpiredWarning(true);
+              }}
+            />
+          </div>
+        )}
 
         {/* Multi-Department Service Pill Switcher */}
         <DepartmentTabs
@@ -805,7 +823,7 @@ export function GuestQrApp({
         onClose={() => setIsCartDrawerOpen(false)}
         onProceedToCheckout={() => {
           setIsCartDrawerOpen(false);
-          if (location.folioPostingAllowed) {
+          if (location.folioPostingAllowed && sessionStatus === "VERIFIED_IN_ROOM") {
             setIsRoomAuthOpen(true);
           } else {
             setIsLankaQrOpen(true);
