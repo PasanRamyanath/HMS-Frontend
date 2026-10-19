@@ -97,7 +97,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 186: Build Direct Booking Add-Ons Step (`src/qr/booking/BookingAddonsStep.tsx`)
 - [x] Step 187: Build Dual-Gateway Direct Booking Checkout (`src/qr/booking/DirectBookingCheckout.tsx`)
 - [x] Step 188: Build Embeddable 1-Line `<script>` Booking Bar Widget (`public/booking-widget.js`)
-- [ ] Step 191: Build Automated Direct-Booking Abandonment WhatsApp Recovery Drawer (`src/admin/channels/AbandonedBookingDrawer.tsx`)
+- [x] Step 191: Build Bank Card Promotion & Coupon Manager in Admin (`src/admin/channels/BankPromoManager.tsx`)
 - [ ] Step 192: Build OTA Rate Parity Monitor & Undercut Alert Card (`src/admin/channels/RateParityCard.tsx`)
 - [ ] Step 193: Build Unified Channel & Direct Booking Performance Dashboard (`src/admin/channels/ChannelPerformanceView.tsx`)
 - [ ] Step 196: Build Stop-Sell & Minimum Length of Stay (MinLOS) Quick Toggle Bar (`src/admin/channels/QuickRestrictionsBar.tsx`)
