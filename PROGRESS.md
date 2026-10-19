@@ -55,3 +55,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 132: Build Dual-Tier Residency Rate & Meal-Plan Matrix Editor (`src/admin/rooms/RateMatrixGrid.tsx`)
 - [x] Step 133: Build Sri Lankan Peak / Shoulder / Monsoon Seasonal Calendar Band Editor (`src/admin/rooms/SeasonalBandsEditor.tsx`)
 - [x] Step 134: Build Child Policy & Extra Bed Supplement Rules Editor (`src/admin/rooms/ChildPolicyCard.tsx`)
+- [x] Step 135: Build Physical Room & Villa Inventory Grid (`src/admin/rooms/RoomInventoryGrid.tsx`)
