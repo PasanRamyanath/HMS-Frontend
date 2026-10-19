@@ -149,5 +149,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 
 ## Phase 11: Contactless QR Guest Mobile Web App — Zero-Login In-Room Dining, Table Ordering & Live Status (`packages/web/src/qr`)
 - [x] Step 251: Build QR Entrypoint & HMAC Session Loader (`src/qr/GuestQrApp.tsx`)
+- [x] Step 252: Build Trilingual Language (`EN` / `සිං` / `தமிழ்`) & Currency (`LKR` / `~USD`) Header Bar (`src/qr/GuestHeaderBar.tsx`)
 
 

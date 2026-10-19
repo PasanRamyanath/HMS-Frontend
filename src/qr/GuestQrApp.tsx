@@ -8,6 +8,7 @@
 import { useMemo, useState } from "react";
 import { type SupportedLanguage, useTranslation } from "../lib/i18n.js";
 import { getCurrentPath } from "../lib/router.js";
+import { type DisplayCurrency, GuestHeaderBar } from "./GuestHeaderBar.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -536,6 +537,7 @@ export function GuestQrApp({
 }: GuestQrAppProps) {
   const { currentLanguage } = useTranslation();
   const [activeTab, setActiveTab] = useState<string>(initialTab);
+  const [activeCurrency, setActiveCurrency] = useState<DisplayCurrency>("LKR");
 
   // Combine brand defaults with any overrides
   const brand: HotelBrandProfile = useMemo(() => {
@@ -566,6 +568,16 @@ export function GuestQrApp({
       data-testid="guest-qr-app-root"
       className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white pb-20 selection:bg-sky-500/20"
     >
+      {/* Sticky Trilingual & Currency Header Bar */}
+      <GuestHeaderBar
+        hotelName={resolveTrilingualBrand(brand.name, currentLanguage)}
+        locationDisplayName={location.displayName}
+        isRoomSession={location.type === "IN_ROOM"}
+        activeCurrency={activeCurrency}
+        onCurrencyChange={setActiveCurrency}
+        usdExchangeRate={brand.approxUsdRate}
+      />
+
       <div className="max-w-3xl mx-auto px-3.5 sm:px-6 pt-4">
         {/* 3:1 Cinematic Hero Banner with Hotel Logo & Location Badge */}
         <GuestHeroBanner
