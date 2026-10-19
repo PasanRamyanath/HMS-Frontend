@@ -19,8 +19,8 @@ import {
   parseRoute,
   subscribeToRoute,
 } from "./lib/router.js";
-import { GuestQrApp } from "./qr/GuestQrApp.js";
 import { DirectBookingEngine } from "./qr/booking/DirectBookingEngine.js";
+import { GuestQrApp } from "./qr/index.js";
 
 // ============================================================================
 // Root Application Component

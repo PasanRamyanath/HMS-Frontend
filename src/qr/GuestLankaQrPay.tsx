@@ -12,8 +12,8 @@
  */
 
 import { type FC, useId, useMemo, useState } from "react";
-import { buildLankaQrPayload } from "../admin/settings/PaymentSettingsForm.js";
 import type { SupportedLanguage } from "../lib/i18n.js";
+import { buildLankaQrPayload } from "../lib/lankaQrPayload.js";
 import { renderLankaQrSvg } from "../lib/qrSvg.js";
 import { formatLkr, formatUsdEstimate } from "./GuestDishCard.js";
 

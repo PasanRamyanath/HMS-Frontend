@@ -474,6 +474,7 @@ function RoomCard({
             alt={room.name}
             className="h-full w-full object-cover"
             loading="lazy"
+            decoding="async"
           />
           <span className="absolute top-3 left-3 rounded-md bg-black/60 px-2 py-0.5 text-[11px] font-semibold text-white backdrop-blur-md">
             {room.availableCount} rooms left

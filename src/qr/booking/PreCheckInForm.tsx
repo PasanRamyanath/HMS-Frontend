@@ -465,6 +465,8 @@ function FastTrackSuccessPass({
         <img
           src={dataUri}
           alt="Fast-track pre-check-in verification QR code"
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-contain"
         />
       </div>

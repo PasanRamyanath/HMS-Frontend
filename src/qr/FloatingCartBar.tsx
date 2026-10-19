@@ -133,7 +133,7 @@ export const FloatingCartBar: FC<FloatingCartBarProps> = ({
           : "translate-y-16 opacity-0 pointer-events-none"
       }`}
     >
-      <div className="bg-slate-900/90 dark:bg-black/90 backdrop-blur-2xl text-white rounded-2xl p-3 shadow-2xl border border-white/15 flex items-center justify-between gap-3">
+      <div className="apple-liquid-glass bg-slate-900/90 dark:bg-black/90 backdrop-blur-2xl text-white rounded-2xl p-3 shadow-2xl border border-white/15 flex items-center justify-between gap-3">
         {/* Left Side: Count Badge, Total Price & Statutory Tax Disclosure */}
         <div className="flex items-center gap-3 min-w-0 flex-1">
           {/* Item Count Squircle Badge */}

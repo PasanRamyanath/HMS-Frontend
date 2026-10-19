@@ -887,6 +887,7 @@ function AddonCard({ addon, isSelected, residencyTier, onToggle, children }: Add
             alt={addon.title}
             className="w-full h-full object-cover"
             loading="lazy"
+            decoding="async"
           />
           {addon.badge && (
             <span className="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-bold rounded-full bg-apple-gray-900/80 text-white backdrop-blur-md">

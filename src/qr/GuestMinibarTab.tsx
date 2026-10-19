@@ -14,12 +14,12 @@
  */
 
 import { type FC, useId, useMemo, useState } from "react";
+import type { SupportedLanguage } from "../lib/i18n.js";
 import {
   DEFAULT_MINIBAR_CATALOG,
   type MinibarItem,
   type MinibarItemCategory,
-} from "../admin/menus/MinibarCatalogEditor.js";
-import type { SupportedLanguage } from "../lib/i18n.js";
+} from "../lib/minibarCatalog.js";
 import { playOrderBell } from "../lib/soundAlert.js";
 import { formatLkr, formatUsdEstimate } from "./GuestDishCard.js";
 

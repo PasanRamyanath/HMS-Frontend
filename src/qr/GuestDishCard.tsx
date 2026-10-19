@@ -478,6 +478,7 @@ export function GuestDishCard({
               src={dish.imageUrl}
               alt={localizedName}
               loading="lazy"
+              decoding="async"
               width={104}
               height={104}
               className="w-full h-full object-cover"
