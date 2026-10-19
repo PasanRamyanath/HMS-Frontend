@@ -174,3 +174,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 ## Phase 12: Kitchen Display System (KDS), Bar Order Tracker (BOT) & Waiter Tablet POS (`packages/web/src/staff`)
 - [x] Step 276: Build Touch-First 3-Column Kitchen Display System (KDS) Kanban Board (`src/staff/kds/KdsKanbanView.tsx`)
 - [x] Step 277: Build KDS Order Ticket Card with SLA Color Escalation & Spice/Allergen Highlights (`src/staff/kds/KdsTicketCard.tsx`)
+- [x] Step 278: Build Smartphone Single-Column Compact KDS Mode for Small Hotel Kitchens (`src/staff/kds/KdsMobileCompact.tsx`)
+

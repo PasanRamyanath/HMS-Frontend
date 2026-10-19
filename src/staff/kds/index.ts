@@ -30,3 +30,10 @@ export {
   type KdsTicketCardProps,
   type TicketSlaDetails,
 } from "./KdsTicketCard.js";
+
+export {
+  KdsMobileCompact,
+  getTabLabel,
+  type KdsMobileTab,
+  type KdsMobileCompactProps,
+} from "./KdsMobileCompact.js";
