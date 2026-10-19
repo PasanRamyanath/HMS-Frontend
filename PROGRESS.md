@@ -75,4 +75,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 156: Build Chauffeur / Guide Accommodation & Meal Voucher Sub-Form (`src/admin/frontdesk/DriverQuartersSubform.tsx`)
 - [x] Step 157: Build Destination Management Company (DMC) & Travel Agent Contract Directory (`src/admin/frontdesk/DmcContractManager.tsx`)
 - [x] Step 158: Build Tour Operator Exchange Voucher Attachment & Verification Panel (`src/admin/frontdesk/DmcVoucherPanel.tsx`)
+- [x] Step 159: Build Multi-Room Group & Round-Tour Rooming List Importer (`src/admin/frontdesk/GroupRoomingModal.tsx`)
 
