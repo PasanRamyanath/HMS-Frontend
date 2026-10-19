@@ -137,5 +137,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 238: Build 1-Click 'Seed Sri Lankan Hotel Menu & Housekeeping Catalog' Button (`src/admin/menus/SeedCatalogButton.tsx`)
 - [x] Step 239: Build Happy Hour & Poolside Dynamic Pricing Rules (`src/admin/menus/HappyHourRules.tsx`)
 - [x] Step 240: Build Allergen, Halal, Vegetarian, Vegan & Pork/Beef Free Dietary Badges (`src/components/DietaryBadges.tsx`)
+- [x] Step 241: Build Minibar Room Par-Stock & QR Self-Declaration Checklist (`src/admin/menus/MinibarCatalogEditor.tsx`)
 
 
