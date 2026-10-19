@@ -120,3 +120,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 214: Build Petty Cash & Guest Paid-Out Voucher Form (`src/admin/folios/PaidOutVoucherModal.tsx`)
 - [x] Step 217: Build Credit Note & Refund Issuance Modal (`src/admin/folios/CreditNoteModal.tsx`)
 - [x] Step 218: Build Non-Resident / Walk-In Master Folio for Day Guests & Pool Pass Visitors (`src/admin/folios/NonResidentFolioModal.tsx`)
+- [x] Step 219: Build Folio Search, Filter & Historical Invoice Archive (`src/admin/folios/FolioArchiveList.tsx`)
