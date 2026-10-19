@@ -924,7 +924,7 @@ export function PrintableTaxInvoice({
       />
 
       {/* A4 Sheet Container */}
-      <div className="w-full bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 p-8 sm:p-12 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl print:border-none print:shadow-none print:p-0 print:m-0 space-y-6 text-xs font-sans">
+      <div className="w-full bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 p-8 sm:p-12 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl print-a4-invoice print:border-none print:shadow-none print:p-0 print:m-0 space-y-6 text-xs font-sans">
         {/* Header Block */}
         <InvoiceHeaderBlock hotel={hotel} metadata={metadata} docInfo={docInfo} />
 

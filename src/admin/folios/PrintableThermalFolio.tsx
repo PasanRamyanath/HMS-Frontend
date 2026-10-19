@@ -615,7 +615,7 @@ export function PrintableThermalFolio({
 
       {/* 80mm / 58mm Thermal Receipt Container */}
       <div
-        className={`w-full ${widthStyle} bg-white dark:bg-zinc-900 text-black dark:text-white p-5 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 shadow-xl print:border-none print:shadow-none print:p-0 print:m-0 print:max-w-none space-y-2 font-sans`}
+        className={`w-full ${widthStyle} bg-white dark:bg-zinc-900 text-black dark:text-white p-5 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 shadow-xl print-80mm-receipt print:border-none print:shadow-none print:p-0 print:m-0 print:max-w-none space-y-2 font-sans`}
       >
         {/* Receipt Header */}
         <ThermalHeader
