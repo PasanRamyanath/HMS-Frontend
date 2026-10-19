@@ -32,7 +32,7 @@ export interface QrPrintSheetOptions {
 export interface QrPrintSheetModalProps {
   readonly isOpen: boolean;
   readonly onClose: () => void;
-  readonly items: ReadonlyArray<QrPrintItem>;
+  readonly items?: ReadonlyArray<QrPrintItem> | undefined;
   readonly hotelName?: string | undefined;
   readonly defaultLayout?: PrintLayoutType | undefined;
 }
@@ -173,7 +173,7 @@ const LAYOUT_OPTIONS: ReadonlyArray<SegmentedControlOption<PrintLayoutType>> = [
 export function QrPrintSheetModal({
   isOpen,
   onClose,
-  items,
+  items = DEFAULT_PRINT_ITEMS,
   hotelName = "Amaya Beachfront Resort & Spa",
   defaultLayout = "TABLE_STICKER_6UP",
 }: QrPrintSheetModalProps) {

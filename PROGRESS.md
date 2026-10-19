@@ -65,3 +65,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 145: Build Property Onboarding Checklist Banner (`src/admin/settings/OnboardingChecklist.tsx`)
 - [x] Step 146: Add Bulk CSV Room & Rate Importer (`src/admin/rooms/csvRoomImporter.ts`)
 - [x] Step 147: Build Settings Tab Router & Unified Configuration View (`src/admin/settings/SettingsPage.tsx`)
+- [x] Step 148: Build Rooms & Rates Master Page (`src/admin/rooms/RoomsAndRatesPage.tsx`)
