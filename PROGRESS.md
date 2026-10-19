@@ -123,3 +123,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 219: Build Folio Search, Filter & Historical Invoice Archive (`src/admin/folios/FolioArchiveList.tsx`)
 - [x] Step 220: Build Automated WhatsApp / SMS Digital Invoice Link Sender (`src/admin/folios/sendDigitalInvoice.ts`)
 - [x] Step 221: Build Guest Self-View Live Folio Tab inside the Room QR Web App (`src/qr/GuestLiveFolioTab.tsx`)
+- [x] Step 222: Implement Disputed Charge Flagging from Guest QR Folio View (`src/qr/GuestLiveFolioTab.tsx`)

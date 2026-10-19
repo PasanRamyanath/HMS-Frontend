@@ -13,6 +13,7 @@ import {
   type GuestFolioStayContext,
   GuestLiveFolioTab,
   type GuestLiveFolioTabProps,
+  QUICK_DISPUTE_REASONS,
   calculateGuestFolioSummary,
   filterGuestFolioLines,
   formatDisplayCurrency,
@@ -236,6 +237,55 @@ describe("Step 221: GuestLiveFolioTab & Guest QR Live Folio View", () => {
 
       assert.ok(html.includes("Ready for Express Check-Out"));
       assert.ok(html.includes("1-Tap Departure Notification to Front Desk"));
+    });
+  });
+
+  describe("6. Step 222: Disputed Charge Flagging & Query Handling", () => {
+    it("exports standard quick dispute preset reasons for guests", () => {
+      assert.ok(QUICK_DISPUTE_REASONS.length >= 4);
+      assert.ok(QUICK_DISPUTE_REASONS.includes("Item not consumed / received"));
+      assert.ok(QUICK_DISPUTE_REASONS.includes("Incorrect quantity billed"));
+      assert.ok(QUICK_DISPUTE_REASONS.includes("Wrong room / not our charge"));
+      assert.ok(QUICK_DISPUTE_REASONS.includes("Meal plan discount omitted"));
+    });
+
+    it("renders disputed line items with warning indicator and guest note", () => {
+      const disputedLines: GuestFolioLineItem[] = [
+        {
+          id: "FOL-LINE-DISPUTED-01",
+          date: "2026-10-19",
+          time: "14:00",
+          department: "MINIBAR",
+          description: "Mini-bar Ceylon Cashews & Arrack",
+          quantity: 2,
+          unitPriceLkr: 2400,
+          baseAmountLkr: 4800,
+          serviceChargeLkr: 480,
+          tdlLkr: 48,
+          ssclLkr: 133.2,
+          vatLkr: 981.88,
+          grossTotalLkr: 6443.08,
+          isDisputed: true,
+          disputeNote: "We did not unlock the mini-bar",
+          disputeStatus: "PENDING",
+        },
+      ];
+
+      const html = renderToStaticMarkup(
+        React.createElement(GuestLiveFolioTab, {
+          stayContext: DEFAULT_SAMPLE_GUEST_STAY,
+          initialLines: disputedLines,
+          initialPayments: [],
+        }),
+      );
+
+      // Verify header dispute count pill is rendered
+      assert.ok(html.includes("1 Query under review"));
+
+      // Verify disputed line has warning badge and note instead of 'Query This Item' button
+      assert.ok(html.includes("Query Sent:"));
+      assert.ok(html.includes("We did not unlock the mini-bar"));
+      assert.strictEqual(html.includes("Query This Item"), false);
     });
   });
 });

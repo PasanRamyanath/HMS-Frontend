@@ -883,6 +883,125 @@ function GuestOnlinePaymentModal({
   );
 }
 
+export const QUICK_DISPUTE_REASONS: ReadonlyArray<string> = [
+  "Item not consumed / received",
+  "Incorrect quantity billed",
+  "Wrong room / not our charge",
+  "Meal plan discount omitted",
+  "Service quality dispute",
+];
+
+interface GuestDisputeModalProps {
+  readonly queryItem: GuestFolioLineItem | null;
+  readonly disputeReason: string;
+  readonly isSubmitting: boolean;
+  readonly currency: "LKR" | "USD";
+  readonly exchangeRate: number;
+  readonly disputeReasonInputId: string;
+  readonly onClose: () => void;
+  readonly onDisputeReasonChange: (reason: string) => void;
+  readonly onSubmitDispute: () => void;
+}
+
+function GuestDisputeModal({
+  queryItem,
+  disputeReason,
+  isSubmitting,
+  currency,
+  exchangeRate,
+  disputeReasonInputId,
+  onClose,
+  onDisputeReasonChange,
+  onSubmitDispute,
+}: GuestDisputeModalProps) {
+  if (!queryItem) return null;
+
+  return (
+    <DialogModal
+      isOpen={Boolean(queryItem)}
+      onClose={onClose}
+      title="Query Charge with Front Desk"
+      description="Notify the hotel cashier of any discrepancy before checkout so it can be resolved without receptionist delays."
+      size="md"
+    >
+      <div className="space-y-4 pt-2">
+        <div className="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 text-xs space-y-1">
+          <div className="font-semibold text-zinc-900 dark:text-zinc-100">
+            {queryItem.description}
+          </div>
+          <div className="text-zinc-500 flex justify-between font-mono">
+            <span>
+              {queryItem.date} {queryItem.time}
+            </span>
+            <span className="font-bold text-zinc-900 dark:text-zinc-100">
+              {formatDisplayCurrency(queryItem.grossTotalLkr, currency, exchangeRate)}
+            </span>
+          </div>
+        </div>
+
+        <div>
+          <span className="block text-[11px] font-semibold text-zinc-500 mb-1.5">
+            Quick selection reason:
+          </span>
+          <div className="flex flex-wrap gap-1.5" data-testid="quick-dispute-chips">
+            {QUICK_DISPUTE_REASONS.map((reason) => (
+              <button
+                key={reason}
+                type="button"
+                onClick={() => onDisputeReasonChange(reason)}
+                className={`text-[11px] px-2.5 py-1 rounded-full border transition-all ${
+                  disputeReason === reason
+                    ? "bg-amber-600 text-white border-amber-600 font-semibold"
+                    : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:bg-zinc-200"
+                }`}
+              >
+                {reason}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <label
+            htmlFor={disputeReasonInputId}
+            className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1"
+          >
+            Reason for inquiry / dispute:
+          </label>
+          <textarea
+            id={disputeReasonInputId}
+            rows={3}
+            value={disputeReason}
+            onChange={(e) => onDisputeReasonChange(e.target.value)}
+            placeholder="e.g., We did not consume mini-bar items, or discount was not applied."
+            className="w-full p-3 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-amber-500"
+            data-testid="dispute-reason-textarea"
+          />
+        </div>
+
+        <div className="flex items-center justify-end gap-2 pt-2">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-4 py-2 rounded-xl text-xs font-semibold text-zinc-600 dark:text-zinc-400 min-h-[44px]"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            disabled={isSubmitting || !disputeReason.trim()}
+            onClick={onSubmitDispute}
+            className="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 disabled:opacity-40 text-white text-xs font-bold transition-all min-h-[44px]"
+            data-testid="submit-dispute-button"
+          >
+            {isSubmitting ? "Submitting..." : "Send Inquiry to Cashier"}
+          </button>
+        </div>
+      </div>
+    </DialogModal>
+  );
+}
+
 // ============================================================================
 // Main Component
 // ============================================================================
@@ -1228,68 +1347,17 @@ export function GuestLiveFolioTab({
       />
 
       {/* Item Query / Dispute Modal */}
-      <DialogModal
-        isOpen={Boolean(queryItem)}
+      <GuestDisputeModal
+        queryItem={queryItem}
+        disputeReason={disputeReason}
+        isSubmitting={isSubmittingDispute}
+        currency={currency}
+        exchangeRate={exchangeRate}
+        disputeReasonInputId={disputeReasonInputId}
         onClose={() => setQueryItem(null)}
-        title="Query Charge with Front Desk"
-        description="Notify the hotel cashier of any discrepancy before checkout so it can be resolved without receptionist delays."
-        size="md"
-      >
-        {queryItem && (
-          <div className="space-y-4 pt-2">
-            <div className="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800/60 text-xs space-y-1">
-              <div className="font-semibold text-zinc-900 dark:text-zinc-100">
-                {queryItem.description}
-              </div>
-              <div className="text-zinc-500 flex justify-between font-mono">
-                <span>
-                  {queryItem.date} {queryItem.time}
-                </span>
-                <span className="font-bold text-zinc-900 dark:text-zinc-100">
-                  {formatDisplayCurrency(queryItem.grossTotalLkr, currency, exchangeRate)}
-                </span>
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor={disputeReasonInputId}
-                className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1"
-              >
-                Reason for inquiry / dispute:
-              </label>
-              <textarea
-                id={disputeReasonInputId}
-                rows={3}
-                value={disputeReason}
-                onChange={(e) => setDisputeReason(e.target.value)}
-                placeholder="e.g., We did not consume mini-bar items, or discount was not applied."
-                className="w-full p-3 rounded-xl bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-xs text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                data-testid="dispute-reason-textarea"
-              />
-            </div>
-
-            <div className="flex items-center justify-end gap-2 pt-2">
-              <button
-                type="button"
-                onClick={() => setQueryItem(null)}
-                className="px-4 py-2 rounded-xl text-xs font-semibold text-zinc-600 dark:text-zinc-400 min-h-[44px]"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                disabled={isSubmittingDispute || !disputeReason.trim()}
-                onClick={handleSubmitDispute}
-                className="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 disabled:opacity-40 text-white text-xs font-bold transition-all min-h-[44px]"
-                data-testid="submit-dispute-button"
-              >
-                {isSubmittingDispute ? "Submitting..." : "Send Inquiry to Cashier"}
-              </button>
-            </div>
-          </div>
-        )}
-      </DialogModal>
+        onDisputeReasonChange={setDisputeReason}
+        onSubmitDispute={handleSubmitDispute}
+      />
     </div>
   );
 }
