@@ -131,3 +131,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 226: Build DOMSpeed-Style Category Manager with Drag/Sort Order & Icons (`src/admin/menus/CategoryManager.tsx`)
 - [x] Step 229: Build DOMSpeed Product / Menu Item Card Grid (`src/admin/menus/MenuItemGrid.tsx`)
 - [x] Step 230: Build Menu Item Creation & Edit Modal (`src/admin/menus/MenuItemModal.tsx`)
+- [x] Step 231: Build Dish Modifiers, Add-Ons & Portion Size Builder (`src/admin/menus/ModifierGroupInput.tsx`)
