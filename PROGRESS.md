@@ -139,5 +139,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 240: Build Allergen, Halal, Vegetarian, Vegan & Pork/Beef Free Dietary Badges (`src/components/DietaryBadges.tsx`)
 - [x] Step 241: Build Minibar Room Par-Stock & QR Self-Declaration Checklist (`src/admin/menus/MinibarCatalogEditor.tsx`)
 - [x] Step 242: Build Laundry & Dry Cleaning Price List Editor (`src/admin/menus/LaundryCatalogEditor.tsx`)
+- [x] Step 243: Build Bulk Menu Price Adjustment Tool (`src/admin/menus/BulkPriceModal.tsx`)
 
 
