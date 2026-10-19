@@ -126,3 +126,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 222: Implement Disputed Charge Flagging from Guest QR Folio View (`src/qr/GuestLiveFolioTab.tsx`)
 - [x] Step 223: Assemble Unified Folios, Cashiering & City Ledger Page (`src/admin/folios/FoliosAndBillingPage.tsx`)
 - [x] Step 225: Run Phase 9 Ponytail Review & Code Simplification Checkpoint
+
+## Phase 10: DOMSpeed-Parity Menu, Catalog, Modifiers, Recipe BOM & Multi-Department Service Admin
+- [x] Step 226: Build DOMSpeed-Style Category Manager with Drag/Sort Order & Icons (`src/admin/menus/CategoryManager.tsx`)
