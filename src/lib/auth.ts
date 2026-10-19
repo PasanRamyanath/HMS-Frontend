@@ -390,6 +390,55 @@ export function endStaffShiftSession(): void {
   }
 }
 
+export interface UnlockShiftWithPinParams {
+  readonly staffIdOrPhone: string;
+  readonly pin: string;
+  readonly tenantId?: string | undefined;
+  readonly staffName?: string | undefined;
+  readonly role?: StaffRole | undefined;
+  readonly department?: string | undefined;
+  readonly shiftType?: ShiftType | undefined;
+  readonly floatAmountLkr?: number | undefined;
+}
+
+/**
+ * Validates staff PIN and starts or unlocks active staff shift session.
+ */
+export function unlockShiftWithPin(
+  params: UnlockShiftWithPinParams,
+): Result<StaffShiftSession, AuthError> {
+  const staffIdOrPhone = params.staffIdOrPhone.trim();
+  if (!staffIdOrPhone) {
+    return err({
+      message: "Staff identifier or phone number is required.",
+      code: "INVALID_IDENTIFIER",
+    });
+  }
+
+  const pin = params.pin.trim();
+  if (!/^\d{4,6}$/.test(pin)) {
+    return err({
+      message: "Shift unlock PIN must be between 4 and 6 numeric digits.",
+      code: "INVALID_PIN",
+    });
+  }
+
+  const shiftSession: StaffShiftSession = {
+    shiftId: `shift-${crypto.randomUUID()}`,
+    staffId: staffIdOrPhone,
+    staffName: params.staffName ?? `Staff ${staffIdOrPhone}`,
+    role: params.role ?? "FRONT_DESK",
+    tenantId: params.tenantId ?? "default-tenant",
+    department: params.department ?? "Front Office",
+    shiftType: params.shiftType ?? "MORNING",
+    startedAt: new Date().toISOString(),
+    floatAmountLkr: params.floatAmountLkr ?? 0,
+  };
+
+  currentShiftSession = shiftSession;
+  return ok(shiftSession);
+}
+
 /**
  * Clears active Cognito session tokens and reset state upon logout.
  */

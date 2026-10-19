@@ -12,6 +12,7 @@ import {
   type StaffRole,
   type StaffShiftSession,
   type StartShiftParams,
+  type UnlockShiftWithPinParams,
   confirmSignUpOtp,
   endStaffShiftSession,
   forgotPassword,
@@ -22,6 +23,7 @@ import {
   logoutStaff,
   registerHotelAdmin,
   startStaffShiftSession,
+  unlockShiftWithPin,
 } from "../src/lib/auth.js";
 import { getActiveTenantId } from "../src/lib/graphqlClient.js";
 
@@ -120,6 +122,52 @@ describe("Lightweight Cognito Auth & Staff Shift Client (auth.ts)", () => {
       endStaffShiftSession();
       const endedSession = getCurrentShiftSession();
       assert.ok(endedSession?.endedAt);
+    });
+
+    it("successfully unlocks shift with valid 4 to 6 digit numeric PIN", () => {
+      const pinParams: UnlockShiftWithPinParams = {
+        staffIdOrPhone: "0771234567",
+        pin: "4321",
+        tenantId: "tenant-sigiriya-resort",
+        staffName: "Amara Silva",
+        role: "KITCHEN_KDS",
+      };
+      const result = unlockShiftWithPin(pinParams);
+
+      assert.strictEqual(result.ok, true);
+      if (result.ok) {
+        assert.strictEqual(result.value.staffId, "0771234567");
+        assert.strictEqual(result.value.staffName, "Amara Silva");
+        assert.strictEqual(result.value.role, "KITCHEN_KDS");
+        assert.strictEqual(result.value.tenantId, "tenant-sigiriya-resort");
+        assert.strictEqual(getCurrentShiftSession()?.staffId, "0771234567");
+      }
+    });
+
+    it("rejects empty staff identifier", () => {
+      const result = unlockShiftWithPin({
+        staffIdOrPhone: "   ",
+        pin: "1234",
+      });
+
+      assert.strictEqual(result.ok, false);
+      if (!result.ok) {
+        assert.strictEqual(result.error.code, "INVALID_IDENTIFIER");
+      }
+    });
+
+    it("rejects invalid PIN format (non-numeric, too short, or too long)", () => {
+      const tooShort = unlockShiftWithPin({ staffIdOrPhone: "emp-1", pin: "12" });
+      assert.strictEqual(tooShort.ok, false);
+      if (!tooShort.ok) assert.strictEqual(tooShort.error.code, "INVALID_PIN");
+
+      const tooLong = unlockShiftWithPin({ staffIdOrPhone: "emp-1", pin: "1234567" });
+      assert.strictEqual(tooLong.ok, false);
+      if (!tooLong.ok) assert.strictEqual(tooLong.error.code, "INVALID_PIN");
+
+      const nonNumeric = unlockShiftWithPin({ staffIdOrPhone: "emp-1", pin: "abcd" });
+      assert.strictEqual(nonNumeric.ok, false);
+      if (!nonNumeric.ok) assert.strictEqual(nonNumeric.error.code, "INVALID_PIN");
     });
   });
 
