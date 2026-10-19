@@ -171,4 +171,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 273: Optimize Guest QR Route Bundle for Sub-Second 3G Load (`src/qr/index.ts`)
 - [x] Step 275: Run Phase 11 Ponytail Review & Code Simplification Checkpoint (`src/qr/`)
 
-
+## Phase 12: Kitchen Display System (KDS), Bar Order Tracker (BOT) & Waiter Tablet POS (`packages/web/src/staff`)
+- [x] Step 276: Build Touch-First 3-Column Kitchen Display System (KDS) Kanban Board (`src/staff/kds/KdsKanbanView.tsx`)

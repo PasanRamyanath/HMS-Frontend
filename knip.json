@@ -5,6 +5,6 @@
   "ignoreDependencies": ["@biomejs/biome", "lefthook", "tailwindcss"],
   "ignoreBinaries": ["vite", "tsc", "biome", "knip"],
   "ignore": ["src/generated/**"],
-  "entry": ["index.html!", "src/qr/index.ts!", "test/**/*.test.ts"],
+  "entry": ["index.html!", "src/qr/index.ts!", "src/staff/kds/index.ts!", "test/**/*.test.ts"],
   "project": ["src/**/*.{ts,tsx}!", "test/**/*.test.ts"]
 }
