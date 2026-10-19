@@ -10,6 +10,7 @@ import { type SupportedLanguage, useTranslation } from "../lib/i18n.js";
 import { getCurrentPath } from "../lib/router.js";
 import { CategoryPillsBar } from "./CategoryPillsBar.js";
 import { DepartmentTabs, type QrDepartment } from "./DepartmentTabs.js";
+import { DishModifierSheet } from "./DishModifierSheet.js";
 import { DEFAULT_SAMPLE_DISHES, type GuestDish, GuestDishCard } from "./GuestDishCard.js";
 import { type DisplayCurrency, GuestHeaderBar } from "./GuestHeaderBar.js";
 
@@ -426,6 +427,7 @@ interface GuestActiveServiceViewProps {
   readonly cartQuantities?: Record<string, number> | undefined;
   readonly onIncrementDish?: ((dish: GuestDish) => void) | undefined;
   readonly onDecrementDish?: ((dish: GuestDish) => void) | undefined;
+  readonly onOpenCustomization?: ((dish: GuestDish) => void) | undefined;
 }
 
 function GuestActiveServiceView({
@@ -436,6 +438,7 @@ function GuestActiveServiceView({
   cartQuantities = {},
   onIncrementDish,
   onDecrementDish,
+  onOpenCustomization,
 }: GuestActiveServiceViewProps) {
   if (activeTab === "DINING") {
     return (
@@ -457,6 +460,7 @@ function GuestActiveServiceView({
               quantity={cartQuantities[dish.id] ?? 0}
               onIncrement={onIncrementDish}
               onDecrement={onDecrementDish}
+              onOpenCustomization={onOpenCustomization}
               language={language}
               currency={currency}
             />
@@ -516,6 +520,7 @@ export function GuestQrApp({
   const [activeCurrency, setActiveCurrency] = useState<DisplayCurrency>("LKR");
   const [selectedCategory, setSelectedCategory] = useState<string>("CAT-RICE-CURRY");
   const [cartQuantities, setCartQuantities] = useState<Record<string, number>>({});
+  const [customizingDish, setCustomizingDish] = useState<GuestDish | null>(null);
 
   const totalCartCount = useMemo(() => {
     return Object.values(cartQuantities).reduce((acc, q) => acc + q, 0);
@@ -642,8 +647,23 @@ export function GuestQrApp({
           cartQuantities={cartQuantities}
           onIncrementDish={handleIncrementDish}
           onDecrementDish={handleDecrementDish}
+          onOpenCustomization={(dish) => setCustomizingDish(dish)}
         />
       </div>
+
+      {/* Dish Customization & Modifier Bottom Sheet */}
+      <DishModifierSheet
+        isOpen={Boolean(customizingDish)}
+        dish={customizingDish}
+        language={currentLanguage}
+        onClose={() => setCustomizingDish(null)}
+        onConfirm={(customized) => {
+          setCartQuantities((prev) => ({
+            ...prev,
+            [customized.dishId]: (prev[customized.dishId] ?? 0) + customized.quantity,
+          }));
+        }}
+      />
     </div>
   );
 }

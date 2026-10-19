@@ -153,5 +153,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 253: Build Multi-Department Service Pill Switcher (`src/qr/DepartmentTabs.tsx`)
 - [x] Step 254: Build Horizontal Sticky Category Carousel (`src/qr/CategoryPillsBar.tsx`)
 - [x] Step 255: Build DOMSpeed-Style Dish Card with 1:1 Square WebP Thumbnail & Stepper (`src/qr/GuestDishCard.tsx`)
+- [x] Step 256: Build Dish Customization, Spice Level & Add-Ons Bottom Sheet (`src/qr/DishModifierSheet.tsx`)
 
 
