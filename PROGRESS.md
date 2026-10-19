@@ -111,3 +111,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 205: Build Live 4-Stage Sri Lankan Tax Breakdown & Reverse-Mode Inspector (`src/admin/folios/TaxBreakdownCard.tsx`)
 - [x] Step 206: Build Multi-Tender Payment Settlement Modal (`src/admin/folios/SettleFolioModal.tsx`)
 - [x] Step 207: Build Front-Desk Customer-Facing LankaQR & Alipay+ Dynamic Display Modal (`src/admin/folios/FrontDeskLankaQrModal.tsx`)
+- [x] Step 208: Build Official IRD / SLTDA A4 Tax Invoice & Commercial Invoice Template (`src/admin/folios/PrintableTaxInvoice.tsx`)
