@@ -16,6 +16,7 @@ import { GuestCartDrawer } from "./GuestCartDrawer.js";
 import { DEFAULT_SAMPLE_DISHES, type GuestDish, GuestDishCard } from "./GuestDishCard.js";
 import { type DisplayCurrency, GuestHeaderBar } from "./GuestHeaderBar.js";
 import { GuestLankaQrPay, type GuestPaymentResult } from "./GuestLankaQrPay.js";
+import { LiveOrderTracker } from "./LiveOrderTracker.js";
 import { RoomChargeAuthBox, type RoomChargeAuthResult } from "./RoomChargeAuthBox.js";
 import { useGuestCart } from "./useGuestCart.js";
 
@@ -529,6 +530,7 @@ export function GuestQrApp({
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState<boolean>(false);
   const [isRoomAuthOpen, setIsRoomAuthOpen] = useState<boolean>(false);
   const [isLankaQrOpen, setIsLankaQrOpen] = useState<boolean>(false);
+  const [activeOrderId, setActiveOrderId] = useState<string | null>(null);
 
   const cartQuantities = useMemo(() => {
     const map: Record<string, number> = {};
@@ -607,13 +609,17 @@ export function GuestQrApp({
 
         {/* Multi-Department Service Pill Switcher */}
         <DepartmentTabs
-          activeDepartment={activeTab === "FOLIO" ? "DINING" : (activeTab as QrDepartment)}
+          activeDepartment={
+            activeTab === "FOLIO" || activeTab === "ORDER_STATUS"
+              ? "DINING"
+              : (activeTab as QrDepartment)
+          }
           onSelectDepartment={(dept) => handleTabChange(dept)}
           isRoomSession={location.type === "IN_ROOM"}
         />
 
         {/* Horizontal Sticky Category Carousel */}
-        {activeTab !== "FOLIO" && (
+        {activeTab !== "FOLIO" && activeTab !== "ORDER_STATUS" && (
           <div className="mb-4">
             <CategoryPillsBar
               activeDepartment={activeTab}
@@ -625,9 +631,24 @@ export function GuestQrApp({
           </div>
         )}
 
-        {/* Live Folio Shortcut for Checked-In Guests */}
-        {location.folioPostingAllowed && (
-          <div className="mb-4 flex justify-end">
+        {/* Shortcuts for Live Folio & Active Order Tracking */}
+        <div className="mb-4 flex justify-end gap-2">
+          {activeOrderId && (
+            <button
+              type="button"
+              onClick={() => handleTabChange("ORDER_STATUS")}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-300 ease-apple-spring inline-flex items-center gap-1.5 min-h-[44px] cursor-pointer ${
+                activeTab === "ORDER_STATUS"
+                  ? "bg-[#E8772E] text-white shadow-md"
+                  : "apple-liquid-glass text-[#E8772E] border border-orange-500/30"
+              }`}
+            >
+              <span className="w-2 h-2 rounded-full bg-[#E8772E] animate-ping" />
+              <span>🛵 Live Order</span>
+            </button>
+          )}
+
+          {location.folioPostingAllowed && (
             <button
               type="button"
               onClick={() => handleTabChange("FOLIO")}
@@ -639,20 +660,29 @@ export function GuestQrApp({
             >
               <span>🧾</span> Live Folio
             </button>
-          </div>
-        )}
+          )}
+        </div>
 
-        {/* Dynamic Service View with Dishes */}
-        <GuestActiveServiceView
-          activeTab={activeTab}
-          locationName={location.displayName}
-          language={currentLanguage}
-          currency={activeCurrency}
-          cartQuantities={cartQuantities}
-          onIncrementDish={handleIncrementDish}
-          onDecrementDish={handleDecrementDish}
-          onOpenCustomization={(dish) => setCustomizingDish(dish)}
-        />
+        {/* Dynamic Service View or Live Order Tracker */}
+        {activeTab === "ORDER_STATUS" && activeOrderId ? (
+          <LiveOrderTracker
+            orderId={activeOrderId}
+            language={currentLanguage}
+            usdExchangeRate={brand.approxUsdRate}
+            onBackToMenu={() => handleTabChange("DINING")}
+          />
+        ) : (
+          <GuestActiveServiceView
+            activeTab={activeTab}
+            locationName={location.displayName}
+            language={currentLanguage}
+            currency={activeCurrency}
+            cartQuantities={cartQuantities}
+            onIncrementDish={handleIncrementDish}
+            onDecrementDish={handleDecrementDish}
+            onOpenCustomization={(dish) => setCustomizingDish(dish)}
+          />
+        )}
       </div>
 
       {/* Dish Customization & Modifier Bottom Sheet */}
@@ -715,6 +745,9 @@ export function GuestQrApp({
               language={currentLanguage}
               onAuthorize={(_result: RoomChargeAuthResult) => {
                 setIsRoomAuthOpen(false);
+                const orderId = `ORD-${Date.now().toString(36).toUpperCase()}`;
+                setActiveOrderId(orderId);
+                setActiveTab("ORDER_STATUS");
                 cart.clearCart();
               }}
               onCancel={() => setIsRoomAuthOpen(false)}
@@ -735,6 +768,10 @@ export function GuestQrApp({
               language={currentLanguage}
               onPaymentSuccess={(_result: GuestPaymentResult) => {
                 setIsLankaQrOpen(false);
+                const orderId =
+                  _result.referenceId || `ORD-${Date.now().toString(36).toUpperCase()}`;
+                setActiveOrderId(orderId);
+                setActiveTab("ORDER_STATUS");
                 cart.clearCart();
               }}
               onCancel={() => setIsLankaQrOpen(false)}
