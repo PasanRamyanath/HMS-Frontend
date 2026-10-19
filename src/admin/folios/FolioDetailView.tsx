@@ -4,6 +4,7 @@ import { GlassCard } from "../../components/GlassCard.js";
 import { StatusBadge, type StatusColor } from "../../components/StatusBadge.js";
 import { Department } from "../../generated/graphql.js";
 import { formatLkr } from "../../lib/i18n.js";
+import { PostFolioLineModal, type PostFolioLinePayload } from "./PostFolioLineModal.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -71,6 +72,7 @@ export interface FolioDetailViewProps {
   ) => Promise<void> | void;
   readonly onVoidLine?: (lineId: string, reason: string) => Promise<void> | void;
   readonly onOpenPostChargeModal?: () => void;
+  readonly onPostChargeLine?: (payload: PostFolioLinePayload) => Promise<void> | void;
   readonly onOpenSettleModal?: (partition: FolioPartition) => void;
   readonly className?: string | undefined;
 }
@@ -546,6 +548,7 @@ export function FolioDetailView({
   onTransferLine,
   onVoidLine,
   onOpenPostChargeModal,
+  onPostChargeLine,
   onOpenSettleModal,
   className = "",
 }: FolioDetailViewProps) {
@@ -559,6 +562,8 @@ export function FolioDetailView({
   const [transferReason, setTransferReason] = useState("");
   const [selectedLineForVoid, setSelectedLineForVoid] = useState<FolioItemView | null>(null);
   const [voidReason, setVoidReason] = useState("");
+  const [isPostChargeModalOpen, setIsPostChargeModalOpen] = useState(false);
+  const [postModalPartition, setPostModalPartition] = useState<FolioPartition>("GUEST_PERSONAL");
   const [notification, setNotification] = useState<string | null>(null);
 
   const masterLines = useMemo(() => lines.filter((l) => l.partition === "MASTER_DMC"), [lines]);
@@ -567,6 +572,45 @@ export function FolioDetailView({
 
   const masterSummary = useMemo(() => computeFolioFinancialSummary(masterLines), [masterLines]);
   const guestSummary = useMemo(() => computeFolioFinancialSummary(guestLines), [guestLines]);
+
+  const handleOpenPostModal = (targetPartition: FolioPartition) => {
+    if (onOpenPostChargeModal) {
+      onOpenPostChargeModal();
+    } else {
+      setPostModalPartition(targetPartition);
+      setIsPostChargeModalOpen(true);
+    }
+  };
+
+  const handlePostFolioLine = async (payload: PostFolioLinePayload) => {
+    if (onPostChargeLine) {
+      await onPostChargeLine(payload);
+    }
+    const newLineId = `FOL-LINE-${Date.now()}`;
+    const newLine: FolioItemView = {
+      id: newLineId,
+      department: payload.department,
+      description: payload.description,
+      quantity: payload.quantity,
+      unitPriceLkr: payload.unitPriceLkr,
+      baseSupplyLkr: payload.baseSupplyLkr,
+      serviceChargeLkr: payload.serviceChargeLkr,
+      tdlLkr: payload.tdlLkr,
+      ssclLkr: payload.ssclLkr,
+      vatLkr: payload.vatLkr,
+      totalGrossLkr: payload.totalGrossLkr,
+      isVoided: false,
+      partition: payload.partition,
+      createdAt: new Date().toISOString(),
+    };
+    setLines((prev) => [...prev, newLine]);
+    setNotification(
+      `Posted '${payload.description}' to ${
+        payload.partition === "MASTER_DMC" ? "DMC Master" : "Guest Personal"
+      } folio.`,
+    );
+    setTimeout(() => setNotification(null), 3000);
+  };
 
   const handleOpenTransfer = (line: FolioItemView) => {
     setSelectedLineForTransfer(line);
@@ -648,7 +692,7 @@ export function FolioDetailView({
           onTransferClick={handleOpenTransfer}
           onVoidClick={handleOpenVoid}
           onSettleClick={() => onOpenSettleModal?.("MASTER_DMC")}
-          onPostChargeClick={() => onOpenPostChargeModal?.()}
+          onPostChargeClick={() => handleOpenPostModal("MASTER_DMC")}
         />
 
         {/* Right: Guest Personal Folio */}
@@ -659,7 +703,7 @@ export function FolioDetailView({
           onTransferClick={handleOpenTransfer}
           onVoidClick={handleOpenVoid}
           onSettleClick={() => onOpenSettleModal?.("GUEST_PERSONAL")}
-          onPostChargeClick={() => onOpenPostChargeModal?.()}
+          onPostChargeClick={() => handleOpenPostModal("GUEST_PERSONAL")}
         />
       </div>
 
@@ -754,6 +798,20 @@ export function FolioDetailView({
           </div>
         </div>
       </DialogModal>
+
+      {/* 5. Post Folio Line Modal */}
+      <PostFolioLineModal
+        isOpen={isPostChargeModalOpen}
+        onClose={() => setIsPostChargeModalOpen(false)}
+        onSubmit={handlePostFolioLine}
+        defaultPartition={postModalPartition}
+        guestContext={{
+          guestFullName: reservation.guestFullName,
+          roomNumber: reservation.roomNumber,
+          bookingReference: reservation.bookingReference,
+          dmcContractName: reservation.dmcContractName,
+        }}
+      />
     </div>
   );
 }
