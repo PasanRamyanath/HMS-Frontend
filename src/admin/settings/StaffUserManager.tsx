@@ -494,6 +494,7 @@ function StaffIdentityFields({
         </label>
         <input
           id={`${formId}-fullName`}
+          name="fullName"
           type="text"
           value={formDraft.fullName ?? ""}
           onChange={(e) => onChangeDraft({ ...formDraft, fullName: e.target.value })}
@@ -514,6 +515,7 @@ function StaffIdentityFields({
         </label>
         <input
           id={`${formId}-email`}
+          name="email"
           type="email"
           value={formDraft.email ?? ""}
           onChange={(e) => onChangeDraft({ ...formDraft, email: e.target.value })}
@@ -534,6 +536,7 @@ function StaffIdentityFields({
         </label>
         <input
           id={`${formId}-phone`}
+          name="phone"
           type="tel"
           value={formDraft.phone ?? ""}
           onChange={(e) => onChangeDraft({ ...formDraft, phone: e.target.value })}
@@ -551,6 +554,7 @@ function StaffIdentityFields({
         </label>
         <input
           id={`${formId}-epf`}
+          name="epfNumber"
           type="text"
           value={formDraft.epfNumber ?? ""}
           onChange={(e) => onChangeDraft({ ...formDraft, epfNumber: e.target.value })}
@@ -754,7 +758,7 @@ interface StaffModalDialogProps {
   readonly formDraft: Partial<StaffUser>;
   readonly formErrors: StaffValidationErrors;
   readonly onClose: () => void;
-  readonly onSave: (e: React.FormEvent) => void;
+  readonly onSave: (e: React.FormEvent<HTMLFormElement>) => void;
   readonly onChangeDraft: (updated: Partial<StaffUser>) => void;
 }
 
@@ -892,15 +896,24 @@ export function StaffUserManager({
     }
   };
 
-  const handleSaveModal = (e: React.FormEvent) => {
+  const handleSaveModal = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const validation = validateStaffUser(formDraft);
+    const form = new FormData(e.currentTarget);
+    const candidateDraft: Partial<StaffUser> = {
+      ...formDraft,
+      fullName: ((form.get("fullName") as string | null) ?? formDraft.fullName ?? "").trim(),
+      email: ((form.get("email") as string | null) ?? formDraft.email ?? "").trim(),
+      phone: ((form.get("phone") as string | null) ?? formDraft.phone ?? "").trim(),
+      epfNumber: ((form.get("epfNumber") as string | null) ?? formDraft.epfNumber ?? "").trim(),
+    };
+
+    const validation = validateStaffUser(candidateDraft);
     if (!validation.isValid) {
       setFormErrors(validation.errors);
       return;
     }
 
-    const candidate = buildStaffCandidate(formDraft, `staff-${Date.now().toString(36)}`);
+    const candidate = buildStaffCandidate(candidateDraft, `staff-${Date.now().toString(36)}`);
     const isEditing = editingStaff !== null;
     const updated = updateStaffRoster(staffList, candidate, isEditing);
 

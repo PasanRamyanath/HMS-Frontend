@@ -99,11 +99,24 @@ export function PropertyProfileForm({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saveSuccess, setSaveSuccess] = useState(false);
 
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSaveSuccess(false);
 
-    const validationErrors = validatePropertyProfile(formData);
+    const form = new FormData(event.currentTarget);
+    const resolvedData: PropertyProfileData = {
+      shopName: ((form.get("shopName") as string | null) ?? formData.shopName).trim(),
+      businessType: formData.businessType,
+      contactPhone: ((form.get("contactPhone") as string | null) ?? formData.contactPhone).trim(),
+      email: ((form.get("email") as string | null) ?? formData.email).trim(),
+      address: ((form.get("address") as string | null) ?? formData.address).trim(),
+      city: ((form.get("city") as string | null) ?? formData.city).trim(),
+      bannerUrl: formData.bannerUrl,
+      logoUrl: formData.logoUrl,
+      description: ((form.get("description") as string | null) ?? formData.description).trim(),
+    };
+
+    const validationErrors = validatePropertyProfile(resolvedData);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -112,8 +125,8 @@ export function PropertyProfileForm({
     setErrors({});
     if (onSave) {
       await onSave({
-        ...formData,
-        contactPhone: normalizeSriLankanPhone(formData.contactPhone),
+        ...resolvedData,
+        contactPhone: normalizeSriLankanPhone(resolvedData.contactPhone),
       });
       setSaveSuccess(true);
     }
@@ -196,8 +209,10 @@ export function PropertyProfileForm({
             </label>
             <input
               id={`${formId}-shopName`}
+              name="shopName"
               type="text"
               required
+              minLength={2}
               value={formData.shopName}
               onChange={(e) => handleFieldChange("shopName", e.target.value)}
               placeholder="e.g. Galle Fort Lighthouse Villa"
@@ -215,6 +230,7 @@ export function PropertyProfileForm({
             </label>
             <select
               id={`${formId}-city`}
+              name="city"
               value={formData.city}
               onChange={(e) => handleFieldChange("city", e.target.value)}
               className="w-full min-h-[44px] px-3.5 rounded-xl border border-slate-300 dark:border-white/10 bg-white/70 dark:bg-black/40 text-sm focus:outline-none focus:ring-2 focus:ring-apple-blue transition-apple-spring cursor-pointer"
@@ -238,6 +254,7 @@ export function PropertyProfileForm({
           </label>
           <textarea
             id={`${formId}-description`}
+            name="description"
             rows={2}
             value={formData.description}
             onChange={(e) => handleFieldChange("description", e.target.value)}
@@ -263,6 +280,7 @@ export function PropertyProfileForm({
             </label>
             <input
               id={`${formId}-contactPhone`}
+              name="contactPhone"
               type="tel"
               required
               value={formData.contactPhone}
@@ -284,6 +302,7 @@ export function PropertyProfileForm({
             </label>
             <input
               id={`${formId}-email`}
+              name="email"
               type="email"
               value={formData.email}
               onChange={(e) => handleFieldChange("email", e.target.value)}
@@ -303,6 +322,7 @@ export function PropertyProfileForm({
           </label>
           <input
             id={`${formId}-address`}
+            name="address"
             type="text"
             value={formData.address}
             onChange={(e) => handleFieldChange("address", e.target.value)}

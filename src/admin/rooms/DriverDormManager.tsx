@@ -419,20 +419,35 @@ function BedModal({ isOpen, initialData, existingBeds, onClose, onSave }: BedMod
   const [notes, setNotes] = useState(() => initialData?.notes ?? "");
   const [validationError, setValidationError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const resolvedBedNumber = ((form.get("bedNumber") as string | null) ?? bedNumber).trim();
+    const resolvedDormBlock = ((form.get("dormBlock") as string | null) ?? dormBlock).trim();
+    const resolvedDriverName = (
+      (form.get("assignedDriverName") as string | null) ?? assignedDriverName
+    ).trim();
+    const resolvedDriverPhone = (
+      (form.get("assignedDriverPhone") as string | null) ?? assignedDriverPhone
+    ).trim();
+    const resolvedGuestRoom = (
+      (form.get("assignedGuestRoomNumber") as string | null) ?? assignedGuestRoomNumber
+    ).trim();
+    const resolvedVehicle = ((form.get("vehicleNumber") as string | null) ?? vehicleNumber).trim();
+    const resolvedNotes = ((form.get("notes") as string | null) ?? notes).trim();
+
     const candidate = buildDriverBedCandidate(
       initialData?.id,
-      bedNumber,
-      dormBlock,
+      resolvedBedNumber,
+      resolvedDormBlock,
       housekeepingStatus,
       isOccupied,
       hasLocker,
-      assignedDriverName,
-      assignedDriverPhone,
-      assignedGuestRoomNumber,
-      vehicleNumber,
-      notes,
+      resolvedDriverName,
+      resolvedDriverPhone,
+      resolvedGuestRoom,
+      resolvedVehicle,
+      resolvedNotes,
     );
 
     const validation = validateDriverBed(candidate, existingBeds, initialData?.id);
@@ -471,6 +486,7 @@ function BedModal({ isOpen, initialData, existingBeds, onClose, onSave }: BedMod
             </label>
             <input
               id={bedNumberId}
+              name="bedNumber"
               type="text"
               required
               placeholder="e.g. Bed D-07"
@@ -489,6 +505,7 @@ function BedModal({ isOpen, initialData, existingBeds, onClose, onSave }: BedMod
             </label>
             <input
               id={dormBlockId}
+              name="dormBlock"
               type="text"
               required
               placeholder="e.g. Chauffeur Annex Block A"
@@ -560,6 +577,7 @@ function BedModal({ isOpen, initialData, existingBeds, onClose, onSave }: BedMod
                 </label>
                 <input
                   id={driverNameId}
+                  name="assignedDriverName"
                   type="text"
                   placeholder="e.g. Sunil Perera"
                   value={assignedDriverName}
@@ -577,6 +595,7 @@ function BedModal({ isOpen, initialData, existingBeds, onClose, onSave }: BedMod
                 </label>
                 <input
                   id={driverPhoneId}
+                  name="assignedDriverPhone"
                   type="text"
                   placeholder="077xxxxxxx"
                   value={assignedDriverPhone}
@@ -596,6 +615,7 @@ function BedModal({ isOpen, initialData, existingBeds, onClose, onSave }: BedMod
                 </label>
                 <input
                   id={guestRoomId}
+                  name="assignedGuestRoomNumber"
                   type="text"
                   placeholder="e.g. 102"
                   value={assignedGuestRoomNumber}
@@ -613,6 +633,7 @@ function BedModal({ isOpen, initialData, existingBeds, onClose, onSave }: BedMod
                 </label>
                 <input
                   id={vehicleId}
+                  name="vehicleNumber"
                   type="text"
                   placeholder="e.g. WP CAB-1942"
                   value={vehicleNumber}
@@ -633,6 +654,7 @@ function BedModal({ isOpen, initialData, existingBeds, onClose, onSave }: BedMod
           </label>
           <input
             id={notesId}
+            name="notes"
             type="text"
             placeholder="e.g. Ground level bunk, near window"
             value={notes}

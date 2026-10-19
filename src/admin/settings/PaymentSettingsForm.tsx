@@ -238,6 +238,7 @@ function PayHereCard({ data, onChange, errors, disabled, formId }: PayHereCardPr
             </label>
             <input
               id={`${formId}-phMid`}
+              name="payHereMerchantId"
               type="text"
               disabled={disabled}
               value={data.payHereMerchantId}
@@ -268,6 +269,7 @@ function PayHereCard({ data, onChange, errors, disabled, formId }: PayHereCardPr
             </div>
             <input
               id={`${formId}-phSecret`}
+              name="payHereMerchantSecret"
               type={showSecret ? "text" : "password"}
               disabled={disabled}
               value={data.payHereMerchantSecret}
@@ -331,6 +333,7 @@ function WebXPayCard({ data, onChange, errors, disabled, formId }: WebXPayCardPr
             </label>
             <input
               id={`${formId}-wxPub`}
+              name="webXPayPublicKey"
               type="text"
               disabled={disabled}
               value={data.webXPayPublicKey}
@@ -352,6 +355,7 @@ function WebXPayCard({ data, onChange, errors, disabled, formId }: WebXPayCardPr
             </label>
             <input
               id={`${formId}-wxSec`}
+              name="webXPaySecretKey"
               type="password"
               disabled={disabled}
               value={data.webXPaySecretKey}
@@ -449,6 +453,7 @@ function LankaQrSection({ data, onChange, errors, disabled, formId }: LankaQrSec
               </label>
               <input
                 id={`${formId}-lqrMid`}
+                name="lankaQrMerchantId"
                 type="text"
                 disabled={disabled}
                 value={data.lankaQrMerchantId}
@@ -471,6 +476,7 @@ function LankaQrSection({ data, onChange, errors, disabled, formId }: LankaQrSec
                 </label>
                 <input
                   id={`${formId}-lqrName`}
+                  name="lankaQrMerchantName"
                   type="text"
                   maxLength={25}
                   disabled={disabled}
@@ -493,6 +499,7 @@ function LankaQrSection({ data, onChange, errors, disabled, formId }: LankaQrSec
                 </label>
                 <input
                   id={`${formId}-lqrCity`}
+                  name="lankaQrMerchantCity"
                   type="text"
                   maxLength={15}
                   disabled={disabled}
@@ -539,6 +546,7 @@ function LankaQrSection({ data, onChange, errors, disabled, formId }: LankaQrSec
                 </label>
                 <input
                   id={`${formId}-settleAcc`}
+                  name="settlementAccountNo"
                   type="text"
                   disabled={disabled}
                   value={data.settlementAccountNo}
@@ -635,11 +643,40 @@ export function PaymentSettingsForm({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saveSuccess, setSaveSuccess] = useState(false);
 
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSaveSuccess(false);
 
-    const validationErrors = validatePaymentSettings(formData);
+    const form = new FormData(event.currentTarget);
+    const resolvedData: PaymentSettingsData = {
+      ...formData,
+      payHereMerchantId: (
+        (form.get("payHereMerchantId") as string | null) ?? formData.payHereMerchantId
+      ).trim(),
+      payHereMerchantSecret: (
+        (form.get("payHereMerchantSecret") as string | null) ?? formData.payHereMerchantSecret
+      ).trim(),
+      webXPayPublicKey: (
+        (form.get("webXPayPublicKey") as string | null) ?? formData.webXPayPublicKey
+      ).trim(),
+      webXPaySecretKey: (
+        (form.get("webXPaySecretKey") as string | null) ?? formData.webXPaySecretKey
+      ).trim(),
+      lankaQrMerchantId: (
+        (form.get("lankaQrMerchantId") as string | null) ?? formData.lankaQrMerchantId
+      ).trim(),
+      lankaQrMerchantName: (
+        (form.get("lankaQrMerchantName") as string | null) ?? formData.lankaQrMerchantName
+      ).trim(),
+      lankaQrMerchantCity: (
+        (form.get("lankaQrMerchantCity") as string | null) ?? formData.lankaQrMerchantCity
+      ).trim(),
+      settlementAccountNo: (
+        (form.get("settlementAccountNo") as string | null) ?? formData.settlementAccountNo
+      ).trim(),
+    };
+
+    const validationErrors = validatePaymentSettings(resolvedData);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -647,7 +684,7 @@ export function PaymentSettingsForm({
 
     setErrors({});
     if (onSave) {
-      await onSave(formData);
+      await onSave(resolvedData);
       setSaveSuccess(true);
     }
   };

@@ -137,6 +137,7 @@ function ProviderCredentialsCard({
           </label>
           <input
             id={`${formId}-mask`}
+            name="senderMask"
             type="text"
             maxLength={11}
             disabled={disabled}
@@ -171,6 +172,7 @@ function ProviderCredentialsCard({
           </div>
           <input
             id={`${formId}-key`}
+            name="apiKey"
             type={showSecret ? "text" : "password"}
             disabled={disabled}
             value={data.apiKey}
@@ -401,11 +403,20 @@ export function SmsSettingsForm({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saveSuccess, setSaveSuccess] = useState(false);
 
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSaveSuccess(false);
 
-    const validationErrors = validateSmsSettings(formData);
+    const form = new FormData(event.currentTarget);
+    const resolvedData: SmsSettingsData = {
+      ...formData,
+      senderMask: sanitizeSenderMask(
+        ((form.get("senderMask") as string | null) ?? formData.senderMask).trim(),
+      ),
+      apiKey: ((form.get("apiKey") as string | null) ?? formData.apiKey).trim(),
+    };
+
+    const validationErrors = validateSmsSettings(resolvedData);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -413,7 +424,7 @@ export function SmsSettingsForm({
 
     setErrors({});
     if (onSave) {
-      await onSave(formData);
+      await onSave(resolvedData);
       setSaveSuccess(true);
     }
   };

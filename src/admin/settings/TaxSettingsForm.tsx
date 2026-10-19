@@ -222,11 +222,19 @@ export function TaxSettingsForm({
     }
   };
 
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSaveSuccess(false);
 
-    const validationErrors = validateTaxSettings(formData);
+    const form = new FormData(event.currentTarget);
+    const resolvedData: TaxSettingsData = {
+      ...formData,
+      sltdaRegNo: ((form.get("sltdaRegNo") as string | null) ?? formData.sltdaRegNo).trim(),
+      tinNo: ((form.get("tinNo") as string | null) ?? formData.tinNo).trim(),
+      vatRegNo: ((form.get("vatRegNo") as string | null) ?? formData.vatRegNo).trim(),
+    };
+
+    const validationErrors = validateTaxSettings(resolvedData);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -234,7 +242,7 @@ export function TaxSettingsForm({
 
     setErrors({});
     if (onSave) {
-      await onSave(formData);
+      await onSave(resolvedData);
       setSaveSuccess(true);
     }
   };
@@ -290,6 +298,7 @@ export function TaxSettingsForm({
             </label>
             <input
               id={`${formId}-sltdaRegNo`}
+              name="sltdaRegNo"
               type="text"
               required
               value={formData.sltdaRegNo}
@@ -309,6 +318,7 @@ export function TaxSettingsForm({
             </label>
             <input
               id={`${formId}-tinNo`}
+              name="tinNo"
               type="text"
               required
               maxLength={9}
@@ -329,6 +339,7 @@ export function TaxSettingsForm({
             </label>
             <input
               id={`${formId}-vatRegNo`}
+              name="vatRegNo"
               type="text"
               value={formData.vatRegNo}
               onChange={(e) => setFormData((p) => ({ ...p, vatRegNo: e.target.value }))}
