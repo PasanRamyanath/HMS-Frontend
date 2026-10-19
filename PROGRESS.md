@@ -28,6 +28,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 107: Implement Client-Side HTML5 <canvas> WebP Image Resizer & Squircle Thumbnail Cropper (`src/lib/imageWebp.ts`)
 - [x] Step 108: Implement High-Contrast Apple-Styled SVG QR Code Renderer for Room Stands & LankaQR (`src/lib/qrSvg.ts`)
 - [x] Step 109: Implement Web Audio API Harmonic Chime Synthesizer for New KDS & Housekeeping Alerts (`src/lib/soundAlert.ts`)
-
-
-
+- [x] Step 110: Build Apple HIG Liquid Glass Card & Bento Surface Primitive (`src/components/GlassCard.tsx`)
+- [ ] Step 111: Build iOS/macOS Sliding Pill Segmented Control Component (`src/components/SegmentedControl.tsx`)
