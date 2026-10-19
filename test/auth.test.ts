@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, it } from "node:test";
 import {
   type AuthError,
   type AuthSession,
+  type ConfirmForgotPasswordParams,
   type ConfirmSignUpParams,
   type ForgotPasswordParams,
   type LoginStaffParams,
@@ -13,6 +14,7 @@ import {
   type StaffShiftSession,
   type StartShiftParams,
   type UnlockShiftWithPinParams,
+  confirmForgotPassword,
   confirmSignUpOtp,
   endStaffShiftSession,
   forgotPassword,
@@ -395,6 +397,48 @@ describe("Lightweight Cognito Auth & Staff Shift Client (auth.ts)", () => {
         (init.headers as Record<string, string>)["X-Amz-Target"],
         "AWSCognitoIdentityProviderService.ForgotPassword",
       );
+    });
+
+    it("successfully confirms password reset with OTP code and new password", async () => {
+      mockBody = {};
+
+      const params: ConfirmForgotPasswordParams = {
+        username: "admin@nuwara-villa.lk",
+        code: "654321",
+        newPassword: "BrandNewPassword123!",
+      };
+
+      const result = await confirmForgotPassword(params);
+
+      assert.strictEqual(result.ok, true);
+      if (result.ok) {
+        assert.strictEqual(result.value.confirmed, true);
+      }
+
+      const init = capturedInit as RequestInit;
+      assert.strictEqual(
+        (init.headers as Record<string, string>)["X-Amz-Target"],
+        "AWSCognitoIdentityProviderService.ConfirmForgotPassword",
+      );
+    });
+
+    it("returns error when confirmation code is invalid", async () => {
+      mockStatus = 400;
+      mockBody = {
+        __type: "CodeMismatchException",
+        message: "Invalid verification code provided.",
+      };
+
+      const result = await confirmForgotPassword({
+        username: "admin@nuwara-villa.lk",
+        code: "000000",
+        newPassword: "BrandNewPassword123!",
+      });
+
+      assert.strictEqual(result.ok, false);
+      if (!result.ok) {
+        assert.strictEqual(result.error.code, "CodeMismatchException");
+      }
     });
   });
 

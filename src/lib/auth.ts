@@ -86,6 +86,14 @@ export interface ForgotPasswordParams {
   readonly region?: string;
 }
 
+export interface ConfirmForgotPasswordParams {
+  readonly username: string;
+  readonly code: string;
+  readonly newPassword: string;
+  readonly clientId?: string | undefined;
+  readonly region?: string | undefined;
+}
+
 export interface StartShiftParams {
   readonly staffId: string;
   readonly staffName: string;
@@ -356,6 +364,30 @@ export async function forgotPassword(
   if (!res.ok) return res;
 
   return ok({ deliveryDetails: res.value.CodeDeliveryDetails ?? {} });
+}
+
+/**
+ * Confirms password reset with verification code and sets new password.
+ */
+export async function confirmForgotPassword(
+  params: ConfirmForgotPasswordParams,
+): Promise<Result<{ confirmed: boolean }, AuthError>> {
+  const clientId = resolveClientId(params.clientId);
+  const payload = {
+    ClientId: clientId,
+    Username: params.username,
+    ConfirmationCode: params.code,
+    Password: params.newPassword,
+  };
+
+  const res = await callCognitoApi<Record<string, unknown>>(
+    "ConfirmForgotPassword",
+    payload,
+    params.region,
+  );
+  if (!res.ok) return res;
+
+  return ok({ confirmed: true });
 }
 
 /**
