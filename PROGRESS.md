@@ -176,5 +176,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 277: Build KDS Order Ticket Card with SLA Color Escalation & Spice/Allergen Highlights (`src/staff/kds/KdsTicketCard.tsx`)
 - [x] Step 278: Build Smartphone Single-Column Compact KDS Mode for Small Hotel Kitchens (`src/staff/kds/KdsMobileCompact.tsx`)
 - [x] Step 279: Build Bar Order Ticket (BOT) Display & Cocktail/Beverage Queue (`src/staff/kds/BarBotView.tsx`)
-
-
+- [x] Step 280: Build 80mm Thermal KOT / BOT Ticket Auto-Print View (`src/staff/kds/PrintableKotSlip.tsx`)

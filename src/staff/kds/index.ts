@@ -50,3 +50,13 @@ export {
   type BarTicket,
   type BarBotViewProps,
 } from "./BarBotView.js";
+
+export {
+  PrintableKotSlip,
+  formatKotTimestamp,
+  computeTotalItemCount,
+  getSlipTitle,
+  type SlipTicketType,
+  type KotPrintableItem,
+  type PrintableKotSlipProps,
+} from "./PrintableKotSlip.js";
