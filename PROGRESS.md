@@ -104,3 +104,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 197: Build Webhook Delivery Log & Retry Inspector (`src/admin/channels/WebhookLogDrawer.tsx`)
 - [x] Step 198: Assemble Unified Distribution & Direct Booking Admin Page (`src/admin/channels/ChannelsAndDirectPage.tsx`)
 - [x] Step 200: Run Phase 8 Ponytail Review & Code Simplification Checkpoint
+
+## Phase 09: Guest Folio Ledger, Split Billing, 4-Stage Compounding Tax Invoice & Payment Settlement
+- [x] Step 203: Build Interactive Guest Folio Workspace (`src/admin/folios/FolioDetailView.tsx`)
