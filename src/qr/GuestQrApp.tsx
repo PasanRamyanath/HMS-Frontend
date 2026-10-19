@@ -8,6 +8,7 @@
 import { useMemo, useState } from "react";
 import { type SupportedLanguage, useTranslation } from "../lib/i18n.js";
 import { getCurrentPath } from "../lib/router.js";
+import { CallWaiterButton } from "./CallWaiterButton.js";
 import { CategoryPillsBar } from "./CategoryPillsBar.js";
 import { DepartmentTabs, type QrDepartment } from "./DepartmentTabs.js";
 import { DishModifierSheet } from "./DishModifierSheet.js";
@@ -896,6 +897,13 @@ export function GuestQrApp({
         roomNumber={location.displayName}
         language={currentLanguage}
         onClose={() => setIsHotelInfoOpen(false)}
+      />
+
+      {/* Waiter Call & Bill Request 1-Tap Button for Tables & Cabanas (Step 272) */}
+      <CallWaiterButton
+        tableOrRoomNumber={location.displayName}
+        language={currentLanguage}
+        variant="floating"
       />
     </div>
   );
