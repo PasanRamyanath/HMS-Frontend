@@ -89,3 +89,18 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 172: Build Cancellation, No-Show & Retention Charge Handler (`src/admin/frontdesk/CancelReservationDialog.tsx`)
 - [x] Step 173: Assemble Master Front-Desk Workspace Page (`src/admin/frontdesk/FrontDeskPage.tsx`)
 - [x] Step 175: Run Phase 7 Ponytail Review & Simplify Front-Desk Components
+
+## Phase 08: Channel Manager (Channex.io & iCal) & Commission-Free Direct Booking Engine
+- [x] Step 183: Build Channel Manager Mapping & Sync Health Screen (`src/admin/channels/ChannelManagerView.tsx`)
+- [ ] Step 184: Build OTA Commission & Net Revenue Reconciliation Table (`src/admin/channels/OtaCommissionTable.tsx`)
+- [ ] Step 185: Build Public Direct Booking Engine Route (`/book/:tenantId` -> `src/qr/booking/DirectBookingEngine.tsx`)
+- [ ] Step 186: Build Direct Booking Add-Ons Step (`src/qr/booking/BookingAddonsStep.tsx`)
+- [ ] Step 187: Build Dual-Gateway Direct Booking Checkout (`src/qr/booking/DirectBookingCheckout.tsx`)
+- [ ] Step 188: Build Embeddable 1-Line `<script>` Booking Bar Widget (`public/booking-widget.js`)
+- [ ] Step 191: Build Automated Direct-Booking Abandonment WhatsApp Recovery Drawer (`src/admin/channels/AbandonedBookingDrawer.tsx`)
+- [ ] Step 192: Build OTA Rate Parity Monitor & Undercut Alert Card (`src/admin/channels/RateParityCard.tsx`)
+- [ ] Step 193: Build Unified Channel & Direct Booking Performance Dashboard (`src/admin/channels/ChannelPerformanceView.tsx`)
+- [ ] Step 196: Build Stop-Sell & Minimum Length of Stay (MinLOS) Quick Toggle Bar (`src/admin/channels/QuickRestrictionsBar.tsx`)
+- [ ] Step 197: Build Webhook Delivery Log & Retry Inspector (`src/admin/channels/WebhookLogDrawer.tsx`)
+- [ ] Step 198: Assemble Unified Distribution & Direct Booking Admin Page (`src/admin/channels/ChannelsAndDirectPage.tsx`)
+- [ ] Step 200: Run Phase 8 Ponytail Review & Code Simplification Checkpoint
