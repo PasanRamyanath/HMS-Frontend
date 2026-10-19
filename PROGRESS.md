@@ -161,5 +161,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 261: Build Instant LankaQR & Alipay+ Scan-to-Pay Checkout View (`src/qr/GuestLankaQrPay.tsx`)
 - [x] Step 262: Build Real-Time Order Status Tracker with AppSync WebSocket Subscription (`src/qr/LiveOrderTracker.tsx`)
 - [x] Step 263: Build 1-Tap Express Housekeeping & Room Amenity Request Panel (`src/qr/ExpressHousekeepingTab.tsx`)
+- [x] Step 264: Build Digital Laundry Pickup Request Form (`src/qr/GuestLaundryTab.tsx`)
 
 
