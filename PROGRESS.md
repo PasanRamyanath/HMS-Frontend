@@ -49,3 +49,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 126: Build Property Profile & Branding Settings Form (`src/admin/settings/PropertyProfileForm.tsx`)
 - [x] Step 127: Build Sri Lankan Statutory Tax & SLTDA Registration Configurator (`src/admin/settings/TaxSettingsForm.tsx`)
 - [x] Step 128: Build Central Bank of Sri Lanka (CBSL) Exchange Rate & Currency Manager (`src/admin/settings/ExchangeRateCard.tsx`)
+- [x] Step 129: Build Payment Gateways & LankaQR Merchant Settings Form (`src/admin/settings/PaymentSettingsForm.tsx`)

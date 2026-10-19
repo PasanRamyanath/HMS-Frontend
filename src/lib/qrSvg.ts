@@ -30,7 +30,7 @@ export interface RoomStandQrOptions {
 export interface LankaQrSvgOptions {
   readonly emvcoPayload: string;
   readonly merchantName: string;
-  readonly amountLkr?: number;
+  readonly amountLkr?: number | undefined;
 }
 
 // GF(256) Galois Field Galois Math Constants for Reed-Solomon
