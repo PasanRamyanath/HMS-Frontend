@@ -134,4 +134,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 231: Build Dish Modifiers, Add-Ons & Portion Size Builder (`src/admin/menus/ModifierGroupInput.tsx`)
 - [x] Step 232: Build Meal-Plan Allowance Rules Editor (`src/admin/menus/MealPlanMenuRules.tsx`)
 - [x] Step 235: Build Recipe Bill of Materials (BOM) Ingredient Linker (`src/admin/menus/RecipeBomEditor.tsx`)
+- [x] Step 238: Build 1-Click 'Seed Sri Lankan Hotel Menu & Housekeeping Catalog' Button (`src/admin/menus/SeedCatalogButton.tsx`)
+
 
