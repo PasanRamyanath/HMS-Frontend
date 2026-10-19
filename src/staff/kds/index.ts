@@ -60,3 +60,13 @@ export {
   type KotPrintableItem,
   type PrintableKotSlipProps,
 } from "./PrintableKotSlip.js";
+
+export {
+  KdsStockToggleDrawer,
+  DEFAULT_KDS_STOCK_ITEMS,
+  getStationLabel,
+  filterStockItems,
+  type KdsStationCategory,
+  type KdsStockItem,
+  type KdsStockToggleDrawerProps,
+} from "./KdsStockToggleDrawer.js";
