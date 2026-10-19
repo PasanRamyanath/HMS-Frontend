@@ -2,6 +2,7 @@ import { useId, useMemo, useState } from "react";
 import { Department, type TrilingualText } from "../../generated/graphql.js";
 import { type SupportedLanguage, formatLkr, useTranslation } from "../../lib/i18n.js";
 import { DEFAULT_DOMSPEED_CATEGORIES } from "./CategoryManager.js";
+import { AppleToggleSwitch } from "./SharedCatalogCard.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -584,31 +585,16 @@ export function StockAvailabilityToggle({
 
   return (
     <div className="flex items-center gap-2">
-      <button
+      <AppleToggleSwitch
         id={switchId}
-        type="button"
-        role="switch"
-        aria-checked={isAvailable}
-        aria-label={
+        checked={isAvailable}
+        onChange={(newChecked) => onToggle(itemId, newChecked)}
+        ariaLabel={
           isAvailable
             ? "Item is in stock. Click to 86 item."
             : "Item is 86'd out of stock. Click to put in stock."
         }
-        onClick={(e) => {
-          e.stopPropagation();
-          onToggle(itemId, !isAvailable);
-        }}
-        className={`relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-300 ease-apple-spring focus:outline-none focus-visible:ring-2 focus-visible:ring-apple-blue min-h-[44px] min-w-[44px] items-center p-0.5 ${
-          isAvailable ? "bg-emerald-500 dark:bg-emerald-600" : "bg-slate-300 dark:bg-slate-700"
-        }`}
-      >
-        <span
-          aria-hidden="true"
-          className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-md ring-0 transition duration-300 ease-apple-spring ${
-            isAvailable ? "translate-x-5" : "translate-x-0"
-          }`}
-        />
-      </button>
+      />
 
       <span
         className={`text-xs font-semibold select-none ${

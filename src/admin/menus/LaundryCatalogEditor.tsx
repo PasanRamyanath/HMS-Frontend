@@ -6,6 +6,7 @@
 
 import { useId, useState } from "react";
 import type { SupportedLanguage } from "../../lib/i18n.js";
+import { AppleToggleSwitch, CatalogCardSurface } from "./SharedCatalogCard.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -395,13 +396,10 @@ export function LaundryTariffRow({
   readOnly = false,
 }: LaundryTariffRowProps) {
   return (
-    <div
-      className={`p-4 rounded-2xl apple-liquid-glass border transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-4 ${
-        item.isActive
-          ? "border-white/40 dark:border-white/10"
-          : "opacity-60 bg-apple-gray-100/50 dark:bg-apple-gray-900/50 border-transparent"
-      }`}
-      data-testid={`laundry-row-${item.id}`}
+    <CatalogCardSurface
+      isActive={item.isActive}
+      testId={`laundry-row-${item.id}`}
+      className="flex flex-col lg:flex-row lg:items-center justify-between gap-4"
     >
       <div className="flex items-start gap-3">
         <div className="w-10 h-10 rounded-xl bg-apple-gray-100 dark:bg-apple-gray-800 flex items-center justify-center shrink-0 text-lg">
@@ -517,23 +515,14 @@ export function LaundryTariffRow({
 
         {/* Active Toggle */}
         {!readOnly && (
-          <button
-            type="button"
-            className={`w-12 h-7 rounded-full p-0.5 transition-colors cursor-pointer relative shrink-0 ${
-              item.isActive ? "bg-apple-green" : "bg-apple-gray-300 dark:bg-apple-gray-700"
-            }`}
-            onClick={() => onToggleActive(item.id)}
-            aria-label={`Toggle active status for ${item.title.en}`}
-          >
-            <div
-              className={`w-6 h-6 rounded-full bg-white shadow transition-transform ${
-                item.isActive ? "translate-x-5" : "translate-x-0"
-              }`}
-            />
-          </button>
+          <AppleToggleSwitch
+            checked={item.isActive}
+            onChange={() => onToggleActive(item.id)}
+            ariaLabel={`Toggle active status for ${item.title.en}`}
+          />
         )}
       </div>
-    </div>
+    </CatalogCardSurface>
   );
 }
 

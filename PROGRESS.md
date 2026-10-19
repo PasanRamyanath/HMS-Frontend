@@ -145,5 +145,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 246: Build Top-Selling & Low-Margin Menu Engineering Matrix (`src/admin/menus/MenuEngineeringCard.tsx`)
 - [x] Step 247: Build Out-of-Stock ('86'd Items') Quick Board for Kitchen & Bar (`src/admin/menus/OutOfStockBoard.tsx`)
 - [x] Step 248: Assemble Master Menus & Services Catalog Page (`src/admin/menus/MenusAndCatalogPage.tsx`)
+- [x] Step 250: Run Phase 10 Ponytail Review & Code Simplification Checkpoint (`src/admin/menus/SharedCatalogCard.tsx`)
 
 
