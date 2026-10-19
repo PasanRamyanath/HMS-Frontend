@@ -13,6 +13,7 @@ import { DepartmentTabs, type QrDepartment } from "./DepartmentTabs.js";
 import { DishModifierSheet } from "./DishModifierSheet.js";
 import { DEFAULT_SAMPLE_DISHES, type GuestDish, GuestDishCard } from "./GuestDishCard.js";
 import { type DisplayCurrency, GuestHeaderBar } from "./GuestHeaderBar.js";
+import { useGuestCart } from "./useGuestCart.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -519,30 +520,26 @@ export function GuestQrApp({
   const [activeTab, setActiveTab] = useState<string>(initialTab);
   const [activeCurrency, setActiveCurrency] = useState<DisplayCurrency>("LKR");
   const [selectedCategory, setSelectedCategory] = useState<string>("CAT-RICE-CURRY");
-  const [cartQuantities, setCartQuantities] = useState<Record<string, number>>({});
+  const cart = useGuestCart();
   const [customizingDish, setCustomizingDish] = useState<GuestDish | null>(null);
 
-  const totalCartCount = useMemo(() => {
-    return Object.values(cartQuantities).reduce((acc, q) => acc + q, 0);
-  }, [cartQuantities]);
+  const cartQuantities = useMemo(() => {
+    const map: Record<string, number> = {};
+    for (const item of cart.items) {
+      map[item.dishId] = (map[item.dishId] ?? 0) + item.quantity;
+    }
+    return map;
+  }, [cart.items]);
 
   const handleIncrementDish = (dish: GuestDish) => {
-    setCartQuantities((prev) => ({
-      ...prev,
-      [dish.id]: (prev[dish.id] ?? 0) + 1,
-    }));
+    cart.addDish(dish, 1);
   };
 
   const handleDecrementDish = (dish: GuestDish) => {
-    setCartQuantities((prev) => {
-      const current = prev[dish.id] ?? 0;
-      if (current <= 1) {
-        const copy = { ...prev };
-        delete copy[dish.id];
-        return copy;
-      }
-      return { ...prev, [dish.id]: current - 1 };
-    });
+    const item = cart.items.find((i) => i.dishId === dish.id);
+    if (item) {
+      cart.decrementItem(item.id);
+    }
   };
 
   // Combine brand defaults with any overrides
@@ -582,7 +579,7 @@ export function GuestQrApp({
         activeCurrency={activeCurrency}
         onCurrencyChange={setActiveCurrency}
         usdExchangeRate={brand.approxUsdRate}
-        cartItemCount={totalCartCount}
+        cartItemCount={cart.totalItemCount}
       />
 
       <div className="max-w-3xl mx-auto px-3.5 sm:px-6 pt-4">
@@ -658,10 +655,11 @@ export function GuestQrApp({
         language={currentLanguage}
         onClose={() => setCustomizingDish(null)}
         onConfirm={(customized) => {
-          setCartQuantities((prev) => ({
-            ...prev,
-            [customized.dishId]: (prev[customized.dishId] ?? 0) + customized.quantity,
-          }));
+          cart.addCustomizedItem(
+            customized,
+            customizingDish?.imageUrl,
+            customizingDish?.freeOnMealPlans,
+          );
         }}
       />
     </div>
