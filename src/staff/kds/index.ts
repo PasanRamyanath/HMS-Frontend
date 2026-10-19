@@ -21,3 +21,12 @@ export {
   type KdsTicket,
   type KdsKanbanViewProps,
 } from "./KdsKanbanView.js";
+
+export {
+  KdsTicketCard,
+  evaluateTicketSlaUrgency,
+  getDietaryBadgeClass,
+  getDishSubtitle,
+  type KdsTicketCardProps,
+  type TicketSlaDetails,
+} from "./KdsTicketCard.js";
