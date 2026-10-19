@@ -86,3 +86,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 167: Build Chauffeur / Driver Quarters Live Occupancy & Gate Pass Board (`src/admin/frontdesk/DriverQuartersBoard.tsx`)
 - [x] Step 168: Build Guest CRM History & Blacklist/VIP Preferences Lookup (`src/admin/frontdesk/GuestCrmDrawer.tsx`)
 - [x] Step 169: Build Printable A4 Guest Registration Card & Welcome Slip (`src/admin/frontdesk/PrintableRegCard.tsx`)
+- [x] Step 172: Build Cancellation, No-Show & Retention Charge Handler (`src/admin/frontdesk/CancelReservationDialog.tsx`)
