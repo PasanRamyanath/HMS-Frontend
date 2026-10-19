@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { DialogModal } from "./components/DialogModal.js";
 import { GlassCard } from "./components/GlassCard.js";
+import { PriceTag } from "./components/PriceTag.js";
 import { RESIDENCY_TIER_OPTIONS, SegmentedControl } from "./components/SegmentedControl.js";
 import { StatusBadge } from "./components/StatusBadge.js";
 
@@ -35,9 +36,13 @@ export function App() {
           <span className="text-xs uppercase tracking-wider text-slate-500">
             {tier === "RESIDENT_LKR" ? "Sample Resident Rate" : "Sample Foreign Rate"}
           </span>
-          <span className="text-lg font-medium tabular-nums-lkr text-slate-900">
-            {tier === "RESIDENT_LKR" ? "LKR 45,000.00" : "USD 150.00"}
-          </span>
+          <PriceTag
+            amountLkr={45000}
+            primaryCurrency={tier === "RESIDENT_LKR" ? "LKR" : "USD"}
+            size="md"
+            layout="inline"
+            periodLabel="/ night"
+          />
         </div>
 
         <div className="mt-6">
@@ -66,7 +71,7 @@ export function App() {
           </button>
         }
       >
-        <div className="space-y-3">
+        <div className="space-y-4">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
               Room 301 Housekeeping
@@ -79,9 +84,12 @@ export function App() {
             </span>
             <StatusBadge status="IN_PREPARATION" size="sm" pulse />
           </div>
-          <p className="text-sm text-slate-600 dark:text-slate-300 pt-2">
-            Automated multi-currency billing with LankaQR instant settlement.
-          </p>
+          <div className="pt-2 border-t border-slate-200/50 dark:border-white/10 flex items-center justify-between">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+              Total Room Charges
+            </span>
+            <PriceTag amountLkr={100757.25} size="md" layout="stacked" />
+          </div>
         </div>
       </DialogModal>
     </main>
