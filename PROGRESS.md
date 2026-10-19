@@ -129,3 +129,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 
 ## Phase 10: DOMSpeed-Parity Menu, Catalog, Modifiers, Recipe BOM & Multi-Department Service Admin
 - [x] Step 226: Build DOMSpeed-Style Category Manager with Drag/Sort Order & Icons (`src/admin/menus/CategoryManager.tsx`)
+- [x] Step 229: Build DOMSpeed Product / Menu Item Card Grid (`src/admin/menus/MenuItemGrid.tsx`)
