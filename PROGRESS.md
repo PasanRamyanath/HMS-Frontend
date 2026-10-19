@@ -78,4 +78,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 159: Build Multi-Room Group & Round-Tour Rooming List Importer (`src/admin/frontdesk/GroupRoomingModal.tsx`)
 - [x] Step 160: Build Touch/Mouse HTML5 <canvas> Guest Registration Card Signature Pad (`src/admin/frontdesk/RegCardSignatureModal.tsx`)
 - [x] Step 161: Build One-Click Guest Check-In Workflow with Active Room QR Activation (`src/admin/frontdesk/CheckInConfirmDialog.tsx`)
+- [x] Step 162: Build Today's Arrivals, Departures & In-House Guests Operational Board (`src/admin/frontdesk/FrontDeskDailyBoard.tsx`)
 
