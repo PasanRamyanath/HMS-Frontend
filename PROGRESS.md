@@ -81,3 +81,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 162: Build Today's Arrivals, Departures & In-House Guests Operational Board (`src/admin/frontdesk/FrontDeskDailyBoard.tsx`)
 - [x] Step 163: Build Room Move / Upgrade / Stay Extension Action Dialog (`src/admin/frontdesk/ModifyStayDialog.tsx`)
 - [x] Step 164: Build Advance Deposit & Pre-Arrival PayHere Payment Link Generator (`src/admin/frontdesk/AdvanceDepositModal.tsx`)
+- [x] Step 165: Build Daily Kitchen Meal-Plan Headcount Sheet (`src/admin/frontdesk/MealPlanForecastCard.tsx`)
