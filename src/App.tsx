@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { DialogModal } from "./components/DialogModal.js";
 import { GlassCard } from "./components/GlassCard.js";
 import { RESIDENCY_TIER_OPTIONS, SegmentedControl } from "./components/SegmentedControl.js";
 
 export function App() {
   const [tier, setTier] = useState<"RESIDENT_LKR" | "FOREIGN_USD">("RESIDENT_LKR");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <main className="min-h-screen p-8 flex flex-col items-center justify-center bg-slate-50">
@@ -33,7 +35,37 @@ export function App() {
             {tier === "RESIDENT_LKR" ? "LKR 45,000.00" : "USD 150.00"}
           </span>
         </div>
+
+        <div className="mt-6">
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            className="w-full apple-touch-target py-2 px-4 rounded-xl bg-apple-blue text-white font-medium shadow-sm hover:brightness-105 active:scale-[0.98] transition-apple-spring cursor-pointer"
+          >
+            Open Booking Sheet
+          </button>
+        </div>
       </GlassCard>
+
+      <DialogModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Direct Reservation Folio"
+        description="Select room category and Sri Lankan residency rate"
+        footer={
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(false)}
+            className="apple-touch-target px-4 py-2 rounded-xl bg-apple-blue text-white font-medium hover:brightness-105 transition-apple-spring"
+          >
+            Confirm
+          </button>
+        }
+      >
+        <p className="text-sm text-slate-600 dark:text-slate-300">
+          Automated multi-currency billing with LankaQR instant settlement.
+        </p>
+      </DialogModal>
     </main>
   );
 }
