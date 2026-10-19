@@ -169,5 +169,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 269: Build Expired / Checked-Out Room QR Fallback View (`src/qr/ExpiredRoomQrView.tsx`)
 - [x] Step 272: Build Waiter Call & Bill Request 1-Tap Button for Restaurant Tables (`src/qr/CallWaiterButton.tsx`)
 - [x] Step 273: Optimize Guest QR Route Bundle for Sub-Second 3G Load (`src/qr/index.ts`)
+- [x] Step 275: Run Phase 11 Ponytail Review & Code Simplification Checkpoint (`src/qr/`)
 
 

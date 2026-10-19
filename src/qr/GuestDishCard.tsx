@@ -440,12 +440,12 @@ export function GuestDishCard({
 
         {/* Bottom Price & Timing Row */}
         <div className="mt-3 flex items-baseline gap-2">
-          <span className="text-sm font-bold text-slate-900 dark:text-white tabular-nums tracking-tight">
+          <span className="text-sm font-bold text-slate-900 dark:text-white tabular-nums tabular-nums-lkr tracking-tight">
             {priceText}
           </span>
 
           {usdEstimateText && (
-            <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 tabular-nums">
+            <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 tabular-nums tabular-nums-lkr">
               {usdEstimateText}
             </span>
           )}
