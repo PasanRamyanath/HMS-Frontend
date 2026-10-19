@@ -77,4 +77,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 158: Build Tour Operator Exchange Voucher Attachment & Verification Panel (`src/admin/frontdesk/DmcVoucherPanel.tsx`)
 - [x] Step 159: Build Multi-Room Group & Round-Tour Rooming List Importer (`src/admin/frontdesk/GroupRoomingModal.tsx`)
 - [x] Step 160: Build Touch/Mouse HTML5 <canvas> Guest Registration Card Signature Pad (`src/admin/frontdesk/RegCardSignatureModal.tsx`)
+- [x] Step 161: Build One-Click Guest Check-In Workflow with Active Room QR Activation (`src/admin/frontdesk/CheckInConfirmDialog.tsx`)
 
