@@ -230,5 +230,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 342: Build Final Banquet Tax Invoice & Deposit Deduction Settlement View (`src/admin/banquets/BanquetSettlementModal.tsx`)
 - [x] Step 343: Build Banquet Hall Floor Plan & Table Numbering Designer (`src/admin/banquets/BanquetTableLayout.tsx`)
 - [x] Step 344: Build Tentative Hold Expiry Alert & Sales Follow-Up Queue (`src/admin/banquets/BanquetLeadQueue.tsx`)
+- [x] Step 345: Build Banquet Profitability & Food Cost Margin Summary Card (`src/admin/banquets/BanquetProfitCard.tsx`)
 
 
