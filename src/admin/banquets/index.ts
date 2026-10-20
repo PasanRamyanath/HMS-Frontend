@@ -10,3 +10,4 @@ export * from "./BanquetBarAndBitesForm.js";
 export * from "./BanquetMenuSelector.js";
 export * from "./BanquetVendorsPanel.js";
 export * from "./PrintableBeoSheet.js";
+export * from "./BanquetDepositSchedule.js";

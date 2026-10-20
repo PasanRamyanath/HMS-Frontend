@@ -223,5 +223,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 333: Build Wedding Menu Package Customizer (`src/admin/banquets/BanquetMenuSelector.tsx`)
 - [x] Step 334: Build External Vendor & Traditional Cultural Add-Ons Tracker (`src/admin/banquets/BanquetVendorsPanel.tsx`)
 - [x] Step 335: Build Printable A4 Banquet Event Order / Function Prospectus (`src/admin/banquets/PrintableBeoSheet.tsx`)
+- [x] Step 336: Build Staged Wedding Deposit Schedule & PayHere Payment Link Tracker (`src/admin/banquets/BanquetDepositSchedule.tsx`)
 
 
