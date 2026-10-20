@@ -267,3 +267,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 391: Build Supplier Accounts Payable (AP) & GRN Payment Tracker (`src/admin/inventory/SupplierPayablesView.tsx`)
 - [x] Step 392: Build Daily Food & Beverage Cost % Flash Report (`src/admin/inventory/FnbFlashCostCard.tsx`)
 - [x] Step 394: Build Smartphone Storekeeper Barcode / QR Scanner Input (`src/admin/inventory/StoreScannerInput.tsx`)
+- [x] Step 395: Build Printable A4 GRN, GIN & Purchase Order Voucher Template (`src/admin/inventory/PrintableStoreVoucher.tsx`)
