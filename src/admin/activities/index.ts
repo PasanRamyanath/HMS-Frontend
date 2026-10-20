@@ -9,3 +9,4 @@ export * from "./AirportTransferBoard.js";
 export * from "./TherapistAndDriverPayouts.js";
 export * from "./PrintableTransferPass.js";
 export * from "./GearRentalBoard.js";
+export * from "./PanchakarmaTracker.js";
