@@ -244,3 +244,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 359: Build Guest QR Spa & Excursion Self-Booking Tab (`src/qr/GuestSpaAndExcursionsTab.tsx`)
 - [x] Step 360: Build Spa Therapist & Chauffeur Commission Ledger (`src/admin/activities/TherapistAndDriverPayouts.tsx`)
 - [x] Step 361: Build Printable Airport Paging Board & Excursion Gate Pass (`src/admin/activities/PrintableTransferPass.tsx`)
+- [x] Step 362: Build Bicycle, Scooter, Surfboard & Snorkel Gear Rental Tracker (`src/admin/activities/GearRentalBoard.tsx`)
