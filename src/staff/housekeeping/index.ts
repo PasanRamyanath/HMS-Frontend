@@ -3,3 +3,4 @@
  */
 
 export * from "./HousekeepingMobileView.js";
+export * from "./HkAmenityQueue.js";
