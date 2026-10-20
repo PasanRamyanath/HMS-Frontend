@@ -263,3 +263,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 387: Build Bar Daily Liquor Bottle & Peg Reconciliation Sheet (`src/admin/inventory/BarPegAuditView.tsx`)
 - [x] Step 388: Build Kitchen Spoilage, Breakage & Staff Meal Consumption Logger (`src/admin/inventory/SpoilageAndStaffMealModal.tsx`)
 - [x] Step 389: Build Monthly Physical Stock-Take & Theoretical vs. Actual Variance Report (`src/admin/inventory/StockTakeVarianceView.tsx`)
+- [x] Step 390: Build Expiry-Date & Cold-Room FEFO (`First-Expired, First-Out`) Alert Banner (`src/admin/inventory/ExpiryAlertCard.tsx`)
