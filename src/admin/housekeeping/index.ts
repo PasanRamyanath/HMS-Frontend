@@ -166,3 +166,23 @@ export {
   type AmenityUsageCardProps,
   type AmenityUsageSummary,
 } from "./AmenityUsageCard.js";
+
+export {
+  HkProductivityCard,
+  DEFAULT_ATTENDANT_RECORDS,
+  calculateAttendantProductivityMetrics,
+  calculateHkProductivitySummary,
+  formatHkLkr,
+  getHkProductivityText,
+  isAttendantMatchingFilter,
+  resolvePerformanceTierBadge,
+  resolveShiftBadge,
+  type AttendantCleaningRecord,
+  type AttendantPerformanceTier,
+  type AttendantProductivityMetrics,
+  type HkProductivityCardProps,
+  type HkProductivitySummary,
+  type HkProductivityTranslations,
+  type PerformanceFilterTab,
+  type ShiftType,
+} from "./HkProductivityCard.js";
