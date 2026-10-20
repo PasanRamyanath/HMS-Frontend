@@ -180,3 +180,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 281: Build Chef 1-Tap '86 Item' (Quick Out-of-Stock Toggle) Drawer inside KDS (`src/staff/kds/KdsStockToggleDrawer.tsx`)
 - [x] Step 282: Build Touch-Friendly Restaurant & Counter POS Terminal View (`src/staff/pos/PosTerminalView.tsx`)
 - [x] Step 283: Build Visual Restaurant Floor & Table Status Map (`src/staff/pos/PosTableMap.tsx`)
+- [x] Step 286: Build POS Room-Lookup & Guest Meal-Plan Entitlement Checker (`src/staff/pos/PosRoomLookupModal.tsx`)

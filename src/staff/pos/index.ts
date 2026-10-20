@@ -32,3 +32,12 @@ export {
   type TableMapSummary,
   type PosTableMapProps,
 } from "./PosTableMap.js";
+
+export {
+  PosRoomLookupModal,
+  DEFAULT_ACTIVE_GUEST_STAYS,
+  type MealPlanCode,
+  type MealServiceType,
+  type GuestStayInfo,
+  type PosRoomLookupModalProps,
+} from "./PosRoomLookupModal.js";
