@@ -4,3 +4,4 @@
 
 export * from "./BanquetHallSetup.js";
 export * from "./BanquetCalendar.js";
+export * from "./BanquetBookingModal.js";
