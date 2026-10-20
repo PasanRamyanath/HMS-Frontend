@@ -13,3 +13,4 @@ export * from "./PanchakarmaTracker.js";
 export * from "./WakeUpCallList.js";
 export * from "./dispatchVendorWhatsApp.js";
 export * from "./ActivityWaiverModal.js";
+export * from "./ActivityKpiCard.js";
