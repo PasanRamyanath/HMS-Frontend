@@ -189,3 +189,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 292: Build Buffet / Meal-Plan Attendance Check-Off Screen for Restaurant Host (`src/staff/pos/BuffetCheckInView.tsx`)
 - [x] Step 293: Build Driver / Guide Meal Voucher Redemption Scanner in POS (`src/staff/pos/DriverMealRedeemModal.tsx`)
 - [x] Step 294: Build Restaurant Outlet Daily X-Read & Z-Read End-of-Shift Summary (`src/staff/pos/PosZReadModal.tsx`)
+- [x] Step 297: Build Screen Wake-Lock Helper (`src/lib/useWakeLock.ts`) for Kitchen & Bar Phones/Tablets
+
