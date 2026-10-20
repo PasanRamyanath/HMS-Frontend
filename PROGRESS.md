@@ -247,3 +247,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 362: Build Bicycle, Scooter, Surfboard & Snorkel Gear Rental Tracker (`src/admin/activities/GearRentalBoard.tsx`)
 - [x] Step 363: Build Ayurveda Multi-Day Panchakarma Package Progress Tracker (`src/admin/activities/PanchakarmaTracker.tsx`)
 - [x] Step 366: Build Smartphone Therapist & Chauffeur Daily Schedule View (`src/staff/activities/StaffActivitySchedule.tsx`)
+- [x] Step 367: Build Wake-Up Call & Early Safari Reminder Scheduler (`src/admin/activities/WakeUpCallList.tsx`)
