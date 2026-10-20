@@ -249,3 +249,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 366: Build Smartphone Therapist & Chauffeur Daily Schedule View (`src/staff/activities/StaffActivitySchedule.tsx`)
 - [x] Step 367: Build Wake-Up Call & Early Safari Reminder Scheduler (`src/admin/activities/WakeUpCallList.tsx`)
 - [x] Step 369: Build Excursion Partner Voucher & WhatsApp Dispatch Helper (`src/admin/activities/dispatchVendorWhatsApp.ts`)
+- [x] Step 370: Build Guest Liability Waiver Signature Modal for Water Sports / Adventure Treks (`src/admin/activities/ActivityWaiverModal.tsx`)
