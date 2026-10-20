@@ -216,4 +216,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 
 ## Phase 14: Sri Lankan Banquet, Wedding Hall & Conference Management (Poruwa, Corkage, Bite Plates & BEO)
 - [x] Step 328: Build Banquet Hall & Outdoor Lawn Master Configurator (`src/admin/banquets/BanquetHallSetup.tsx`)
+- [x] Step 329: Build Banquet & Wedding Availability Calendar with Morning (`Poruwa Lunch`) & Evening (`Homecoming Dinner`) Slots (`src/admin/banquets/BanquetCalendar.tsx`)
+
 
