@@ -431,6 +431,7 @@ export function evaluateLoanOverdue(
 export function calculateTowelStockSummary(
   loans: readonly TowelLoanRecord[],
   baseParStock = 200,
+  nowIso?: string,
 ): PoolTowelStockSummary {
   let activeTowelsLoaned = 0;
   let dirtyTowelsLaundryBin = 0;
@@ -442,7 +443,7 @@ export function calculateTowelStockSummary(
     if (loan.status === "ACTIVE" || loan.status === "OVERDUE") {
       const activeCount = Math.max(0, loan.towelsIssuedCount - loan.towelsReturnedCount);
       activeTowelsLoaned += activeCount;
-      if (loan.status === "OVERDUE" || evaluateLoanOverdue(loan.issuedAtIso)) {
+      if (loan.status === "OVERDUE" || evaluateLoanOverdue(loan.issuedAtIso, nowIso)) {
         overdueTowelsCount += activeCount;
       }
     } else if (loan.status === "RETURNED") {

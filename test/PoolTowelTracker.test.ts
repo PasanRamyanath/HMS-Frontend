@@ -56,7 +56,7 @@ describe("Step 319: Pool & Beach Towel Deposit Tracker (PoolTowelTracker.tsx)", 
       // dirty laundry: 2 + 1 = 3
       // lost: 1, fee: 3500
       // Par stock (base 200): 200 - 7 - 3 - 1 = 189
-      const summary = calculateTowelStockSummary(DEFAULT_TOWEL_LOANS, 200);
+      const summary = calculateTowelStockSummary(DEFAULT_TOWEL_LOANS, 200, "2026-10-20T12:00:00Z");
       assert.equal(summary.activeTowelsLoaned, 7);
       assert.equal(summary.overdueTowelsCount, 4);
       assert.equal(summary.dirtyTowelsLaundryBin, 3);

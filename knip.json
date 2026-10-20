@@ -15,6 +15,7 @@
     "src/admin/housekeeping/index.ts!",
     "src/admin/banquets/index.ts!",
     "src/admin/activities/index.ts!",
+    "src/admin/inventory/index.ts!",
     "test/**/*.test.ts"
   ],
   "project": ["src/**/*.{ts,tsx}!", "test/**/*.test.ts"]
