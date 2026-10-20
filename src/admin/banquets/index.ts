@@ -8,3 +8,4 @@ export * from "./BanquetBookingModal.js";
 export * from "./PoruwaTimelineEditor.js";
 export * from "./BanquetBarAndBitesForm.js";
 export * from "./BanquetMenuSelector.js";
+export * from "./BanquetVendorsPanel.js";
