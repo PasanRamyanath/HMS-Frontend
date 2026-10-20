@@ -768,7 +768,7 @@ export const ActivityWaiverModal: FC<ActivityWaiverModalProps> = ({
   const [guardianName, setGuardianName] = useState("");
   const [guardianRelation, setGuardianRelation] = useState("Parent");
 
-  const [canSwim, setCanSwim] = useState(activity.category === "WATER_SPORTS");
+  const [canSwim, setCanSwim] = useState(activity?.category === "WATER_SPORTS");
   const [sober, setSober] = useState(true);
   const [noCardio, setNoCardio] = useState(true);
   const [noAsthma, setNoAsthma] = useState(true);

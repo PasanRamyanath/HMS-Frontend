@@ -14,3 +14,4 @@ export * from "./WakeUpCallList.js";
 export * from "./dispatchVendorWhatsApp.js";
 export * from "./ActivityWaiverModal.js";
 export * from "./ActivityKpiCard.js";
+export * from "./ActivitiesAdminPage.js";
