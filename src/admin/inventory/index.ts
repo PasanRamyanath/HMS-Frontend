@@ -15,3 +15,4 @@ export * from "./StockTakeVarianceView.js";
 export * from "./ExpiryAlertCard.js";
 export * from "./SupplierPayablesView.js";
 export * from "./FnbFlashCostCard.js";
+export * from "./StoreScannerInput.js";
