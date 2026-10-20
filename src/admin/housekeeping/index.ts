@@ -133,3 +133,21 @@ export {
   type DiscrepancySummaryMetrics,
   type DutyManagerResolutionAction,
 } from "./DiscrepancyAlertBar.js";
+
+export {
+  DeepCleanSchedule,
+  DEFAULT_DEEP_CLEAN_RECORDS,
+  calculateDeepCleanSummary,
+  evaluateDeepCleanStatus,
+  formatDeepCleanLkr,
+  getDeepCleanText,
+  isRecordMatchingFilter,
+  resolveDeepCleanStatusBadge,
+  resolveServiceTypeBadge,
+  type DeepCleanFilterTab,
+  type DeepCleanScheduleProps,
+  type DeepCleanServiceType,
+  type DeepCleanStatus,
+  type DeepCleanSummaryMetrics,
+  type RoomDeepCleanRecord,
+} from "./DeepCleanSchedule.js";
