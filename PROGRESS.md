@@ -214,3 +214,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 323: Assemble Master Housekeeping & Engineering Admin Page (`src/admin/housekeeping/HousekeepingAdminPage.tsx`)
 - [x] Step 325: Run Phase 13 Ponytail Review & Code Simplification Checkpoint (`src/staff/housekeeping/hkStatusHelpers.ts`)
 
+## Phase 14: Sri Lankan Banquet, Wedding Hall & Conference Management (Poruwa, Corkage, Bite Plates & BEO)
+- [x] Step 328: Build Banquet Hall & Outdoor Lawn Master Configurator (`src/admin/banquets/BanquetHallSetup.tsx`)
+

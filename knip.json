@@ -13,6 +13,7 @@
     "src/staff/pos/index.ts!",
     "src/admin/orders/index.ts!",
     "src/admin/housekeeping/index.ts!",
+    "src/admin/banquets/index.ts!",
     "test/**/*.test.ts"
   ],
   "project": ["src/**/*.{ts,tsx}!", "test/**/*.test.ts"]
