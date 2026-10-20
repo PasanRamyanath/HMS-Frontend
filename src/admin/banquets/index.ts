@@ -16,3 +16,4 @@ export * from "./CorporateMiceForm.js";
 export * from "./BanquetSettlementModal.js";
 export * from "./BanquetTableLayout.js";
 export * from "./BanquetLeadQueue.js";
+export * from "./BanquetProfitCard.js";
