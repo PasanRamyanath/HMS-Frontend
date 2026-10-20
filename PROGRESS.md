@@ -219,5 +219,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 329: Build Banquet & Wedding Availability Calendar with Morning (`Poruwa Lunch`) & Evening (`Homecoming Dinner`) Slots (`src/admin/banquets/BanquetCalendar.tsx`)
 - [x] Step 330: Build Sri Lankan Wedding & Function Booking Wizard (`src/admin/banquets/BanquetBookingModal.tsx`)
 - [x] Step 331: Build Auspicious Nekath / Poruwa Ceremony & Event Timeline Builder (`src/admin/banquets/PoruwaTimelineEditor.tsx`)
+- [x] Step 332: Build Per-Table Sri Lankan 'Bite Plates', Corkage, Chasers & Bar Arrangement Configurator (`src/admin/banquets/BanquetBarAndBitesForm.tsx`)
 
 

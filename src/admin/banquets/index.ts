@@ -6,3 +6,4 @@ export * from "./BanquetHallSetup.js";
 export * from "./BanquetCalendar.js";
 export * from "./BanquetBookingModal.js";
 export * from "./PoruwaTimelineEditor.js";
+export * from "./BanquetBarAndBitesForm.js";
