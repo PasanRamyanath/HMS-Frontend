@@ -14,3 +14,4 @@ export * from "./BanquetDepositSchedule.js";
 export * from "./LiquorBottleLogModal.js";
 export * from "./CorporateMiceForm.js";
 export * from "./BanquetSettlementModal.js";
+export * from "./BanquetTableLayout.js";

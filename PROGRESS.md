@@ -228,5 +228,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 338: Build Liquor Bottle Gate-Pass & Empty-Bottle Reconciliation Form (`src/admin/banquets/LiquorBottleLogModal.tsx`)
 - [x] Step 339: Build Corporate Conference, MICE & Day-Outing Package Builder (`src/admin/banquets/CorporateMiceForm.tsx`)
 - [x] Step 342: Build Final Banquet Tax Invoice & Deposit Deduction Settlement View (`src/admin/banquets/BanquetSettlementModal.tsx`)
+- [x] Step 343: Build Banquet Hall Floor Plan & Table Numbering Designer (`src/admin/banquets/BanquetTableLayout.tsx`)
 
 
