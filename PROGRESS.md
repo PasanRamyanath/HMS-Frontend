@@ -226,5 +226,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 336: Build Staged Wedding Deposit Schedule & PayHere Payment Link Tracker (`src/admin/banquets/BanquetDepositSchedule.tsx`)
 - [x] Step 337: Build Event-Day Live Plate Counter & Extra-Pax Overflow Tracker (`src/staff/pos/LiveBanquetPlateCounter.tsx`)
 - [x] Step 338: Build Liquor Bottle Gate-Pass & Empty-Bottle Reconciliation Form (`src/admin/banquets/LiquorBottleLogModal.tsx`)
+- [x] Step 339: Build Corporate Conference, MICE & Day-Outing Package Builder (`src/admin/banquets/CorporateMiceForm.tsx`)
 
 

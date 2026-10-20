@@ -12,3 +12,4 @@ export * from "./BanquetVendorsPanel.js";
 export * from "./PrintableBeoSheet.js";
 export * from "./BanquetDepositSchedule.js";
 export * from "./LiquorBottleLogModal.js";
+export * from "./CorporateMiceForm.js";
