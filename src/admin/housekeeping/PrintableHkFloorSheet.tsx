@@ -19,6 +19,7 @@
 
 import { type FC, useId, useMemo, useState } from "react";
 import type { SupportedLanguage } from "../../lib/i18n.js";
+import { isRoomReadyForCheckIn } from "../../staff/housekeeping/index.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -527,7 +528,7 @@ export function getFloorSheetText(lang: SupportedLanguage = "en"): FloorSheetTra
 
 function isRoomCompleted(r: HkFloorSheetRoom): boolean {
   return (
-    r.status === "INSPECTED_CLEAN" ||
+    isRoomReadyForCheckIn(r.status) ||
     r.supervisorInspection === "PASSED" ||
     (Boolean(r.timeOut) && Boolean(r.isLinenCompleted))
   );
@@ -1104,7 +1105,7 @@ function InteractiveRoomCard({
   onToggleMinibar,
 }: InteractiveRoomCardProps) {
   const statusInfo = resolveRoomStatusBadge(room.status);
-  const isClean = room.status === "INSPECTED_CLEAN" || room.supervisorInspection === "PASSED";
+  const isClean = isRoomReadyForCheckIn(room.status) || room.supervisorInspection === "PASSED";
 
   return (
     <div
@@ -1224,7 +1225,7 @@ export const PrintableHkFloorSheet: FC<PrintableHkFloorSheetProps> = ({
 
   const handleToggleRoomClean = (room: HkFloorSheetRoom) => {
     const isCurrentlyClean =
-      room.status === "INSPECTED_CLEAN" || room.supervisorInspection === "PASSED";
+      isRoomReadyForCheckIn(room.status) || room.supervisorInspection === "PASSED";
     const nextStatus: HkFloorSheetRoomStatus = isCurrentlyClean
       ? "OCCUPIED_DIRTY"
       : "INSPECTED_CLEAN";

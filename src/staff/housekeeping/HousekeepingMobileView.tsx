@@ -21,19 +21,18 @@ import { type FC, useId, useMemo, useState } from "react";
 import type { SupportedLanguage } from "../../lib/i18n.js";
 import { playOrderBell } from "../../lib/soundAlert.js";
 import { useWakeLock } from "../../lib/useWakeLock.js";
+import {
+  type HousekeepingRoomStatus,
+  getPriorityWeight,
+  getStatusStyle,
+} from "./hkStatusHelpers.js";
+
+export type { HousekeepingRoomStatus };
+export { getPriorityWeight, getStatusStyle };
 
 // ============================================================================
 // Types & Domain Models
 // ============================================================================
-
-export type HousekeepingRoomStatus =
-  | "DIRTY"
-  | "CLEAN"
-  | "INSPECTED"
-  | "TOUCH_UP"
-  | "DO_NOT_DISTURB"
-  | "OUT_OF_ORDER"
-  | "OUT_OF_SERVICE";
 
 export type HousekeepingPriority = "ARRIVAL_TODAY_DIRTY" | "VIP_IN_HOUSE" | "STAYOVER" | "STANDARD";
 
@@ -410,16 +409,6 @@ function matchesSearch(room: HousekeepingRoom, query: string): boolean {
   return inNumber || inType || inGuest || inWing;
 }
 
-export function getPriorityWeight(room: HousekeepingRoom): number {
-  if (room.priority === "ARRIVAL_TODAY_DIRTY" && room.status === "DIRTY") return 0;
-  if (room.status === "DIRTY") return 1;
-  if (room.status === "TOUCH_UP") return 2;
-  if (room.status === "CLEAN") return 3;
-  if (room.status === "INSPECTED") return 4;
-  if (room.status === "DO_NOT_DISTURB") return 5;
-  return 6;
-}
-
 export function filterAndSortRooms(
   rooms: readonly HousekeepingRoom[],
   selectedFloor: string,
@@ -443,77 +432,6 @@ export function filterAndSortRooms(
     if (diff !== 0) return diff;
     return a.roomNumber.localeCompare(b.roomNumber, undefined, { numeric: true });
   });
-}
-
-const STATUS_STYLES: Record<
-  HousekeepingRoomStatus,
-  {
-    readonly badgeBg: string;
-    readonly badgeText: string;
-    readonly borderClass: string;
-    readonly icon: string;
-    readonly label: string;
-  }
-> = {
-  CLEAN: {
-    badgeBg: "bg-emerald-500/15",
-    badgeText: "text-emerald-400 font-semibold",
-    borderClass: "border-emerald-500/30",
-    icon: "✓",
-    label: "CLEAN",
-  },
-  INSPECTED: {
-    badgeBg: "bg-sky-500/15",
-    badgeText: "text-sky-400 font-bold",
-    borderClass: "border-sky-500/30",
-    icon: "★",
-    label: "INSPECTED",
-  },
-  TOUCH_UP: {
-    badgeBg: "bg-amber-500/20",
-    badgeText: "text-amber-400 font-bold",
-    borderClass: "border-amber-500/30",
-    icon: "✨",
-    label: "TOUCH UP",
-  },
-  DO_NOT_DISTURB: {
-    badgeBg: "bg-purple-500/20",
-    badgeText: "text-purple-300 font-bold",
-    borderClass: "border-purple-500/30",
-    icon: "🛑",
-    label: "DO NOT DISTURB",
-  },
-  OUT_OF_ORDER: {
-    badgeBg: "bg-slate-700/60",
-    badgeText: "text-slate-300 font-bold",
-    borderClass: "border-slate-600/40",
-    icon: "🔧",
-    label: "MAINTENANCE",
-  },
-  OUT_OF_SERVICE: {
-    badgeBg: "bg-slate-700/60",
-    badgeText: "text-slate-300 font-bold",
-    borderClass: "border-slate-600/40",
-    icon: "🔧",
-    label: "MAINTENANCE",
-  },
-  DIRTY: {
-    badgeBg: "bg-rose-500/20",
-    badgeText: "text-rose-400 font-extrabold",
-    borderClass: "border-rose-500/40",
-    icon: "🧹",
-    label: "DIRTY",
-  },
-};
-
-export function getStatusStyle(status: HousekeepingRoomStatus): {
-  readonly badgeBg: string;
-  readonly badgeText: string;
-  readonly borderClass: string;
-  readonly icon: string;
-  readonly label: string;
-} {
-  return STATUS_STYLES[status] ?? STATUS_STYLES.DIRTY;
 }
 
 // ============================================================================

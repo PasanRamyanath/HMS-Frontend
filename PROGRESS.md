@@ -212,4 +212,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 320: Build Housekeeping Attendant Turnaround Time & Productivity Report (`src/admin/housekeeping/HkProductivityCard.tsx`)
 - [x] Step 322: Build Printable Daily Housekeeping Floor Sheet (`src/admin/housekeeping/PrintableHkFloorSheet.tsx`)
 - [x] Step 323: Assemble Master Housekeeping & Engineering Admin Page (`src/admin/housekeeping/HousekeepingAdminPage.tsx`)
+- [x] Step 325: Run Phase 13 Ponytail Review & Code Simplification Checkpoint (`src/staff/housekeeping/hkStatusHelpers.ts`)
 
