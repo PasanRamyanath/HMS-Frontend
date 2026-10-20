@@ -7,3 +7,4 @@ export * from "./HkAmenityQueue.js";
 export * from "./HkMinibarLoggerModal.js";
 export * from "./SupervisorInspectModal.js";
 export * from "./TurndownServiceView.js";
+export * from "./PoolTowelTracker.js";

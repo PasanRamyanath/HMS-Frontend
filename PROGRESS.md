@@ -208,4 +208,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 316: Build Room Discrepancy Alert Banner on Front Desk & Housekeeping Screens (`src/admin/housekeeping/DiscrepancyAlertBar.tsx`)
 - [x] Step 317: Build Room Deep-Cleaning & Monsoon Mold/Fumigation Schedule Tracker (`src/admin/housekeeping/DeepCleanSchedule.tsx`)
 - [x] Step 318: Build Amenity Consumption & Eco-Refill Cost Tracker (`src/admin/housekeeping/AmenityUsageCard.tsx`)
+- [x] Step 319: Build Pool & Beach Towel Room-Key Card Deposit Tracker (`src/staff/housekeeping/PoolTowelTracker.tsx`)
 
