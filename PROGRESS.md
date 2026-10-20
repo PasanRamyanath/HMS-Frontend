@@ -241,3 +241,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 354: Build Interactive Spa Therapist & Treatment Room Daily Schedule Grid (`src/admin/activities/SpaScheduleGrid.tsx`)
 - [x] Step 355: Build Safari Jeep, Whale Watching, Gem Mine & Tea Trail Excursion Booking Modal (`src/admin/activities/ExcursionBookingModal.tsx`)
 - [x] Step 356: Build BIA Katunayake / Mattala Airport Transfer & Flight Tracker Board (`src/admin/activities/AirportTransferBoard.tsx`)
+- [x] Step 359: Build Guest QR Spa & Excursion Self-Booking Tab (`src/qr/GuestSpaAndExcursionsTab.tsx`)

@@ -141,6 +141,25 @@ export {
 } from "./PackedMealModal.js";
 
 export {
+  GuestSpaAndExcursionsTab,
+  type GuestSpaAndExcursionsTabProps,
+  type ExperienceCategory,
+  type BookingStatus,
+  type BreakfastPackOption,
+  type ExperienceItem,
+  type PricingBreakdown,
+  type ExperienceBooking,
+  type TabTranslations,
+  DEFAULT_EXPERIENCES,
+  TAB_TRANSLATIONS,
+  getTabTranslations,
+  roundLkr,
+  isEarlyMorningSlot,
+  calculateExperiencePricing,
+  getBookingStatusBadgeClass,
+} from "./GuestSpaAndExcursionsTab.js";
+
+export {
   RoomChargeAuthBox,
   type RoomChargeAuthBoxProps,
   type RoomChargeAuthResult,
