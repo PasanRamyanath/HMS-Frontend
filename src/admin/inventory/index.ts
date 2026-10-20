@@ -10,3 +10,4 @@ export * from "./PurchaseOrderModal.js";
 export * from "./GrnModal.js";
 export * from "./GinTransferModal.js";
 export * from "./BarPegAuditView.js";
+export * from "./SpoilageAndStaffMealModal.js";
