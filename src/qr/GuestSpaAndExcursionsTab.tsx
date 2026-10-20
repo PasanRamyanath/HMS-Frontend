@@ -28,6 +28,7 @@
 import { type FC, useId, useMemo, useState } from "react";
 import type { SupportedLanguage } from "../lib/i18n.js";
 import { playOrderBell } from "../lib/soundAlert.js";
+import { AdvisoryBanner } from "./AdvisoryBanner.js";
 import { formatLkr, formatUsdEstimate } from "./GuestDishCard.js";
 
 // ============================================================================
@@ -1174,6 +1175,9 @@ export const GuestSpaAndExcursionsTab: FC<GuestSpaAndExcursionsTabProps> = ({
         </h1>
         <p className="text-xs text-stone-600 dark:text-stone-400">{t.pageSubtitle}</p>
       </header>
+
+      {/* Concierge Weather & Excursion Advisory Banner */}
+      <AdvisoryBanner language={language} className="mb-4" />
 
       {/* Category Pills Bar */}
       <CategoryFilterTabs
