@@ -4,3 +4,4 @@
 
 export * from "./kds/index.js";
 export * from "./pos/index.js";
+export * from "./StaffMobileHub.js";
