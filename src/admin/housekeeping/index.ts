@@ -151,3 +151,18 @@ export {
   type DeepCleanSummaryMetrics,
   type RoomDeepCleanRecord,
 } from "./DeepCleanSchedule.js";
+
+export {
+  AmenityUsageCard,
+  DEFAULT_AMENITY_RECORDS,
+  calculateAmenityUsageSummary,
+  formatAmenityLkr,
+  getAmenityUsageText,
+  isAmenityMatchingFilter,
+  resolveAmenityCategoryBadge,
+  type AmenityCategory,
+  type AmenityConsumptionRecord,
+  type AmenityFilterCategory,
+  type AmenityUsageCardProps,
+  type AmenityUsageSummary,
+} from "./AmenityUsageCard.js";
