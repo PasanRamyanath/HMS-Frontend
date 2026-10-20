@@ -235,3 +235,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 347: Build Public Wedding & Event Inquiry Form (`src/qr/booking/PublicBanquetInquiry.tsx`)
 - [x] Step 348: Assemble Unified Banquets, Weddings & MICE Admin Page (`src/admin/banquets/BanquetsAdminPage.tsx`)
 - [x] Step 350: Run Phase 14 Ponytail Review & Code Simplification Checkpoint (`src/admin/banquets/banquetInvoiceHelpers.ts`)
+
+## Phase 15: Ayurveda Spa, Safari Jeep, Whale Watching, Gem/Tea Tours & Airport Transfer Excursion Desk
+- [x] Step 353: Build Ayurveda Doctor (Vaidya) Dosha Consultation & Treatment Plan Card (`src/admin/activities/AyurvedaConsultationModal.tsx`)
