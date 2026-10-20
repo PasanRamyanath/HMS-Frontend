@@ -193,3 +193,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 298: Build Unified Staff Smartphone Launcher (`src/staff/StaffMobileHub.tsx`)
 - [x] Step 300: Run Phase 12 Ponytail Review & Code Simplification Checkpoint (`src/staff/shared/`)
 
+## Phase 13: Housekeeping Mobile Runner, Room Status Matrix, Minibar Posting, Laundry & Maintenance Tickets
+- [x] Step 301: Build Housekeeping Smartphone Room Status Grid (`src/staff/housekeeping/HousekeepingMobileView.tsx`)
+
