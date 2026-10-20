@@ -17,3 +17,4 @@ export * from "./SupplierPayablesView.js";
 export * from "./FnbFlashCostCard.js";
 export * from "./StoreScannerInput.js";
 export * from "./PrintableStoreVoucher.js";
+export * from "./GoodsReturnModal.js";
