@@ -4,3 +4,4 @@
  */
 
 export * from "./StockItemManager.js";
+export * from "./SupplierDirectory.js";

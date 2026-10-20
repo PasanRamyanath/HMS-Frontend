@@ -255,3 +255,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 373: Assemble Master Spa, Excursions & Airport Transfers Admin Page (`src/admin/activities/ActivitiesAdminPage.tsx`)
 - [x] Step 375: Run Phase 15 Ponytail Review & Code Simplification Checkpoint (`src/admin/activities/`)
 - [x] Step 376: Build Master Store SKU & Unit-of-Measure Registry (`src/admin/inventory/StockItemManager.tsx`)
+- [x] Step 377: Build Supplier & Local Market Vendor Directory (`src/admin/inventory/SupplierDirectory.tsx`)
