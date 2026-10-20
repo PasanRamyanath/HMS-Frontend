@@ -5,3 +5,4 @@
 export * from "./AyurvedaConsultationModal.js";
 export * from "./SpaScheduleGrid.js";
 export * from "./ExcursionBookingModal.js";
+export * from "./AirportTransferBoard.js";
