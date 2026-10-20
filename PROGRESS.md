@@ -210,4 +210,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 318: Build Amenity Consumption & Eco-Refill Cost Tracker (`src/admin/housekeeping/AmenityUsageCard.tsx`)
 - [x] Step 319: Build Pool & Beach Towel Room-Key Card Deposit Tracker (`src/staff/housekeeping/PoolTowelTracker.tsx`)
 - [x] Step 320: Build Housekeeping Attendant Turnaround Time & Productivity Report (`src/admin/housekeeping/HkProductivityCard.tsx`)
+- [x] Step 322: Build Printable Daily Housekeeping Floor Sheet (`src/admin/housekeeping/PrintableHkFloorSheet.tsx`)
 
