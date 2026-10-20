@@ -205,4 +205,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 311: Build Lost & Found Register with Photo & Guest NIC/Phone Link (`src/admin/housekeeping/LostAndFoundView.tsx`)
 - [x] Step 312: Build Diesel Generator, CEB Grid Power & Water Tank Daily Utility Meter Log (`src/admin/housekeeping/UtilityMeterCard.tsx`)
 - [x] Step 313: Build Turndown Service Evening Checklist Mode (`src/staff/housekeeping/TurndownServiceView.tsx`)
+- [x] Step 316: Build Room Discrepancy Alert Banner on Front Desk & Housekeeping Screens (`src/admin/housekeeping/DiscrepancyAlertBar.tsx`)
 

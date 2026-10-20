@@ -115,3 +115,21 @@ export {
   type UtilityMeterCardProps,
   type UtilityTariffSettings,
 } from "./UtilityMeterCard.js";
+
+export {
+  DiscrepancyAlertBar,
+  DEFAULT_DISCREPANCY_ALERTS,
+  calculateDiscrepancySummary,
+  formatDiscrepancyLkr,
+  getDiscrepancyText,
+  isDiscrepancyMatchingFilter,
+  resolveDiscrepancyTypeBadge,
+  resolveSeverityBadge,
+  type DiscrepancyAlertBarProps,
+  type DiscrepancyAlertItem,
+  type DiscrepancyBarFilter,
+  type DiscrepancyBarSeverity,
+  type DiscrepancyConflictType,
+  type DiscrepancySummaryMetrics,
+  type DutyManagerResolutionAction,
+} from "./DiscrepancyAlertBar.js";
