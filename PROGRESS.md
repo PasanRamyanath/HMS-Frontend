@@ -253,3 +253,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 371: Build Activity Revenue & Therapist Utilization Summary Card (`src/admin/activities/ActivityKpiCard.tsx`)
 - [x] Step 372: Build Weather & Sea/Park Advisory Banner for Guest QR Excursion Tab (`src/qr/AdvisoryBanner.tsx`)
 - [x] Step 373: Assemble Master Spa, Excursions & Airport Transfers Admin Page (`src/admin/activities/ActivitiesAdminPage.tsx`)
+- [x] Step 375: Run Phase 15 Ponytail Review & Code Simplification Checkpoint (`src/admin/activities/`)
