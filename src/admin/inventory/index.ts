@@ -13,3 +13,4 @@ export * from "./BarPegAuditView.js";
 export * from "./SpoilageAndStaffMealModal.js";
 export * from "./StockTakeVarianceView.js";
 export * from "./ExpiryAlertCard.js";
+export * from "./SupplierPayablesView.js";
