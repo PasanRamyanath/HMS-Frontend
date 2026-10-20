@@ -6,6 +6,8 @@ import {
   type AppRoute,
   type BookingParams,
   type BookingRoute,
+  type EventsParams,
+  type EventsRoute,
   Link,
   type LinkProps,
   type NavigateOptions,
@@ -63,6 +65,15 @@ describe("URL-Based Router & Apple Spring Transitions (router.ts)", () => {
       if (parsed.kind === "BOOKING") {
         assert.strictEqual(parsed.params.tenantId, "nuwara-eliya-heritage");
         assert.strictEqual(parsed.path, "/book/nuwara-eliya-heritage");
+      }
+    });
+
+    it("parses public banquet & events route (/events/:tenantId)", () => {
+      const parsed = parseRoute("/events/cinnamon-grand");
+      assert.strictEqual(parsed.kind, "EVENTS");
+      if (parsed.kind === "EVENTS") {
+        assert.strictEqual(parsed.params.tenantId, "cinnamon-grand");
+        assert.strictEqual(parsed.path, "/events/cinnamon-grand");
       }
     });
 
@@ -202,6 +213,8 @@ describe("URL-Based Router & Apple Spring Transitions (router.ts)", () => {
 
       const qrRoute: QrStayRoute = { kind: "QR_STAY", path: "/qr/t1/l1", params: qrParams };
       const bookRoute: BookingRoute = { kind: "BOOKING", path: "/book/t1", params: bookParams };
+      const eventsParams: EventsParams = { tenantId: "t1" };
+      const eventsRoute: EventsRoute = { kind: "EVENTS", path: "/events/t1", params: eventsParams };
       const staffRoute: StaffRoute = { kind: "STAFF", path: "/staff/kds", params: staffParams };
       const adminRoute: AdminRoute = { kind: "ADMIN", path: "/admin/folios", params: adminParams };
       const simpleRoute: SimpleRoute = { kind: "HOME", path: "/", params: {} };
@@ -209,6 +222,7 @@ describe("URL-Based Router & Apple Spring Transitions (router.ts)", () => {
       const allRoutes: ReadonlyArray<AppRoute> = [
         qrRoute,
         bookRoute,
+        eventsRoute,
         staffRoute,
         adminRoute,
         simpleRoute,
@@ -216,7 +230,7 @@ describe("URL-Based Router & Apple Spring Transitions (router.ts)", () => {
 
       const testKind: RouteKind = "QR_STAY";
       assert.strictEqual(testKind, "QR_STAY");
-      assert.strictEqual(allRoutes.length, 5);
+      assert.strictEqual(allRoutes.length, 6);
 
       const navOpts: NavigateOptions = { replace: true, skipTransition: false };
       assert.strictEqual(navOpts.replace, true);

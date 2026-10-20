@@ -232,5 +232,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 344: Build Tentative Hold Expiry Alert & Sales Follow-Up Queue (`src/admin/banquets/BanquetLeadQueue.tsx`)
 - [x] Step 345: Build Banquet Profitability & Food Cost Margin Summary Card (`src/admin/banquets/BanquetProfitCard.tsx`)
 - [x] Step 346: Build Casual Banquet Waiter / Steward Attendance & Payout Sheet (`src/admin/banquets/CasualStewardSheet.tsx`)
+- [x] Step 347: Build Public Wedding & Event Inquiry Form (`src/qr/booking/PublicBanquetInquiry.tsx`)
 
 

@@ -16,6 +16,7 @@ export type RouteKind =
   | "HOME"
   | "QR_STAY"
   | "BOOKING"
+  | "EVENTS"
   | "STAFF"
   | "LOGIN"
   | "REGISTER"
@@ -28,6 +29,10 @@ export interface QrStayParams {
 }
 
 export interface BookingParams {
+  readonly tenantId: string;
+}
+
+export interface EventsParams {
   readonly tenantId: string;
 }
 
@@ -51,6 +56,12 @@ export interface BookingRoute {
   readonly params: BookingParams;
 }
 
+export interface EventsRoute {
+  readonly kind: "EVENTS";
+  readonly path: string;
+  readonly params: EventsParams;
+}
+
 export interface StaffRoute {
   readonly kind: "STAFF";
   readonly path: string;
@@ -69,7 +80,13 @@ export interface SimpleRoute {
   readonly params: Record<string, never>;
 }
 
-export type AppRoute = QrStayRoute | BookingRoute | StaffRoute | AdminRoute | SimpleRoute;
+export type AppRoute =
+  | QrStayRoute
+  | BookingRoute
+  | EventsRoute
+  | StaffRoute
+  | AdminRoute
+  | SimpleRoute;
 
 export interface NavigateOptions {
   readonly replace?: boolean;
@@ -136,6 +153,15 @@ function matchParameterizedRoute(normalized: string): AppRoute | null {
       kind: "BOOKING",
       path: normalized,
       params: { tenantId: decodeURIComponent(bookMatch[1]) },
+    };
+  }
+
+  const eventsMatch = /^\/events\/([^/]+)$/.exec(normalized);
+  if (eventsMatch?.[1]) {
+    return {
+      kind: "EVENTS",
+      path: normalized,
+      params: { tenantId: decodeURIComponent(eventsMatch[1]) },
     };
   }
 
