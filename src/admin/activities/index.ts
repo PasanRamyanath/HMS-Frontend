@@ -11,3 +11,4 @@ export * from "./PrintableTransferPass.js";
 export * from "./GearRentalBoard.js";
 export * from "./PanchakarmaTracker.js";
 export * from "./WakeUpCallList.js";
+export * from "./dispatchVendorWhatsApp.js";
