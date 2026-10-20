@@ -224,5 +224,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 334: Build External Vendor & Traditional Cultural Add-Ons Tracker (`src/admin/banquets/BanquetVendorsPanel.tsx`)
 - [x] Step 335: Build Printable A4 Banquet Event Order / Function Prospectus (`src/admin/banquets/PrintableBeoSheet.tsx`)
 - [x] Step 336: Build Staged Wedding Deposit Schedule & PayHere Payment Link Tracker (`src/admin/banquets/BanquetDepositSchedule.tsx`)
+- [x] Step 337: Build Event-Day Live Plate Counter & Extra-Pax Overflow Tracker (`src/staff/pos/LiveBanquetPlateCounter.tsx`)
 
 
