@@ -11,3 +11,4 @@ export * from "./GrnModal.js";
 export * from "./GinTransferModal.js";
 export * from "./BarPegAuditView.js";
 export * from "./SpoilageAndStaffMealModal.js";
+export * from "./StockTakeVarianceView.js";
