@@ -4,3 +4,4 @@
 
 export * from "./HousekeepingMobileView.js";
 export * from "./HkAmenityQueue.js";
+export * from "./HkMinibarLoggerModal.js";

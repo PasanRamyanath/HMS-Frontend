@@ -196,4 +196,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 ## Phase 13: Housekeeping Mobile Runner, Room Status Matrix, Minibar Posting, Laundry & Maintenance Tickets
 - [x] Step 301: Build Housekeeping Smartphone Room Status Grid (`src/staff/housekeeping/HousekeepingMobileView.tsx`)
 - [x] Step 302: Build Live Guest QR Housekeeping Request Queue (`src/staff/housekeeping/HkAmenityQueue.tsx`)
+- [x] Step 303: Build Attendant In-Room Minibar Consumption 1-Tap Logger (`src/staff/housekeeping/HkMinibarLoggerModal.tsx`)
 
