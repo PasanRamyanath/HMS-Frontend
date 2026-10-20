@@ -191,4 +191,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 294: Build Restaurant Outlet Daily X-Read & Z-Read End-of-Shift Summary (`src/staff/pos/PosZReadModal.tsx`)
 - [x] Step 297: Build Screen Wake-Lock Helper (`src/lib/useWakeLock.ts`) for Kitchen & Bar Phones/Tablets
 - [x] Step 298: Build Unified Staff Smartphone Launcher (`src/staff/StaffMobileHub.tsx`)
+- [x] Step 300: Run Phase 12 Ponytail Review & Code Simplification Checkpoint (`src/staff/shared/`)
 
