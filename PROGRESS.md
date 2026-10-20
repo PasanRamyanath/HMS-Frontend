@@ -204,4 +204,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 310: Build Engineering & Preventive Maintenance Ticket System (`src/admin/housekeeping/MaintenanceTicketBoard.tsx`)
 - [x] Step 311: Build Lost & Found Register with Photo & Guest NIC/Phone Link (`src/admin/housekeeping/LostAndFoundView.tsx`)
 - [x] Step 312: Build Diesel Generator, CEB Grid Power & Water Tank Daily Utility Meter Log (`src/admin/housekeeping/UtilityMeterCard.tsx`)
+- [x] Step 313: Build Turndown Service Evening Checklist Mode (`src/staff/housekeeping/TurndownServiceView.tsx`)
 
