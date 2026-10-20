@@ -9,3 +9,4 @@ export * from "./PurchaseRequisitionModal.js";
 export * from "./PurchaseOrderModal.js";
 export * from "./GrnModal.js";
 export * from "./GinTransferModal.js";
+export * from "./BarPegAuditView.js";
