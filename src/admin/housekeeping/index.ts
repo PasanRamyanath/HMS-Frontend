@@ -60,3 +60,23 @@ export {
   type LinenItemMetrics,
   type LinenItemRecord,
 } from "./LinenInventoryCard.js";
+
+export {
+  MaintenanceTicketBoard,
+  DEFAULT_MAINTENANCE_TICKETS,
+  calculateMaintenanceMetrics,
+  formatMaintenanceLkr,
+  getMaintenanceText,
+  getNextMaintenanceStatus,
+  isTicketMatchingSearch,
+  isTicketMatchingTab,
+  resolveCategoryDetails,
+  resolveSeverityStyle,
+  type MaintenanceCategory,
+  type MaintenanceFilterTab,
+  type MaintenanceMetrics,
+  type MaintenanceSeverity,
+  type MaintenanceStatus,
+  type MaintenanceTicketBoardProps,
+  type MaintenanceTicketRecord,
+} from "./MaintenanceTicketBoard.js";
