@@ -7,3 +7,4 @@ export * from "./SpaScheduleGrid.js";
 export * from "./ExcursionBookingModal.js";
 export * from "./AirportTransferBoard.js";
 export * from "./TherapistAndDriverPayouts.js";
+export * from "./PrintableTransferPass.js";
