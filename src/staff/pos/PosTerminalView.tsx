@@ -94,6 +94,9 @@ export interface PosSettlementPayload extends PosOrderPayload {
   readonly amountTenderedLkr: number;
   readonly changeReturnedLkr: number;
   readonly authCode?: string | undefined;
+  readonly cardLastFour?: string | undefined;
+  readonly lankaQrRef?: string | undefined;
+  readonly tipLkr?: number | undefined;
   readonly settledAt: string;
 }
 

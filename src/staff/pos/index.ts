@@ -51,3 +51,17 @@ export {
   type SplitSubBill,
   type PosSplitBillModalProps,
 } from "./PosSplitBillModal.js";
+
+export {
+  PosTenderModal,
+  calculateCashChange,
+  buildSettlementPayload,
+  generateReceiptNumber,
+  formatReceiptTimestamp,
+  LKR_CASH_DENOMINATIONS,
+  SRI_LANKAN_CARD_BANKS,
+  type CashCalculationResult,
+  type CardTerminalBank,
+  type BuildSettlementInput,
+  type PosTenderModalProps,
+} from "./PosTenderModal.js";
