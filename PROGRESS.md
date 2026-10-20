@@ -233,5 +233,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 345: Build Banquet Profitability & Food Cost Margin Summary Card (`src/admin/banquets/BanquetProfitCard.tsx`)
 - [x] Step 346: Build Casual Banquet Waiter / Steward Attendance & Payout Sheet (`src/admin/banquets/CasualStewardSheet.tsx`)
 - [x] Step 347: Build Public Wedding & Event Inquiry Form (`src/qr/booking/PublicBanquetInquiry.tsx`)
+- [x] Step 348: Assemble Unified Banquets, Weddings & MICE Admin Page (`src/admin/banquets/BanquetsAdminPage.tsx`)
 
 
