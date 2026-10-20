@@ -35,6 +35,8 @@
 
 import { type FC, useId, useMemo, useState } from "react";
 import type { SupportedLanguage } from "../../lib/i18n.js";
+import { PrintableTaxInvoice } from "../folios/PrintableTaxInvoice.js";
+import { mapBanquetBillingToTaxInvoice } from "./banquetInvoiceHelpers.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -1004,10 +1006,21 @@ interface PrintInvoiceTabProps {
   readonly config: BanquetBillingConfig;
   readonly financials: BanquetSettlementFinancials;
   readonly t: SettlementTranslations;
+  readonly language?: SupportedLanguage | undefined;
   readonly onPrint: () => void;
 }
 
-const PrintInvoiceTab: FC<PrintInvoiceTabProps> = ({ config, financials, t, onPrint }) => {
+const PrintInvoiceTab: FC<PrintInvoiceTabProps> = ({
+  config,
+  financials,
+  t,
+  language = "en",
+  onPrint,
+}) => {
+  const invoiceProps = useMemo(() => {
+    return mapBanquetBillingToTaxInvoice(config, financials, language);
+  }, [config, financials, language]);
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -1017,7 +1030,7 @@ const PrintInvoiceTab: FC<PrintInvoiceTabProps> = ({ config, financials, t, onPr
         <button
           type="button"
           onClick={onPrint}
-          className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all min-h-[44px] flex items-center gap-2 shadow"
+          className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all min-h-[44px] flex items-center gap-2 shadow cursor-pointer"
         >
           <svg
             className="w-4 h-4"
@@ -1037,189 +1050,15 @@ const PrintInvoiceTab: FC<PrintInvoiceTabProps> = ({ config, financials, t, onPr
         </button>
       </div>
 
-      {/* Printable Sheet Emulation */}
-      <div className="p-8 rounded-2xl bg-white text-slate-900 border border-slate-300 shadow-sm font-sans space-y-6">
-        <div className="border-b-2 border-slate-900 pb-4 flex justify-between items-start">
-          <div>
-            <div className="text-xl font-black uppercase tracking-wider">{config.hotelName}</div>
-            <div className="text-xs text-slate-600">{config.hotelAddress}</div>
-            <div className="text-xs font-mono text-slate-700 mt-1">
-              TIN/VAT: {config.hotelVatTin}
-            </div>
-            <div className="text-xs font-mono text-slate-700">SLTDA: {config.sltdaRegNumber}</div>
-          </div>
-          <div className="text-right">
-            <div className="text-lg font-black text-indigo-700 uppercase">
-              STATUTORY TAX INVOICE
-            </div>
-            <div className="text-sm font-mono font-bold mt-1">Invoice: {config.invoiceNumber}</div>
-            <div className="text-xs font-mono text-slate-600">Date: {config.eventDate}</div>
-            <div className="text-xs font-mono text-slate-600">BEO Ref: {config.beoNumber}</div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4 text-xs">
-          <div>
-            <div className="font-bold uppercase text-slate-500">BILLED TO:</div>
-            <div className="font-bold text-sm text-slate-900">{config.clientName}</div>
-            {config.clientCompany && <div>{config.clientCompany}</div>}
-            <div>{config.clientPhone}</div>
-            <div>NIC/Passport: {config.clientNicPassport}</div>
-          </div>
-          <div>
-            <div className="font-bold uppercase text-slate-500">FUNCTION VENUE:</div>
-            <div className="font-semibold text-slate-900">{config.eventName}</div>
-            <div>Venue: {config.hallName}</div>
-            <div>Event Date: {config.eventDate}</div>
-            <div>Pax Count: {financials.totalPaxCount} attendees</div>
-          </div>
-        </div>
-
-        <table className="w-full text-left text-xs border-collapse">
-          <thead>
-            <tr className="border-b border-slate-400 font-bold uppercase">
-              <th className="py-2">Item Description</th>
-              <th className="py-2 text-center">Qty</th>
-              <th className="py-2 text-right">Unit Price</th>
-              <th className="py-2 text-right">Amount (LKR)</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-200">
-            <tr>
-              <td className="py-1.5 font-medium">Guaranteed Wedding Package</td>
-              <td className="py-1.5 text-center font-mono">{config.guaranteedPax}</td>
-              <td className="py-1.5 text-right font-mono">
-                {formatSettlementCurrency(config.perPaxRateLkr)}
-              </td>
-              <td className="py-1.5 text-right font-mono">
-                {formatSettlementCurrency(financials.guaranteedPaxTotalLkr)}
-              </td>
-            </tr>
-            {financials.extraPaxCount > 0 && (
-              <tr>
-                <td className="py-1.5 font-medium">Extra Pax Overflow Surcharge</td>
-                <td className="py-1.5 text-center font-mono">{financials.extraPaxCount}</td>
-                <td className="py-1.5 text-right font-mono">
-                  {formatSettlementCurrency(config.extraPaxRateLkr)}
-                </td>
-                <td className="py-1.5 text-right font-mono">
-                  {formatSettlementCurrency(financials.extraPaxTotalLkr)}
-                </td>
-              </tr>
-            )}
-            {config.biteOrders.map((b) => (
-              <tr key={b.id}>
-                <td className="py-1.5">{b.dishNameEn}</td>
-                <td className="py-1.5 text-center font-mono">{b.platterCount}</td>
-                <td className="py-1.5 text-right font-mono">
-                  {formatSettlementCurrency(b.unitPriceLkr)}
-                </td>
-                <td className="py-1.5 text-right font-mono">
-                  {formatSettlementCurrency(b.totalLkr)}
-                </td>
-              </tr>
-            ))}
-            {config.corkageBottleCount > 0 && (
-              <tr>
-                <td className="py-1.5">Beverage & Bottle Corkage Charge</td>
-                <td className="py-1.5 text-center font-mono">{config.corkageBottleCount}</td>
-                <td className="py-1.5 text-right font-mono">
-                  {formatSettlementCurrency(config.corkageRatePerBottleLkr)}
-                </td>
-                <td className="py-1.5 text-right font-mono">
-                  {formatSettlementCurrency(financials.corkageTotalLkr)}
-                </td>
-              </tr>
-            )}
-            {config.acOvertimeHours > 0 && (
-              <tr>
-                <td className="py-1.5">Hall & Air Conditioning Overtime</td>
-                <td className="py-1.5 text-center font-mono">{config.acOvertimeHours} hrs</td>
-                <td className="py-1.5 text-right font-mono">
-                  {formatSettlementCurrency(config.acOvertimeHourlyRateLkr)}
-                </td>
-                <td className="py-1.5 text-right font-mono">
-                  {formatSettlementCurrency(financials.acOvertimeTotalLkr)}
-                </td>
-              </tr>
-            )}
-            {config.sundryChargesLkr > 0 && (
-              <tr>
-                <td className="py-1.5">{config.sundryDescription || "Sundry Event Add-Ons"}</td>
-                <td className="py-1.5 text-center font-mono">1</td>
-                <td className="py-1.5 text-right font-mono">
-                  {formatSettlementCurrency(config.sundryChargesLkr)}
-                </td>
-                <td className="py-1.5 text-right font-mono">
-                  {formatSettlementCurrency(config.sundryChargesLkr)}
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-
-        <div className="border-t border-slate-400 pt-3 flex justify-end">
-          <div className="w-72 space-y-1.5 text-xs">
-            <div className="flex justify-between">
-              <span>Gross Subtotal:</span>
-              <span className="font-mono">
-                {formatSettlementCurrency(financials.grossSubtotalLkr)}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span>10% Service Charge:</span>
-              <span className="font-mono">
-                {formatSettlementCurrency(financials.serviceChargeLkr)}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span>1% TDL Levy:</span>
-              <span className="font-mono">{formatSettlementCurrency(financials.tdlLkr)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>2.5% SSCL Tax:</span>
-              <span className="font-mono">{formatSettlementCurrency(financials.ssclLkr)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>18% VAT Tax:</span>
-              <span className="font-mono">{formatSettlementCurrency(financials.vatLkr)}</span>
-            </div>
-            <div className="border-t border-slate-300 pt-1 flex justify-between font-bold text-sm">
-              <span>Grand Total:</span>
-              <span className="font-mono">
-                {formatSettlementCurrency(financials.grandTotalLkr)}
-              </span>
-            </div>
-            <div className="flex justify-between text-emerald-700 font-semibold">
-              <span>Advance Deposits Paid:</span>
-              <span className="font-mono">
-                - {formatSettlementCurrency(financials.totalDepositsPaidLkr)}
-              </span>
-            </div>
-            <div className="border-t-2 border-slate-900 pt-1 flex justify-between font-black text-sm text-indigo-800">
-              <span>Net Balance Due:</span>
-              <span className="font-mono">
-                {formatSettlementCurrency(financials.netBalanceDueLkr)}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-slate-300 pt-8 grid grid-cols-2 gap-8 text-xs text-center">
-          <div>
-            <div className="border-t border-slate-400 pt-1 font-semibold">
-              Client Acceptance Signature
-            </div>
-            <div className="text-[10px] text-slate-500">Date: {config.eventDate}</div>
-          </div>
-          <div>
-            <div className="border-t border-slate-400 pt-1 font-semibold">
-              Authorized Hotel Manager Signature & Stamp
-            </div>
-            <div className="text-[10px] text-slate-500">General Manager / Financial Controller</div>
-          </div>
-        </div>
-      </div>
+      <PrintableTaxInvoice
+        hotel={invoiceProps.hotel}
+        guest={invoiceProps.guest}
+        stay={invoiceProps.stay}
+        lines={invoiceProps.lines}
+        payments={invoiceProps.payments}
+        metadata={invoiceProps.metadata}
+        onPrint={onPrint}
+      />
     </div>
   );
 };
@@ -1392,7 +1231,13 @@ export const BanquetSettlementModal: FC<BanquetSettlementModalProps> = ({
           )}
 
           {activeTab === "PRINT_INVOICE" && (
-            <PrintInvoiceTab config={config} financials={financials} t={t} onPrint={handlePrint} />
+            <PrintInvoiceTab
+              config={config}
+              financials={financials}
+              t={t}
+              language={language}
+              onPrint={handlePrint}
+            />
           )}
         </div>
 
