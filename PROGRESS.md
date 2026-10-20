@@ -188,3 +188,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 291: Build Order Void, Wastage & Complimentary Manager Approval Modal (`src/staff/pos/VoidOrderModal.tsx`)
 - [x] Step 292: Build Buffet / Meal-Plan Attendance Check-Off Screen for Restaurant Host (`src/staff/pos/BuffetCheckInView.tsx`)
 - [x] Step 293: Build Driver / Guide Meal Voucher Redemption Scanner in POS (`src/staff/pos/DriverMealRedeemModal.tsx`)
+- [x] Step 294: Build Restaurant Outlet Daily X-Read & Z-Read End-of-Shift Summary (`src/staff/pos/PosZReadModal.tsx`)
