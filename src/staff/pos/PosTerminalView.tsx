@@ -64,6 +64,7 @@ export interface PosCartItem {
   readonly unitPriceLkr: number;
   readonly quantity: number;
   readonly notes?: string | undefined;
+  readonly seatNumber?: number | undefined;
 }
 
 export interface PosTaxSummary {

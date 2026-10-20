@@ -41,3 +41,13 @@ export {
   type GuestStayInfo,
   type PosRoomLookupModalProps,
 } from "./PosRoomLookupModal.js";
+
+export {
+  PosSplitBillModal,
+  calculateEqualSplitBills,
+  calculateItemSplitBills,
+  calculateSeatSplitBills,
+  type SplitMode,
+  type SplitSubBill,
+  type PosSplitBillModalProps,
+} from "./PosSplitBillModal.js";
