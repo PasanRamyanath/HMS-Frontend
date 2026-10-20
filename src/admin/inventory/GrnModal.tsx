@@ -23,13 +23,14 @@ import {
 import { formatLkr } from "../../lib/i18n.js";
 import type { PurchaseOrderModel } from "./PurchaseOrderModal.js";
 import {
+  DEFAULT_STOCK_ITEMS,
   DEPARTMENTS,
   type StockCategory,
   type StockDepartment,
   type StockItemModel,
   type StockUom,
 } from "./StockItemManager.js";
-import type { SupplierModel } from "./SupplierDirectory.js";
+import { DEFAULT_SUPPLIERS, type SupplierModel } from "./SupplierDirectory.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -136,8 +137,8 @@ export interface GrnModalProps {
   readonly isOpen: boolean;
   readonly onClose: () => void;
   readonly onSaveGrn: (grn: GoodsReceivedNoteModel) => void;
-  readonly suppliers: readonly SupplierModel[];
-  readonly stockItems: readonly StockItemModel[];
+  readonly suppliers?: readonly SupplierModel[] | undefined;
+  readonly stockItems?: readonly StockItemModel[] | undefined;
   readonly purchaseOrders?: readonly PurchaseOrderModel[] | undefined;
   readonly initialGrn?: GoodsReceivedNoteModel | undefined;
   readonly hotelName?: string | undefined;
@@ -942,8 +943,8 @@ function getInitialGrnValues(
 
 export function useGrnState(props: GrnModalProps) {
   const {
-    suppliers,
-    stockItems,
+    suppliers = DEFAULT_SUPPLIERS,
+    stockItems = DEFAULT_STOCK_ITEMS,
     purchaseOrders = [],
     initialGrn,
     hotelName = "The Grand Serendib Resort & Spa, Bentota",
@@ -1759,8 +1760,8 @@ export function GrnModal(props: GrnModalProps) {
         {state.activeTab === "RECEIVING_INSPECTION" && (
           <GrnInspectionTab
             state={state}
-            suppliers={props.suppliers}
-            stockItems={props.stockItems}
+            suppliers={props.suppliers ?? DEFAULT_SUPPLIERS}
+            stockItems={props.stockItems ?? DEFAULT_STOCK_ITEMS}
             purchaseOrders={props.purchaseOrders || []}
             onClose={props.onClose}
           />

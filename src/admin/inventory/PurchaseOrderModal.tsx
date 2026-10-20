@@ -26,13 +26,18 @@ import type {
   PurchaseRequisitionModel,
 } from "./PurchaseRequisitionModal.js";
 import {
+  DEFAULT_STOCK_ITEMS,
   DEPARTMENTS,
   type StockCategory,
   type StockDepartment,
   type StockItemModel,
   type StockUom,
 } from "./StockItemManager.js";
-import type { SupplierCreditTerms, SupplierModel } from "./SupplierDirectory.js";
+import {
+  DEFAULT_SUPPLIERS,
+  type SupplierCreditTerms,
+  type SupplierModel,
+} from "./SupplierDirectory.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -113,8 +118,8 @@ export interface PurchaseOrderModalProps {
   readonly isOpen: boolean;
   readonly onClose: () => void;
   readonly onSavePo: (po: PurchaseOrderModel) => void;
-  readonly suppliers: readonly SupplierModel[];
-  readonly stockItems: readonly StockItemModel[];
+  readonly suppliers?: readonly SupplierModel[] | undefined;
+  readonly stockItems?: readonly StockItemModel[] | undefined;
   readonly approvedRequisitions?: readonly PurchaseRequisitionModel[] | undefined;
   readonly initialPo?: PurchaseOrderModel | undefined;
   readonly hotelName?: string | undefined;
@@ -1525,8 +1530,8 @@ function getInitialPoValues(
 // ============================================================================
 
 export function usePurchaseOrderState(props: PurchaseOrderModalProps) {
-  const suppliers = props.suppliers;
-  const stockItems = props.stockItems;
+  const suppliers = props.suppliers || DEFAULT_SUPPLIERS;
+  const stockItems = props.stockItems || DEFAULT_STOCK_ITEMS;
   const approvedRequisitions = props.approvedRequisitions || [];
   const initialPo = props.initialPo;
   const hotelName = props.hotelName || "The Grand Serendib Resort & Spa, Bentota";
@@ -1799,10 +1804,10 @@ export function PurchaseOrderModal(props: PurchaseOrderModalProps) {
             items={state.items}
             onUpdateItemField={state.handleUpdateItemField}
             onRemoveItem={state.handleRemoveItem}
-            suppliers={props.suppliers}
+            suppliers={props.suppliers ?? DEFAULT_SUPPLIERS}
             selectedSupplier={state.selectedSupplier}
             approvedRequisitions={props.approvedRequisitions ?? []}
-            stockItems={props.stockItems}
+            stockItems={props.stockItems ?? DEFAULT_STOCK_ITEMS}
             selectedStockItemIdToAdd={state.selectedStockItemIdToAdd}
             setSelectedStockItemIdToAdd={state.setSelectedStockItemIdToAdd}
             addQty={state.addQty}

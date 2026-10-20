@@ -270,3 +270,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 395: Build Printable A4 GRN, GIN & Purchase Order Voucher Template (`src/admin/inventory/PrintableStoreVoucher.tsx`)
 - [x] Step 396: Build Return-to-Supplier (Debit Note / Goods Return Note) Modal (`src/admin/inventory/GoodsReturnModal.tsx`)
 - [x] Step 397: Build Empty Gas Cylinder (Litro / Laugfs LPG) & Returnable Crate Tracker (`src/admin/inventory/ReturnableContainerCard.tsx`)
+- [x] Step 398: Assemble Unified Store Inventory, Procurement & Cost Control Page (`src/admin/inventory/InventoryAdminPage.tsx`)

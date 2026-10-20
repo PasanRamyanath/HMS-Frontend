@@ -15,6 +15,7 @@ import { type FormEvent, useId, useMemo, useState } from "react";
 import { DialogModal } from "../../components/DialogModal.js";
 import { formatLkr } from "../../lib/i18n.js";
 import {
+  DEFAULT_STOCK_ITEMS,
   DEPARTMENTS,
   type StockCategory,
   type StockDepartment,
@@ -81,7 +82,7 @@ export interface RequisitionTotals {
 export interface PurchaseRequisitionModalProps {
   readonly isOpen: boolean;
   readonly onClose: () => void;
-  readonly availableStockItems: ReadonlyArray<StockItemModel>;
+  readonly availableStockItems?: ReadonlyArray<StockItemModel> | undefined;
   readonly initialDepartment?: StockDepartment | undefined;
   readonly staffName?: string | undefined;
   readonly onSubmitRequisition?:
@@ -245,7 +246,7 @@ function computeSuggestedRequisitionLine(item: StockItemModel): PurchaseRequisit
  * Suggests reorderQuantity or deficit shortfall with safety buffer.
  */
 export function autoFillFromLowStock(
-  stockItems: ReadonlyArray<StockItemModel>,
+  stockItems: ReadonlyArray<StockItemModel> = [],
   department?: StockDepartment | "ALL" | undefined,
 ): ReadonlyArray<PurchaseRequisitionLineItem> {
   const result: PurchaseRequisitionLineItem[] = [];
@@ -362,7 +363,7 @@ function RequisitionRow({ line, onUpdateQuantity, onRemove }: RequisitionRowProp
 export function PurchaseRequisitionModal({
   isOpen,
   onClose,
-  availableStockItems,
+  availableStockItems = DEFAULT_STOCK_ITEMS,
   initialDepartment = "KITCHEN",
   staffName = "Kasun Perera (Head Chef)",
   onSubmitRequisition,

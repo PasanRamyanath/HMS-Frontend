@@ -22,6 +22,7 @@ import {
 import { formatLkr } from "../../lib/i18n.js";
 import type { FifoBatchRecord } from "./GrnModal.js";
 import {
+  DEFAULT_STOCK_ITEMS,
   DEPARTMENTS,
   type StockCategory,
   type StockDepartment,
@@ -98,7 +99,7 @@ export interface GinTransferModalProps {
   readonly isOpen: boolean;
   readonly onClose: () => void;
   readonly onSaveGin: (gin: GoodsIssueNoteModel) => void;
-  readonly stockItems: readonly StockItemModel[];
+  readonly stockItems?: readonly StockItemModel[] | undefined;
   readonly availableBatches?: readonly FifoBatchRecord[] | undefined;
   readonly initialGin?: GoodsIssueNoteModel | undefined;
   readonly hotelName?: string | undefined;
@@ -868,7 +869,7 @@ function useGinState(props: GinTransferModalProps) {
   const {
     initialGin,
     availableBatches = [],
-    stockItems,
+    stockItems = DEFAULT_STOCK_ITEMS,
     currentUserName = "Inventory Controller",
   } = props;
 
@@ -1231,7 +1232,7 @@ export function GinTransferModal(props: GinTransferModalProps) {
             {/* Items Table */}
             <GinItemsTable
               items={state.items}
-              stockItems={props.stockItems}
+              stockItems={props.stockItems ?? DEFAULT_STOCK_ITEMS}
               selectedItemId={state.selectedItemId}
               setSelectedItemId={state.setSelectedItemId}
               onAddItem={state.handleAddItem}
