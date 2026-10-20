@@ -239,3 +239,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 ## Phase 15: Ayurveda Spa, Safari Jeep, Whale Watching, Gem/Tea Tours & Airport Transfer Excursion Desk
 - [x] Step 353: Build Ayurveda Doctor (Vaidya) Dosha Consultation & Treatment Plan Card (`src/admin/activities/AyurvedaConsultationModal.tsx`)
 - [x] Step 354: Build Interactive Spa Therapist & Treatment Room Daily Schedule Grid (`src/admin/activities/SpaScheduleGrid.tsx`)
+- [x] Step 355: Build Safari Jeep, Whale Watching, Gem Mine & Tea Trail Excursion Booking Modal (`src/admin/activities/ExcursionBookingModal.tsx`)
