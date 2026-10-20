@@ -6,3 +6,4 @@
 export * from "./StockItemManager.js";
 export * from "./SupplierDirectory.js";
 export * from "./PurchaseRequisitionModal.js";
+export * from "./PurchaseOrderModal.js";
