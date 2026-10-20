@@ -3,3 +3,4 @@
  */
 
 export * from "./AyurvedaConsultationModal.js";
+export * from "./SpaScheduleGrid.js";
