@@ -198,4 +198,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 302: Build Live Guest QR Housekeeping Request Queue (`src/staff/housekeeping/HkAmenityQueue.tsx`)
 - [x] Step 303: Build Attendant In-Room Minibar Consumption 1-Tap Logger (`src/staff/housekeeping/HkMinibarLoggerModal.tsx`)
 - [x] Step 304: Build Room Inspection Checklist Modal for Housekeeping Supervisors (`src/staff/housekeeping/SupervisorInspectModal.tsx`)
+- [x] Step 307: Build Daily Attendant Task Sheet & Print/Mobile Assignment View (`src/admin/housekeeping/HkAssignmentBoard.tsx`)
 
