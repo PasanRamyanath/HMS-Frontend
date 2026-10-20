@@ -185,3 +185,4 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 288: Build POS Quick Cash, Card, LankaQR & Room Folio Tender Panel (`src/staff/pos/PosTenderModal.tsx`)
 - [x] Step 289: Build Waiter / Room-Service Runner Delivery Dispatch Queue (`src/staff/kds/RunnerDeliveryView.tsx`)
 - [x] Step 290: Build All-Orders Master Live & Historical Table with Filters & Reprints (`src/admin/orders/AllOrdersView.tsx`)
+- [x] Step 291: Build Order Void, Wastage & Complimentary Manager Approval Modal (`src/staff/pos/VoidOrderModal.tsx`)
