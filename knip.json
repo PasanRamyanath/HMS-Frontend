@@ -11,6 +11,7 @@
     "src/staff/index.ts!",
     "src/staff/kds/index.ts!",
     "src/staff/pos/index.ts!",
+    "src/admin/orders/index.ts!",
     "test/**/*.test.ts"
   ],
   "project": ["src/**/*.{ts,tsx}!", "test/**/*.test.ts"]
