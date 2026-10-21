@@ -15,3 +15,4 @@ export * from "./PrintablePayslip.js";
 export * from "./StaffBenefitsCard.js";
 export * from "./GratuityReportCard.js";
 export * from "./LaborCostCard.js";
+export * from "./HrAndPayrollPage.js";
