@@ -9,3 +9,4 @@ export * from "./GroupChainRollupView.js";
 export * from "./AwsFreeTierMeterCard.js";
 export * from "./TenantPlanConfigModal.js";
 export * from "./SaasInvoiceGenerator.js";
+export * from "./TenantBackupCard.js";
