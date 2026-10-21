@@ -10,3 +10,4 @@ export * from "./ServiceChargePoolView.js";
 export * from "./BreakageRegisterModal.js";
 export * from "./SalaryAdvanceModal.js";
 export * from "./PayrollRunView.js";
+export * from "./EpfEtfReturnView.js";

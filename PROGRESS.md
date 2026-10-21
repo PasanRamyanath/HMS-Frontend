@@ -298,6 +298,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 433: Build Breakage & Damaged Glassware/Linen Ledger Backing the SC Pool Deduction (`src/admin/hr/BreakageRegisterModal.tsx`)
 - [x] Step 434: Build Staff Salary Advance, Loan & Festival Advance (`Avurudu / Christmas`) Tracker (`src/admin/hr/SalaryAdvanceModal.tsx`)
 - [x] Step 435: Build Monthly Payroll Run & EPF/ETF Schedule Generator (`src/admin/hr/PayrollRunView.tsx`)
+- [x] Step 436: Build Central Bank EPF (`C-Form`) & ETF Monthly Return Exporter (`src/admin/hr/EpfEtfReturnView.tsx`)
 
 
 
