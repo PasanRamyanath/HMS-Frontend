@@ -299,6 +299,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 434: Build Staff Salary Advance, Loan & Festival Advance (`Avurudu / Christmas`) Tracker (`src/admin/hr/SalaryAdvanceModal.tsx`)
 - [x] Step 435: Build Monthly Payroll Run & EPF/ETF Schedule Generator (`src/admin/hr/PayrollRunView.tsx`)
 - [x] Step 436: Build Central Bank EPF (`C-Form`) & ETF Monthly Return Exporter (`src/admin/hr/EpfEtfReturnView.tsx`)
+- [x] Step 439: Build Printable A4 / Half-Page Bilingual (`English / සිංහල`) Employee Payslip (`src/admin/hr/PrintablePayslip.tsx`)
 
 
 
