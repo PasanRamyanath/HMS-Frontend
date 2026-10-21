@@ -7,3 +7,4 @@ export * from "./SaasSuperAdminView.js";
 export * from "./ProvisionTenantModal.js";
 export * from "./GroupChainRollupView.js";
 export * from "./AwsFreeTierMeterCard.js";
+export * from "./TenantPlanConfigModal.js";
