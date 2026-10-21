@@ -292,6 +292,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 
 ## Phase 18: Sri Lankan Hotel Staff Attendance, 10% Service Charge Pool Distribution, EPF (8%/12%), ETF (3%) & Payroll
 - [x] Step 429: Build Department Shift Roster & Weekly Duty Planner (`src/admin/hr/ShiftRosterGrid.tsx`)
+- [x] Step 430: Build Smartphone Staff QR Clock-In / Clock-Out & Attendance Sheet (`src/admin/hr/AttendanceManagerView.tsx`)
 
 
 
