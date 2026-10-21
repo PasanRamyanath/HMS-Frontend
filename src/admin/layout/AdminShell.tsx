@@ -972,6 +972,49 @@ export function AdminShell({
                 ))}
               </select>
             </div>
+
+            {/* Platform Application / Mode Switcher */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs uppercase font-semibold tracking-wider text-slate-500 dark:text-slate-400 hidden md:inline">
+                Mode:
+              </span>
+              <select
+                aria-label="Switch Platform Application"
+                defaultValue="admin"
+                onChange={(e) => {
+                  const target = e.target.value;
+                  if (target === "pos") navigateTo("/staff/pos");
+                  else if (target === "kds") navigateTo("/staff/kds");
+                  else if (target === "bar") navigateTo("/staff/bar");
+                  else if (target === "staff") navigateTo("/staff");
+                  else if (target === "qr") navigateTo(`/qr/${selectedProperty}/room-104`);
+                  else if (target === "booking") navigateTo(`/book/${selectedProperty}`);
+                }}
+                className="min-h-[40px] px-2.5 py-1.5 rounded-xl bg-apple-blue/10 dark:bg-apple-blue/20 text-apple-blue font-semibold text-xs border border-apple-blue/30 focus:outline-none focus:ring-2 focus:ring-apple-blue cursor-pointer"
+              >
+                <option value="admin" className="bg-slate-800 text-white">
+                  🏢 Hotel PMS Admin
+                </option>
+                <option value="pos" className="bg-slate-800 text-white">
+                  🍽️ Restaurant Waiter POS
+                </option>
+                <option value="kds" className="bg-slate-800 text-white">
+                  🍳 Kitchen KDS Screen
+                </option>
+                <option value="bar" className="bg-slate-800 text-white">
+                  🍸 Bar BOT Screen
+                </option>
+                <option value="staff" className="bg-slate-800 text-white">
+                  📱 Staff Operations Hub
+                </option>
+                <option value="qr" className="bg-slate-800 text-white">
+                  🛎️ Guest Room QR Menu
+                </option>
+                <option value="booking" className="bg-slate-800 text-white">
+                  🌐 Public Booking Engine
+                </option>
+              </select>
+            </div>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">

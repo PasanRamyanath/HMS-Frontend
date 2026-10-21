@@ -23,6 +23,7 @@
 
 import { type FC, useMemo, useState } from "react";
 import type { SupportedLanguage } from "../lib/i18n.js";
+import { navigateTo } from "../lib/router.js";
 import { getSoundSettings, playOrderBell, setMuted } from "../lib/soundAlert.js";
 import {
   formatWakeLockStatusLabel,
@@ -471,6 +472,17 @@ const HubTopBar: FC<HubTopBarProps> = ({
           ))}
         </div>
 
+        {/* Switch to Admin PMS */}
+        <button
+          type="button"
+          onClick={() => navigateTo("/admin")}
+          title="Switch to PMS Admin Portal"
+          className="px-3 py-1.5 rounded-full bg-sky-500/20 border border-sky-400/40 text-sky-300 text-xs font-semibold hover:bg-sky-500/30 transition-all min-h-[36px] flex items-center gap-1.5 cursor-pointer"
+        >
+          <span>🏢</span>
+          <span className="hidden sm:inline">PMS Admin</span>
+        </button>
+
         {/* Logout */}
         {onLogout && (
           <button
@@ -741,14 +753,25 @@ export const StaffMobileHub: FC<StaffMobileHubProps> = ({
       <div className="min-h-screen bg-slate-950 text-white flex flex-col">
         {/* Navigation Return Bar */}
         <div className="apple-liquid-glass sticky top-0 z-50 px-4 py-2.5 bg-slate-900/90 border-b border-white/10 backdrop-blur-xl flex items-center justify-between">
-          <button
-            type="button"
-            onClick={handleReturnToHub}
-            className="px-3 py-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs flex items-center gap-1.5 transition-all min-h-[36px]"
-          >
-            <span>←</span>
-            <span>{t.returnToHub}</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleReturnToHub}
+              className="px-3 py-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs flex items-center gap-1.5 transition-all min-h-[36px] cursor-pointer"
+            >
+              <span>←</span>
+              <span>{t.returnToHub}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateTo("/admin")}
+              title="Return to PMS Admin Portal"
+              className="px-3 py-1.5 rounded-full bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 font-semibold text-xs flex items-center gap-1.5 transition-all min-h-[36px] cursor-pointer"
+            >
+              <span>🏢</span>
+              <span className="hidden sm:inline">PMS Admin</span>
+            </button>
+          </div>
           <div className="text-xs font-semibold text-slate-300 truncate max-w-[200px]">
             {toolConfigs.find((c) => c.id === activeView)?.title}
           </div>

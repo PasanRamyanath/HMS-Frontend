@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { DashboardView } from "./admin/DashboardView.js";
 import { LoginView } from "./admin/auth/LoginView.js";
 import { RegisterStep1, type RegisterStep1Data } from "./admin/auth/RegisterStep1.js";
@@ -22,6 +22,93 @@ import {
 import { DirectBookingEngine } from "./qr/booking/DirectBookingEngine.js";
 import { GuestQrApp } from "./qr/index.js";
 import { StaffMobileHub } from "./staff/StaffMobileHub.js";
+
+// ============================================================================
+// Helper Subcomponents & Pure Route Resolvers
+// ============================================================================
+
+function resolveStaffTool(view: string) {
+  switch (view) {
+    case "pos":
+      return "WAITER_POS";
+    case "kds":
+      return "KITCHEN_KDS";
+    case "bar":
+      return "BAR_BOT";
+    case "runner":
+      return "ORDER_RUNNER";
+    case "buffet":
+      return "BUFFET_HOST";
+    case "housekeeping":
+      return "HOUSEKEEPING";
+    default:
+      return "HUB";
+  }
+}
+
+interface AuthRouteViewProps {
+  readonly route: AppRoute;
+  readonly onboardingOrgData: RegisterStep1Data | null;
+  readonly onSetOnboardingOrgData: (data: RegisterStep1Data | null) => void;
+  readonly onShowToast: (title: string, desc?: string, type?: ToastType) => void;
+}
+
+function renderAuthRoute({
+  route,
+  onboardingOrgData,
+  onSetOnboardingOrgData,
+  onShowToast,
+}: AuthRouteViewProps): ReactNode {
+  if (route.kind === "LOGIN") {
+    return (
+      <LoginView
+        onSuccess={() => {
+          onShowToast("Authenticated", "Welcome to Galle Fort Lighthouse Villa", "success");
+          navigateTo("/admin");
+        }}
+        onNavigateForgotPassword={() => navigateTo("/forgot-password")}
+        onNavigateRegister={() => navigateTo("/register")}
+      />
+    );
+  }
+
+  if (route.kind === "REGISTER") {
+    return !onboardingOrgData ? (
+      <RegisterStep1
+        onNext={(data) => {
+          onSetOnboardingOrgData(data);
+          onShowToast("Identity Verified", "Configure property and tax profile", "success");
+        }}
+        onNavigateSignIn={() => navigateTo("/login")}
+      />
+    ) : (
+      <RegisterStep2
+        initialData={{
+          shopName: onboardingOrgData.orgName,
+        }}
+        onBack={() => onSetOnboardingOrgData(null)}
+        onComplete={() => {
+          onShowToast("Tenant Registered", "Welcome to Sri Lanka Cloud SaaS HMS", "success");
+          navigateTo("/admin");
+        }}
+      />
+    );
+  }
+
+  if (route.path === "/forgot-password") {
+    return (
+      <ResetPasswordView
+        onSuccess={() => {
+          onShowToast("Password Reset", "Your password was updated successfully", "success");
+          navigateTo("/login");
+        }}
+        onNavigateSignIn={() => navigateTo("/login")}
+      />
+    );
+  }
+
+  return null;
+}
 
 // ============================================================================
 // Root Application Component
@@ -88,61 +175,18 @@ export function App() {
   };
 
   // Render Auth views
-  if (currentRoute.kind === "LOGIN") {
-    return (
-      <>
-        <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
-        <LoginView
-          onSuccess={() => {
-            showToast("Authenticated", "Welcome to Galle Fort Lighthouse Villa", "success");
-            navigateTo("/admin");
-          }}
-          onNavigateForgotPassword={() => navigateTo("/forgot-password")}
-          onNavigateRegister={() => navigateTo("/register")}
-        />
-      </>
-    );
-  }
+  const authElement = renderAuthRoute({
+    route: currentRoute,
+    onboardingOrgData,
+    onSetOnboardingOrgData: setOnboardingOrgData,
+    onShowToast: showToast,
+  });
 
-  if (currentRoute.kind === "REGISTER") {
+  if (authElement) {
     return (
       <>
         <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
-        {!onboardingOrgData ? (
-          <RegisterStep1
-            onNext={(data) => {
-              setOnboardingOrgData(data);
-              showToast("Identity Verified", "Configure property and tax profile", "success");
-            }}
-            onNavigateSignIn={() => navigateTo("/login")}
-          />
-        ) : (
-          <RegisterStep2
-            initialData={{
-              shopName: onboardingOrgData.orgName,
-            }}
-            onBack={() => setOnboardingOrgData(null)}
-            onComplete={() => {
-              showToast("Tenant Registered", "Welcome to Sri Lanka Cloud SaaS HMS", "success");
-              navigateTo("/admin");
-            }}
-          />
-        )}
-      </>
-    );
-  }
-
-  if (currentRoute.path === "/forgot-password") {
-    return (
-      <>
-        <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
-        <ResetPasswordView
-          onSuccess={() => {
-            showToast("Password Reset", "Your password was updated successfully", "success");
-            navigateTo("/login");
-          }}
-          onNavigateSignIn={() => navigateTo("/login")}
-        />
+        {authElement}
       </>
     );
   }
@@ -180,10 +224,19 @@ export function App() {
   }
 
   if (currentRoute.kind === "STAFF") {
+    const initialView = resolveStaffTool(currentRoute.params.view);
+
     return (
       <>
         <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
-        <StaffMobileHub hotelName={activeTenantName} />
+        <StaffMobileHub
+          hotelName={activeTenantName}
+          initialView={initialView}
+          onLogout={() => {
+            showToast("Signed Out", "Shift session ended safely", "info");
+            navigateTo("/login");
+          }}
+        />
       </>
     );
   }
