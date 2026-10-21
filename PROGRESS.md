@@ -319,6 +319,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 462: Build One-Click Full Tenant JSON Backup & Restore Utility (`src/admin/superadmin/TenantBackupCard.tsx`)
 - [x] Step 465: Build Global Keyboard Command Palette (Ctrl+K / Cmd+K) in Native Dialog (`src/components/CommandPalette.tsx`)
 - [x] Step 466: Build Contextual Bilingual Help & Sri Lankan Tax Tooltip Drawer (`src/components/HelpDrawer.tsx`)
+- [x] Step 467: Build Interactive Demo Sandbox Mode (/demo -> DemoSandboxSeeder.ts) (`src/lib/demoSandboxSeeder.ts`)
 
 
 
