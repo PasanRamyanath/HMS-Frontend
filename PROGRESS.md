@@ -296,6 +296,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 431: Build Sri Lankan Public, Bank, Poya & Mercantile Holiday Calendar Configurator (`src/admin/hr/SriLankaHolidaysCard.tsx`)
 - [x] Step 432: Build Monthly 10% Service Charge Pool & Breakage Recovery Worksheet (`src/admin/hr/ServiceChargePoolView.tsx`)
 - [x] Step 433: Build Breakage & Damaged Glassware/Linen Ledger Backing the SC Pool Deduction (`src/admin/hr/BreakageRegisterModal.tsx`)
+- [x] Step 434: Build Staff Salary Advance, Loan & Festival Advance (`Avurudu / Christmas`) Tracker (`src/admin/hr/SalaryAdvanceModal.tsx`)
 
 
 
