@@ -5,3 +5,4 @@
 
 export * from "./SaasSuperAdminView.js";
 export * from "./ProvisionTenantModal.js";
+export * from "./GroupChainRollupView.js";
