@@ -469,18 +469,8 @@ export function generateGenericJournalCsv(
   return [headers, ...rows].join("\n");
 }
 
-export function triggerFileDownload(content: string, filename: string, mimeType: string): void {
-  if (typeof document === "undefined") return;
-  const blob = new Blob([content], { type: mimeType });
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = filename;
-  document.body.appendChild(anchor);
-  anchor.click();
-  document.body.removeChild(anchor);
-  URL.revokeObjectURL(url);
-}
+import { triggerFileDownload } from "./ReportExportShared";
+export { triggerFileDownload };
 
 // ============================================================================
 // Subcomponents for Cognitive Complexity Management

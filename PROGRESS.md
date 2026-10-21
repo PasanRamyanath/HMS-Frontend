@@ -288,6 +288,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 421: Build Printable Official SLTDA Monthly & TDL Return Forms (`src/admin/reports/PrintableSltdaForms.tsx`)
 - [x] Step 422: Build Historical Night Audit Archive & Re-Print Browser (`src/admin/reports/AuditArchiveList.tsx`)
 - [x] Step 423: Assemble Master Statutory Reports, Night Audit & Finance Page (`src/admin/reports/ReportsAdminPage.tsx`)
+- [x] Step 425: Run Phase 17 Ponytail Review & Code Simplification Checkpoint (`src/admin/reports/ReportExportShared.tsx`)
 
 
 

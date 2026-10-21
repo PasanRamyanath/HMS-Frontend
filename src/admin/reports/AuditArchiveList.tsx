@@ -475,23 +475,7 @@ export function generateAuditArchiveCsv(records: readonly HistoricalAuditRecord[
   return [header, ...rows].join("\n");
 }
 
-function triggerArchiveCsvDownload(
-  csvContent: string,
-  filename = "sri-lanka-hms-night-audit-archive.csv",
-): void {
-  if (typeof window === "undefined" || !window.document) {
-    return;
-  }
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.setAttribute("href", url);
-  link.setAttribute("download", filename);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-}
+import { downloadCsv } from "./ReportExportShared";
 
 // ============================================================================
 // Internal UI Subcomponents
@@ -757,7 +741,7 @@ export function AuditArchiveList({
 
   const handleExportCsv = () => {
     const csv = generateAuditArchiveCsv(filteredRecords);
-    triggerArchiveCsvDownload(csv);
+    downloadCsv("sri-lanka-hms-night-audit-archive.csv", csv);
   };
 
   return (

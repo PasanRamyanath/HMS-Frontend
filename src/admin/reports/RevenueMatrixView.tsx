@@ -1070,24 +1070,8 @@ export function generateRevenueMatrixCsv(data: RevenueMatrixReportData): string 
   return parts.join("\r\n");
 }
 
-export function triggerFileDownload(
-  filename: string,
-  content: string,
-  mimeType = "text/csv;charset=utf-8;",
-): void {
-  if (typeof window === "undefined" || typeof document === "undefined") {
-    return;
-  }
-  const blob = new Blob([content], { type: mimeType });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
+import { triggerFileDownload } from "./ReportExportShared";
+export { triggerFileDownload };
 
 // ============================================================================
 // Props
