@@ -304,6 +304,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 441: Build Staff Leave Request & Manager Approval Workflow (`src/staff/hr/LeaveRequestModal.tsx`)
 - [x] Step 443: Build Staff Duty Meal & Accommodation Deduction Policy Configurator (`src/admin/hr/StaffBenefitsCard.tsx`)
 - [x] Step 446: Build Gratuity Provision & Staff Turnover Report Card (`src/admin/hr/GratuityReportCard.tsx`)
+- [x] Step 447: Build Department Labor Cost % vs. Revenue Analytics Card (`src/admin/hr/LaborCostCard.tsx`)
 
 
 
