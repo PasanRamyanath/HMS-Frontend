@@ -276,4 +276,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 
 ## Phase 17: Night Audit Automation, SLTDA Monthly Occupancy Returns, TDL Quarterly Statements & IRD Tax Schedules
 - [x] Step 403: Build Pre-Audit Readiness Checklist & Manual Night Audit Trigger (`src/admin/reports/NightAuditWizard.tsx`)
+- [x] Step 407: Build SLTDA Monthly Occupancy & Nationality Breakdown View (`src/admin/reports/SltdaMonthlyReportView.tsx`)
+
 
