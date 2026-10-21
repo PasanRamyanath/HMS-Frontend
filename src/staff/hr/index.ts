@@ -5,3 +5,4 @@
  */
 
 export * from "./StaffMyPayslipView.js";
+export * from "./LeaveRequestModal.js";
