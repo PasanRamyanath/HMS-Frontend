@@ -12,3 +12,4 @@ export * from "./SalaryAdvanceModal.js";
 export * from "./PayrollRunView.js";
 export * from "./EpfEtfReturnView.js";
 export * from "./PrintablePayslip.js";
+export * from "./StaffBenefitsCard.js";
