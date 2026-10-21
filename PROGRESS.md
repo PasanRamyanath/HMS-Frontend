@@ -280,6 +280,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 408: Build SLTDA Quarterly TDL Return & BOC A/C `73104820` / GovPay Payment Slip Tracker (`src/admin/reports/TdlQuarterlyReportView.tsx`)
 - [x] Step 411: Build IRD Monthly VAT (`18%`) & Quarterly SSCL (`2.5%`) Return Export View (`src/admin/reports/IrdTaxReturnView.tsx`)
 - [x] Step 412: Build GM Daily Flash Report (`src/admin/reports/ManagerFlashReportView.tsx`)
+- [x] Step 416: Build Accounting Journal Export & Ledger Mapping Screen (`src/admin/reports/AccountingExportView.tsx`)
 
 
 
