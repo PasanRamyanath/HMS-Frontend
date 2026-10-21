@@ -321,6 +321,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 466: Build Contextual Bilingual Help & Sri Lankan Tax Tooltip Drawer (`src/components/HelpDrawer.tsx`)
 - [x] Step 467: Build Interactive Demo Sandbox Mode (/demo -> DemoSandboxSeeder.ts) (`src/lib/demoSandboxSeeder.ts`)
 - [x] Step 468: Build Role-Switcher Simulator Bar for Local Demo & Training (`src/components/RoleSimulatorBar.tsx`)
+- [x] Step 471: Verify All Admin Sidebar Routes & Lazy Chunks in `AdminShell.tsx` (`src/admin/layout/AdminShell.tsx`)
 
 
 
