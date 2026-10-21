@@ -22,6 +22,7 @@ import {
   type StockItemModel,
   type StockUom,
 } from "./StockItemManager.js";
+import { StoreLineItemTable, type StoreTableColumn } from "./StoreLineItemTable.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -609,44 +610,34 @@ export function PurchaseRequisitionModal({
         {/* ================================================================== */}
         {/* Requisition Line Items Table                                       */}
         {/* ================================================================== */}
-        <div className="rounded-xl border border-gray-200 dark:border-white/10 overflow-hidden">
-          <div className="max-h-[300px] overflow-y-auto">
-            <table className="w-full text-left border-collapse min-w-[700px]">
-              <thead className="bg-gray-50/90 dark:bg-white/5 sticky top-0 border-b border-gray-200/80 dark:border-white/10 text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                <tr>
-                  <th className="py-2.5 px-3">{PR_TRANSLATIONS.en.lineTableSku}</th>
-                  <th className="py-2.5 px-3">{PR_TRANSLATIONS.en.lineTableItem}</th>
-                  <th className="py-2.5 px-3 text-right">{PR_TRANSLATIONS.en.lineTableOnHand}</th>
-                  <th className="py-2.5 px-3 text-right">{PR_TRANSLATIONS.en.lineTableQty}</th>
-                  <th className="py-2.5 px-3 text-right">{PR_TRANSLATIONS.en.lineTableUnitCost}</th>
-                  <th className="py-2.5 px-3 text-right">{PR_TRANSLATIONS.en.lineTableTotal}</th>
-                  <th className="py-2.5 px-3 text-right w-10" />
-                </tr>
-              </thead>
-              <tbody>
-                {lines.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan={7}
-                      className="py-8 text-center text-xs text-gray-400 dark:text-gray-500"
-                    >
-                      {PR_TRANSLATIONS.en.noLinesNotice}
-                    </td>
-                  </tr>
-                ) : (
-                  lines.map((line) => (
-                    <RequisitionRow
-                      key={line.stockItemId}
-                      line={line}
-                      onUpdateQuantity={handleUpdateQuantity}
-                      onRemove={handleRemoveLine}
-                    />
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        {(() => {
+          const columns: readonly StoreTableColumn[] = [
+            { id: "sku", label: PR_TRANSLATIONS.en.lineTableSku, align: "left" },
+            { id: "item", label: PR_TRANSLATIONS.en.lineTableItem, align: "left" },
+            { id: "onHand", label: PR_TRANSLATIONS.en.lineTableOnHand, align: "right" },
+            { id: "qty", label: PR_TRANSLATIONS.en.lineTableQty, align: "right" },
+            { id: "unitCost", label: PR_TRANSLATIONS.en.lineTableUnitCost, align: "right" },
+            { id: "total", label: PR_TRANSLATIONS.en.lineTableTotal, align: "right" },
+            { id: "actions", label: "", align: "right", width: "2.5rem" },
+          ];
+
+          return (
+            <StoreLineItemTable
+              columns={columns}
+              items={lines}
+              minWidth="700px"
+              emptyLabel={PR_TRANSLATIONS.en.noLinesNotice}
+              renderRow={(line) => (
+                <RequisitionRow
+                  key={line.stockItemId}
+                  line={line}
+                  onUpdateQuantity={handleUpdateQuantity}
+                  onRemove={handleRemoveLine}
+                />
+              )}
+            />
+          );
+        })()}
 
         {/* Optional Notes */}
         <div>

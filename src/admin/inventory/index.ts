@@ -20,3 +20,4 @@ export * from "./PrintableStoreVoucher.js";
 export * from "./GoodsReturnModal.js";
 export * from "./ReturnableContainerCard.js";
 export * from "./InventoryAdminPage.js";
+export * from "./StoreLineItemTable.js";

@@ -254,6 +254,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 372: Build Weather & Sea/Park Advisory Banner for Guest QR Excursion Tab (`src/qr/AdvisoryBanner.tsx`)
 - [x] Step 373: Assemble Master Spa, Excursions & Airport Transfers Admin Page (`src/admin/activities/ActivitiesAdminPage.tsx`)
 - [x] Step 375: Run Phase 15 Ponytail Review & Code Simplification Checkpoint (`src/admin/activities/`)
+## Phase 16: Store Inventory, Procurement (PR -> PO -> GRN -> GIN), FIFO Batch Costing & Kitchen Wastage Control
 - [x] Step 376: Build Master Store SKU & Unit-of-Measure Registry (`src/admin/inventory/StockItemManager.tsx`)
 - [x] Step 377: Build Supplier & Local Market Vendor Directory (`src/admin/inventory/SupplierDirectory.tsx`)
 - [x] Step 378: Build Department Purchase Requisition (`PR`) Form (`src/admin/inventory/PurchaseRequisitionModal.tsx`)
@@ -271,3 +272,5 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 396: Build Return-to-Supplier (Debit Note / Goods Return Note) Modal (`src/admin/inventory/GoodsReturnModal.tsx`)
 - [x] Step 397: Build Empty Gas Cylinder (Litro / Laugfs LPG) & Returnable Crate Tracker (`src/admin/inventory/ReturnableContainerCard.tsx`)
 - [x] Step 398: Assemble Unified Store Inventory, Procurement & Cost Control Page (`src/admin/inventory/InventoryAdminPage.tsx`)
+- [x] Step 400: Run Phase 16 Ponytail Review & Code Simplification Checkpoint (`src/admin/inventory/StoreLineItemTable.tsx`)
+

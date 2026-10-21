@@ -30,6 +30,11 @@ import {
   type StockItemModel,
   type StockUom,
 } from "./StockItemManager.js";
+import {
+  StoreLineItemDeleteButton,
+  StoreLineItemTable,
+  type StoreTableColumn,
+} from "./StoreLineItemTable.js";
 import { DEFAULT_SUPPLIERS, type SupplierModel } from "./SupplierDirectory.js";
 
 // ============================================================================
@@ -714,129 +719,110 @@ function GrnItemsTable({
   labels,
   reasons,
 }: GrnItemsTableProps) {
-  if (items.length === 0) {
-    return (
-      <div className="py-6 text-center text-xs text-gray-400 italic rounded-lg border border-dashed border-gray-300 dark:border-white/10">
-        {labels.noItems}
-      </div>
-    );
-  }
+  const columns: readonly StoreTableColumn[] = [
+    { id: "item", label: labels.thItem, align: "left" },
+    { id: "ordered", label: labels.thOrdered, align: "right" },
+    { id: "delivered", label: labels.thDelivered, align: "right" },
+    { id: "accepted", label: labels.thAccepted, align: "right" },
+    { id: "rejected", label: labels.thRejected, align: "right" },
+    { id: "cost", label: labels.thCost, align: "right" },
+    { id: "expiry", label: labels.thExpiry, align: "left" },
+    { id: "total", label: labels.thTotal, align: "right" },
+    { id: "actions", label: labels.thActions, align: "center" },
+  ];
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-white/10">
-      <table className="w-full text-left text-xs">
-        <thead className="bg-gray-100/80 dark:bg-white/5 text-gray-700 dark:text-gray-300 font-semibold border-b border-gray-200 dark:border-white/10">
-          <tr>
-            <th className="py-2.5 px-3">{labels.thItem}</th>
-            <th className="py-2.5 px-2 text-right">{labels.thOrdered}</th>
-            <th className="py-2.5 px-2 text-right">{labels.thDelivered}</th>
-            <th className="py-2.5 px-2 text-right">{labels.thAccepted}</th>
-            <th className="py-2.5 px-2 text-right">{labels.thRejected}</th>
-            <th className="py-2.5 px-2 text-right">{labels.thCost}</th>
-            <th className="py-2.5 px-2">{labels.thExpiry}</th>
-            <th className="py-2.5 px-3 text-right">{labels.thTotal}</th>
-            <th className="py-2.5 px-2 text-center">{labels.thActions}</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-200 dark:divide-white/5 bg-white dark:bg-gray-900/50">
-          {items.map((item, idx) => (
-            <tr
-              key={`${item.stockItemId}-${idx}`}
-              className={`hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors ${
-                item.isPriceSpike ? "bg-amber-500/5" : ""
-              }`}
-            >
-              <td className="py-2 px-3">
-                <div className="font-semibold text-gray-900 dark:text-white flex items-center gap-1.5">
-                  {item.name}
-                  {item.isPriceSpike && (
-                    <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200">
-                      +{item.priceSpikePercent}%
-                    </span>
-                  )}
-                </div>
-                <div className="text-[10px] text-gray-500 font-mono">
-                  {item.sku} • {item.unitOfMeasure}
-                </div>
-              </td>
-              <td className="py-2 px-2 text-right font-mono text-gray-500">
-                {item.orderedQuantity}
-              </td>
-              <td className="py-2 px-2 text-right">
-                <input
-                  type="number"
-                  min="0"
-                  value={item.deliveredQuantity}
-                  onChange={(e) => onUpdateDelivered(idx, Number(e.target.value))}
-                  className="w-16 px-1.5 py-1 text-xs text-right rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-gray-800 text-gray-900 dark:text-white tabular-nums-lkr"
-                />
-              </td>
-              <td className="py-2 px-2 text-right">
-                <input
-                  type="number"
-                  min="0"
-                  value={item.acceptedQuantity}
-                  onChange={(e) => onUpdateAccepted(idx, Number(e.target.value))}
-                  className="w-16 px-1.5 py-1 text-xs text-right rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-gray-800 text-gray-900 dark:text-white tabular-nums-lkr"
-                />
-              </td>
-              <td className="py-2 px-2 text-right font-mono text-[11px] text-red-600 dark:text-red-400">
-                {item.rejectedQuantity > 0 ? (
-                  <div className="flex flex-col items-end">
-                    <span>{item.rejectedQuantity}</span>
-                    <select
-                      value={item.rejectionReason ?? "NONE"}
-                      onChange={(e) => onUpdateReason(idx, e.target.value as GrnRejectionReason)}
-                      className="text-[10px] py-0.5 px-1 rounded border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/40 text-red-900 dark:text-red-200 mt-0.5"
-                    >
-                      <option value="NONE">{reasons.NONE}</option>
-                      <option value="DAMAGED">{reasons.DAMAGED}</option>
-                      <option value="EXPIRY_NEAR">{reasons.EXPIRY_NEAR}</option>
-                      <option value="SUBSTANDARD_QUALITY">{reasons.SUBSTANDARD_QUALITY}</option>
-                      <option value="WRONG_ITEM">{reasons.WRONG_ITEM}</option>
-                      <option value="EXCESS_QUANTITY">{reasons.EXCESS_QUANTITY}</option>
-                    </select>
-                  </div>
-                ) : (
-                  "—"
-                )}
-              </td>
-              <td className="py-2 px-2 text-right">
-                <input
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={item.invoiceUnitCostLkr}
-                  onChange={(e) => onUpdateCost(idx, Number(e.target.value))}
-                  className="w-20 px-1.5 py-1 text-xs text-right rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-gray-800 text-gray-900 dark:text-white tabular-nums-lkr"
-                />
-              </td>
-              <td className="py-2 px-2">
-                <input
-                  type="date"
-                  value={item.expiryDate ?? ""}
-                  onChange={(e) => onUpdateExpiry(idx, e.target.value)}
-                  className="w-28 px-1.5 py-1 text-xs rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                />
-              </td>
-              <td className="py-2 px-3 text-right font-mono font-semibold text-gray-900 dark:text-white tabular-nums-lkr">
-                {formatLkr(item.lineTotalLkr)}
-              </td>
-              <td className="py-2 px-2 text-center">
-                <button
-                  type="button"
-                  onClick={() => onRemoveItem(idx)}
-                  className="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50 dark:hover:bg-red-900/20"
-                  title="Remove Item"
+    <StoreLineItemTable
+      columns={columns}
+      items={items}
+      emptyLabel={labels.noItems}
+      renderRow={(item, idx) => (
+        <tr
+          key={`${item.stockItemId}-${idx}`}
+          className={`hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors ${
+            item.isPriceSpike ? "bg-amber-500/5" : ""
+          }`}
+        >
+          <td className="py-2 px-3">
+            <div className="font-semibold text-gray-900 dark:text-white flex items-center gap-1.5">
+              {item.name}
+              {item.isPriceSpike && (
+                <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200">
+                  +{item.priceSpikePercent}%
+                </span>
+              )}
+            </div>
+            <div className="text-[10px] text-gray-500 font-mono">
+              {item.sku} • {item.unitOfMeasure}
+            </div>
+          </td>
+          <td className="py-2 px-2 text-right font-mono text-gray-500">{item.orderedQuantity}</td>
+          <td className="py-2 px-2 text-right">
+            <input
+              type="number"
+              min="0"
+              value={item.deliveredQuantity}
+              onChange={(e) => onUpdateDelivered(idx, Number(e.target.value))}
+              className="w-16 px-1.5 py-1 text-xs text-right rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-gray-800 text-gray-900 dark:text-white tabular-nums-lkr"
+            />
+          </td>
+          <td className="py-2 px-2 text-right">
+            <input
+              type="number"
+              min="0"
+              value={item.acceptedQuantity}
+              onChange={(e) => onUpdateAccepted(idx, Number(e.target.value))}
+              className="w-16 px-1.5 py-1 text-xs text-right rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-gray-800 text-gray-900 dark:text-white tabular-nums-lkr"
+            />
+          </td>
+          <td className="py-2 px-2 text-right font-mono text-[11px] text-red-600 dark:text-red-400">
+            {item.rejectedQuantity > 0 ? (
+              <div className="flex flex-col items-end">
+                <span>{item.rejectedQuantity}</span>
+                <select
+                  value={item.rejectionReason ?? "NONE"}
+                  onChange={(e) => onUpdateReason(idx, e.target.value as GrnRejectionReason)}
+                  className="text-[10px] py-0.5 px-1 rounded border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/40 text-red-900 dark:text-red-200 mt-0.5"
                 >
-                  ✕
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+                  <option value="NONE">{reasons.NONE}</option>
+                  <option value="DAMAGED">{reasons.DAMAGED}</option>
+                  <option value="EXPIRY_NEAR">{reasons.EXPIRY_NEAR}</option>
+                  <option value="SUBSTANDARD_QUALITY">{reasons.SUBSTANDARD_QUALITY}</option>
+                  <option value="WRONG_ITEM">{reasons.WRONG_ITEM}</option>
+                  <option value="EXCESS_QUANTITY">{reasons.EXCESS_QUANTITY}</option>
+                </select>
+              </div>
+            ) : (
+              "—"
+            )}
+          </td>
+          <td className="py-2 px-2 text-right">
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={item.invoiceUnitCostLkr}
+              onChange={(e) => onUpdateCost(idx, Number(e.target.value))}
+              className="w-20 px-1.5 py-1 text-xs text-right rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-gray-800 text-gray-900 dark:text-white tabular-nums-lkr"
+            />
+          </td>
+          <td className="py-2 px-2">
+            <input
+              type="date"
+              value={item.expiryDate ?? ""}
+              onChange={(e) => onUpdateExpiry(idx, e.target.value)}
+              className="w-28 px-1.5 py-1 text-xs rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+            />
+          </td>
+          <td className="py-2 px-3 text-right font-mono font-semibold text-gray-900 dark:text-white tabular-nums-lkr">
+            {formatLkr(item.lineTotalLkr)}
+          </td>
+          <td className="py-2 px-2 text-center">
+            <StoreLineItemDeleteButton onClick={() => onRemoveItem(idx)} title="Remove Item" />
+          </td>
+        </tr>
+      )}
+    />
   );
 }
 

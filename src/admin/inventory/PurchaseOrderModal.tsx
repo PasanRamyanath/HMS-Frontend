@@ -34,6 +34,11 @@ import {
   type StockUom,
 } from "./StockItemManager.js";
 import {
+  StoreLineItemDeleteButton,
+  StoreLineItemTable,
+  type StoreTableColumn,
+} from "./StoreLineItemTable.js";
+import {
   DEFAULT_SUPPLIERS,
   type SupplierCreditTerms,
   type SupplierModel,
@@ -585,83 +590,64 @@ interface PoItemsTableProps {
 }
 
 function PoItemsTable({ items, onUpdateItemField, onRemoveItem, labels }: PoItemsTableProps) {
-  if (items.length === 0) {
-    return (
-      <div className="py-6 text-center text-xs text-gray-400 italic rounded-lg border border-dashed border-gray-300 dark:border-white/10">
-        {labels.noItems}
-      </div>
-    );
-  }
+  const columns: readonly StoreTableColumn[] = [
+    { id: "item", label: labels.thItem, align: "left" },
+    { id: "uom", label: labels.thUom, align: "center" },
+    { id: "qty", label: labels.thQty, align: "right" },
+    { id: "unitCost", label: labels.thUnitCost, align: "right" },
+    { id: "vatRate", label: labels.thVatRate, align: "right" },
+    { id: "lineTotal", label: labels.thLineTotal, align: "right" },
+    { id: "actions", label: labels.thActions, align: "center" },
+  ];
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-white/10">
-      <table className="w-full text-left text-xs">
-        <thead className="bg-gray-100/80 dark:bg-white/5 text-gray-700 dark:text-gray-300 font-semibold border-b border-gray-200 dark:border-white/10">
-          <tr>
-            <th className="py-2.5 px-3">{labels.thItem}</th>
-            <th className="py-2.5 px-2 text-center">{labels.thUom}</th>
-            <th className="py-2.5 px-2 text-right">{labels.thQty}</th>
-            <th className="py-2.5 px-2 text-right">{labels.thUnitCost}</th>
-            <th className="py-2.5 px-2 text-right">{labels.thVatRate}</th>
-            <th className="py-2.5 px-3 text-right">{labels.thLineTotal}</th>
-            <th className="py-2.5 px-2 text-center">{labels.thActions}</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-200 dark:divide-white/5 bg-white dark:bg-gray-900/50">
-          {items.map((item, idx) => (
-            <tr
-              key={`${item.stockItemId}-${idx}`}
-              className="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors"
-            >
-              <td className="py-2 px-3">
-                <div className="font-semibold text-gray-900 dark:text-white">{item.name}</div>
-                <div className="text-[10px] text-gray-500 font-mono">{item.sku}</div>
-              </td>
-              <td className="py-2 px-2 text-center font-mono text-[11px] text-gray-600 dark:text-gray-400">
-                {item.unitOfMeasure}
-              </td>
-              <td className="py-2 px-2 text-right">
-                <input
-                  type="number"
-                  min="1"
-                  value={item.orderedQuantity}
-                  onChange={(e) =>
-                    onUpdateItemField(idx, "orderedQuantity", Number(e.target.value))
-                  }
-                  className="w-16 px-1.5 py-1 text-xs text-right rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-gray-800 text-gray-900 dark:text-white tabular-nums-lkr"
-                />
-              </td>
-              <td className="py-2 px-2 text-right">
-                <input
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={item.unitCostLkr}
-                  onChange={(e) => onUpdateItemField(idx, "unitCostLkr", Number(e.target.value))}
-                  className="w-20 px-1.5 py-1 text-xs text-right rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-gray-800 text-gray-900 dark:text-white tabular-nums-lkr"
-                />
-              </td>
-              <td className="py-2 px-2 text-right font-mono text-[11px] text-gray-500">
-                {item.vatRatePercent}%
-              </td>
-              <td className="py-2 px-3 text-right font-mono font-semibold text-gray-900 dark:text-white tabular-nums-lkr">
-                {formatLkr(item.lineTotalLkr)}
-              </td>
-              <td className="py-2 px-2 text-center">
-                <button
-                  type="button"
-                  onClick={() => onRemoveItem(idx)}
-                  className="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50 dark:hover:bg-red-900/20"
-                  title="Delete Item"
-                >
-                  ✕
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <StoreLineItemTable
+      columns={columns}
+      items={items}
+      emptyLabel={labels.noItems}
+      renderRow={(item, idx) => (
+        <tr
+          key={`${item.stockItemId}-${idx}`}
+          className="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors"
+        >
+          <td className="py-2 px-3">
+            <div className="font-semibold text-gray-900 dark:text-white">{item.name}</div>
+            <div className="text-[10px] text-gray-500 font-mono">{item.sku}</div>
+          </td>
+          <td className="py-2 px-2 text-center font-mono text-[11px] text-gray-600 dark:text-gray-400">
+            {item.unitOfMeasure}
+          </td>
+          <td className="py-2 px-2 text-right">
+            <input
+              type="number"
+              min="1"
+              value={item.orderedQuantity}
+              onChange={(e) => onUpdateItemField(idx, "orderedQuantity", Number(e.target.value))}
+              className="w-16 px-1.5 py-1 text-xs text-right rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-gray-800 text-gray-900 dark:text-white tabular-nums-lkr"
+            />
+          </td>
+          <td className="py-2 px-2 text-right">
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={item.unitCostLkr}
+              onChange={(e) => onUpdateItemField(idx, "unitCostLkr", Number(e.target.value))}
+              className="w-20 px-1.5 py-1 text-xs text-right rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-gray-800 text-gray-900 dark:text-white tabular-nums-lkr"
+            />
+          </td>
+          <td className="py-2 px-2 text-right font-mono text-[11px] text-gray-500">
+            {item.vatRatePercent}%
+          </td>
+          <td className="py-2 px-3 text-right font-mono font-semibold text-gray-900 dark:text-white tabular-nums-lkr">
+            {formatLkr(item.lineTotalLkr)}
+          </td>
+          <td className="py-2 px-2 text-center">
+            <StoreLineItemDeleteButton onClick={() => onRemoveItem(idx)} />
+          </td>
+        </tr>
+      )}
+    />
   );
 }
 

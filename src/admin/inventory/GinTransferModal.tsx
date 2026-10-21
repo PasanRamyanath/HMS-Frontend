@@ -29,6 +29,11 @@ import {
   type StockItemModel,
   type StockUom,
 } from "./StockItemManager.js";
+import {
+  StoreLineItemDeleteButton,
+  StoreLineItemTable,
+  type StoreTableColumn,
+} from "./StoreLineItemTable.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -496,87 +501,75 @@ function GinItemsTable({
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-white/10">
-        <table className="w-full text-left text-xs">
-          <thead className="bg-gray-100/80 dark:bg-white/5 text-gray-700 dark:text-gray-300 font-semibold border-b border-gray-200 dark:border-white/10">
-            <tr>
-              <th className="py-2.5 px-3">{t.itemsSection.thItem}</th>
-              <th className="py-2.5 px-2 text-right">{t.itemsSection.thAvailable}</th>
-              <th className="py-2.5 px-2 text-right">{t.itemsSection.thRequested}</th>
-              <th className="py-2.5 px-2 text-right">{t.itemsSection.thIssued}</th>
-              <th className="py-2.5 px-2 text-right">{t.itemsSection.thFifoCost}</th>
-              <th className="py-2.5 px-3 text-right">{t.itemsSection.thTotalCost}</th>
-              <th className="py-2.5 px-2 text-center">{t.itemsSection.thActions}</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-white/5 bg-white dark:bg-gray-900/50">
-            {items.length === 0 ? (
-              <tr>
-                <td colSpan={7} className="py-6 text-center text-gray-400">
-                  {t.itemsSection.noItems}
+      {(() => {
+        const columns: readonly StoreTableColumn[] = [
+          { id: "item", label: t.itemsSection.thItem, align: "left" },
+          { id: "available", label: t.itemsSection.thAvailable, align: "right" },
+          { id: "requested", label: t.itemsSection.thRequested, align: "right" },
+          { id: "issued", label: t.itemsSection.thIssued, align: "right" },
+          { id: "fifoCost", label: t.itemsSection.thFifoCost, align: "right" },
+          { id: "totalCost", label: t.itemsSection.thTotalCost, align: "right" },
+          { id: "actions", label: t.itemsSection.thActions, align: "center" },
+        ];
+
+        return (
+          <StoreLineItemTable
+            columns={columns}
+            items={items}
+            emptyLabel={t.itemsSection.noItems}
+            renderRow={(item, idx) => (
+              <tr
+                key={`${item.stockItemId}-${idx}`}
+                className="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors"
+              >
+                <td className="py-2.5 px-3">
+                  <div className="font-semibold text-gray-900 dark:text-white">{item.name}</div>
+                  <div className="font-mono text-[10px] text-gray-500">
+                    {item.sku} • {item.unitOfMeasure}
+                  </div>
+                  {item.isShortfall && (
+                    <span className="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 mt-0.5">
+                      {t.itemsSection.insufficientBadge}
+                    </span>
+                  )}
+                </td>
+                <td className="py-2.5 px-2 text-right font-mono text-gray-500">
+                  {item.availableQuantity} {item.unitOfMeasure}
+                </td>
+                <td className="py-2.5 px-2 text-right">
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    value={item.requestedQuantity}
+                    onChange={(e) => onUpdateRequestedQty(idx, Number(e.target.value))}
+                    className="w-16 px-1.5 py-1 text-right font-mono text-xs rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-gray-800 min-h-[32px]"
+                  />
+                </td>
+                <td className="py-2.5 px-2 text-right">
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    value={item.issuedQuantity}
+                    onChange={(e) => onUpdateIssuedQty(idx, Number(e.target.value))}
+                    className="w-16 px-1.5 py-1 text-right font-mono text-xs font-bold text-blue-600 dark:text-blue-400 rounded border border-blue-300 dark:border-blue-700 bg-white dark:bg-gray-800 min-h-[32px]"
+                  />
+                </td>
+                <td className="py-2.5 px-2 text-right font-mono text-gray-700 dark:text-gray-300">
+                  {formatLkr(item.unitCostLkr)}
+                </td>
+                <td className="py-2.5 px-3 text-right font-mono font-bold text-gray-900 dark:text-white tabular-nums-lkr">
+                  {formatLkr(item.totalCostLkr)}
+                </td>
+                <td className="py-2.5 px-2 text-center">
+                  <StoreLineItemDeleteButton onClick={() => onRemoveItem(idx)} />
                 </td>
               </tr>
-            ) : (
-              items.map((item, idx) => (
-                <tr
-                  key={`${item.stockItemId}-${idx}`}
-                  className="hover:bg-gray-50/50 dark:hover:bg-white/5"
-                >
-                  <td className="py-2.5 px-3">
-                    <div className="font-semibold text-gray-900 dark:text-white">{item.name}</div>
-                    <div className="font-mono text-[10px] text-gray-500">
-                      {item.sku} • {item.unitOfMeasure}
-                    </div>
-                    {item.isShortfall && (
-                      <span className="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 mt-0.5">
-                        {t.itemsSection.insufficientBadge}
-                      </span>
-                    )}
-                  </td>
-                  <td className="py-2.5 px-2 text-right font-mono text-gray-500">
-                    {item.availableQuantity} {item.unitOfMeasure}
-                  </td>
-                  <td className="py-2.5 px-2 text-right">
-                    <input
-                      type="number"
-                      min="0"
-                      step="any"
-                      value={item.requestedQuantity}
-                      onChange={(e) => onUpdateRequestedQty(idx, Number(e.target.value))}
-                      className="w-16 px-1.5 py-1 text-right font-mono text-xs rounded border border-gray-300 dark:border-white/20 bg-white dark:bg-gray-800 min-h-[32px]"
-                    />
-                  </td>
-                  <td className="py-2.5 px-2 text-right">
-                    <input
-                      type="number"
-                      min="0"
-                      step="any"
-                      value={item.issuedQuantity}
-                      onChange={(e) => onUpdateIssuedQty(idx, Number(e.target.value))}
-                      className="w-16 px-1.5 py-1 text-right font-mono text-xs font-bold text-blue-600 dark:text-blue-400 rounded border border-blue-300 dark:border-blue-700 bg-white dark:bg-gray-800 min-h-[32px]"
-                    />
-                  </td>
-                  <td className="py-2.5 px-2 text-right font-mono text-gray-700 dark:text-gray-300">
-                    {formatLkr(item.unitCostLkr)}
-                  </td>
-                  <td className="py-2.5 px-3 text-right font-mono font-bold text-gray-900 dark:text-white tabular-nums-lkr">
-                    {formatLkr(item.totalCostLkr)}
-                  </td>
-                  <td className="py-2.5 px-2 text-center">
-                    <button
-                      type="button"
-                      onClick={() => onRemoveItem(idx)}
-                      className="text-red-500 hover:text-red-700 text-xs px-2 py-1 rounded min-h-[32px]"
-                    >
-                      ✕
-                    </button>
-                  </td>
-                </tr>
-              ))
             )}
-          </tbody>
-        </table>
-      </div>
+          />
+        );
+      })()}
     </div>
   );
 }
