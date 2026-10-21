@@ -7,3 +7,4 @@ export * from "./ShiftRosterGrid.js";
 export * from "./AttendanceManagerView.js";
 export * from "./SriLankaHolidaysCard.js";
 export * from "./ServiceChargePoolView.js";
+export * from "./BreakageRegisterModal.js";
