@@ -294,6 +294,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 429: Build Department Shift Roster & Weekly Duty Planner (`src/admin/hr/ShiftRosterGrid.tsx`)
 - [x] Step 430: Build Smartphone Staff QR Clock-In / Clock-Out & Attendance Sheet (`src/admin/hr/AttendanceManagerView.tsx`)
 - [x] Step 431: Build Sri Lankan Public, Bank, Poya & Mercantile Holiday Calendar Configurator (`src/admin/hr/SriLankaHolidaysCard.tsx`)
+- [x] Step 432: Build Monthly 10% Service Charge Pool & Breakage Recovery Worksheet (`src/admin/hr/ServiceChargePoolView.tsx`)
 
 
 
