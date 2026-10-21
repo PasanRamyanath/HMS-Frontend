@@ -608,7 +608,7 @@ export interface PrintableMenuSheetProps {
   readonly className?: string | undefined;
 }
 
-export function getTemplateContainerBorder(tmpl: PrintMenuTemplate): string {
+function getTemplateContainerBorder(tmpl: PrintMenuTemplate): string {
   switch (tmpl) {
     case "CEYLON_HERITAGE":
       return "border-double border-4 border-amber-900/30 print:border-black/60 font-serif";
@@ -623,7 +623,7 @@ export function getTemplateContainerBorder(tmpl: PrintMenuTemplate): string {
   }
 }
 
-export function createDefaultPrintableMenuConfig(
+function createDefaultPrintableMenuConfig(
   initial?: Partial<PrintableMenuConfig> | undefined,
 ): PrintableMenuConfig {
   return {
