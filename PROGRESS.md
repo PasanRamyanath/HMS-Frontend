@@ -278,6 +278,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 403: Build Pre-Audit Readiness Checklist & Manual Night Audit Trigger (`src/admin/reports/NightAuditWizard.tsx`)
 - [x] Step 407: Build SLTDA Monthly Occupancy & Nationality Breakdown View (`src/admin/reports/SltdaMonthlyReportView.tsx`)
 - [x] Step 408: Build SLTDA Quarterly TDL Return & BOC A/C `73104820` / GovPay Payment Slip Tracker (`src/admin/reports/TdlQuarterlyReportView.tsx`)
+- [x] Step 411: Build IRD Monthly VAT (`18%`) & Quarterly SSCL (`2.5%`) Return Export View (`src/admin/reports/IrdTaxReturnView.tsx`)
 
 
 
