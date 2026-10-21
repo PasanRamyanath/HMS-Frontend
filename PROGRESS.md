@@ -320,6 +320,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 465: Build Global Keyboard Command Palette (Ctrl+K / Cmd+K) in Native Dialog (`src/components/CommandPalette.tsx`)
 - [x] Step 466: Build Contextual Bilingual Help & Sri Lankan Tax Tooltip Drawer (`src/components/HelpDrawer.tsx`)
 - [x] Step 467: Build Interactive Demo Sandbox Mode (/demo -> DemoSandboxSeeder.ts) (`src/lib/demoSandboxSeeder.ts`)
+- [x] Step 468: Build Role-Switcher Simulator Bar for Local Demo & Training (`src/components/RoleSimulatorBar.tsx`)
 
 
 
