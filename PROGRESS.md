@@ -284,6 +284,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 417: Build Department-Wise Revenue & Payment Method Reconciliation Matrix (`src/admin/reports/RevenueMatrixView.tsx`)
 - [x] Step 418: Build Travel Agent / DMC Production & Nationality Source Market Leaderboard (`src/admin/reports/SourceMarketReport.tsx`)
 - [x] Step 419: Build Rebate, Void, Discount & Manager Override Audit Log Report (`src/admin/reports/SecurityAuditReport.tsx`)
+- [x] Step 420: Build Central Environmental Authority (CEA) / SLTDA Green Certification Sustainability Tracker (`src/admin/reports/SustainabilityReportCard.tsx`)
 
 
 
