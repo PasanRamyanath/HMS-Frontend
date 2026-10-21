@@ -287,6 +287,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 420: Build Central Environmental Authority (CEA) / SLTDA Green Certification Sustainability Tracker (`src/admin/reports/SustainabilityReportCard.tsx`)
 - [x] Step 421: Build Printable Official SLTDA Monthly & TDL Return Forms (`src/admin/reports/PrintableSltdaForms.tsx`)
 - [x] Step 422: Build Historical Night Audit Archive & Re-Print Browser (`src/admin/reports/AuditArchiveList.tsx`)
+- [x] Step 423: Assemble Master Statutory Reports, Night Audit & Finance Page (`src/admin/reports/ReportsAdminPage.tsx`)
 
 
 
