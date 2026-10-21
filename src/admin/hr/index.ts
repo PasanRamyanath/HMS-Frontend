@@ -9,3 +9,4 @@ export * from "./SriLankaHolidaysCard.js";
 export * from "./ServiceChargePoolView.js";
 export * from "./BreakageRegisterModal.js";
 export * from "./SalaryAdvanceModal.js";
+export * from "./PayrollRunView.js";
