@@ -274,3 +274,6 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 398: Assemble Unified Store Inventory, Procurement & Cost Control Page (`src/admin/inventory/InventoryAdminPage.tsx`)
 - [x] Step 400: Run Phase 16 Ponytail Review & Code Simplification Checkpoint (`src/admin/inventory/StoreLineItemTable.tsx`)
 
+## Phase 17: Night Audit Automation, SLTDA Monthly Occupancy Returns, TDL Quarterly Statements & IRD Tax Schedules
+- [x] Step 403: Build Pre-Audit Readiness Checklist & Manual Night Audit Trigger (`src/admin/reports/NightAuditWizard.tsx`)
+
