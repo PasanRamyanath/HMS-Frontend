@@ -17,6 +17,12 @@ export default defineConfig({
           if (id.includes("node_modules/react") || id.includes("node_modules/react-dom")) {
             return "vendor-react";
           }
+          if (id.includes("/src/generated/")) {
+            return "hms-graphql-schema";
+          }
+          if (id.includes("/src/lib/") || id.includes("/src/components/")) {
+            return "hms-common";
+          }
           if (id.includes("/src/qr/")) {
             return "route-guest-qr";
           }

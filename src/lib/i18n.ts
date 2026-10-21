@@ -399,6 +399,14 @@ export function formatLkr(amount: number): string {
   return `LKR ${formatted}`;
 }
 
+/**
+ * Calculates indicative USD estimate from LKR based on current exchange rate.
+ */
+export function formatUsdEstimate(amountLkr: number, rate = 310): string {
+  const usd = amountLkr / rate;
+  return `~$${usd.toFixed(2)}`;
+}
+
 export interface UseTranslationResult {
   readonly currentLanguage: SupportedLanguage;
   readonly setLanguage: (lang: SupportedLanguage) => void;

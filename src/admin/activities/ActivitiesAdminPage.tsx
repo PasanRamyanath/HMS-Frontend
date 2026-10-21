@@ -27,8 +27,7 @@ import {
   SegmentedControl,
   type SegmentedControlOption,
 } from "../../components/SegmentedControl.js";
-import type { SupportedLanguage } from "../../lib/i18n.js";
-import { formatLkr } from "../../qr/GuestDishCard.js";
+import { type SupportedLanguage, formatLkr } from "../../lib/i18n.js";
 import { ActivityKpiCard } from "./ActivityKpiCard.js";
 import { ActivityWaiverModal, STANDARD_ACTIVITY_PROFILES } from "./ActivityWaiverModal.js";
 import { AirportTransferBoard } from "./AirportTransferBoard.js";
