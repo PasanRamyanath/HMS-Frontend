@@ -96,6 +96,7 @@ export interface PrintableMenuItem {
   readonly isGlutenFree?: boolean | undefined;
   readonly spicyLevel?: number | undefined; // 0 = Mild, 1 = Med, 2 = Hot, 3 = Sri Lankan Hot
   readonly isAvailable?: boolean | undefined;
+  readonly imageUrl?: string | null | undefined;
 }
 
 export interface PrintableMenuCategory {
@@ -116,6 +117,7 @@ export interface PrintableMenuConfig {
   readonly showDescriptions: boolean;
   readonly showDietaryBadges: boolean;
   readonly showSpicyIcons: boolean;
+  readonly showPhotos?: boolean | undefined;
 }
 
 export interface CategoryGroupedMenu {
@@ -239,6 +241,7 @@ export interface PrintableMenuItemRowProps {
   readonly showDescriptions: boolean;
   readonly showDietaryBadges: boolean;
   readonly showSpicyIcons: boolean;
+  readonly showPhotos?: boolean | undefined;
   readonly template?: PrintMenuTemplate | undefined;
 }
 
@@ -248,71 +251,87 @@ export function PrintableMenuItemRow({
   showDescriptions,
   showDietaryBadges,
   showSpicyIcons,
+  showPhotos,
 }: PrintableMenuItemRowProps) {
   const spicySpikes = item.spicyLevel && item.spicyLevel > 0 ? "🌶️".repeat(item.spicyLevel) : null;
 
   return (
-    <article className="py-2.5 break-inside-avoid" data-testid={`printable-item-${item.id}`}>
-      {/* Title & Price Header Line */}
-      <div className="flex items-baseline justify-between gap-2">
-        <div className="flex items-baseline gap-2 min-w-0">
-          <h4 className="text-sm font-bold text-apple-gray-900 dark:text-white print:text-black leading-snug">
-            {item.title.en}
-          </h4>
+    <article
+      className="py-2.5 break-inside-avoid flex items-start gap-3"
+      data-testid={`printable-item-${item.id}`}
+    >
+      {showPhotos && item.imageUrl && (
+        <img
+          src={item.imageUrl}
+          alt={item.title.en}
+          width={52}
+          height={52}
+          loading="lazy"
+          className="w-13 h-13 object-cover rounded-xl shrink-0 border border-apple-gray-200 dark:border-apple-gray-700 print:border-black/30 mt-0.5"
+        />
+      )}
+      <div className="flex-1 min-w-0">
+        {/* Title & Price Header Line */}
+        <div className="flex items-baseline justify-between gap-2">
+          <div className="flex items-baseline gap-2 min-w-0">
+            <h4 className="text-sm font-bold text-apple-gray-900 dark:text-white print:text-black leading-snug">
+              {item.title.en}
+            </h4>
 
-          {showSpicyIcons && spicySpikes && (
-            <span className="text-xs shrink-0" aria-label={`Spicy level ${item.spicyLevel}`}>
-              {spicySpikes}
-            </span>
-          )}
+            {showSpicyIcons && spicySpikes && (
+              <span className="text-xs shrink-0" aria-label={`Spicy level ${item.spicyLevel}`}>
+                {spicySpikes}
+              </span>
+            )}
 
-          {showDietaryBadges && (
-            <div className="flex items-center gap-1 shrink-0 text-[10px] font-bold">
-              {item.isVegetarian && (
-                <span className="px-1.5 py-0.2 rounded border border-emerald-600 text-emerald-700 print:text-black print:border-black">
-                  V
-                </span>
-              )}
-              {item.isVegan && (
-                <span className="px-1.5 py-0.2 rounded border border-green-600 text-green-700 print:text-black print:border-black">
-                  VG
-                </span>
-              )}
-              {item.isHalal && (
-                <span className="px-1.5 py-0.2 rounded border border-amber-600 text-amber-700 print:text-black print:border-black">
-                  H
-                </span>
-              )}
-              {item.isGlutenFree && (
-                <span className="px-1.5 py-0.2 rounded border border-blue-600 text-blue-700 print:text-black print:border-black">
-                  GF
-                </span>
-              )}
-            </div>
-          )}
+            {showDietaryBadges && (
+              <div className="flex items-center gap-1 shrink-0 text-[10px] font-bold">
+                {item.isVegetarian && (
+                  <span className="px-1.5 py-0.2 rounded border border-emerald-600 text-emerald-700 print:text-black print:border-black">
+                    V
+                  </span>
+                )}
+                {item.isVegan && (
+                  <span className="px-1.5 py-0.2 rounded border border-green-600 text-green-700 print:text-black print:border-black">
+                    VG
+                  </span>
+                )}
+                {item.isHalal && (
+                  <span className="px-1.5 py-0.2 rounded border border-amber-600 text-amber-700 print:text-black print:border-black">
+                    H
+                  </span>
+                )}
+                {item.isGlutenFree && (
+                  <span className="px-1.5 py-0.2 rounded border border-blue-600 text-blue-700 print:text-black print:border-black">
+                    GF
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Dotted Leader Line for Traditional Print Menus */}
+          <div className="flex-1 mx-2 border-b border-dotted border-apple-gray-300 dark:border-apple-gray-700 print:border-black/40 min-w-4" />
+
+          <span className="text-sm font-bold font-mono text-apple-gray-900 dark:text-white print:text-black tabular-nums shrink-0">
+            {formatPriceLkr(item.priceLkr)}
+          </span>
         </div>
 
-        {/* Dotted Leader Line for Traditional Print Menus */}
-        <div className="flex-1 mx-2 border-b border-dotted border-apple-gray-300 dark:border-apple-gray-700 print:border-black/40 min-w-4" />
+        {/* Trilingual Subtitle (Sinhala & Tamil) */}
+        {showSinhalaTamil && (item.title.si || item.title.ta) && (
+          <p className="text-[11px] text-apple-gray-600 dark:text-apple-400 print:text-black/70 italic mt-0.5">
+            {[item.title.si, item.title.ta].filter(Boolean).join(" • ")}
+          </p>
+        )}
 
-        <span className="text-sm font-bold font-mono text-apple-gray-900 dark:text-white print:text-black tabular-nums shrink-0">
-          {formatPriceLkr(item.priceLkr)}
-        </span>
+        {/* Description */}
+        {showDescriptions && item.description?.en && (
+          <p className="text-xs text-apple-gray-600 dark:text-apple-300 print:text-black/80 mt-1 leading-relaxed">
+            {item.description.en}
+          </p>
+        )}
       </div>
-
-      {/* Trilingual Subtitle (Sinhala & Tamil) */}
-      {showSinhalaTamil && (item.title.si || item.title.ta) && (
-        <p className="text-[11px] text-apple-gray-600 dark:text-apple-400 print:text-black/70 italic mt-0.5">
-          {[item.title.si, item.title.ta].filter(Boolean).join(" • ")}
-        </p>
-      )}
-
-      {/* Description */}
-      {showDescriptions && item.description?.en && (
-        <p className="text-xs text-apple-gray-600 dark:text-apple-300 print:text-black/80 mt-1 leading-relaxed">
-          {item.description.en}
-        </p>
-      )}
     </article>
   );
 }
@@ -323,6 +342,7 @@ export interface PrintableCategorySectionProps {
   readonly showDescriptions: boolean;
   readonly showDietaryBadges: boolean;
   readonly showSpicyIcons: boolean;
+  readonly showPhotos?: boolean | undefined;
   readonly template?: PrintMenuTemplate | undefined;
 }
 
@@ -332,6 +352,7 @@ export function PrintableCategorySection({
   showDescriptions,
   showDietaryBadges,
   showSpicyIcons,
+  showPhotos,
   template = "CEYLON_HERITAGE",
 }: PrintableCategorySectionProps) {
   return (
@@ -369,6 +390,7 @@ export function PrintableCategorySection({
             showDescriptions={showDescriptions}
             showDietaryBadges={showDietaryBadges}
             showSpicyIcons={showSpicyIcons}
+            showPhotos={showPhotos}
             template={template}
           />
         ))}
@@ -558,6 +580,16 @@ export function PrintableMenuControls({
             />
             Dietary Badges (V/VG/H)
           </label>
+
+          <label className="flex items-center gap-2 text-xs font-medium text-apple-gray-700 dark:text-apple-300 cursor-pointer min-h-11">
+            <input
+              type="checkbox"
+              checked={config.showPhotos ?? false}
+              onChange={(e) => onChangeConfig({ ...config, showPhotos: e.target.checked })}
+              className="w-4 h-4 rounded text-apple-blue"
+            />
+            Dish Photos
+          </label>
         </div>
       </div>
     </div>
@@ -576,6 +608,39 @@ export interface PrintableMenuSheetProps {
   readonly className?: string | undefined;
 }
 
+export function getTemplateContainerBorder(tmpl: PrintMenuTemplate): string {
+  switch (tmpl) {
+    case "CEYLON_HERITAGE":
+      return "border-double border-4 border-amber-900/30 print:border-black/60 font-serif";
+    case "MODERN_MINIMAL":
+      return "border border-slate-200 dark:border-white/10 print:border-none font-sans";
+    case "TROPICAL_BISTRO":
+      return "border-2 border-emerald-500/30 dark:border-emerald-500/20 print:border-black/40 font-sans";
+    case "RUSTIC_VILLAGE":
+      return "border-2 border-amber-800/40 dark:border-amber-700/30 print:border-black/50 font-serif";
+    case "TWO_COLUMN_COMPACT":
+      return "border border-slate-300 dark:border-slate-700 print:border-black/20 font-sans";
+  }
+}
+
+export function createDefaultPrintableMenuConfig(
+  initial?: Partial<PrintableMenuConfig> | undefined,
+): PrintableMenuConfig {
+  return {
+    hotelName: initial?.hotelName ?? "Amangalla Resort & Spa",
+    outletName: initial?.outletName ?? "The Verandah Restaurant & Wine Cellar",
+    mealSession: initial?.mealSession ?? "À La Carte Dinner Tasting Menu",
+    sltdaRegNumber: initial?.sltdaRegNumber ?? "SLTDA/SQA/HOT/00481",
+    layout: initial?.layout ?? "TWO_COLUMN",
+    template: initial?.template ?? "CEYLON_HERITAGE",
+    showSinhalaTamil: initial?.showSinhalaTamil ?? true,
+    showDescriptions: initial?.showDescriptions ?? true,
+    showDietaryBadges: initial?.showDietaryBadges ?? true,
+    showSpicyIcons: initial?.showSpicyIcons ?? true,
+    showPhotos: initial?.showPhotos ?? false,
+  };
+}
+
 export function PrintableMenuSheet({
   items = DEFAULT_DOMSPEED_MENU_ITEMS,
   categories = DEFAULT_DOMSPEED_CATEGORIES,
@@ -583,35 +648,11 @@ export function PrintableMenuSheet({
   onTriggerPrint,
   className = "",
 }: PrintableMenuSheetProps) {
-  const [config, setConfig] = useState<PrintableMenuConfig>({
-    hotelName: initialConfig?.hotelName ?? "Amangalla Resort & Spa",
-    outletName: initialConfig?.outletName ?? "The Verandah Restaurant & Wine Cellar",
-    mealSession: initialConfig?.mealSession ?? "À La Carte Dinner Tasting Menu",
-    sltdaRegNumber: initialConfig?.sltdaRegNumber ?? "SLTDA/SQA/HOT/00481",
-    layout: initialConfig?.layout ?? "TWO_COLUMN",
-    template: initialConfig?.template ?? "CEYLON_HERITAGE",
-    showSinhalaTamil: initialConfig?.showSinhalaTamil ?? true,
-    showDescriptions: initialConfig?.showDescriptions ?? true,
-    showDietaryBadges: initialConfig?.showDietaryBadges ?? true,
-    showSpicyIcons: initialConfig?.showSpicyIcons ?? true,
-  });
+  const [config, setConfig] = useState<PrintableMenuConfig>(() =>
+    createDefaultPrintableMenuConfig(initialConfig),
+  );
 
   const selectedTemplate = config.template ?? "CEYLON_HERITAGE";
-
-  const getTemplateContainerBorder = (tmpl: PrintMenuTemplate) => {
-    switch (tmpl) {
-      case "CEYLON_HERITAGE":
-        return "border-double border-4 border-amber-900/30 print:border-black/60 font-serif";
-      case "MODERN_MINIMAL":
-        return "border border-slate-200 dark:border-white/10 print:border-none font-sans";
-      case "TROPICAL_BISTRO":
-        return "border-2 border-emerald-500/30 dark:border-emerald-500/20 print:border-black/40 font-sans";
-      case "RUSTIC_VILLAGE":
-        return "border-2 border-amber-800/40 dark:border-amber-700/30 print:border-black/50 font-serif";
-      case "TWO_COLUMN_COMPACT":
-        return "border border-slate-300 dark:border-slate-700 print:border-black/20 font-sans";
-    }
-  };
 
   const groupedCategories = useMemo(() => {
     return groupMenuItemsByCategory(items, categories, true);
@@ -657,6 +698,7 @@ export function PrintableMenuSheet({
               showDescriptions={config.showDescriptions}
               showDietaryBadges={config.showDietaryBadges}
               showSpicyIcons={config.showSpicyIcons}
+              showPhotos={config.showPhotos}
               template={selectedTemplate}
             />
           ))}

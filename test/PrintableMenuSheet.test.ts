@@ -286,6 +286,43 @@ describe("Step 244: Printable Physical Restaurant Menu & Wine List PDF/Print Vie
       }
     });
 
+    it("renders dish image when showPhotos is true and item has imageUrl", () => {
+      const itemWithPhoto: PrintableMenuItem = {
+        id: "dish-photo",
+        code: "CUR-999",
+        title: { en: "Illustrated Curry", si: "ව්‍යංජනය", ta: "கறி" },
+        description: { en: "Delicious slow cooked curry" },
+        priceLkr: 2500,
+        categoryId: "CAT-CURRY",
+        imageUrl: "https://example.com/curry.webp",
+      };
+
+      const htmlWithPhoto = renderToStaticMarkup(
+        React.createElement(PrintableMenuItemRow, {
+          item: itemWithPhoto,
+          showSinhalaTamil: false,
+          showDescriptions: true,
+          showDietaryBadges: false,
+          showSpicyIcons: false,
+          showPhotos: true,
+        }),
+      );
+      assert.ok(htmlWithPhoto.includes("<img"));
+      assert.ok(htmlWithPhoto.includes("https://example.com/curry.webp"));
+
+      const htmlWithoutPhoto = renderToStaticMarkup(
+        React.createElement(PrintableMenuItemRow, {
+          item: itemWithPhoto,
+          showSinhalaTamil: false,
+          showDescriptions: true,
+          showDietaryBadges: false,
+          showSpicyIcons: false,
+          showPhotos: false,
+        }),
+      );
+      assert.ok(!htmlWithoutPhoto.includes("<img"));
+    });
+
     it("verifies constructible types and exported models", () => {
       const layout: PrintMenuLayout = "TWO_COLUMN";
       const item: PrintableMenuItem = sampleItems[0] as PrintableMenuItem;

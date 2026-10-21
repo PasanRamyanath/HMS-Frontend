@@ -69,7 +69,8 @@ export const DEFAULT_DOMSPEED_MENU_ITEMS: ReadonlyArray<AdminMenuItem> = [
       si: "සුවඳැති සම්බා බත්, කුළුබඩු මිශ්‍ර කුකුළු මස්, පරිප්පු, පොල් සම්බෝල හා කර කරගෑ පාපඩම්",
       ta: "சுவையான சம்பா சாதம், காரசாரமான சிக்கன் குழம்பு, பருப்பு, சம்பல் மற்றும் அப்பளம்",
     },
-    imageUrl: null,
+    imageUrl:
+      "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&auto=format&fit=crop&q=80",
     priceLkr: 2250,
     department: Department.Kitchen,
     kitchenStation: "Curry Station",
@@ -96,7 +97,8 @@ export const DEFAULT_DOMSPEED_MENU_ITEMS: ReadonlyArray<AdminMenuItem> = [
       si: "බැදපු තුනපහ හා ගොරකා මිශ්‍රව මඳ ගින්නේ ඉදුණු කළු ඌරු මස් සහ රෝස් පාන් පෙති",
       ta: "வறுத்த மசாலாக்கள் மற்றும் கொரக்கா சேர்த்து சமைத்த கறி மற்றும் ரோஸ்ட் ரொட்டி",
     },
-    imageUrl: null,
+    imageUrl:
+      "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&auto=format&fit=crop&q=80",
     priceLkr: 3200,
     department: Department.Kitchen,
     kitchenStation: "Curry Station",
@@ -150,7 +152,8 @@ export const DEFAULT_DOMSPEED_MENU_ITEMS: ReadonlyArray<AdminMenuItem> = [
       si: "යකඩ තැටියේ කපා ගත් ගෝදම්බ රොටි, කුකුළු මස්, බිත්තර, ලීක්ස් සහ දියවූ චීස්",
       ta: "கொத்து ரொட்டி, சிக்கன், முட்டை, காய்கறிகள் மற்றும் சீஸ்",
     },
-    imageUrl: null,
+    imageUrl:
+      "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=500&auto=format&fit=crop&q=80",
     priceLkr: 2450,
     department: Department.Kitchen,
     kitchenStation: "Hot Wok",
@@ -177,7 +180,8 @@ export const DEFAULT_DOMSPEED_MENU_ITEMS: ReadonlyArray<AdminMenuItem> = [
       si: "මැද තැම්බුණු බිත්තරය සහිත කරස් ගානා ආප්ප දෙකක් සහ සැර කට්ට සම්බෝල",
       ta: "மொறுமொறுப்பான முட்டை அப்பங்கள் மற்றும் காரசாரமான கட்ட சம்பல்",
     },
-    imageUrl: null,
+    imageUrl:
+      "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500&auto=format&fit=crop&q=80",
     priceLkr: 1650,
     department: Department.Kitchen,
     kitchenStation: "Hopper Station",
@@ -204,7 +208,8 @@ export const DEFAULT_DOMSPEED_MENU_ITEMS: ReadonlyArray<AdminMenuItem> = [
       si: "සුවඳැති කඳුකර සිලෝන් කළු තේ, නැවුම් එළකිරි සහ හකුරු සමග",
       ta: "சுவையான மலையக சிலோன் கறுப்பு தேநீர், பால் மற்றும் சர்க்கரையுடன்",
     },
-    imageUrl: null,
+    imageUrl:
+      "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&auto=format&fit=crop&q=80",
     priceLkr: 950,
     department: Department.Bar,
     kitchenStation: "Beverage Dispense",
@@ -231,7 +236,8 @@ export const DEFAULT_DOMSPEED_MENU_ITEMS: ReadonlyArray<AdminMenuItem> = [
       si: "සිසිල් කළ නැවුම් ස්වභාවික තැඹිලි වතුර සහ මදය ආහාරයට ගැනීමට හැන්දක් සමග",
       ta: "குளிர்ந்த சுவையான இயற்கை தம்பிலி இளநீர்",
     },
-    imageUrl: null,
+    imageUrl:
+      "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?w=500&auto=format&fit=crop&q=80",
     priceLkr: 850,
     department: Department.Bar,
     kitchenStation: "Juice Bar",
