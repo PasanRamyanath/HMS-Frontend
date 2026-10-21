@@ -833,11 +833,29 @@ export function AdminShell({
   children,
 }: AdminShellProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("hms_theme") === "dark";
+    }
+    return false;
+  });
   const [selectedProperty, setSelectedProperty] = useState(properties[0]?.id ?? "");
 
   const shiftSession = getCurrentShiftSession();
   const visibleNavItems = filterNavItemsForRole(ADMIN_NAV_ITEMS, userRole);
+
+  // Synchronize dark mode class and storage
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      if (isDarkMode) {
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("hms_theme", "dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("hms_theme", "light");
+      }
+    }
+  }, [isDarkMode]);
 
   // Global ⌘K Spotlight shortcut listener
   useEffect(() => {
@@ -853,11 +871,7 @@ export function AdminShell({
   }, [onOpenSpotlight]);
 
   const toggleAppearance = () => {
-    const nextDark = !isDarkMode;
-    setIsDarkMode(nextDark);
-    if (typeof document !== "undefined") {
-      document.documentElement.classList.toggle("dark", nextDark);
-    }
+    setIsDarkMode((prev) => !prev);
   };
 
   const handleNavigate = (path: string) => {

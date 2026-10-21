@@ -4,7 +4,9 @@ import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import {
   type CategoryGroupedMenu,
+  MENU_TEMPLATE_OPTIONS,
   type PrintMenuLayout,
+  type PrintMenuTemplate,
   PrintableCategorySection,
   type PrintableCategorySectionProps,
   type PrintableMenuCategory,
@@ -255,6 +257,33 @@ describe("Step 244: Printable Physical Restaurant Menu & Wine List PDF/Print Vie
       assert.ok(html.includes('data-testid="printable-menu-sheet-root"'));
       assert.ok(html.includes('data-testid="printable-menu-body"'));
       assert.ok(html.includes("columns-1 md:columns-2"));
+    });
+
+    it("verifies all 5 print menu templates exist and render with distinct themes", () => {
+      assert.strictEqual(MENU_TEMPLATE_OPTIONS.length, 5);
+      const templateIds: PrintMenuTemplate[] = [
+        "CEYLON_HERITAGE",
+        "MODERN_MINIMAL",
+        "TROPICAL_BISTRO",
+        "RUSTIC_VILLAGE",
+        "TWO_COLUMN_COMPACT",
+      ];
+
+      for (const tmpl of templateIds) {
+        const option = MENU_TEMPLATE_OPTIONS.find((o) => o.id === tmpl);
+        assert.ok(option, `Missing template option: ${tmpl}`);
+        assert.ok(option.name);
+        assert.ok(option.icon);
+
+        const html = renderToStaticMarkup(
+          React.createElement(PrintableMenuSheet, {
+            items: sampleItems,
+            categories: sampleCategories,
+            initialConfig: { template: tmpl },
+          }),
+        );
+        assert.ok(html.includes('data-testid="printable-menu-sheet-root"'));
+      }
     });
 
     it("verifies constructible types and exported models", () => {

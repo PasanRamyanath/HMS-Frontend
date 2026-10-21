@@ -5,7 +5,9 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { DEFAULT_DOMSPEED_MENU_ITEMS } from "../src/admin/menus/MenuItemGrid.js";
 import {
   type AdminMenuItemSaveInput,
+  CURATED_DISH_PHOTOS,
   DietaryAndStockToggles,
+  DishPhotoManager,
   MEAL_PLAN_CONFIGS,
   MealPlanInclusionCheckboxes,
   type MenuItemFormState,
@@ -148,6 +150,22 @@ describe("Step 230: Menu Item Creation & Edit Modal (MenuItemModal.tsx)", () => 
       assert.ok(html.includes("Half Board (HB)"));
       assert.ok(html.includes("Full Board (FB)"));
       assert.ok(html.includes("All Inclusive (AI)"));
+    });
+
+    it("renders DishPhotoManager with upload options, URL input, and curated presets", () => {
+      assert.ok(CURATED_DISH_PHOTOS.length >= 6);
+      const html = renderToStaticMarkup(
+        React.createElement(DishPhotoManager, {
+          currentImageUrl: "https://images.unsplash.com/photo-1546833999-b9f581a1996d",
+          onImageSelected: () => undefined,
+        }),
+      );
+      assert.ok(html.includes("Dish Photography (1:1 Square WebP, &lt; 80 KB)"));
+      assert.ok(html.includes("Active Photo Ready"));
+      assert.ok(html.includes("Upload"));
+      assert.ok(html.includes("URL"));
+      assert.ok(html.includes("SL Presets"));
+      assert.ok(html.includes("Remove"));
     });
   });
 

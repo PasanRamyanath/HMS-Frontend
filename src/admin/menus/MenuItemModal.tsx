@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { WebpUploadField } from "../../components/WebpUploadField.js";
 import { Department, MealPlan, type TrilingualText } from "../../generated/graphql.js";
 import { type SupportedLanguage, useTranslation } from "../../lib/i18n.js";
@@ -771,6 +771,257 @@ export function ModalFooterActions({
   );
 }
 
+export const CURATED_DISH_PHOTOS: ReadonlyArray<{
+  readonly id: string;
+  readonly name: string;
+  readonly url: string;
+}> = [
+  {
+    id: "rice-curry",
+    name: "Ceylon Rice & Curry",
+    url: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&auto=format&fit=crop&q=80",
+  },
+  {
+    id: "egg-hoppers",
+    name: "Egg Hoppers & Sambol",
+    url: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500&auto=format&fit=crop&q=80",
+  },
+  {
+    id: "kottu-roti",
+    name: "Sri Lankan Kottu Roti",
+    url: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=500&auto=format&fit=crop&q=80",
+  },
+  {
+    id: "seafood-platter",
+    name: "Devilled Seafood Platter",
+    url: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&auto=format&fit=crop&q=80",
+  },
+  {
+    id: "king-coconut",
+    name: "Fresh King Coconut (Thambili)",
+    url: "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?w=500&auto=format&fit=crop&q=80",
+  },
+  {
+    id: "ceylon-tea",
+    name: "Ceylon Single-Estate Tea",
+    url: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&auto=format&fit=crop&q=80",
+  },
+];
+
+function processDishImageFile(file: File, onSelect: (url: string) => void) {
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const dataUrl = event.target?.result as string;
+    if (typeof window !== "undefined" && typeof document !== "undefined") {
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const canvas = document.createElement("canvas");
+          const size = Math.min(img.width, img.height);
+          canvas.width = 500;
+          canvas.height = 500;
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            const offsetX = (img.width - size) / 2;
+            const offsetY = (img.height - size) / 2;
+            ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, 500, 500);
+            const webpData = canvas.toDataURL("image/webp", 0.85);
+            onSelect(webpData);
+          } else {
+            onSelect(dataUrl);
+          }
+        } catch {
+          onSelect(dataUrl);
+        }
+      };
+      img.onerror = () => onSelect(dataUrl);
+      img.src = dataUrl;
+    } else {
+      onSelect(dataUrl);
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+interface DishPhotoManagerProps {
+  readonly currentImageUrl?: string | null | undefined;
+  readonly onImageSelected: (url: string | null) => void;
+}
+
+export function DishPhotoManager({ currentImageUrl, onImageSelected }: DishPhotoManagerProps) {
+  const [activeTab, setActiveTab] = useState<"UPLOAD" | "URL" | "PRESET">("UPLOAD");
+  const [urlInput, setUrlInput] = useState("");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      processDishImageFile(file, (url) => onImageSelected(url));
+    }
+  };
+
+  const handleApplyUrl = () => {
+    if (urlInput.trim()) {
+      onImageSelected(urlInput.trim());
+      setUrlInput("");
+    }
+  };
+
+  return (
+    <div className="space-y-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-slate-700">
+        <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider block">
+          Dish Photography (1:1 Square WebP, &lt; 80 KB)
+        </span>
+        <div className="flex items-center gap-1 bg-slate-200/80 dark:bg-slate-700/80 p-0.5 rounded-xl">
+          <button
+            type="button"
+            onClick={() => setActiveTab("UPLOAD")}
+            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer min-h-[32px] ${
+              activeTab === "UPLOAD"
+                ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            }`}
+          >
+            📁 Upload
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("URL")}
+            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer min-h-[32px] ${
+              activeTab === "URL"
+                ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            }`}
+          >
+            🔗 URL
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("PRESET")}
+            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition cursor-pointer min-h-[32px] ${
+              activeTab === "PRESET"
+                ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            }`}
+          >
+            🍛 SL Presets
+          </button>
+        </div>
+      </div>
+
+      {/* Active Photo Preview & Remove */}
+      {currentImageUrl ? (
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+          <img
+            src={currentImageUrl}
+            alt="Dish preview"
+            className="w-14 h-14 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shadow-sm shrink-0"
+          />
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-slate-900 dark:text-white">
+                Active Photo Ready
+              </span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold">
+                1:1 Ready
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
+              Optimized for QR menu, POS terminal &amp; physical print
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => onImageSelected(null)}
+            className="px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition border border-rose-200 dark:border-rose-900/40 cursor-pointer min-h-[36px]"
+          >
+            Remove
+          </button>
+        </div>
+      ) : null}
+
+      {/* Tab 1: File Upload */}
+      {activeTab === "UPLOAD" && (
+        <div className="space-y-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/avif"
+            onChange={handleFileChange}
+            className="hidden"
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="w-full py-5 px-4 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-apple-blue dark:hover:border-apple-blue bg-white/60 dark:bg-slate-900/40 hover:bg-apple-blue/[0.02] transition flex flex-col items-center justify-center gap-1.5 text-center cursor-pointer min-h-[90px]"
+          >
+            <span className="text-xl">📸</span>
+            <div className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+              Choose Image from Device / Drag &amp; Drop
+            </div>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              Supports JPEG, PNG, WebP • Auto-crops to 1:1 Square (500×500)
+            </p>
+          </button>
+          <div className="pt-1">
+            <WebpUploadField
+              preset="SQUARE_500"
+              currentImageUrl={currentImageUrl ?? undefined}
+              onUploadSuccess={(res) => onImageSelected(res.url)}
+              description="High-resolution square dish presentation for Apple HIG contactless QR ordering"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Tab 2: Image URL */}
+      {activeTab === "URL" && (
+        <div className="flex gap-2">
+          <input
+            type="url"
+            value={urlInput}
+            onChange={(e) => setUrlInput(e.target.value)}
+            placeholder="https://images.unsplash.com/... or CDN link"
+            className="flex-1 px-3.5 py-2 rounded-xl text-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-apple-blue min-h-[44px]"
+          />
+          <button
+            type="button"
+            onClick={handleApplyUrl}
+            disabled={!urlInput.trim()}
+            className="px-4 py-2 rounded-xl text-xs font-semibold bg-apple-blue text-white disabled:opacity-50 hover:bg-apple-blue/90 cursor-pointer min-h-[44px]"
+          >
+            Apply URL
+          </button>
+        </div>
+      )}
+
+      {/* Tab 3: Curated Presets */}
+      {activeTab === "PRESET" && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {CURATED_DISH_PHOTOS.map((preset) => (
+            <button
+              key={preset.id}
+              type="button"
+              onClick={() => onImageSelected(preset.url)}
+              className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-apple-blue dark:hover:border-apple-blue bg-white dark:bg-slate-800 text-left transition flex items-center gap-2 cursor-pointer group"
+            >
+              <img
+                src={preset.url}
+                alt={preset.name}
+                className="w-10 h-10 rounded-lg object-cover shrink-0 border border-slate-200/50"
+              />
+              <span className="text-[11px] font-medium text-slate-800 dark:text-slate-200 group-hover:text-apple-blue truncate">
+                {preset.name}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export interface MenuItemFormState {
   titleEn: string;
   titleSi: string;
@@ -950,18 +1201,11 @@ export function MenuItemModal({
             setKitchenStation={(v) => updateField("kitchenStation", v)}
           />
 
-          {/* 3. 1:1 Square WebP Dish Photo Upload */}
-          <div className="space-y-2">
-            <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider block">
-              Dish Photography (1:1 Square WebP, &lt; 80 KB)
-            </span>
-            <WebpUploadField
-              preset="SQUARE_500"
-              currentImageUrl={form.imageUrl ?? undefined}
-              onUploadSuccess={(res) => updateField("imageUrl", res.url)}
-              description="High-resolution square dish presentation for Apple HIG contactless QR ordering"
-            />
-          </div>
+          {/* 3. 1:1 Square WebP Dish Photo Upload & Presets */}
+          <DishPhotoManager
+            currentImageUrl={form.imageUrl}
+            onImageSelected={(url) => updateField("imageUrl", url)}
+          />
 
           {/* 4. Spice Level Selector */}
           <SpiceLevelRadioSelector
