@@ -17,6 +17,7 @@
     "src/admin/activities/index.ts!",
     "src/admin/inventory/index.ts!",
     "src/admin/hr/index.ts!",
+    "src/admin/superadmin/index.ts!",
     "test/**/*.test.ts"
   ],
   "project": ["src/**/*.{ts,tsx}!", "test/**/*.test.ts"]
