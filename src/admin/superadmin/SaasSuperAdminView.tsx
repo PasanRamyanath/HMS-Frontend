@@ -22,6 +22,7 @@ import { GlassCard } from "../../components/GlassCard.js";
 import { StatusBadge } from "../../components/StatusBadge.js";
 import type { StaffRole } from "../../lib/auth.js";
 import { formatLkr } from "../../lib/i18n.js";
+import { ProvisionTenantModal } from "./ProvisionTenantModal.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -338,6 +339,7 @@ export function SaasSuperAdminView({
   const [statusFilter, setStatusFilter] = useState<TenantStatus | "ALL">("ALL");
   const [provinceFilter, setProvinceFilter] = useState<string | "ALL">("ALL");
   const [selectedTenantId, setSelectedTenantId] = useState<string | null>(null);
+  const [isProvisionModalOpen, setIsProvisionModalOpen] = useState(false);
 
   // 1. RBAC Guard: Super-Admin Verification
   const isAuthorized = isSuperAdminAuthorized(currentUserRole);
@@ -483,7 +485,7 @@ export function SaasSuperAdminView({
 
           <button
             type="button"
-            onClick={onProvisionTenantClick}
+            onClick={onProvisionTenantClick ?? (() => setIsProvisionModalOpen(true))}
             className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-2 rounded-xl bg-apple-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-apple-blue-500/20 transition hover:bg-apple-blue-700 active:scale-95 dark:bg-apple-blue-500 dark:hover:bg-apple-blue-600"
           >
             <svg
@@ -902,6 +904,12 @@ export function SaasSuperAdminView({
           </GlassCard>
         </div>
       )}
+
+      {/* 1-Click Tenant Provisioning Modal */}
+      <ProvisionTenantModal
+        isOpen={isProvisionModalOpen}
+        onClose={() => setIsProvisionModalOpen(false)}
+      />
     </div>
   );
 }

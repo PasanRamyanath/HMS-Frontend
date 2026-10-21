@@ -4,3 +4,4 @@
  */
 
 export * from "./SaasSuperAdminView.js";
+export * from "./ProvisionTenantModal.js";
