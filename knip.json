@@ -18,6 +18,7 @@
     "src/admin/inventory/index.ts!",
     "src/admin/hr/index.ts!",
     "src/admin/superadmin/index.ts!",
+    "src/admin/layout/index.ts!",
     "test/**/*.test.ts"
   ],
   "project": ["src/**/*.{ts,tsx}!", "test/**/*.test.ts"]
