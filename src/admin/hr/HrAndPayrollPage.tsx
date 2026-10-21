@@ -23,6 +23,7 @@ import {
   type SegmentedControlOption,
 } from "../../components/SegmentedControl.js";
 import { StatusBadge } from "../../components/StatusBadge.js";
+import { StaffUserManager } from "../settings/StaffUserManager.js";
 import { AttendanceManagerView } from "./AttendanceManagerView.js";
 import { EpfEtfReturnView } from "./EpfEtfReturnView.js";
 import { GratuityReportCard } from "./GratuityReportCard.js";
@@ -38,6 +39,7 @@ import { StaffBenefitsCard } from "./StaffBenefitsCard.js";
 // ============================================================================
 
 export type HrPayrollTabKey =
+  | "STAFF"
   | "ROSTER"
   | "ATTENDANCE"
   | "SC_POOL"
@@ -197,6 +199,7 @@ export function HrAndPayrollPage({
 
   const tabOptions: readonly SegmentedControlOption<HrPayrollTabKey>[] = useMemo(
     () => [
+      { id: "STAFF", label: "Staff Directory" },
       { id: "ROSTER", label: "Shift Roster" },
       { id: "ATTENDANCE", label: "Attendance & QR" },
       { id: "SC_POOL", label: "10% SC Pool" },
@@ -228,6 +231,13 @@ export function HrAndPayrollPage({
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => handleTabChange("STAFF")}
+              className="px-4 py-2.5 min-h-[44px] rounded-xl text-xs font-semibold bg-apple-blue hover:bg-apple-blue/90 text-white shadow-sm transition-all"
+            >
+              Add / Edit Staff
+            </button>
             <button
               type="button"
               onClick={() => handleTabChange("PAYROLL")}
@@ -269,6 +279,12 @@ export function HrAndPayrollPage({
       </GlassCard>
 
       {/* Tab Panels */}
+      {activeTab === "STAFF" && (
+        <div>
+          <StaffUserManager />
+        </div>
+      )}
+
       {activeTab === "ROSTER" && (
         <div className="space-y-6">
           <ShiftRosterGrid tenantId={tenantId} />

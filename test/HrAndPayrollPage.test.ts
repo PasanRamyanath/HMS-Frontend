@@ -51,6 +51,17 @@ describe("Step 448: Assemble Unified HR, Roster, 10% Service Charge Pool & Payro
   });
 
   describe("2. Static React 19 SSR Rendering across Tabbed Workspaces", () => {
+    it("renders HrAndPayrollPage with STAFF tab (StaffUserManager)", () => {
+      const html = renderToStaticMarkup(
+        React.createElement(HrAndPayrollPage, {
+          initialTab: "STAFF",
+        }),
+      );
+
+      assert.ok(html.includes("Staff User, Role &amp; Service Charge Point Manager"));
+      assert.ok(html.includes("Add Staff Member"));
+    });
+
     it("renders HrAndPayrollPage with default ROSTER tab", () => {
       const html = renderToStaticMarkup(
         React.createElement(HrAndPayrollPage, {
