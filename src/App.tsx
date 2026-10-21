@@ -4,7 +4,7 @@ import { LoginView } from "./admin/auth/LoginView.js";
 import { RegisterStep1, type RegisterStep1Data } from "./admin/auth/RegisterStep1.js";
 import { RegisterStep2 } from "./admin/auth/RegisterStep2.js";
 import { ResetPasswordView } from "./admin/auth/ResetPasswordView.js";
-import { AdminShell } from "./admin/layout/AdminShell.js";
+import { AdminShell, DEFAULT_PROPERTIES } from "./admin/layout/AdminShell.js";
 import {
   type DynamicToast,
   DynamicToastPill,
@@ -21,6 +21,7 @@ import {
 } from "./lib/router.js";
 import { DirectBookingEngine } from "./qr/booking/DirectBookingEngine.js";
 import { GuestQrApp } from "./qr/index.js";
+import { StaffMobileHub } from "./staff/StaffMobileHub.js";
 
 // ============================================================================
 // Root Application Component
@@ -31,6 +32,11 @@ export function App() {
   const [activeToast, setActiveToast] = useState<DynamicToast | null>(null);
   const [online, setOnline] = useState<boolean>(() => isOnline());
   const [onboardingOrgData, setOnboardingOrgData] = useState<RegisterStep1Data | null>(null);
+  const [selectedPropertyId, setSelectedPropertyId] = useState<string>("tenant-galle-fort");
+
+  const activeProperty =
+    DEFAULT_PROPERTIES.find((p) => p.id === selectedPropertyId) ?? DEFAULT_PROPERTIES[0];
+  const activeTenantName = activeProperty?.name ?? "Galle Fort Lighthouse Villa";
 
   // Subscribe to URL router state changes
   useEffect(() => {
@@ -173,6 +179,15 @@ export function App() {
     );
   }
 
+  if (currentRoute.kind === "STAFF") {
+    return (
+      <>
+        <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
+        <StaffMobileHub hotelName={activeTenantName} />
+      </>
+    );
+  }
+
   // Admin PMS / Operations Portal
   const activeModule = currentRoute.kind === "ADMIN" ? currentRoute.params.module : "dashboard";
 
@@ -185,21 +200,31 @@ export function App() {
         currentModule={activeModule}
         userRole="HOTEL_ADMIN"
         staffName="Kasun Perera"
-        activeTenantName="Galle Fort Lighthouse Villa"
+        activeTenantName={activeTenantName}
+        renderLazyModules={true}
+        isLiveSyncing={online}
+        onOrderAction={handleOrderAction}
+        onPropertyChange={(propId) => {
+          setSelectedPropertyId(propId);
+          const prop = DEFAULT_PROPERTIES.find((p) => p.id === propId);
+          showToast("Property Switched", `Now managing ${prop?.name ?? propId}`, "info");
+        }}
         onOpenSpotlight={handleSpotlight}
         onLogout={() => {
           showToast("Signed Out", "Shift session ended safely", "info");
           navigateTo("/login");
         }}
       >
-        <DashboardView
-          propertyTitle="Galle Fort Lighthouse Villa"
-          isLiveSyncing={online}
-          onOrderAction={handleOrderAction}
-          onRefresh={() => {
-            showToast("Refreshed", "Dashboard metrics re-synced", "info");
-          }}
-        />
+        {activeModule === "dashboard" ? (
+          <DashboardView
+            propertyTitle={activeTenantName}
+            isLiveSyncing={online}
+            onOrderAction={handleOrderAction}
+            onRefresh={() => {
+              showToast("Refreshed", "Dashboard metrics re-synced", "info");
+            }}
+          />
+        ) : null}
       </AdminShell>
     </>
   );

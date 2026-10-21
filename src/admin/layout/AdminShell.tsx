@@ -130,6 +130,8 @@ export interface AdminShellProps {
   readonly onOpenSpotlight?: (() => void) | undefined;
   readonly onLogout?: (() => void) | undefined;
   readonly renderLazyModules?: boolean | undefined;
+  readonly isLiveSyncing?: boolean | undefined;
+  readonly onOrderAction?: ((orderId: string, action: string) => void) | undefined;
   readonly children?: ReactNode | undefined;
 }
 
@@ -661,9 +663,15 @@ export function renderAdminModuleView(
     case "stores":
       return <LazyInventoryAdminPage />;
     case "tax":
-    case "reports":
+      return (
+        <LazyReportsAdminPage initialTab="SLTDA_OCCUPANCY" hotelName={extraProps?.propertyTitle} />
+      );
     case "audit":
-      return <LazyReportsAdminPage />;
+      return (
+        <LazyReportsAdminPage initialTab="SECURITY_AUDIT" hotelName={extraProps?.propertyTitle} />
+      );
+    case "reports":
+      return <LazyReportsAdminPage initialTab="GM_FLASH" hotelName={extraProps?.propertyTitle} />;
     case "payroll":
       return <LazyHrAndPayrollPage />;
     case "settings":
@@ -741,7 +749,9 @@ function SidebarContent({
           className="p-3 space-y-1 overflow-y-auto max-h-[calc(100vh-220px)]"
         >
           {navItems.map((item) => {
-            const isActive = currentModule === item.id;
+            const isActive =
+              currentModule === item.id ||
+              (item.id === "kds" && (currentModule === "orders" || currentModule === "kds"));
             return (
               <button
                 key={item.id}
@@ -818,6 +828,8 @@ export function AdminShell({
   onOpenSpotlight,
   onLogout,
   renderLazyModules = false,
+  isLiveSyncing = true,
+  onOrderAction,
   children,
 }: AdminShellProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -1030,7 +1042,11 @@ export function AdminShell({
             children
           ) : renderLazyModules ? (
             <Suspense fallback={<AdminModuleFallback />}>
-              {renderAdminModuleView(currentModule, { propertyTitle: activeTenantName })}
+              {renderAdminModuleView(currentModule, {
+                propertyTitle: activeTenantName,
+                isLiveSyncing,
+                onOrderAction,
+              })}
             </Suspense>
           ) : (
             <div className="p-8 text-center text-slate-500 dark:text-slate-400">
