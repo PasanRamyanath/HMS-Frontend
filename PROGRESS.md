@@ -303,6 +303,7 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 440: Build Staff Smartphone Self-Service Payslip & Service Charge Point Viewer (`src/staff/hr/StaffMyPayslipView.tsx`)
 - [x] Step 441: Build Staff Leave Request & Manager Approval Workflow (`src/staff/hr/LeaveRequestModal.tsx`)
 - [x] Step 443: Build Staff Duty Meal & Accommodation Deduction Policy Configurator (`src/admin/hr/StaffBenefitsCard.tsx`)
+- [x] Step 446: Build Gratuity Provision & Staff Turnover Report Card (`src/admin/hr/GratuityReportCard.tsx`)
 
 
 
