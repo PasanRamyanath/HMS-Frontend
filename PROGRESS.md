@@ -290,5 +290,9 @@ This file tracks the sequential completion of frontend implementation steps defi
 - [x] Step 423: Assemble Master Statutory Reports, Night Audit & Finance Page (`src/admin/reports/ReportsAdminPage.tsx`)
 - [x] Step 425: Run Phase 17 Ponytail Review & Code Simplification Checkpoint (`src/admin/reports/ReportExportShared.tsx`)
 
+## Phase 18: Sri Lankan Hotel Staff Attendance, 10% Service Charge Pool Distribution, EPF (8%/12%), ETF (3%) & Payroll
+- [x] Step 429: Build Department Shift Roster & Weekly Duty Planner (`src/admin/hr/ShiftRosterGrid.tsx`)
+
+
 
 
