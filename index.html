@@ -26,6 +26,21 @@
           } else {
             document.documentElement.classList.remove("dark");
           }
+          var brandColor = localStorage.getItem("hms_brand_color") || "#0D7450";
+          if (brandColor && /^#[0-9A-Fa-f]{3,8}$/.test(brandColor)) {
+            var hex = brandColor.replace("#", "");
+            if (hex.length === 3) hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+            var r = parseInt(hex.substring(0, 2), 16);
+            var g = parseInt(hex.substring(2, 4), 16);
+            var b = parseInt(hex.substring(4, 6), 16);
+            if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
+              var root = document.documentElement;
+              root.style.setProperty("--brand-primary", brandColor);
+              root.style.setProperty("--brand-surface", "rgba(" + r + "," + g + "," + b + ",0.08)");
+              root.style.setProperty("--brand-border", "rgba(" + r + "," + g + "," + b + ",0.25)");
+              root.style.setProperty("--brand-ring", "rgba(" + r + "," + g + "," + b + ",0.35)");
+            }
+          }
         } catch (e) {}
       })();
     </script>

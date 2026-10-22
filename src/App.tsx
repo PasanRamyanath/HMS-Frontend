@@ -1,4 +1,5 @@
 import { type ReactNode, useEffect, useState } from "react";
+import { BaseLandingPortal } from "./admin/BaseLandingPortal.js";
 import { DashboardView } from "./admin/DashboardView.js";
 import { LoginView } from "./admin/auth/LoginView.js";
 import { RegisterStep1, type RegisterStep1Data } from "./admin/auth/RegisterStep1.js";
@@ -189,6 +190,15 @@ export function App() {
       <>
         <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
         {authElement}
+      </>
+    );
+  }
+
+  if (currentRoute.kind === "PORTAL") {
+    return (
+      <>
+        <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
+        <BaseLandingPortal />
       </>
     );
   }

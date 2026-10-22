@@ -130,6 +130,9 @@ describe("macOS/iPadOS-Style Translucent Vibrancy Sidebar & Top Toolbar (AdminSh
       assert.ok(html.includes("Kasun Perera"));
       assert.ok(html.includes("HOTEL_ADMIN"));
       assert.ok(html.includes("Select Active Hotel Property"));
+      assert.ok(html.includes("Language Selector"));
+      assert.ok(html.includes("සිංහල"));
+      assert.ok(html.includes("தமிழ்"));
       assert.ok(html.includes("⌘K"));
       assert.ok(html.includes("Toggle Dark/Light Appearance"));
       assert.ok(html.includes("Tape Chart Workspace"));

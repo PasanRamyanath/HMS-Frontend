@@ -15,6 +15,7 @@ import {
   logoutStaff,
 } from "../../lib/auth.js";
 import { getStoredHotelProfile, subscribeToHotelProfile } from "../../lib/hotelProfile.js";
+import { useTranslation } from "../../lib/i18n.js";
 import { navigateTo } from "../../lib/router.js";
 
 // ============================================================================
@@ -742,6 +743,28 @@ interface SidebarContentProps {
   readonly onLogout: () => void;
 }
 
+const NAV_GROUPS: ReadonlyArray<{
+  readonly id: string;
+  readonly title: string;
+  readonly itemIds: ReadonlyArray<string>;
+}> = [
+  {
+    id: "core",
+    title: "CORE PMS OPERATIONS",
+    itemIds: ["dashboard", "front-desk", "rooms", "channels", "folios"],
+  },
+  {
+    id: "erp",
+    title: "GUEST EXPERIENCE & ERP",
+    itemIds: ["kds", "menus", "housekeeping", "banquets", "spa", "stores"],
+  },
+  {
+    id: "finance",
+    title: "FINANCE & GOVERNANCE",
+    itemIds: ["tax", "payroll", "audit", "settings", "saas"],
+  },
+];
+
 function SidebarContent({
   navItems,
   currentModule,
@@ -754,22 +777,22 @@ function SidebarContent({
   onLogout,
 }: SidebarContentProps) {
   return (
-    <div className="flex flex-col h-full min-h-0 justify-between">
+    <div className="flex flex-col h-full min-h-0 justify-between text-emerald-100">
       <div className="flex flex-col min-h-0 flex-1">
         {/* App Title Header */}
         <button
           type="button"
           onClick={() => onNavigate("/admin")}
-          className="p-4 flex items-center gap-3 border-b border-slate-200/50 dark:border-white/10 shrink-0 w-full text-left hover:bg-black/5 dark:hover:bg-white/5 transition-apple-spring cursor-pointer"
+          className="p-3 flex items-center gap-3 border-b border-[#0E3E2D] shrink-0 w-full text-left hover:bg-white/5 transition-apple-spring cursor-pointer rounded-2xl"
         >
           {hotelLogoUrl ? (
             <img
               src={hotelLogoUrl}
               alt={hotelName ?? "Hotel Logo"}
-              className="w-9 h-9 rounded-xl object-cover shadow-md border border-slate-200/60 dark:border-white/10 shrink-0"
+              className="w-8 h-8 rounded-xl object-cover shadow-md border border-white/10 shrink-0"
             />
           ) : (
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-apple-blue to-apple-teal flex items-center justify-center text-white shadow-md shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500 flex items-center justify-center text-white shadow-brand shrink-0">
               <svg
                 className="w-5 h-5"
                 fill="none"
@@ -787,109 +810,125 @@ function SidebarContent({
             </div>
           )}
           <div className="min-w-0 flex-1">
-            <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-white block leading-tight truncate">
+            <span className="font-bold text-sm tracking-tight text-white block leading-tight truncate">
               Sri Lanka HMS
             </span>
-            <span className="text-[11px] text-slate-500 dark:text-slate-400 block truncate">
+            <span className="text-[10px] text-emerald-300/80 block truncate font-medium">
               {hotelName || "PMS & Operations"}
             </span>
           </div>
         </button>
 
-        {/* Navigation list */}
+        {/* Property Selector Card */}
+        <div className="bg-[#051f15] border border-emerald-900/60 rounded-xl p-2.5 my-2.5 flex items-center justify-between shrink-0">
+          <div className="min-w-0 flex-1 pr-2">
+            <div className="text-xs font-bold text-white truncate">
+              {hotelName || "Ceylon Sapphire Resort"}
+            </div>
+            <div className="text-[10px] text-emerald-300/80 truncate">
+              Galle Fort &amp; Bentota • SLTDA #4821
+            </div>
+          </div>
+          <svg
+            className="w-3.5 h-3.5 text-emerald-400 shrink-0"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+
+        {/* Categorized Hierarchical Navigation List */}
         <nav
           aria-label="PMS Admin Navigation"
-          className="p-3 space-y-1 overflow-y-auto flex-1 min-h-0 scrollbar-thin"
+          className="p-1 space-y-2.5 overflow-y-auto flex-1 min-h-0 scrollbar-thin"
         >
-          {navItems.map((item) => {
-            const isActive =
-              currentModule === item.id ||
-              (item.id === "kds" && (currentModule === "orders" || currentModule === "kds")) ||
-              (item.id === "menus" && (currentModule === "menus" || currentModule === "menu"));
+          {NAV_GROUPS.map((group) => {
+            const groupItems = navItems.filter((i) => group.itemIds.includes(i.id));
+            if (groupItems.length === 0) return null;
             return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => onNavigate(item.path)}
-                className={`w-full min-h-[44px] apple-touch-target flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-apple-spring cursor-pointer ${
-                  isActive
-                    ? "bg-apple-blue text-white shadow-sm"
-                    : "text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/10"
-                }`}
-              >
-                <NavItemIcon iconName={item.iconName} />
-                <span className="truncate">{item.label}</span>
-              </button>
+              <div key={group.id} className="space-y-1">
+                <div className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 px-2.5 pt-1 pb-0.5">
+                  {group.title}
+                </div>
+                {groupItems.map((item) => {
+                  const isActive =
+                    currentModule === item.id ||
+                    (item.id === "kds" &&
+                      (currentModule === "orders" || currentModule === "kds")) ||
+                    (item.id === "menus" &&
+                      (currentModule === "menus" || currentModule === "menu"));
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => onNavigate(item.path)}
+                      className={`w-full min-h-[38px] flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-apple-spring cursor-pointer ${
+                        isActive
+                          ? "bg-[#0B6E4F] text-white shadow-md shadow-emerald-950/40 font-semibold"
+                          : "text-emerald-100/80 hover:bg-white/10 hover:text-white font-medium"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5 truncate">
+                        <NavItemIcon iconName={item.iconName} />
+                        <span className="truncate">{item.label}</span>
+                      </div>
+                      {isActive && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] shrink-0" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             );
           })}
         </nav>
       </div>
 
-      {/* Staff User & Shift Session Footer */}
-      <div className="p-3 border-t border-slate-200/50 dark:border-white/10 bg-black/5 dark:bg-white/5 m-3 rounded-2xl shrink-0">
-        <div className="flex items-center justify-between mb-2">
-          <div className="truncate">
-            <span className="block text-xs font-semibold text-slate-900 dark:text-white truncate">
-              {staffName}
-            </span>
-            <span className="block text-[11px] text-slate-500 dark:text-slate-400">{userRole}</span>
+      {/* Staff User & Shift Session Identity Card */}
+      <div className="p-2.5 border border-emerald-900/60 bg-[#052318] rounded-2xl shrink-0 mt-2 space-y-2">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-8 h-8 rounded-lg bg-emerald-700/80 text-white font-bold text-xs flex items-center justify-center shrink-0">
+              {staffName ? staffName.charAt(0) : "R"}
+            </div>
+            <div className="min-w-0">
+              <span className="block text-xs font-semibold text-white truncate">{staffName}</span>
+              <span className="block text-[10px] text-emerald-300/80 truncate">
+                {userRole} • Active
+              </span>
+            </div>
           </div>
-          <StatusBadge
-            status={shiftSession ? "CLEAN" : "DIRTY"}
-            label={shiftSession ? "On Shift" : "Shift Off"}
-            size="sm"
-            pulse={Boolean(shiftSession)}
-          />
+          <div className="flex items-center gap-1.5 shrink-0">
+            <StatusBadge
+              status={shiftSession ? "CLEAN" : "DIRTY"}
+              label={shiftSession ? "On Shift" : "Shift Off"}
+              size="sm"
+              pulse={Boolean(shiftSession)}
+            />
+            <span className="border border-emerald-500/40 text-emerald-300 text-[10px] px-2 py-0.5 rounded-full font-bold">
+              RBAC:{" "}
+              {userRole === "HOTEL_ADMIN" ? "GM" : userRole === "SUPER_ADMIN" ? "SA" : "STAFF"}
+            </span>
+          </div>
         </div>
 
-        <div className="flex items-center gap-1.5 mt-2">
+        <div className="flex items-center gap-1.5 pt-1 border-t border-emerald-900/40">
           <button
             type="button"
             onClick={() => onNavigate("/admin/settings")}
-            className="flex-1 min-h-[36px] apple-touch-target flex items-center justify-center gap-1.5 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 bg-white/70 dark:bg-white/10 hover:bg-white dark:hover:bg-white/15 transition-apple-spring cursor-pointer border border-slate-200/50 dark:border-white/10 shadow-sm"
+            className="flex-1 min-h-[30px] flex items-center justify-center gap-1.5 rounded-xl text-[11px] font-semibold text-white bg-white/10 hover:bg-white/15 transition-apple-spring cursor-pointer border border-white/10"
           >
-            <svg
-              className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.8}
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.8}
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
+            <CogIcon />
             <span>Settings</span>
           </button>
-
           <button
             type="button"
             onClick={onLogout}
-            className="flex-1 min-h-[36px] apple-touch-target flex items-center justify-center gap-1.5 rounded-xl text-xs font-semibold text-apple-red hover:bg-apple-red/10 transition-apple-spring cursor-pointer border border-apple-red/20"
+            className="flex-1 min-h-[30px] flex items-center justify-center gap-1.5 rounded-xl text-[11px] font-semibold text-rose-300 hover:bg-rose-900/30 transition-apple-spring cursor-pointer border border-rose-500/30"
           >
-            <svg
-              className="w-3.5 h-3.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-              />
-            </svg>
             <span>Sign Out</span>
           </button>
         </div>
@@ -909,6 +948,101 @@ function resolveModeUrl(target: string, selectedProperty: string): string | null
     booking: `/book/${selectedProperty}`,
   };
   return modeRoutes[target] ?? null;
+}
+
+interface QuickSectionShortcutsProps {
+  readonly currentModule: string;
+  readonly onNavigate: (path: string) => void;
+}
+
+function QuickSectionShortcuts({ currentModule, onNavigate }: QuickSectionShortcutsProps) {
+  if (currentModule === "dashboard") return null;
+
+  const shortcutButtons = [
+    { module: "settings", icon: "⚙️", label: "Hotel Settings & Branding", path: "/admin/settings" },
+    { module: "menus", icon: "🍽️", label: "Menu & Food Items", path: "/admin/menus" },
+    { module: "rooms", icon: "🛏️", label: "Room Inventory & Rates", path: "/admin/rooms" },
+    { module: "tax", icon: "🏛️", label: "Statutory 4-Stage Tax", path: "/admin/tax" },
+    { module: "payroll", icon: "👥", label: "Staff & EPF Roster", path: "/admin/payroll" },
+    { module: "front-desk", icon: "🛎️", label: "14-Day Tape Chart", path: "/admin/front-desk" },
+  ];
+
+  return (
+    <nav
+      aria-label="Quick Section Shortcuts"
+      className="mb-4 sm:mb-6 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-thin"
+    >
+      {shortcutButtons.map((btn) => (
+        <button
+          key={btn.module}
+          type="button"
+          onClick={() => onNavigate(btn.path)}
+          className={`shrink-0 px-3 py-1.5 rounded-xl border text-xs font-semibold shadow-sm transition-all cursor-pointer flex items-center gap-1.5 ${
+            currentModule === btn.module
+              ? "bg-brand text-white border-transparent"
+              : "bg-white/80 dark:bg-white/10 hover:bg-white dark:hover:bg-white/15 border-slate-200/80 dark:border-white/10 text-slate-700 dark:text-slate-200"
+          }`}
+        >
+          <span>{btn.icon}</span>
+          <span>{btn.label}</span>
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+interface TrilingualHeaderSwitchProps {
+  readonly currentLanguage: "en" | "si" | "ta";
+  readonly onSelectLanguage: (lang: "en" | "si" | "ta") => void;
+}
+
+function TrilingualHeaderSwitch({
+  currentLanguage,
+  onSelectLanguage,
+}: TrilingualHeaderSwitchProps) {
+  return (
+    <nav
+      aria-label="Language Selector"
+      className="hidden md:flex items-center p-0.5 rounded-xl bg-black/5 dark:bg-white/10 border border-slate-200/60 dark:border-white/10 text-xs font-semibold"
+    >
+      <button
+        type="button"
+        onClick={() => onSelectLanguage("en")}
+        className={`px-2 py-1 rounded-lg transition-all cursor-pointer ${
+          currentLanguage === "en"
+            ? "bg-brand text-white shadow-xs font-bold"
+            : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+        }`}
+        title="English"
+      >
+        EN
+      </button>
+      <button
+        type="button"
+        onClick={() => onSelectLanguage("si")}
+        className={`px-2 py-1 rounded-lg transition-all cursor-pointer ${
+          currentLanguage === "si"
+            ? "bg-brand text-white shadow-xs font-bold"
+            : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+        }`}
+        title="සිංහල"
+      >
+        සිංහල
+      </button>
+      <button
+        type="button"
+        onClick={() => onSelectLanguage("ta")}
+        className={`px-2 py-1 rounded-lg transition-all cursor-pointer ${
+          currentLanguage === "ta"
+            ? "bg-brand text-white shadow-xs font-bold"
+            : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+        }`}
+        title="தமிழ்"
+      >
+        தமிழ்
+      </button>
+    </nav>
+  );
 }
 
 // ============================================================================
@@ -940,6 +1074,7 @@ export function AdminShell({
   });
   const [selectedProperty, setSelectedProperty] = useState(properties[0]?.id ?? "");
   const [hotelProfile, setHotelProfile] = useState(() => getStoredHotelProfile());
+  const { currentLanguage, setLanguage } = useTranslation();
 
   useEffect(() => {
     return subscribeToHotelProfile((profile) => {
@@ -997,11 +1132,11 @@ export function AdminShell({
   };
 
   return (
-    <div className="min-h-screen w-full flex bg-slate-100 dark:bg-slate-950 font-sf-pro antialiased">
-      {/* Desktop macOS-Style 260px Vibrancy Translucent Sidebar */}
+    <div className="min-h-screen w-full flex flex-col lg:flex-row bg-[#F4F7F5] dark:bg-slate-950 font-sf-pro antialiased p-3 sm:p-4 gap-4">
+      {/* Desktop Floating Rounded Squircle Sidebar */}
       <aside
         aria-label="Desktop Navigation Sidebar"
-        className="hidden lg:block w-[260px] h-screen sticky top-0 shrink-0 apple-liquid-glass border-r border-slate-200/60 dark:border-white/10 z-30"
+        className="hidden lg:flex flex-col w-[280px] shrink-0 bg-[#082F21] text-emerald-100 rounded-3xl border border-emerald-950/60 shadow-xl p-3.5 h-[calc(100vh-2rem)] sticky top-4 z-30 justify-between overflow-hidden"
       >
         <SidebarContent
           navItems={visibleNavItems}
@@ -1031,7 +1166,7 @@ export function AdminShell({
             }}
             className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity cursor-pointer"
           />
-          <div className="relative w-[280px] max-w-xs h-full bg-white dark:bg-slate-900 shadow-2xl z-10 flex flex-col">
+          <div className="relative w-[280px] max-w-xs h-full bg-[#082F21] text-emerald-100 shadow-2xl z-10 flex flex-col p-3.5">
             <SidebarContent
               navItems={visibleNavItems}
               currentModule={currentModule}
@@ -1047,23 +1182,23 @@ export function AdminShell({
         </dialog>
       )}
 
-      {/* Main Workspace Area with Top Toolbar */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-screen">
-        {/* Apple Top Toolbar Shell */}
+      {/* Main Workspace Area with Floating Top Toolbar & Canvas */}
+      <div className="flex-1 flex flex-col min-w-0 min-h-0 gap-4">
+        {/* Floating Top Operations Toolbar */}
         <header
           aria-label="Top Operations Toolbar"
-          className="sticky top-0 z-20 h-16 apple-liquid-glass border-b border-slate-200/60 dark:border-white/10 px-4 sm:px-6 flex items-center justify-between gap-4"
+          className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 rounded-2xl px-5 py-3 shadow-xs flex items-center justify-between gap-3 shrink-0"
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 min-w-0">
             {/* Mobile drawer toggle */}
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(true)}
               aria-label="Open Navigation Menu"
-              className="lg:hidden min-h-[44px] min-w-[44px] apple-touch-target p-2 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer"
+              className="lg:hidden min-h-[40px] min-w-[40px] apple-touch-target p-2 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer"
             >
               <svg
-                className="w-6 h-6"
+                className="w-5 h-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -1078,16 +1213,35 @@ export function AdminShell({
               </svg>
             </button>
 
+            {/* Quick Jump Search Box with ⌘K Spotlight */}
+            <div className="flex items-center gap-2 max-w-xs sm:max-w-sm w-full">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  placeholder="Search rooms, guests, folios, or press ⌘K..."
+                  onClick={onOpenSpotlight}
+                  readOnly
+                  className="w-full pl-3 pr-16 py-1.5 text-xs rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/60 dark:border-white/10 text-slate-700 dark:text-slate-200 placeholder-slate-400 cursor-pointer focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={onOpenSpotlight}
+                  aria-label="Open Spotlight Command Palette (⌘K)"
+                  className="absolute inset-y-1 right-1 px-2 flex items-center gap-1 text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600 shadow-2xs cursor-pointer"
+                >
+                  <span className="hidden sm:inline">Quick Jump</span>
+                  <kbd className="font-mono">⌘K</kbd>
+                </button>
+              </div>
+            </div>
+
             {/* Property Switcher */}
-            <div className="flex items-center gap-2">
-              <span className="text-xs uppercase font-semibold tracking-wider text-slate-500 dark:text-slate-400 hidden sm:inline">
-                Property:
-              </span>
+            <div className="hidden sm:flex items-center gap-1.5">
               <select
                 aria-label="Select Active Hotel Property"
                 value={selectedProperty}
                 onChange={(e) => handlePropertySelect(e.target.value)}
-                className="min-h-[40px] px-3 py-1.5 rounded-xl bg-black/5 dark:bg-white/10 text-slate-900 dark:text-white font-medium text-xs border border-slate-200/60 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-apple-blue cursor-pointer"
+                className="min-h-[36px] px-3 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-medium text-xs border border-slate-200/60 dark:border-white/10 focus:outline-none cursor-pointer"
               >
                 {properties.map((p) => (
                   <option key={p.id} value={p.id} className="bg-slate-800 text-white">
@@ -1099,20 +1253,25 @@ export function AdminShell({
 
             {/* Platform Application / Mode Switcher */}
             <div className="flex items-center gap-1.5">
-              <span className="text-xs uppercase font-semibold tracking-wider text-slate-500 dark:text-slate-400 hidden md:inline">
-                Mode:
-              </span>
               <select
                 aria-label="Switch Platform Application"
                 defaultValue="admin"
                 onChange={(e) => {
-                  const url = resolveModeUrl(e.target.value, selectedProperty);
-                  if (url) navigateTo(url);
+                  const target = e.target.value;
+                  if (target === "portal") {
+                    navigateTo("/portal");
+                  } else {
+                    const url = resolveModeUrl(target, selectedProperty);
+                    if (url) navigateTo(url);
+                  }
                 }}
-                className="min-h-[40px] px-2.5 py-1.5 rounded-xl bg-apple-blue/10 dark:bg-apple-blue/20 text-apple-blue font-semibold text-xs border border-apple-blue/30 focus:outline-none focus:ring-2 focus:ring-apple-blue cursor-pointer"
+                className="min-h-[36px] px-2.5 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-[#0B6E4F] dark:text-emerald-300 font-semibold text-xs border border-emerald-300/60 dark:border-emerald-800/60 focus:outline-none cursor-pointer"
               >
                 <option value="admin" className="bg-slate-800 text-white">
-                  🏢 Hotel PMS Admin
+                  🏢 Mode: Hotel PMS Admin ▾
+                </option>
+                <option value="portal" className="bg-slate-800 text-white">
+                  🌐 Launch Portal (Screen 01)
                 </option>
                 <option value="pos" className="bg-slate-800 text-white">
                   🍽️ Restaurant Waiter POS
@@ -1136,20 +1295,43 @@ export function AdminShell({
             </div>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            {/* Trilingual Localization Switcher (Unified v5.0) */}
+            <TrilingualHeaderSwitch
+              currentLanguage={currentLanguage}
+              onSelectLanguage={setLanguage}
+            />
+
+            {/* Real-Time CBSL Mid FX Ticker Pill */}
+            <div className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-mono text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-white/10">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                CBSL:
+              </span>
+              <span className="font-bold">1 USD = LKR 298.50</span>
+            </div>
+
+            {/* Cloud Sync State Pill */}
+            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 text-xs font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[11px]">
+                {isLiveSyncing ? "Cloud Synced (ap-south-1)" : "Offline"}
+              </span>
+            </div>
+
             {/* Quick Settings Shortcut */}
             <button
               type="button"
               onClick={() => handleNavigate("/admin/settings")}
               aria-label="Open Hotel Settings"
-              className={`min-h-[40px] px-3 py-1.5 rounded-xl border border-slate-200/60 dark:border-white/10 text-xs font-semibold flex items-center gap-1.5 transition-apple-spring cursor-pointer ${
+              className={`min-h-[36px] px-3 py-1 rounded-xl border border-slate-200/60 dark:border-white/10 text-xs font-semibold flex items-center gap-1.5 transition-apple-spring cursor-pointer ${
                 currentModule === "settings"
-                  ? "bg-apple-blue text-white shadow-sm"
-                  : "bg-black/5 dark:bg-white/10 text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/15"
+                  ? "bg-[#0B6E4F] text-white shadow-xs font-semibold"
+                  : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700"
               }`}
             >
               <svg
-                className="w-4 h-4 text-slate-500 dark:text-slate-300"
+                className="w-3.5 h-3.5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -1171,43 +1353,16 @@ export function AdminShell({
               <span className="hidden sm:inline">Settings</span>
             </button>
 
-            {/* ⌘K Spotlight Command Trigger */}
-            <button
-              type="button"
-              onClick={onOpenSpotlight}
-              aria-label="Open Spotlight Command Palette (⌘K)"
-              className="min-h-[40px] px-3 py-1.5 rounded-xl bg-black/5 dark:bg-white/10 border border-slate-200/60 dark:border-white/10 text-slate-700 dark:text-slate-200 text-xs font-medium flex items-center gap-2 hover:bg-black/10 dark:hover:bg-white/15 transition-apple-spring cursor-pointer"
-            >
-              <svg
-                className="w-4 h-4 text-slate-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-              <span className="hidden md:inline">Quick Jump</span>
-              <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-black/10 dark:bg-white/20 text-[10px] font-semibold text-slate-600 dark:text-slate-300">
-                ⌘K
-              </kbd>
-            </button>
-
             {/* Appearance Toggle */}
             <button
               type="button"
               onClick={toggleAppearance}
               aria-label="Toggle Dark/Light Appearance"
-              className="min-h-[40px] min-w-[40px] apple-touch-target p-2 rounded-xl bg-black/5 dark:bg-white/10 border border-slate-200/60 dark:border-white/10 text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/15 transition-apple-spring cursor-pointer flex items-center justify-center"
+              className="min-h-[36px] min-w-[36px] p-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/60 dark:border-white/10 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-apple-spring cursor-pointer flex items-center justify-center"
             >
               {isDarkMode ? (
                 <svg
-                  className="w-4 h-4 text-apple-amber"
+                  className="w-4 h-4 text-amber-400"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   aria-hidden="true"
@@ -1232,8 +1387,11 @@ export function AdminShell({
           </div>
         </header>
 
-        {/* Dynamic Children / Lazy Module Workspace */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+        {/* Main Workspace Canvas */}
+        <main className="flex-1 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 rounded-2xl p-4 sm:p-6 shadow-xs overflow-y-auto min-h-0">
+          {/* Quick Section Shortcuts Bar (from UX-UI v2 Bento Header) */}
+          <QuickSectionShortcuts currentModule={currentModule} onNavigate={handleNavigate} />
+
           {children ? (
             children
           ) : renderLazyModules ? (

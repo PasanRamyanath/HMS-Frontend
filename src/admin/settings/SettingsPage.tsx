@@ -13,6 +13,7 @@ import { SaasBillingCard } from "./SaasBillingCard.js";
 import { SmsSettingsForm } from "./SmsSettingsForm.js";
 import { StaffUserManager } from "./StaffUserManager.js";
 import { TaxSettingsForm } from "./TaxSettingsForm.js";
+import { ThemeColorPicker } from "./ThemeColorPicker.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -195,11 +196,14 @@ function TabPanelContent({ activeTab, onSaveSuccess }: TabPanelContentProps) {
   switch (activeTab) {
     case "PROFILE":
       return (
-        <PropertyProfileForm
-          onSave={() => {
-            onSaveSuccess?.("Property Profile");
-          }}
-        />
+        <div className="space-y-6">
+          <ThemeColorPicker />
+          <PropertyProfileForm
+            onSave={() => {
+              onSaveSuccess?.("Property Profile");
+            }}
+          />
+        </div>
       );
     case "TAXES": {
       const initialTaxData =
