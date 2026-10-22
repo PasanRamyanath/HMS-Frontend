@@ -16,6 +16,7 @@ export const DEFAULT_USD_EXCHANGE_RATE = 310.0;
 
 export interface GuestHeaderBarProps {
   readonly hotelName?: string | undefined;
+  readonly logoUrl?: string | undefined;
   readonly locationDisplayName?: string | undefined;
   readonly isRoomSession?: boolean | undefined;
   readonly activeCurrency?: DisplayCurrency | undefined;
@@ -180,6 +181,7 @@ export function CurrencySegmentedControl({
 
 export function GuestHeaderBar({
   hotelName = "Galle Fort Lighthouse Villa",
+  logoUrl,
   locationDisplayName = "Room 104",
   isRoomSession = true,
   activeCurrency = "LKR",
@@ -210,9 +212,17 @@ export function GuestHeaderBar({
       <div className="max-w-4xl mx-auto flex items-center justify-between gap-2.5">
         {/* Left Branding & Location Pill */}
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-8 h-8 rounded-xl bg-sky-500/15 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 flex items-center justify-center text-sm shrink-0 border border-sky-500/20">
-            {isRoomSession ? "🔑" : "🍽️"}
-          </div>
+          {logoUrl ? (
+            <img
+              src={logoUrl}
+              alt={hotelName}
+              className="w-8 h-8 rounded-xl object-cover shrink-0 border border-slate-200/60 dark:border-white/10 shadow-sm"
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-xl bg-sky-500/15 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 flex items-center justify-center text-sm shrink-0 border border-sky-500/20">
+              {isRoomSession ? "🔑" : "🍽️"}
+            </div>
+          )}
 
           <div className="min-w-0">
             <h2

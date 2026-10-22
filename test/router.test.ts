@@ -117,6 +117,21 @@ describe("URL-Based Router & Apple Spring Transitions (router.ts)", () => {
       }
     });
 
+    it("parses admin sub-routes and menu aliases", () => {
+      const settingsTaxes = parseRoute("/admin/settings/taxes");
+      assert.strictEqual(settingsTaxes.kind, "ADMIN");
+      if (settingsTaxes.kind === "ADMIN") {
+        assert.strictEqual(settingsTaxes.params.module, "settings");
+        assert.strictEqual(settingsTaxes.params.subModule, "taxes");
+      }
+
+      const singularMenu = parseRoute("/admin/menu");
+      assert.strictEqual(singularMenu.kind, "ADMIN");
+      if (singularMenu.kind === "ADMIN") {
+        assert.strictEqual(singularMenu.params.module, "menus");
+      }
+    });
+
     it("returns NOT_FOUND for unknown routes", () => {
       assert.deepStrictEqual(parseRoute("/invalid/unknown/route"), {
         kind: "NOT_FOUND",

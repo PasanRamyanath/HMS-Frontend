@@ -7,7 +7,7 @@
  * Apple Human Interface Guidelines and Liquid Glass workspace.
  */
 
-import { useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import {
   SegmentedControl,
   type SegmentedControlOption,
@@ -419,9 +419,29 @@ export function MenusAndCatalogPage({
   const [activeTab, setActiveTab] = useState<MenuCatalogTabId>(initialTab);
 
   // Catalog State
-  const [menuItems, setMenuItems] = useState<ReadonlyArray<AdminMenuItem>>(
-    DEFAULT_DOMSPEED_MENU_ITEMS,
-  );
+  const [menuItems, setMenuItems] = useState<ReadonlyArray<AdminMenuItem>>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("hms_menu_items");
+        if (stored) return JSON.parse(stored);
+      } catch {
+        // storage fallback
+      }
+    }
+    return DEFAULT_DOMSPEED_MENU_ITEMS;
+  });
+
+  // Sync menu items across tabs and guest portals
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem("hms_menu_items", JSON.stringify(menuItems));
+        window.dispatchEvent(new Event("hms_menu_items_updated"));
+      } catch {
+        // storage fallback
+      }
+    }
+  }, [menuItems]);
   const [outOfStockItems, setOutOfStockItems] = useState<ReadonlyArray<OutOfStockItem>>(
     DEFAULT_OUT_OF_STOCK_ITEMS,
   );

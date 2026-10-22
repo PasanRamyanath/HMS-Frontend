@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { GlassCard } from "../../components/GlassCard.js";
 import {
   SegmentedControl,
   type SegmentedControlOption,
 } from "../../components/SegmentedControl.js";
+import { navigateTo } from "../../lib/router.js";
 import { ExchangeRateCard } from "./ExchangeRateCard.js";
 import { OnboardingChecklist } from "./OnboardingChecklist.js";
 import { PaymentSettingsForm } from "./PaymentSettingsForm.js";
@@ -129,15 +130,55 @@ interface PaymentsTabContentProps {
 }
 
 function PaymentsTabContent({ onSaveSuccess }: PaymentsTabContentProps) {
+  const initialPaymentData = useMemo(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("hms_payment_settings");
+        if (stored) return JSON.parse(stored);
+      } catch {
+        // storage fallback
+      }
+    }
+    return undefined;
+  }, []);
+
+  const initialRates = useMemo(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("hms_exchange_rates");
+        if (stored) return JSON.parse(stored);
+      } catch {
+        // storage fallback
+      }
+    }
+    return undefined;
+  }, []);
+
   return (
     <div className="space-y-6">
       <PaymentSettingsForm
-        onSave={() => {
+        initialData={initialPaymentData}
+        onSave={(data) => {
+          if (typeof window !== "undefined") {
+            try {
+              localStorage.setItem("hms_payment_settings", JSON.stringify(data));
+            } catch {
+              // storage fallback
+            }
+          }
           onSaveSuccess?.("Payment & LankaQR Settings");
         }}
       />
       <ExchangeRateCard
-        onSave={() => {
+        initialRates={initialRates}
+        onSave={(rates) => {
+          if (typeof window !== "undefined") {
+            try {
+              localStorage.setItem("hms_exchange_rates", JSON.stringify(rates));
+            } catch {
+              // storage fallback
+            }
+          }
           onSaveSuccess?.("CBSL Exchange Rates");
         }}
       />
@@ -160,32 +201,98 @@ function TabPanelContent({ activeTab, onSaveSuccess }: TabPanelContentProps) {
           }}
         />
       );
-    case "TAXES":
+    case "TAXES": {
+      const initialTaxData =
+        typeof window !== "undefined"
+          ? (() => {
+              try {
+                const stored = localStorage.getItem("hms_tax_settings");
+                if (stored) return JSON.parse(stored);
+              } catch {
+                // storage fallback
+              }
+              return undefined;
+            })()
+          : undefined;
+
       return (
         <TaxSettingsForm
-          onSave={() => {
+          initialData={initialTaxData}
+          onSave={(data) => {
+            if (typeof window !== "undefined") {
+              try {
+                localStorage.setItem("hms_tax_settings", JSON.stringify(data));
+              } catch {
+                // storage fallback
+              }
+            }
             onSaveSuccess?.("Tax Configuration");
           }}
         />
       );
+    }
     case "PAYMENTS":
       return <PaymentsTabContent onSaveSuccess={onSaveSuccess} />;
-    case "SMS":
+    case "SMS": {
+      const initialSmsData =
+        typeof window !== "undefined"
+          ? (() => {
+              try {
+                const stored = localStorage.getItem("hms_sms_settings");
+                if (stored) return JSON.parse(stored);
+              } catch {
+                // storage fallback
+              }
+              return undefined;
+            })()
+          : undefined;
+
       return (
         <SmsSettingsForm
-          onSave={() => {
+          initialData={initialSmsData}
+          onSave={(data) => {
+            if (typeof window !== "undefined") {
+              try {
+                localStorage.setItem("hms_sms_settings", JSON.stringify(data));
+              } catch {
+                // storage fallback
+              }
+            }
             onSaveSuccess?.("SMS Settings");
           }}
         />
       );
-    case "STAFF":
+    }
+    case "STAFF": {
+      const initialStaff =
+        typeof window !== "undefined"
+          ? (() => {
+              try {
+                const stored = localStorage.getItem("hms_staff_roster");
+                if (stored) return JSON.parse(stored);
+              } catch {
+                // storage fallback
+              }
+              return undefined;
+            })()
+          : undefined;
+
       return (
         <StaffUserManager
-          onSaveStaffRoster={() => {
+          initialStaff={initialStaff}
+          onSaveStaffRoster={(roster) => {
+            if (typeof window !== "undefined") {
+              try {
+                localStorage.setItem("hms_staff_roster", JSON.stringify(roster));
+              } catch {
+                // storage fallback
+              }
+            }
             onSaveSuccess?.("Staff Roster");
           }}
         />
       );
+    }
     case "BILLING":
       return (
         <SaasBillingCard
@@ -231,6 +338,12 @@ export function SettingsPage({
           onStepAction={(step) => {
             if (step.id === "TAX_CONFIG") {
               handleTabSelect("TAXES");
+            } else if (step.id === "ROOMS" || step.id === "QR_PRINT") {
+              navigateTo("/admin/rooms");
+            } else if (step.id === "MENU") {
+              navigateTo("/admin/menus");
+            } else if (step.id === "TEST_ORDER") {
+              navigateTo("/admin/orders");
             }
           }}
         />

@@ -42,6 +42,7 @@ export interface StaffParams {
 
 export interface AdminParams {
   readonly module: string;
+  readonly subModule?: string | undefined;
 }
 
 export interface QrStayRoute {
@@ -134,6 +135,24 @@ function matchStaticRoute(normalized: string): AppRoute | null {
   return null;
 }
 
+function matchAdminRoute(normalized: string): AppRoute | null {
+  const adminMatch = /^\/admin(?:\/([^/]+)(?:\/([^/]+))?)?$/.exec(normalized);
+  if (!adminMatch) return null;
+
+  const rawModule = adminMatch[1] ? decodeURIComponent(adminMatch[1]) : "dashboard";
+  const module = rawModule === "menu" ? "menus" : rawModule;
+  const subModule = adminMatch[2] ? decodeURIComponent(adminMatch[2]) : undefined;
+
+  return {
+    kind: "ADMIN",
+    path: normalized,
+    params: {
+      module,
+      ...(subModule ? { subModule } : {}),
+    },
+  };
+}
+
 function matchParameterizedRoute(normalized: string): AppRoute | null {
   const qrMatch = /^\/qr\/([^/]+)\/([^/]+)$/.exec(normalized);
   if (qrMatch?.[1] && qrMatch[2]) {
@@ -176,18 +195,7 @@ function matchParameterizedRoute(normalized: string): AppRoute | null {
     };
   }
 
-  const adminMatch = /^\/admin(?:\/([^/]+))?$/.exec(normalized);
-  if (adminMatch) {
-    return {
-      kind: "ADMIN",
-      path: normalized,
-      params: {
-        module: adminMatch[1] ? decodeURIComponent(adminMatch[1]) : "dashboard",
-      },
-    };
-  }
-
-  return null;
+  return matchAdminRoute(normalized);
 }
 
 /**

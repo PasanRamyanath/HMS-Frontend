@@ -257,6 +257,9 @@ export function App() {
         renderLazyModules={true}
         isLiveSyncing={online}
         onOrderAction={handleOrderAction}
+        onSaveSuccess={(section) => {
+          showToast("Settings Saved", `${section} configuration updated successfully`, "success");
+        }}
         onPropertyChange={(propId) => {
           setSelectedPropertyId(propId);
           const prop = DEFAULT_PROPERTIES.find((p) => p.id === propId);

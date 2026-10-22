@@ -6,24 +6,17 @@ import {
 } from "../../components/SegmentedControl.js";
 import { WebpUploadField } from "../../components/WebpUploadField.js";
 import { BusinessType } from "../../generated/graphql.js";
+import {
+  DEFAULT_PROPERTY_PROFILE,
+  type PropertyProfileData,
+  getStoredHotelProfile,
+  saveStoredHotelProfile,
+} from "../../lib/hotelProfile.js";
 import { isValidSriLankanPhone, normalizeSriLankanPhone } from "../auth/RegisterStep1.js";
 import { SRI_LANKAN_HOTEL_CITIES } from "../auth/RegisterStep2.js";
 
-// ============================================================================
-// Data Types
-// ============================================================================
-
-export interface PropertyProfileData {
-  readonly shopName: string;
-  readonly businessType: BusinessType;
-  readonly contactPhone: string;
-  readonly email: string;
-  readonly address: string;
-  readonly city: string;
-  readonly bannerUrl: string;
-  readonly logoUrl: string;
-  readonly description: string;
-}
+export type { PropertyProfileData };
+export { DEFAULT_PROPERTY_PROFILE };
 
 export interface PropertyProfileFormProps {
   readonly initialData?: Partial<PropertyProfileData> | undefined;
@@ -38,19 +31,6 @@ export const BUSINESS_TYPE_OPTIONS: ReadonlyArray<SegmentedControlOption<Busines
   { id: BusinessType.CityHotel, label: "City Hotel" },
   { id: BusinessType.GuestHouse, label: "Guest House" },
 ];
-
-export const DEFAULT_PROPERTY_PROFILE: PropertyProfileData = {
-  shopName: "Galle Fort Lighthouse Villa",
-  businessType: BusinessType.BoutiqueVilla,
-  contactPhone: "+94771234567",
-  email: "stay@gallefortvilla.lk",
-  address: "42 Rampart Street, Galle Fort",
-  city: "Galle",
-  bannerUrl: "",
-  logoUrl: "",
-  description:
-    "Luxury 8-bedroom Dutch colonial heritage villa inside UNESCO World Heritage Galle Fort.",
-};
 
 // ============================================================================
 // Form Validation
@@ -92,7 +72,7 @@ export function PropertyProfileForm({
   const formId = useId();
 
   const [formData, setFormData] = useState<PropertyProfileData>(() => ({
-    ...DEFAULT_PROPERTY_PROFILE,
+    ...getStoredHotelProfile(),
     ...initialData,
   }));
 
@@ -123,6 +103,7 @@ export function PropertyProfileForm({
     }
 
     setErrors({});
+    saveStoredHotelProfile(resolvedData);
     if (onSave) {
       await onSave({
         ...resolvedData,

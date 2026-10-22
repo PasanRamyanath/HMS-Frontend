@@ -15,6 +15,7 @@ import {
 } from "../components/SimpleCharts.js";
 import { StatusBadge } from "../components/StatusBadge.js";
 import { formatLkr } from "../lib/i18n.js";
+import { navigateTo } from "../lib/router.js";
 
 // ============================================================================
 // Domain Data Types
@@ -385,12 +386,16 @@ function TaxLiabilityBentoCard({
             <GlassCardTitle className="text-base font-semibold">
               SLTDA & IRD Liabilities
             </GlassCardTitle>
-            <span className="text-[11px] font-medium text-amber-600 dark:text-amber-400">
-              Due in {tax.settlementDueDays}d
-            </span>
+            <button
+              type="button"
+              onClick={() => navigateTo("/admin/tax")}
+              className="text-[11px] font-semibold text-apple-blue hover:underline cursor-pointer"
+            >
+              Tax Audit &rarr;
+            </button>
           </div>
           <span className="text-xs text-slate-500 dark:text-slate-400">
-            Today's accumulated statutory tax pool
+            Today's accumulated statutory tax pool (Due in {tax.settlementDueDays}d)
           </span>
         </GlassCardHeader>
 
@@ -467,9 +472,13 @@ function LiveKdsQueueCard({
               Active guest QR and restaurant POS orders
             </span>
           </div>
-          <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-amber-500/10 text-amber-600 dark:text-amber-400">
-            {orders.length} Active Tickets
-          </span>
+          <button
+            type="button"
+            onClick={() => navigateTo("/admin/orders")}
+            className="text-xs px-2.5 py-1 rounded-full font-medium bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20 transition cursor-pointer"
+          >
+            {orders.length} Active Tickets &rarr;
+          </button>
         </GlassCardHeader>
 
         <div className="divide-y divide-slate-200/60 dark:divide-white/10 max-h-72 overflow-y-auto">
@@ -527,13 +536,22 @@ function ArrivalsDeparturesCard({
       className="p-5 flex flex-col justify-between"
     >
       <div>
-        <GlassCardHeader className="p-0 pb-3">
-          <GlassCardTitle className="text-base font-semibold">
-            Today's Arrivals & Departures
-          </GlassCardTitle>
-          <span className="text-xs text-slate-500 dark:text-slate-400">
-            Front Desk Frontline & Police B-Card Check
-          </span>
+        <GlassCardHeader className="p-0 pb-3 flex flex-row items-center justify-between">
+          <div>
+            <GlassCardTitle className="text-base font-semibold">
+              Today's Arrivals & Departures
+            </GlassCardTitle>
+            <span className="text-xs text-slate-500 dark:text-slate-400">
+              Front Desk Frontline & Police B-Card Check
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => navigateTo("/admin/front-desk")}
+            className="text-xs font-semibold text-apple-blue hover:underline cursor-pointer shrink-0"
+          >
+            Front Desk &rarr;
+          </button>
         </GlassCardHeader>
 
         <div className="divide-y divide-slate-200/60 dark:divide-white/10 max-h-72 overflow-y-auto">
@@ -574,13 +592,22 @@ function TopDishesCard({
       className="p-5 flex flex-col justify-between"
     >
       <div>
-        <GlassCardHeader className="p-0 pb-3">
-          <GlassCardTitle className="text-base font-semibold">
-            Top Revenue Dishes & Drinks
-          </GlassCardTitle>
-          <span className="text-xs text-slate-500 dark:text-slate-400">
-            Kitchen & Bar bestsellers today
-          </span>
+        <GlassCardHeader className="p-0 pb-3 flex flex-row items-center justify-between">
+          <div>
+            <GlassCardTitle className="text-base font-semibold">
+              Top Revenue Dishes & Drinks
+            </GlassCardTitle>
+            <span className="text-xs text-slate-500 dark:text-slate-400">
+              Kitchen & Bar bestsellers today
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => navigateTo("/admin/menus")}
+            className="text-xs font-semibold text-apple-blue hover:underline cursor-pointer shrink-0"
+          >
+            Menu &rarr;
+          </button>
         </GlassCardHeader>
 
         <div className="mt-2">

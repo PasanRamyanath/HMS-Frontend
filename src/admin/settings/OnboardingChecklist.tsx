@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { GlassCard } from "../../components/GlassCard.js";
 import { StatusBadge } from "../../components/StatusBadge.js";
+import { navigateTo } from "../../lib/router.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -87,7 +88,7 @@ export const ONBOARDING_STEPS: ReadonlyArray<OnboardingStep> = [
     description:
       "Add Sri Lankan culinary favorites (Hoppers, Lamprais, Kottu, Ceylon Tea) with kitchen station routing and BOT printing.",
     actionLabel: "Setup Menu",
-    path: "/admin/menu",
+    path: "/admin/menus",
     category: "Kitchen & POS",
     estimatedMinutes: 4,
     isRequired: true,
@@ -100,7 +101,7 @@ export const ONBOARDING_STEPS: ReadonlyArray<OnboardingStep> = [
     description:
       "Generate and print tamper-evident guest room and cabana QR stands with HMAC-SHA256 tokens and LankaQR MPM codes.",
     actionLabel: "Print QR Stands",
-    path: "/admin/rooms/qr-print",
+    path: "/admin/rooms",
     category: "Guest Experience",
     estimatedMinutes: 2,
     isRequired: true,
@@ -113,7 +114,7 @@ export const ONBOARDING_STEPS: ReadonlyArray<OnboardingStep> = [
     description:
       "Simulate a contactless guest order to test live kitchen KDS routing, folio room posting, and LankaQR digital receipting.",
     actionLabel: "Run Test Order",
-    path: "/admin/orders/simulate",
+    path: "/admin/orders",
     category: "Live Operations",
     estimatedMinutes: 2,
     isRequired: true,
@@ -450,10 +451,22 @@ export function OnboardingChecklist({
   onDismiss,
   className = "",
 }: OnboardingChecklistProps) {
-  const [internalReadiness, setInternalReadiness] = useState<PropertyReadinessState>(() => ({
-    ...DEFAULT_READINESS_STATE,
-    ...readiness,
-  }));
+  const [internalReadiness, setInternalReadiness] = useState<PropertyReadinessState>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("hms_onboarding_readiness");
+        if (stored) {
+          return { ...DEFAULT_READINESS_STATE, ...JSON.parse(stored), ...readiness };
+        }
+      } catch {
+        // storage fallback
+      }
+    }
+    return {
+      ...DEFAULT_READINESS_STATE,
+      ...readiness,
+    };
+  });
   const [isCollapsed, setIsCollapsed] = useState<boolean>(initiallyCollapsed);
   const [isDismissed, setIsDismissed] = useState<boolean>(false);
 
@@ -483,24 +496,42 @@ export function OnboardingChecklist({
 
   const handleToggleStep = (stepId: OnboardingStepId, completed: boolean) => {
     setInternalReadiness((prev) => {
+      let nextState: PropertyReadinessState;
       switch (stepId) {
         case "TAX_CONFIG":
-          return { ...prev, isTaxConfigured: completed };
+          nextState = { ...prev, isTaxConfigured: completed };
+          break;
         case "ROOMS":
-          return { ...prev, hasRoomsConfigured: completed };
+          nextState = { ...prev, hasRoomsConfigured: completed };
+          break;
         case "MENU":
-          return { ...prev, hasMenuItemsConfigured: completed };
+          nextState = { ...prev, hasMenuItemsConfigured: completed };
+          break;
         case "QR_PRINT":
-          return { ...prev, hasQrStandsPrinted: completed };
+          nextState = { ...prev, hasQrStandsPrinted: completed };
+          break;
         case "TEST_ORDER":
-          return { ...prev, hasTestOrderExecuted: completed };
+          nextState = { ...prev, hasTestOrderExecuted: completed };
+          break;
       }
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.setItem("hms_onboarding_readiness", JSON.stringify(nextState));
+        } catch {
+          // storage fallback
+        }
+      }
+      return nextState;
     });
     onToggleStep?.(stepId, completed);
   };
 
   const handleStepAction = (step: OnboardingStep) => {
-    onStepAction?.(step);
+    if (onStepAction) {
+      onStepAction(step);
+    } else {
+      navigateTo(step.path);
+    }
   };
 
   return (

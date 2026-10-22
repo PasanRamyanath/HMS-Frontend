@@ -59,6 +59,7 @@ export interface CompressedWebpResult {
   readonly sizeBytes: number;
   readonly format: string;
   readonly previewUrl: string;
+  readonly dataUrl?: string | undefined;
 }
 
 export interface ImageProcessingError {
@@ -278,6 +279,15 @@ export async function compressAndCropToWebp(
       ? URL.createObjectURL(finalBlob)
       : "";
 
+  let dataUrl: string | undefined;
+  if (typeof canvasRes.value.toDataURL === "function") {
+    try {
+      dataUrl = canvasRes.value.toDataURL("image/webp", targetQuality);
+    } catch {
+      dataUrl = undefined;
+    }
+  }
+
   return ok({
     blob: finalBlob,
     width: config.width,
@@ -285,5 +295,6 @@ export async function compressAndCropToWebp(
     sizeBytes: finalBlob.size,
     format: "image/webp",
     previewUrl,
+    dataUrl: dataUrl || previewUrl,
   });
 }

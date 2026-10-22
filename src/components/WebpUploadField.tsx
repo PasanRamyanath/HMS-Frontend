@@ -97,7 +97,7 @@ export async function processAndUploadWebp(
   }
 
   const compressed: CompressedWebpResult = compressionResult.value;
-  let finalUrl = compressed.previewUrl;
+  let finalUrl = compressed.dataUrl || compressed.previewUrl;
 
   if (getPresignedUploadUrl) {
     try {

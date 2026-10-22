@@ -5,7 +5,8 @@
  * Validates HMAC room/table tokens, loads hotel branding, and detects IN_ROOM vs SEATED_TABLE.
  */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { getStoredHotelProfile, subscribeToHotelProfile } from "../lib/hotelProfile.js";
 import { type SupportedLanguage, useTranslation } from "../lib/i18n.js";
 import { getCurrentPath } from "../lib/router.js";
 import { CallWaiterButton } from "./CallWaiterButton.js";
@@ -16,7 +17,12 @@ import { ExpiredRoomQrView } from "./ExpiredRoomQrView.js";
 import { ExpressHousekeepingTab } from "./ExpressHousekeepingTab.js";
 import { FloatingCartBar } from "./FloatingCartBar.js";
 import { GuestCartDrawer } from "./GuestCartDrawer.js";
-import { DEFAULT_SAMPLE_DISHES, type GuestDish, GuestDishCard } from "./GuestDishCard.js";
+import {
+  DEFAULT_SAMPLE_DISHES,
+  type GuestDish,
+  GuestDishCard,
+  getGuestDishes,
+} from "./GuestDishCard.js";
 import { type DisplayCurrency, GuestHeaderBar } from "./GuestHeaderBar.js";
 import { GuestLankaQrPay, type GuestPaymentResult } from "./GuestLankaQrPay.js";
 import { GuestLaundryTab } from "./GuestLaundryTab.js";
@@ -323,9 +329,11 @@ export function GuestHeroBanner({ brand, location, sessionStatus, lang }: GuestH
       {/* 3:1 Aspect Ratio Hero Graphic / Dynamic Backdrop */}
       <div
         className="w-full aspect-[3/1] min-h-[140px] max-h-[220px] relative bg-cover bg-center flex items-end p-4 sm:p-6"
-        style={{
-          background: "linear-gradient(135deg, #0284c7 0%, #0369a1 40%, #0f172a 100%)",
-        }}
+        style={
+          brand.heroBannerUrl
+            ? { backgroundImage: `url(${brand.heroBannerUrl})`, backgroundSize: "cover" }
+            : { background: "linear-gradient(135deg, #0284c7 0%, #0369a1 40%, #0f172a 100%)" }
+        }
       >
         {/* Soft tropical glow overlay */}
         <div
@@ -337,9 +345,17 @@ export function GuestHeroBanner({ brand, location, sessionStatus, lang }: GuestH
         <div className="relative z-10 w-full flex flex-col sm:flex-row sm:items-end justify-between gap-3">
           <div className="flex items-center gap-3.5">
             {/* Logo Squircle Avatar */}
-            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl apple-liquid-glass bg-white/20 dark:bg-black/30 border border-white/50 dark:border-white/20 shadow-2xl flex items-center justify-center shrink-0 text-2xl select-none backdrop-blur-xl">
-              🏛️
-            </div>
+            {brand.logoUrl ? (
+              <img
+                src={brand.logoUrl}
+                alt={hotelName}
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl object-cover shadow-2xl border border-white/50 dark:border-white/20 shrink-0 select-none backdrop-blur-xl"
+              />
+            ) : (
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl apple-liquid-glass bg-white/20 dark:bg-black/30 border border-white/50 dark:border-white/20 shadow-2xl flex items-center justify-center shrink-0 text-2xl select-none backdrop-blur-xl">
+                🏛️
+              </div>
+            )}
 
             <div className="min-w-0">
               <div className="flex items-center gap-2 mb-0.5">
@@ -435,6 +451,7 @@ export function GuestSessionStatusBar({
 interface GuestActiveServiceViewProps {
   readonly activeTab: string;
   readonly locationName: string;
+  readonly dishes?: ReadonlyArray<GuestDish> | undefined;
   readonly language?: SupportedLanguage | undefined;
   readonly currency?: DisplayCurrency | undefined;
   readonly cartQuantities?: Record<string, number> | undefined;
@@ -446,6 +463,7 @@ interface GuestActiveServiceViewProps {
 function GuestActiveServiceView({
   activeTab,
   locationName,
+  dishes = DEFAULT_SAMPLE_DISHES,
   language = "en",
   currency = "LKR",
   cartQuantities = {},
@@ -460,13 +478,11 @@ function GuestActiveServiceView({
           <h2 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
             In-Room Dining Menu
           </h2>
-          <span className="text-xs text-slate-500 dark:text-slate-400">
-            {DEFAULT_SAMPLE_DISHES.length} items
-          </span>
+          <span className="text-xs text-slate-500 dark:text-slate-400">{dishes.length} items</span>
         </div>
 
         <div className="flex flex-col gap-3">
-          {DEFAULT_SAMPLE_DISHES.map((dish) => (
+          {dishes.map((dish) => (
             <GuestDishCard
               key={dish.id}
               dish={dish}
@@ -634,6 +650,27 @@ export function GuestQrApp({
   const [hasDismissedExpiredWarning, setHasDismissedExpiredWarning] = useState<boolean>(false);
   const [activeOrderId, setActiveOrderId] = useState<string | null>(null);
 
+  const [dishes, setDishes] = useState<ReadonlyArray<GuestDish>>(() => getGuestDishes());
+  const [hotelProfile, setHotelProfile] = useState(() => getStoredHotelProfile());
+
+  useEffect(() => {
+    return subscribeToHotelProfile((profile) => {
+      setHotelProfile(profile);
+    });
+  }, []);
+
+  useEffect(() => {
+    const handleDishes = () => {
+      setDishes(getGuestDishes());
+    };
+    window.addEventListener("hms_menu_items_updated", handleDishes);
+    window.addEventListener("storage", handleDishes);
+    return () => {
+      window.removeEventListener("hms_menu_items_updated", handleDishes);
+      window.removeEventListener("storage", handleDishes);
+    };
+  }, []);
+
   const cartQuantities = useMemo(() => {
     const map: Record<string, number> = {};
     for (const item of cart.items) {
@@ -658,9 +695,18 @@ export function GuestQrApp({
     return {
       ...DEFAULT_HOTEL_BRAND,
       ...brandOverride,
+      name: {
+        en: hotelProfile.shopName || DEFAULT_HOTEL_BRAND.name.en,
+        si: hotelProfile.shopName || DEFAULT_HOTEL_BRAND.name.si,
+        ta: hotelProfile.shopName || DEFAULT_HOTEL_BRAND.name.ta,
+      },
+      heroBannerUrl: hotelProfile.bannerUrl || brandOverride?.heroBannerUrl || null,
+      logoUrl: hotelProfile.logoUrl || brandOverride?.logoUrl || null,
+      city: hotelProfile.city || DEFAULT_HOTEL_BRAND.city,
+      phone: hotelProfile.contactPhone || DEFAULT_HOTEL_BRAND.phone,
       tenantId: tenantId || DEFAULT_HOTEL_BRAND.tenantId,
     };
-  }, [tenantId, brandOverride]);
+  }, [tenantId, brandOverride, hotelProfile]);
 
   // Parse location and session token
   const location = useMemo(() => parseLocationInfo(locationId), [locationId]);
@@ -685,6 +731,7 @@ export function GuestQrApp({
       {/* Sticky Trilingual & Currency Header Bar */}
       <GuestHeaderBar
         hotelName={resolveTrilingualBrand(brand.name, currentLanguage)}
+        logoUrl={brand.logoUrl ?? undefined}
         locationDisplayName={location.displayName}
         isRoomSession={location.type === "IN_ROOM"}
         activeCurrency={activeCurrency}
@@ -772,6 +819,7 @@ export function GuestQrApp({
           <GuestActiveServiceView
             activeTab={activeTab}
             locationName={location.displayName}
+            dishes={dishes}
             language={currentLanguage}
             currency={activeCurrency}
             cartQuantities={cartQuantities}

@@ -161,6 +161,82 @@ export const DEFAULT_SAMPLE_DISHES: ReadonlyArray<GuestDish> = [
 // Helper Utilities
 // ============================================================================
 
+function resolveAdminDietaryTags(item: {
+  isVegetarian?: boolean;
+  isVegan?: boolean;
+  isHalal?: boolean;
+  isGlutenFree?: boolean;
+}): ReadonlyArray<string> {
+  const tags: string[] = [];
+  if (item.isVegetarian) tags.push("VEGETARIAN");
+  if (item.isVegan) tags.push("VEGAN");
+  if (item.isHalal) tags.push("HALAL");
+  if (item.isGlutenFree) tags.push("GLUTEN_FREE");
+  return tags;
+}
+
+function mapAdminItemToGuestDish(item: {
+  id: string;
+  code?: string;
+  title?: { en?: string; si?: string | null; ta?: string | null };
+  description?: { en?: string; si?: string | null; ta?: string | null };
+  priceLkr?: number;
+  imageUrl?: string | null;
+  categoryId?: string;
+  isVegetarian?: boolean;
+  isVegan?: boolean;
+  isHalal?: boolean;
+  isGlutenFree?: boolean;
+  spicyLevel?: number;
+  isAvailable?: boolean;
+  prepTimeMins?: number;
+}): GuestDish {
+  return {
+    id: item.id,
+    code: item.code,
+    name: {
+      en: item.title?.en ?? "Untitled Dish",
+      si: item.title?.si ?? undefined,
+      ta: item.title?.ta ?? undefined,
+    },
+    description: {
+      en: item.description?.en ?? "",
+      si: item.description?.si ?? undefined,
+      ta: item.description?.ta ?? undefined,
+    },
+    priceLkr: item.priceLkr ?? 0,
+    imageUrl: item.imageUrl ?? undefined,
+    categoryId: item.categoryId ?? "CAT-RICE-CURRY",
+    dietaryTags: resolveAdminDietaryTags(item),
+    spicyLevel: item.spicyLevel ?? 0,
+    hasModifiers: true,
+    isSoldOut: item.isAvailable === false,
+    preparationMinutes: item.prepTimeMins ?? 20,
+  };
+}
+
+/**
+ * Returns dynamic menu items from localStorage (or fallback sample dishes)
+ * so dishes created or modified in Admin PMS reflect immediately on guest QR.
+ */
+export function getGuestDishes(): ReadonlyArray<GuestDish> {
+  if (typeof window === "undefined") return DEFAULT_SAMPLE_DISHES;
+
+  try {
+    const stored = localStorage.getItem("hms_menu_items");
+    if (!stored) return DEFAULT_SAMPLE_DISHES;
+
+    const adminItems = JSON.parse(stored);
+    if (!Array.isArray(adminItems) || adminItems.length === 0) {
+      return DEFAULT_SAMPLE_DISHES;
+    }
+    return adminItems.map(mapAdminItemToGuestDish);
+  } catch {
+    // fallback to curated sample dishes
+    return DEFAULT_SAMPLE_DISHES;
+  }
+}
+
 /**
  * Formats Sri Lankan Rupee currency with standard comma separators.
  */

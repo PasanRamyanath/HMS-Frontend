@@ -14,6 +14,7 @@ import {
   hasRolePermission,
   logoutStaff,
 } from "../../lib/auth.js";
+import { getStoredHotelProfile, subscribeToHotelProfile } from "../../lib/hotelProfile.js";
 import { navigateTo } from "../../lib/router.js";
 
 // ============================================================================
@@ -132,6 +133,7 @@ export interface AdminShellProps {
   readonly renderLazyModules?: boolean | undefined;
   readonly isLiveSyncing?: boolean | undefined;
   readonly onOrderAction?: ((orderId: string, action: string) => void) | undefined;
+  readonly onSaveSuccess?: ((section: string) => void) | undefined;
   readonly children?: ReactNode | undefined;
 }
 
@@ -628,6 +630,7 @@ export interface AdminModuleViewProps {
   readonly propertyTitle?: string | undefined;
   readonly isLiveSyncing?: boolean | undefined;
   readonly onOrderAction?: ((orderId: string, action: string) => void) | undefined;
+  readonly onSaveSuccess?: ((section: string) => void) | undefined;
 }
 
 export function renderAdminModuleView(
@@ -650,6 +653,7 @@ export function renderAdminModuleView(
     case "orders":
     case "kds":
       return <LazyAllOrdersView />;
+    case "menu":
     case "menus":
       return <LazyMenusAndCatalogPage />;
     case "folios":
@@ -675,7 +679,12 @@ export function renderAdminModuleView(
     case "payroll":
       return <LazyHrAndPayrollPage />;
     case "settings":
-      return <LazySettingsPage propertyTitle={extraProps?.propertyTitle} />;
+      return (
+        <LazySettingsPage
+          propertyTitle={extraProps?.propertyTitle}
+          onSaveSuccess={extraProps?.onSaveSuccess}
+        />
+      );
     case "saas":
       return <LazySaasSuperAdminView currentUserRole="SUPER_ADMIN" />;
     default:
@@ -699,6 +708,8 @@ interface SidebarContentProps {
   readonly staffName: string;
   readonly userRole: StaffRole;
   readonly shiftSession: StaffShiftSession | null;
+  readonly hotelLogoUrl?: string | undefined;
+  readonly hotelName?: string | undefined;
   readonly onNavigate: (path: string) => void;
   readonly onLogout: () => void;
 }
@@ -709,36 +720,46 @@ function SidebarContent({
   staffName,
   userRole,
   shiftSession,
+  hotelLogoUrl,
+  hotelName,
   onNavigate,
   onLogout,
 }: SidebarContentProps) {
   return (
-    <div className="flex flex-col h-full justify-between">
-      <div>
+    <div className="flex flex-col h-full min-h-0 justify-between">
+      <div className="flex flex-col min-h-0 flex-1">
         {/* App Title Header */}
-        <div className="p-4 flex items-center gap-3 border-b border-slate-200/50 dark:border-white/10">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-apple-blue to-apple-teal flex items-center justify-center text-white shadow-md">
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-              />
-            </svg>
-          </div>
-          <div>
-            <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-white block leading-tight">
+        <div className="p-4 flex items-center gap-3 border-b border-slate-200/50 dark:border-white/10 shrink-0">
+          {hotelLogoUrl ? (
+            <img
+              src={hotelLogoUrl}
+              alt={hotelName ?? "Hotel Logo"}
+              className="w-9 h-9 rounded-xl object-cover shadow-md border border-slate-200/60 dark:border-white/10 shrink-0"
+            />
+          ) : (
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-apple-blue to-apple-teal flex items-center justify-center text-white shadow-md shrink-0">
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                />
+              </svg>
+            </div>
+          )}
+          <div className="min-w-0 flex-1">
+            <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-white block leading-tight truncate">
               Sri Lanka HMS
             </span>
-            <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
-              PMS & Operations
+            <span className="text-[11px] text-slate-500 dark:text-slate-400 block truncate">
+              {hotelName || "PMS & Operations"}
             </span>
           </div>
         </div>
@@ -746,12 +767,13 @@ function SidebarContent({
         {/* Navigation list */}
         <nav
           aria-label="PMS Admin Navigation"
-          className="p-3 space-y-1 overflow-y-auto max-h-[calc(100vh-220px)]"
+          className="p-3 space-y-1 overflow-y-auto flex-1 min-h-0 scrollbar-thin"
         >
           {navItems.map((item) => {
             const isActive =
               currentModule === item.id ||
-              (item.id === "kds" && (currentModule === "orders" || currentModule === "kds"));
+              (item.id === "kds" && (currentModule === "orders" || currentModule === "kds")) ||
+              (item.id === "menus" && (currentModule === "menus" || currentModule === "menu"));
             return (
               <button
                 key={item.id}
@@ -772,7 +794,7 @@ function SidebarContent({
       </div>
 
       {/* Staff User & Shift Session Footer */}
-      <div className="p-3 border-t border-slate-200/50 dark:border-white/10 bg-black/5 dark:bg-white/5 m-3 rounded-2xl">
+      <div className="p-3 border-t border-slate-200/50 dark:border-white/10 bg-black/5 dark:bg-white/5 m-3 rounded-2xl shrink-0">
         <div className="flex items-center justify-between mb-2">
           <div className="truncate">
             <span className="block text-xs font-semibold text-slate-900 dark:text-white truncate">
@@ -827,6 +849,7 @@ export function AdminShell({
   onPropertyChange,
   onOpenSpotlight,
   onLogout,
+  onSaveSuccess,
   renderLazyModules = false,
   isLiveSyncing = true,
   onOrderAction,
@@ -840,6 +863,13 @@ export function AdminShell({
     return false;
   });
   const [selectedProperty, setSelectedProperty] = useState(properties[0]?.id ?? "");
+  const [hotelProfile, setHotelProfile] = useState(() => getStoredHotelProfile());
+
+  useEffect(() => {
+    return subscribeToHotelProfile((profile) => {
+      setHotelProfile(profile);
+    });
+  }, []);
 
   const shiftSession = getCurrentShiftSession();
   const visibleNavItems = filterNavItemsForRole(ADMIN_NAV_ITEMS, userRole);
@@ -903,6 +933,8 @@ export function AdminShell({
           staffName={staffName}
           userRole={userRole}
           shiftSession={shiftSession}
+          hotelLogoUrl={hotelProfile.logoUrl}
+          hotelName={hotelProfile.shopName || activeTenantName}
           onNavigate={handleNavigate}
           onLogout={handleLogoutAction}
         />
@@ -930,6 +962,8 @@ export function AdminShell({
               staffName={staffName}
               userRole={userRole}
               shiftSession={shiftSession}
+              hotelLogoUrl={hotelProfile.logoUrl}
+              hotelName={hotelProfile.shopName || activeTenantName}
               onNavigate={handleNavigate}
               onLogout={handleLogoutAction}
             />
@@ -1100,9 +1134,10 @@ export function AdminShell({
           ) : renderLazyModules ? (
             <Suspense fallback={<AdminModuleFallback />}>
               {renderAdminModuleView(currentModule, {
-                propertyTitle: activeTenantName,
+                propertyTitle: hotelProfile.shopName || activeTenantName,
                 isLiveSyncing,
                 onOrderAction,
+                onSaveSuccess,
               })}
             </Suspense>
           ) : (
