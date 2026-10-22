@@ -44,6 +44,9 @@ describe("Settings Tab Router & Unified Configuration View (SettingsPage.tsx)", 
       const html = renderToStaticMarkup(React.createElement(SettingsPage, props));
       assert.ok(html.includes("Galle Fort Lighthouse Villa — Property Profile"));
       assert.ok(html.includes("SLTDA"));
+      assert.ok(html.includes("Platform Theme &amp; Brand Palette"));
+      assert.ok(html.includes("Curated Ceylon Luxury Palettes"));
+      assert.ok(html.includes("Custom Hex Code"));
     });
 
     it("renders Taxes tab with Statutory Tax Configurator", () => {
