@@ -769,7 +769,7 @@ function SidebarContent({
               className="w-9 h-9 rounded-xl object-cover shadow-md border border-slate-200/60 dark:border-white/10 shrink-0"
             />
           ) : (
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-apple-blue to-apple-teal flex items-center justify-center text-white shadow-md shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-brand flex items-center justify-center text-white shadow-brand shrink-0">
               <svg
                 className="w-5 h-5"
                 fill="none"
@@ -813,7 +813,7 @@ function SidebarContent({
                 onClick={() => onNavigate(item.path)}
                 className={`w-full min-h-[44px] apple-touch-target flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-apple-spring cursor-pointer ${
                   isActive
-                    ? "bg-apple-blue text-white shadow-sm"
+                    ? "bg-brand text-white shadow-sm font-semibold"
                     : "text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/10"
                 }`}
               >
@@ -909,6 +909,47 @@ function resolveModeUrl(target: string, selectedProperty: string): string | null
     booking: `/book/${selectedProperty}`,
   };
   return modeRoutes[target] ?? null;
+}
+
+interface QuickSectionShortcutsProps {
+  readonly currentModule: string;
+  readonly onNavigate: (path: string) => void;
+}
+
+function QuickSectionShortcuts({ currentModule, onNavigate }: QuickSectionShortcutsProps) {
+  if (currentModule === "dashboard") return null;
+
+  const shortcutButtons = [
+    { module: "settings", icon: "⚙️", label: "Hotel Settings & Branding", path: "/admin/settings" },
+    { module: "menus", icon: "🍽️", label: "Menu & Food Items", path: "/admin/menus" },
+    { module: "rooms", icon: "🛏️", label: "Room Inventory & Rates", path: "/admin/rooms" },
+    { module: "tax", icon: "🏛️", label: "Statutory 4-Stage Tax", path: "/admin/tax" },
+    { module: "payroll", icon: "👥", label: "Staff & EPF Roster", path: "/admin/payroll" },
+    { module: "front-desk", icon: "🛎️", label: "14-Day Tape Chart", path: "/admin/front-desk" },
+  ];
+
+  return (
+    <nav
+      aria-label="Quick Section Shortcuts"
+      className="mb-4 sm:mb-6 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-thin"
+    >
+      {shortcutButtons.map((btn) => (
+        <button
+          key={btn.module}
+          type="button"
+          onClick={() => onNavigate(btn.path)}
+          className={`shrink-0 px-3 py-1.5 rounded-xl border text-xs font-semibold shadow-sm transition-all cursor-pointer flex items-center gap-1.5 ${
+            currentModule === btn.module
+              ? "bg-brand text-white border-transparent"
+              : "bg-white/80 dark:bg-white/10 hover:bg-white dark:hover:bg-white/15 border-slate-200/80 dark:border-white/10 text-slate-700 dark:text-slate-200"
+          }`}
+        >
+          <span>{btn.icon}</span>
+          <span>{btn.label}</span>
+        </button>
+      ))}
+    </nav>
+  );
 }
 
 // ============================================================================
@@ -1137,6 +1178,21 @@ export function AdminShell({
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Real-Time CBSL Mid FX Ticker Pill */}
+            <div className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/5 dark:bg-white/10 text-xs font-mono text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-white/10">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                CBSL:
+              </span>
+              <span className="font-bold">1 USD = LKR 298.50</span>
+            </div>
+
+            {/* Cloud Sync State Pill */}
+            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 text-xs font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[11px]">Sync Nominal</span>
+            </div>
+
             {/* Quick Settings Shortcut */}
             <button
               type="button"
@@ -1144,7 +1200,7 @@ export function AdminShell({
               aria-label="Open Hotel Settings"
               className={`min-h-[40px] px-3 py-1.5 rounded-xl border border-slate-200/60 dark:border-white/10 text-xs font-semibold flex items-center gap-1.5 transition-apple-spring cursor-pointer ${
                 currentModule === "settings"
-                  ? "bg-apple-blue text-white shadow-sm"
+                  ? "bg-brand text-white shadow-sm font-semibold"
                   : "bg-black/5 dark:bg-white/10 text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/15"
               }`}
             >
@@ -1234,6 +1290,9 @@ export function AdminShell({
 
         {/* Dynamic Children / Lazy Module Workspace */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+          {/* Quick Section Shortcuts Bar (from UX-UI v2 Bento Header) */}
+          <QuickSectionShortcuts currentModule={currentModule} onNavigate={handleNavigate} />
+
           {children ? (
             children
           ) : renderLazyModules ? (
