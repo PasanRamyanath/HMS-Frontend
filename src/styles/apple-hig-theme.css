@@ -1,5 +1,5 @@
 @theme {
-  --color-apple-blue: #007aff;
+  --color-apple-blue: var(--brand-primary, #0d7450);
   --color-apple-green: #34c759;
   --color-apple-amber: #ff9500;
   --color-apple-red: #ff3b30;
