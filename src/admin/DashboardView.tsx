@@ -638,15 +638,23 @@ export function DashboardView({
   onOrderAction,
   onRefresh,
 }: DashboardViewProps) {
+  const [activeTab, setActiveTab] = useState<"OVERVIEW" | "MEAL_FORECAST">("OVERVIEW");
   const [activeRange, setActiveRange] = useState<"TODAY" | "WEEK" | "MONTH">("TODAY");
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-12 font-sf-pro">
-      {/* Executive Dashboard Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-5 max-w-7xl mx-auto pb-8 font-sf-pro">
+      {/* 1. Header with Breadcrumbs & Action Buttons */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-white/10 pb-3">
         <div>
+          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-medium mb-1">
+            <span>Sri Lanka HMS</span>
+            <span>&gt;</span>
+            <span className="text-emerald-700 dark:text-emerald-400 font-semibold">
+              Resort Operations &amp; Financial Command Center
+            </span>
+          </div>
           <div className="flex items-center gap-2.5">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
               {propertyTitle}
             </h1>
             {isLiveSyncing && (
@@ -661,31 +669,31 @@ export function DashboardView({
           </p>
         </div>
 
-        {/* Filter Pills & Actions */}
+        {/* Action Buttons */}
         <div className="flex items-center gap-2">
-          <div className="inline-flex p-1 rounded-xl bg-slate-200/60 dark:bg-white/10 backdrop-blur-md">
-            {(["TODAY", "WEEK", "MONTH"] as const).map((range) => (
-              <button
-                key={range}
-                type="button"
-                onClick={() => setActiveRange(range)}
-                className={`px-3 py-1 text-xs font-semibold rounded-lg transition-apple-spring min-h-[32px] cursor-pointer ${
-                  activeRange === range
-                    ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                }`}
-              >
-                {range === "TODAY" ? "Today" : range === "WEEK" ? "7 Days" : "30 Days"}
-              </button>
-            ))}
-          </div>
-
+          <button
+            type="button"
+            onClick={() => {
+              if (typeof window !== "undefined") window.print();
+            }}
+            className="px-3.5 py-1.5 rounded-xl border border-slate-200/80 dark:border-white/10 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-apple-spring cursor-pointer shadow-2xs min-h-[36px]"
+          >
+            Export GM Flash PDF
+          </button>
+          <button
+            type="button"
+            onClick={() => navigateTo("/admin/front-desk")}
+            className="px-3.5 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09543C] text-white text-xs font-bold transition-apple-spring cursor-pointer shadow-sm min-h-[36px] flex items-center gap-1.5"
+          >
+            <span>+</span>
+            <span>New Walk-In / Booking</span>
+          </button>
           {onRefresh && (
             <button
               type="button"
               onClick={onRefresh}
               aria-label="Refresh Dashboard"
-              className="min-h-[44px] min-w-[44px] apple-touch-target p-2.5 rounded-xl apple-liquid-glass hover:brightness-105 active:scale-95 text-slate-700 dark:text-slate-200 transition-apple-spring cursor-pointer flex items-center justify-center"
+              className="min-h-[36px] min-w-[36px] p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-apple-spring cursor-pointer flex items-center justify-center"
             >
               <svg
                 className="w-4 h-4"
@@ -706,112 +714,597 @@ export function DashboardView({
         </div>
       </div>
 
-      {/* Quick Setup & Operations Shortcut Chips */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-        <button
-          type="button"
-          onClick={() => navigateTo("/admin/settings")}
-          className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
-        >
-          <span>⚙️</span>
-          <span>Hotel Settings & Branding</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => navigateTo("/admin/menus")}
-          className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
-        >
-          <span>🍽️</span>
-          <span>Menu & Food Items</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => navigateTo("/admin/rooms")}
-          className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
-        >
-          <span>🛏️</span>
-          <span>Room Inventory & Rates</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => navigateTo("/admin/settings/taxes")}
-          className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
-        >
-          <span>🏛️</span>
-          <span>Statutory Tax (RAMIS)</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => navigateTo("/admin/settings/staff")}
-          className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
-        >
-          <span>👥</span>
-          <span>Staff & EPF Roster</span>
-        </button>
+      {/* 2. Dual Sub-Tabs (Screen 05 vs Screen 06) */}
+      <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/10 -mt-1 pb-1">
+        <div className="flex items-center gap-6">
+          <button
+            type="button"
+            onClick={() => setActiveTab("OVERVIEW")}
+            className={`pb-2 text-xs font-bold transition-all border-b-2 cursor-pointer ${
+              activeTab === "OVERVIEW"
+                ? "border-[#0B6E4F] text-[#0B6E4F] dark:text-emerald-400"
+                : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+            }`}
+          >
+            Executive Overview
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("MEAL_FORECAST")}
+            className={`pb-2 text-xs font-bold transition-all border-b-2 cursor-pointer ${
+              activeTab === "MEAL_FORECAST"
+                ? "border-[#0B6E4F] text-[#0B6E4F] dark:text-emerald-400"
+                : "border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+            }`}
+          >
+            Meal Forecast &amp; Live Feed
+          </button>
+        </div>
+
+        {/* Date range filter pills */}
+        <div className="inline-flex p-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs">
+          {(["TODAY", "WEEK", "MONTH"] as const).map((range) => (
+            <button
+              key={range}
+              type="button"
+              onClick={() => setActiveRange(range)}
+              className={`px-3 py-1 font-semibold rounded-lg transition-apple-spring min-h-[28px] cursor-pointer ${
+                activeRange === range
+                  ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-2xs"
+                  : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+              }`}
+            >
+              {range === "TODAY" ? "Today (22 Oct)" : range === "WEEK" ? "7 Days" : "30 Days"}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Top Bento Row: 4 High-Priority Executive Financial KPIs */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <ExecutiveKpiCard
-          title="RevPAR (LKR / USD)"
-          amountLkr={metrics.revParLkr}
-          changePercent={metrics.revParChangePercent}
-          subtitle="Revenue per available room"
-        />
-        <ExecutiveKpiCard
-          title="ADR (Average Daily Rate)"
-          amountLkr={metrics.adrLkr}
-          changePercent={metrics.adrChangePercent}
-          subtitle="Realized average sold room rate"
-        />
-        <ExecutiveKpiCard
-          title="Today's Gross Billing"
-          amountLkr={metrics.totalRevenueLkr}
-          changePercent={metrics.totalRevenueChangePercent}
-          subtitle="Room charges + F&B + Banquets"
-        />
-        <GlassCard material="regular" radius="lg" className="p-5 flex flex-col justify-between">
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-              In-House Guest Roster
-            </span>
-            <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white tabular-nums-lkr">
-                {metrics.occupiedRooms}
+      {activeTab === "OVERVIEW" ? (
+        <>
+          {/* Quick Setup & Operations Shortcut Chips */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+            <button
+              type="button"
+              onClick={() => navigateTo("/admin/front-desk")}
+              className="min-h-[36px] px-3.5 py-1.5 rounded-xl bg-[#0B6E4F]/10 border border-[#0B6E4F]/30 text-xs font-bold text-[#0B6E4F] dark:text-emerald-300 hover:bg-[#0B6E4F]/20 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
+            >
+              <span>+</span>
+              <span>Walk-In / Reservation</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateTo("/staff/kds")}
+              className="min-h-[36px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-2xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
+            >
+              <span>🍳</span>
+              <span>Open Kitchen KDS ({kdsOrders.length})</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateTo("/qr/tenant-galle-fort/room-104")}
+              className="min-h-[36px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-2xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
+            >
+              <span>🛎️</span>
+              <span>Guest Room 104 QR</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateTo("/admin/tax")}
+              className="min-h-[36px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-2xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
+            >
+              <span>⏱️</span>
+              <span>Run 23:59 Night Audit</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateTo("/admin/settings")}
+              className="min-h-[36px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-2xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
+            >
+              <span>⚙️</span>
+              <span>Hotel Settings &amp; Branding</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateTo("/admin/menus")}
+              className="min-h-[36px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-2xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
+            >
+              <span>🍽️</span>
+              <span>Menu &amp; Food Items</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateTo("/admin/rooms")}
+              className="min-h-[36px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-2xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
+            >
+              <span>🛏️</span>
+              <span>Room Inventory &amp; Rates</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateTo("/admin/settings/taxes")}
+              className="min-h-[36px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-2xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
+            >
+              <span>🏛️</span>
+              <span>Statutory Tax (RAMIS)</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateTo("/admin/settings/staff")}
+              className="min-h-[36px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-2xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
+            >
+              <span>👥</span>
+              <span>Staff &amp; EPF Roster</span>
+            </button>
+          </div>
+
+          {/* Top Bento Row: 4 High-Priority Executive Financial KPIs */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <GlassCard material="regular" radius="lg" className="p-5 flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  In-House Guest Roster
+                </span>
+                <div className="mt-2 flex items-baseline gap-2">
+                  <span className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white tabular-nums-lkr">
+                    {metrics.occupiedRooms}
+                  </span>
+                  <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">
+                    / {metrics.totalRooms} Rooms
+                  </span>
+                </div>
+              </div>
+              <div className="mt-2 text-xs text-slate-500 dark:text-slate-400 flex items-center justify-between">
+                <span>Occupancy Level</span>
+                <span className="font-bold text-slate-900 dark:text-white tabular-nums-lkr">
+                  {Math.round((metrics.occupiedRooms / metrics.totalRooms) * 100)}%
+                </span>
+              </div>
+            </GlassCard>
+
+            <ExecutiveKpiCard
+              title="ADR (Average Daily Rate)"
+              amountLkr={metrics.adrLkr}
+              changePercent={metrics.adrChangePercent}
+              subtitle="Realized average sold room rate"
+            />
+            <ExecutiveKpiCard
+              title="RevPAR (LKR / USD)"
+              amountLkr={metrics.revParLkr}
+              changePercent={metrics.revParChangePercent}
+              subtitle="Revenue per available room"
+            />
+            <ExecutiveKpiCard
+              title="Today's Gross Billing"
+              amountLkr={metrics.totalRevenueLkr}
+              changePercent={metrics.totalRevenueChangePercent}
+              subtitle="Room charges + F&B + Banquets"
+            />
+          </div>
+
+          {/* Middle Bento Row: Trajectory Chart & Department Breakdown + Donut & Taxes */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="lg:col-span-2 space-y-4">
+              <RevenueTrendBentoCard trendData={revenueTrend} />
+              {/* Departmental Revenue Breakdown Card */}
+              <GlassCard material="regular" radius="lg" className="p-4">
+                <div className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-2.5 flex items-center justify-between">
+                  <span>Departmental Net Revenue Breakdown</span>
+                  <span className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400">
+                    Today: {formatLkr(metrics.totalRevenueLkr)}
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                  <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5">
+                    <span className="text-[10px] text-slate-500 block">
+                      Rooms &amp; Suites (62%)
+                    </span>
+                    <span className="text-sm font-bold text-slate-900 dark:text-white tabular-nums-lkr">
+                      LKR 612,000
+                    </span>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5">
+                    <span className="text-[10px] text-slate-500 block">
+                      Restaurant &amp; Bar (27%)
+                    </span>
+                    <span className="text-sm font-bold text-slate-900 dark:text-white tabular-nums-lkr">
+                      LKR 268,000
+                    </span>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5">
+                    <span className="text-[10px] text-slate-500 block">
+                      Banquets &amp; Weddings (7%)
+                    </span>
+                    <span className="text-sm font-bold text-slate-900 dark:text-white tabular-nums-lkr">
+                      LKR 65,000
+                    </span>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5">
+                    <span className="text-[10px] text-slate-500 block">Spa &amp; Safaris (4%)</span>
+                    <span className="text-sm font-bold text-slate-900 dark:text-white tabular-nums-lkr">
+                      LKR 40,600
+                    </span>
+                  </div>
+                </div>
+              </GlassCard>
+            </div>
+
+            <div className="space-y-4">
+              <OccupancyBentoCard
+                occupied={metrics.occupiedRooms}
+                total={metrics.totalRooms}
+                clean={metrics.cleanRooms}
+                inProgress={metrics.inProgressRooms}
+                dirty={metrics.dirtyRooms}
+              />
+              <TaxLiabilityBentoCard tax={taxLiability} />
+
+              {/* Jump to Meal Forecast CTA */}
+              <button
+                type="button"
+                onClick={() => setActiveTab("MEAL_FORECAST")}
+                className="w-full p-3.5 rounded-2xl bg-gradient-to-r from-[#082F21] to-[#0B6E4F] text-white flex items-center justify-between text-xs font-semibold shadow-md hover:brightness-110 transition-all cursor-pointer"
+              >
+                <div className="flex items-center gap-2">
+                  <span>🍽️</span>
+                  <span>Kitchen Meal Headcount &amp; Live Order Stream</span>
+                </div>
+                <span>→</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Bottom Bento Row: Live KDS Queue + Arrivals/Departures + Top Dishes */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <LiveKdsQueueCard orders={kdsOrders} onOrderAction={onOrderAction} />
+            <ArrivalsDeparturesCard movements={movements} />
+            <TopDishesCard items={topDishes} />
+          </div>
+
+          {/* Live Telemetry Footer (Screen 05 Standard) */}
+          <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-600 dark:text-slate-300">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="font-semibold text-slate-800 dark:text-slate-200">
+                Live Operational Context:
               </span>
-              <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">
-                / {metrics.totalRooms} Rooms
+              <span>
+                {metrics.occupiedRooms} Suites Occupied • 4 Arrivals • 2 Departures •{" "}
+                {kdsOrders.length} Active Kitchen KDS Orders
+              </span>
+            </div>
+            <div className="flex items-center gap-3 text-[11px] font-mono">
+              <span>Next Automated Night Audit: 23:59 SLST</span>
+              <span>•</span>
+              <span className="text-emerald-700 dark:text-emerald-400 font-bold">
+                4-Stage Tax: 34.343% Active (10% SC → 1% TDL → 2.5% SSCL → 18% VAT)
               </span>
             </div>
           </div>
-          <div className="mt-2 text-xs text-slate-500 dark:text-slate-400 flex items-center justify-between">
-            <span>Occupancy Level</span>
-            <span className="font-bold text-slate-900 dark:text-white tabular-nums-lkr">
-              {Math.round((metrics.occupiedRooms / metrics.totalRooms) * 100)}%
-            </span>
+        </>
+      ) : (
+        /* Screen 06 — Daily Kitchen Meal-Plan Headcount & Live Order Stream */
+        <div className="space-y-4">
+          {/* 4 Covers KPI Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 rounded-2xl p-4 shadow-xs">
+              <div className="flex items-center justify-between text-xs text-slate-500">
+                <span className="font-semibold uppercase tracking-wider">Breakfast Covers</span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  BB / HB / FB / AI
+                </span>
+              </div>
+              <div className="my-2">
+                <span className="text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums-lkr">
+                  34 Covers
+                </span>
+              </div>
+              <div className="text-[11px] text-slate-500 border-t border-slate-100 dark:border-white/5 pt-1.5 flex justify-between">
+                <span>07:00 - 10:30</span>
+                <span className="font-medium text-emerald-600">Ocean Verandah</span>
+              </div>
+            </div>
+
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 rounded-2xl p-4 shadow-xs">
+              <div className="flex items-center justify-between text-xs text-slate-500">
+                <span className="font-semibold uppercase tracking-wider">Lunch Covers</span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200">
+                  FB / AI + Walk-In
+                </span>
+              </div>
+              <div className="my-2">
+                <span className="text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums-lkr">
+                  14 Covers
+                </span>
+              </div>
+              <div className="text-[11px] text-slate-500 border-t border-slate-100 dark:border-white/5 pt-1.5 flex justify-between">
+                <span>12:30 - 15:00</span>
+                <span className="font-medium text-sky-600">Terrace &amp; Pool</span>
+              </div>
+            </div>
+
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 rounded-2xl p-4 shadow-xs">
+              <div className="flex items-center justify-between text-xs text-slate-500">
+                <span className="font-semibold uppercase tracking-wider">Dinner Covers</span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200">
+                  HB / FB / AI
+                </span>
+              </div>
+              <div className="my-2">
+                <span className="text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums-lkr">
+                  28 Covers
+                </span>
+              </div>
+              <div className="text-[11px] text-slate-500 border-t border-slate-100 dark:border-white/5 pt-1.5 flex justify-between">
+                <span>19:00 - 22:30</span>
+                <span className="font-medium text-purple-600">Seafood BBQ Night</span>
+              </div>
+            </div>
+
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 rounded-2xl p-4 shadow-xs">
+              <div className="flex items-center justify-between text-xs text-slate-500">
+                <span className="font-semibold uppercase tracking-wider">Chauffeur Meals</span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                  Driver Dorms
+                </span>
+              </div>
+              <div className="my-2">
+                <span className="text-3xl font-extrabold text-slate-900 dark:text-white tabular-nums-lkr">
+                  6 Drivers
+                </span>
+              </div>
+              <div className="text-[11px] text-slate-500 border-t border-slate-100 dark:border-white/5 pt-1.5 flex justify-between">
+                <span>Staff Canteen</span>
+                <span className="font-medium text-amber-600">Dorm Beds 4/12</span>
+              </div>
+            </div>
           </div>
-        </GlassCard>
-      </div>
 
-      {/* Middle Bento Row: Occupancy Activity Ring + Revenue Trend Curve + Tax Liabilities */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <OccupancyBentoCard
-          occupied={metrics.occupiedRooms}
-          total={metrics.totalRooms}
-          clean={metrics.cleanRooms}
-          inProgress={metrics.inProgressRooms}
-          dirty={metrics.dirtyRooms}
-        />
-        <RevenueTrendBentoCard trendData={revenueTrend} />
-        <TaxLiabilityBentoCard tax={taxLiability} />
-      </div>
+          {/* 2-Column Bento: Live Order Stream & VIP Spotlight */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {/* Left 65%: Live WebSocket Order Stream */}
+            <div className="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 rounded-2xl p-5 shadow-xs">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                    Live WebSocket Order Stream
+                  </h3>
+                  <p className="text-[11px] text-slate-500">
+                    Real-time KDS tickets across Kitchen, Verandah Bar &amp; Cabanas
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => navigateTo("/staff/kds")}
+                  className="px-3 py-1.5 rounded-xl bg-[#082F21] text-white text-xs font-bold hover:bg-[#062419] transition-all cursor-pointer flex items-center gap-1.5"
+                >
+                  <span>Open Dark OLED Kitchen KDS</span>
+                  <span>→</span>
+                </button>
+              </div>
 
-      {/* Bottom Bento Row: Live KDS Queue + Arrivals/Departures + Top Dishes */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <LiveKdsQueueCard orders={kdsOrders} onOrderAction={onOrderAction} />
-        <ArrivalsDeparturesCard movements={movements} />
-        <TopDishesCard items={topDishes} />
-      </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left">
+                  <thead>
+                    <tr className="border-b border-slate-200/80 dark:border-white/10 text-slate-500">
+                      <th className="pb-2 font-semibold">Ticket</th>
+                      <th className="pb-2 font-semibold">Location &amp; Plan</th>
+                      <th className="pb-2 font-semibold">Dishes &amp; Notes</th>
+                      <th className="pb-2 font-semibold">Terminal</th>
+                      <th className="pb-2 font-semibold">Elapsed</th>
+                      <th className="pb-2 text-right font-semibold">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 dark:divide-white/5">
+                    <tr>
+                      <td className="py-2.5 font-mono font-bold text-slate-900 dark:text-white">
+                        ORD-8401
+                      </td>
+                      <td className="py-2.5">
+                        <div className="font-semibold text-slate-900 dark:text-white">
+                          Villa 04 (Ocean)
+                        </div>
+                        <span className="text-[10px] text-emerald-600 font-bold">HB Free</span>
+                      </td>
+                      <td className="py-2.5">
+                        <div className="font-medium text-slate-800 dark:text-slate-200">
+                          2x Jaffna Crab Curry
+                        </div>
+                        <span className="text-[10px] text-rose-500 font-bold">🔥 Hot</span>
+                      </td>
+                      <td className="py-2.5">
+                        <span className="px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 text-[10px] font-bold">
+                          KDS Kitchen
+                        </span>
+                      </td>
+                      <td className="py-2.5 font-mono text-[11px]">12m ago</td>
+                      <td className="py-2.5 text-right">
+                        <button
+                          type="button"
+                          onClick={() => onOrderAction?.("ord-101", "COOK")}
+                          className="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold text-[11px] hover:bg-emerald-500 cursor-pointer"
+                        >
+                          Ready
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-2.5 font-mono font-bold text-slate-900 dark:text-white">
+                        ORD-8402
+                      </td>
+                      <td className="py-2.5">
+                        <div className="font-semibold text-slate-900 dark:text-white">
+                          Table 12 (Pool)
+                        </div>
+                        <span className="text-[10px] text-slate-500">Room Charge</span>
+                      </td>
+                      <td className="py-2.5">
+                        <div className="font-medium text-slate-800 dark:text-slate-200">
+                          1x Woodfired Margherita Pizza
+                        </div>
+                        <span className="text-[10px] text-emerald-600 font-bold">🌿 Mild</span>
+                      </td>
+                      <td className="py-2.5">
+                        <span className="px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 text-[10px] font-bold">
+                          KDS Kitchen
+                        </span>
+                      </td>
+                      <td className="py-2.5 font-mono text-[11px]">6m ago</td>
+                      <td className="py-2.5 text-right">
+                        <button
+                          type="button"
+                          onClick={() => onOrderAction?.("ord-102", "COOK")}
+                          className="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold text-[11px] hover:bg-emerald-500 cursor-pointer"
+                        >
+                          Cook
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-2.5 font-mono font-bold text-slate-900 dark:text-white">
+                        ORD-8403
+                      </td>
+                      <td className="py-2.5">
+                        <div className="font-semibold text-slate-900 dark:text-white">
+                          Cabana 03
+                        </div>
+                        <span className="text-[10px] text-sky-600 font-bold">Direct Cash</span>
+                      </td>
+                      <td className="py-2.5">
+                        <div className="font-medium text-slate-800 dark:text-slate-200">
+                          2x Lion Stout &amp; Arrack Sour
+                        </div>
+                        <span className="text-[10px] text-slate-400">Peg 50ml</span>
+                      </td>
+                      <td className="py-2.5">
+                        <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 text-[10px] font-bold">
+                          Bar BOT
+                        </span>
+                      </td>
+                      <td className="py-2.5 font-mono text-[11px]">4m ago</td>
+                      <td className="py-2.5 text-right">
+                        <button
+                          type="button"
+                          onClick={() => onOrderAction?.("ord-103", "DISPATCH")}
+                          className="px-2.5 py-1 rounded-lg bg-sky-600 text-white font-bold text-[11px] hover:bg-sky-500 cursor-pointer"
+                        >
+                          Dispatch
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-2.5 font-mono font-bold text-slate-900 dark:text-white">
+                        ORD-8404
+                      </td>
+                      <td className="py-2.5">
+                        <div className="font-semibold text-slate-900 dark:text-white">
+                          Suite 104
+                        </div>
+                        <span className="text-[10px] text-emerald-600 font-bold">HB Free</span>
+                      </td>
+                      <td className="py-2.5">
+                        <div className="font-medium text-slate-800 dark:text-slate-200">
+                          1x Ceylon Chicken Kottu Roti
+                        </div>
+                        <span className="text-[10px] text-amber-500 font-bold">Medium</span>
+                      </td>
+                      <td className="py-2.5">
+                        <span className="px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 text-[10px] font-bold">
+                          KDS Kitchen
+                        </span>
+                      </td>
+                      <td className="py-2.5 font-mono text-[11px] text-rose-500 font-bold">
+                        18m (SLA Alert)
+                      </td>
+                      <td className="py-2.5 text-right">
+                        <button
+                          type="button"
+                          onClick={() => onOrderAction?.("ord-104", "EXPEDITE")}
+                          className="px-2.5 py-1 rounded-lg bg-rose-600 text-white font-bold text-[11px] hover:bg-rose-500 cursor-pointer"
+                        >
+                          Expedite
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Right 35%: ⌘K VIP Attention Queue & Outlets */}
+            <div className="space-y-4">
+              <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 rounded-2xl p-5 shadow-xs">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                    VIP Guest Queue &amp; Alerts
+                  </h3>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                    3 Attention Items
+                  </span>
+                </div>
+                <div className="space-y-3 text-xs">
+                  <div className="p-2.5 rounded-xl bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200/60">
+                    <div className="font-bold text-slate-900 dark:text-white">
+                      Kasun Perera (Suite 104 • HB)
+                    </div>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300 mt-0.5">
+                      Severe peanut allergy, anniversary setup confirmed with housekeeping runner.
+                    </p>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-sky-50/60 dark:bg-sky-950/20 border border-sky-200/60">
+                    <div className="font-bold text-slate-900 dark:text-white">
+                      Sophie Laurent (Villa 02 • AI)
+                    </div>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300 mt-0.5">
+                      05:00 AM Yala Safari Breakfast Box ordered. KDS scheduled ticket auto-queues
+                      at 04:30 AM.
+                    </p>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200/60">
+                    <div className="font-bold text-slate-900 dark:text-white">
+                      Aitken Spence DMC Group
+                    </div>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300 mt-0.5">
+                      6 Suites (12 pax). Late check-out 14:00 requested for UL 504 BIA flight.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Fast Outlets Jump */}
+              <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 rounded-2xl p-4 shadow-xs space-y-2">
+                <div className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-2">
+                  Fast Staff Outlets Switch
+                </div>
+                <button
+                  type="button"
+                  onClick={() => navigateTo("/staff/pos")}
+                  className="w-full py-2 px-3 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 text-xs font-semibold text-slate-800 dark:text-slate-200 flex items-center justify-between cursor-pointer border border-slate-200/60 dark:border-white/5"
+                >
+                  <span>🍽️ Waiter POS Table Map</span>
+                  <span>→</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigateTo("/staff/kds")}
+                  className="w-full py-2 px-3 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 text-xs font-semibold text-slate-800 dark:text-slate-200 flex items-center justify-between cursor-pointer border border-slate-200/60 dark:border-white/5"
+                >
+                  <span>🍳 Kitchen Display KDS</span>
+                  <span>→</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigateTo("/staff/bar")}
+                  className="w-full py-2 px-3 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 text-xs font-semibold text-slate-800 dark:text-slate-200 flex items-center justify-between cursor-pointer border border-slate-200/60 dark:border-white/5"
+                >
+                  <span>🍸 Sunset Bar BOT</span>
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

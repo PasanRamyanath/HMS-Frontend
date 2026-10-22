@@ -14,6 +14,7 @@ import {
 
 export type RouteKind =
   | "HOME"
+  | "PORTAL"
   | "QR_STAY"
   | "BOOKING"
   | "EVENTS"
@@ -76,7 +77,7 @@ export interface AdminRoute {
 }
 
 export interface SimpleRoute {
-  readonly kind: "HOME" | "LOGIN" | "REGISTER" | "NOT_FOUND";
+  readonly kind: "HOME" | "PORTAL" | "LOGIN" | "REGISTER" | "NOT_FOUND";
   readonly path: string;
   readonly params: Record<string, never>;
 }
@@ -125,6 +126,9 @@ export function getCurrentPath(): string {
 function matchStaticRoute(normalized: string): AppRoute | null {
   if (normalized === "" || normalized === "/") {
     return { kind: "HOME", path: normalized, params: {} };
+  }
+  if (normalized === "/portal") {
+    return { kind: "PORTAL", path: normalized, params: {} };
   }
   if (normalized === "/login") {
     return { kind: "LOGIN", path: normalized, params: {} };
