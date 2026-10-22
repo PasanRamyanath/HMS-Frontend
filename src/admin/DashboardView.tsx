@@ -388,10 +388,10 @@ function TaxLiabilityBentoCard({
             </GlassCardTitle>
             <button
               type="button"
-              onClick={() => navigateTo("/admin/tax")}
+              onClick={() => navigateTo("/admin/settings/taxes")}
               className="text-[11px] font-semibold text-apple-blue hover:underline cursor-pointer"
             >
-              Tax Audit &rarr;
+              Tax Config &rarr;
             </button>
           </div>
           <span className="text-xs text-slate-500 dark:text-slate-400">
@@ -437,9 +437,13 @@ function TaxLiabilityBentoCard({
       </div>
 
       <div className="pt-3 border-t border-slate-200/60 dark:border-white/10 flex justify-between items-center text-xs">
-        <span className="font-semibold text-slate-700 dark:text-slate-200">
-          Total Statutory Liability
-        </span>
+        <button
+          type="button"
+          onClick={() => navigateTo("/admin/tax")}
+          className="font-semibold text-apple-blue hover:underline cursor-pointer"
+        >
+          View SLTDA Audit Report &rarr;
+        </button>
         <span className="font-bold text-slate-900 dark:text-white tabular-nums-lkr">
           {formatLkr(totalTaxLkr)}
         </span>

@@ -70,6 +70,9 @@ export const LazyReportsAdminPage = lazy(() =>
     default: m.ReportsAdminPage,
   })),
 );
+export const LazyRoomsAndRatesPage = lazy(() =>
+  import("../rooms/RoomsAndRatesPage.js").then((m) => ({ default: m.RoomsAndRatesPage })),
+);
 export const LazyHrAndPayrollPage = lazy(() =>
   import("../hr/HrAndPayrollPage.js").then((m) => ({ default: m.HrAndPayrollPage })),
 );
@@ -85,6 +88,7 @@ export const LazySaasSuperAdminView = lazy(() =>
 export const ADMIN_MODULE_REGISTRY = {
   dashboard: LazyDashboardView,
   "front-desk": LazyFrontDeskPage,
+  rooms: LazyRoomsAndRatesPage,
   channels: LazyChannelsAndDirectPage,
   orders: LazyAllOrdersView,
   kds: LazyAllOrdersView,
@@ -662,6 +666,9 @@ export function renderAdminModuleView(
       );
     case "front-desk":
       return <LazyFrontDeskPage />;
+    case "rooms":
+    case "room":
+      return <LazyRoomsAndRatesPage propertyTitle={extraProps?.propertyTitle} />;
     case "channels":
       return <LazyChannelsAndDirectPage hotelName={extraProps?.propertyTitle} />;
     case "orders":
@@ -670,6 +677,7 @@ export function renderAdminModuleView(
     case "menu":
     case "menus":
       return <LazyMenusAndCatalogPage />;
+    case "billing":
     case "folios":
       return <LazyFoliosAndBillingPage />;
     case "housekeeping":
@@ -678,12 +686,14 @@ export function renderAdminModuleView(
       return <LazyBanquetsAdminPage />;
     case "spa":
       return <LazyActivitiesAdminPage />;
+    case "inventory":
     case "stores":
       return <LazyInventoryAdminPage />;
     case "tax":
       return (
         <LazyReportsAdminPage initialTab="SLTDA_OCCUPANCY" hotelName={extraProps?.propertyTitle} />
       );
+    case "night-audit":
     case "audit":
       return (
         <LazyReportsAdminPage initialTab="SECURITY_AUDIT" hotelName={extraProps?.propertyTitle} />
@@ -702,6 +712,7 @@ export function renderAdminModuleView(
         />
       );
     }
+    case "super-admin":
     case "saas":
       return <LazySaasSuperAdminView currentUserRole="SUPER_ADMIN" />;
     default:
@@ -885,6 +896,19 @@ function SidebarContent({
       </div>
     </div>
   );
+}
+
+function resolveModeUrl(target: string, selectedProperty: string): string | null {
+  const modeRoutes: Record<string, string> = {
+    admin: "/admin",
+    pos: "/staff/pos",
+    kds: "/staff/kds",
+    bar: "/staff/bar",
+    staff: "/staff",
+    qr: `/qr/${selectedProperty}/room-104`,
+    booking: `/book/${selectedProperty}`,
+  };
+  return modeRoutes[target] ?? null;
 }
 
 // ============================================================================
@@ -1082,13 +1106,8 @@ export function AdminShell({
                 aria-label="Switch Platform Application"
                 defaultValue="admin"
                 onChange={(e) => {
-                  const target = e.target.value;
-                  if (target === "pos") navigateTo("/staff/pos");
-                  else if (target === "kds") navigateTo("/staff/kds");
-                  else if (target === "bar") navigateTo("/staff/bar");
-                  else if (target === "staff") navigateTo("/staff");
-                  else if (target === "qr") navigateTo(`/qr/${selectedProperty}/room-104`);
-                  else if (target === "booking") navigateTo(`/book/${selectedProperty}`);
+                  const url = resolveModeUrl(e.target.value, selectedProperty);
+                  if (url) navigateTo(url);
                 }}
                 className="min-h-[40px] px-2.5 py-1.5 rounded-xl bg-apple-blue/10 dark:bg-apple-blue/20 text-apple-blue font-semibold text-xs border border-apple-blue/30 focus:outline-none focus:ring-2 focus:ring-apple-blue cursor-pointer"
               >

@@ -19,8 +19,8 @@
   --color-apple-gray-800: #2c2c2e;
   --color-apple-gray-900: #1c1c1e;
 
-  --font-sf-pro: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text",
-    "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-sf-pro: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-sf-mono: "JetBrains Mono", "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
   --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
@@ -38,6 +38,9 @@
 body {
   font-family: var(--font-sf-pro);
   letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* Apple Liquid Glass dynamic translucency material */

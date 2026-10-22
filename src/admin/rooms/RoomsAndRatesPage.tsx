@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GlassCard } from "../../components/GlassCard.js";
 import {
   SegmentedControl,
@@ -237,6 +237,12 @@ export function RoomsAndRatesPage({
   const [isSimulatorOpen, setIsSimulatorOpen] = useState<boolean>(false);
   const [isQrPrintOpen, setIsQrPrintOpen] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
+
   const activeTabInfo = ROOMS_TABS.find((t) => t.id === activeTab) ?? (ROOMS_TABS[0] as RoomsTab);
 
   const handleTabSelect = (tabId: RoomsTabId) => {
@@ -255,12 +261,14 @@ export function RoomsAndRatesPage({
       />
 
       {/* Apple HIG Segmented Navigation */}
-      <GlassCard material="regular" radius="xl" className="p-2">
+      <GlassCard material="regular" radius="xl" className="p-2 overflow-x-auto scrollbar-none">
         <SegmentedControl
           options={ROOMS_SEGMENTED_OPTIONS}
           value={activeTab}
           onChange={handleTabSelect}
           size="md"
+          fullWidth={true}
+          className="w-full min-w-[540px] sm:min-w-0"
         />
       </GlassCard>
 

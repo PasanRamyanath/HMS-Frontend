@@ -54,7 +54,7 @@ export const MENU_TEMPLATE_OPTIONS: ReadonlyArray<MenuTemplateOption> = [
     name: "Modern Minimalist",
     icon: "📐",
     description:
-      "Aman / Boutique Beach Villa clean architectural grid with Plus Jakarta Sans & hairline dividers",
+      "Aman / Boutique Beach Villa clean architectural grid with Inter & hairline dividers",
     recommendedLayout: "SINGLE_COLUMN",
   },
   {

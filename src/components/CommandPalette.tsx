@@ -34,6 +34,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     category: "rooms",
     keywords: ["101", "deluxe", "ocean", "ground", "vacant", "clean"],
     badge: "VACANT",
+    url: "/admin/rooms",
   },
   {
     id: "room-102",
@@ -42,6 +43,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     category: "rooms",
     keywords: ["102", "superior", "garden", "villa", "east", "inspected"],
     badge: "INSPECTED",
+    url: "/admin/rooms",
   },
   {
     id: "room-104",
@@ -50,6 +52,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     category: "rooms",
     keywords: ["104", "presidential", "pool", "perera", "beachfront", "occupied"],
     badge: "OCCUPIED",
+    url: "/admin/rooms",
   },
   {
     id: "room-201",
@@ -58,6 +61,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     category: "rooms",
     keywords: ["201", "executive", "twin", "upper", "stayover", "dirty"],
     badge: "DIRTY",
+    url: "/admin/rooms",
   },
 
   // Active Reservations
@@ -68,6 +72,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     category: "reservations",
     keywords: ["8921", "kasun", "perera", "104", "direct", "checked-in"],
     badge: "CHECKED IN",
+    url: "/admin/front-desk",
   },
   {
     id: "res-8945",
@@ -76,6 +81,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     category: "reservations",
     keywords: ["8945", "sophie", "laurent", "102", "booking.com", "arrival"],
     badge: "DUE IN",
+    url: "/admin/front-desk",
   },
 
   // Active Orders & KDS
@@ -86,6 +92,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     category: "orders",
     keywords: ["1021", "kottu", "seafood", "coconut", "kds", "room 104"],
     badge: "PREPARING",
+    url: "/admin/orders",
   },
   {
     id: "order-1024",
@@ -94,6 +101,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     category: "orders",
     keywords: ["1024", "table 6", "prawns", "lion", "lager", "roti", "ocean terrace"],
     badge: "READY",
+    url: "/admin/orders",
   },
 
   // Folios & Sri Lankan Billing
@@ -105,6 +113,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     keywords: ["fl-402", "folio", "104", "perera", "tax", "settle", "lkr"],
     badge: "LKR 161,280",
     shortcut: "⌘F",
+    url: "/admin/folios",
   },
   {
     id: "folio-settle-qr",
@@ -113,6 +122,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     category: "folios",
     keywords: ["lankaqr", "emvco", "settle", "qr", "ceft", "instant", "cbsl"],
     badge: "LANKAQR",
+    url: "/admin/folios",
   },
 
   // Operations & Admin Modules
@@ -159,7 +169,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     category: "admin",
     keywords: ["night", "audit", "tax", "ird", "closing", "eod", "balance"],
     shortcut: "⌘5",
-    url: "/admin/night-audit",
+    url: "/admin/audit",
   },
   {
     id: "mod-settings",
@@ -193,7 +203,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     category: "admin",
     keywords: ["saas", "superadmin", "multi-tenant", "quota", "backup", "chain"],
     shortcut: "⌘6",
-    url: "/admin/super-admin",
+    url: "/admin/saas",
   },
 
   // Quick Actions
@@ -204,6 +214,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     category: "actions",
     keywords: ["new", "booking", "walkin", "reserve", "create"],
     shortcut: "⌘N",
+    url: "/admin/front-desk",
   },
   {
     id: "action-guest-qr",
@@ -212,6 +223,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     category: "actions",
     keywords: ["guest", "qr", "menu", "ordering", "pwa", "mobile"],
     shortcut: "⌘Q",
+    url: "/qr/tenant-galle-fort/room-104",
   },
   {
     id: "action-switch-property",
@@ -220,6 +232,7 @@ export const DEFAULT_COMMAND_ITEMS: readonly CommandItem[] = [
     category: "actions",
     keywords: ["switch", "property", "hotel", "resort", "galle", "kandy", "bentota"],
     shortcut: "⌘P",
+    url: "/admin/settings",
   },
 ];
 

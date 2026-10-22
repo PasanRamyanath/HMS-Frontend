@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { GlassCard } from "../../components/GlassCard.js";
 import {
   SegmentedControl,
@@ -317,6 +317,12 @@ export function SettingsPage({
   className = "",
 }: SettingsPageProps) {
   const [activeTab, setActiveTab] = useState<SettingsTabId>(initialTab);
+
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
 
   const activeTabInfo =
     SETTINGS_TABS.find((t) => t.id === activeTab) ?? (SETTINGS_TABS[0] as SettingsTab);
