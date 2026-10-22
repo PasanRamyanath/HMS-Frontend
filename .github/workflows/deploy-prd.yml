@@ -1,0 +1,92 @@
+name: Deploy Frontend - PRD
+
+on:
+  push:
+    branches:
+      - prd
+      - PRD
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-build:
+    name: Lint, Knip, Typecheck & Vite Build (PRD)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Quality Gate — Biome Lint Check
+        run: npx biome check .
+
+      - name: Quality Gate — Knip Dead Code Analysis
+        run: npx knip
+
+      - name: Quality Gate — TypeScript Validation
+        run: npx tsc --noEmit
+
+      - name: Quality Gate — Unit Tests
+        run: npm test
+
+      - name: Quality Gate — Vite Production Build
+        run: npx vite build
+
+      - name: Archive Production Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist-prd
+          path: dist/
+          retention-days: 14
+
+  deploy-s3-cloudfront:
+    name: Deploy to Amazon S3 & Invalidate CloudFront (PRD)
+    needs: validate-and-build
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION || 'ap-south-1' }}
+      S3_BUCKET: ${{ secrets.FRONTEND_S3_BUCKET_PRD || secrets.FRONTEND_S3_BUCKET || 'srilankahmsstack-hmsassetbucket1a9961ee-iy1bhakqinox' }}
+      CF_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_PRD || secrets.CLOUDFRONT_DISTRIBUTION_ID || 'EC4RIT53ZA16J' }}
+    steps:
+      - name: Download Production Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist-prd
+          path: dist
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Sync Frontend Assets to Amazon S3
+        run: |
+          echo "Deploying PRD build to S3 bucket: $S3_BUCKET"
+          aws s3 sync dist/ s3://$S3_BUCKET --delete --cache-control "public, max-age=31536000, immutable"
+          aws s3 cp dist/index.html s3://$S3_BUCKET/index.html --cache-control "no-cache, no-store, must-revalidate"
+
+      - name: Invalidate Amazon CloudFront Distribution
+        run: |
+          echo "Invalidating CloudFront distribution: $CF_DISTRIBUTION_ID"
+          aws cloudfront create-invalidation --distribution-id $CF_DISTRIBUTION_ID --paths "/*"
+
+      - name: Deployment Step Summary
+        run: |
+          echo "### 🌟 Frontend PRD Deployment Successful" >> $GITHUB_STEP_SUMMARY
+          echo "- **Target Environment**: PRD (Production)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered Branch**: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **S3 Asset Bucket**: \`$S3_BUCKET\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **CloudFront Distribution**: \`$CF_DISTRIBUTION_ID\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit SHA**: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
