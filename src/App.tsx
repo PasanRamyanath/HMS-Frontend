@@ -5,6 +5,7 @@ import { RegisterStep1, type RegisterStep1Data } from "./admin/auth/RegisterStep
 import { RegisterStep2 } from "./admin/auth/RegisterStep2.js";
 import { ResetPasswordView } from "./admin/auth/ResetPasswordView.js";
 import { AdminShell, DEFAULT_PROPERTIES } from "./admin/layout/AdminShell.js";
+import { CommandPalette } from "./components/CommandPalette.js";
 import {
   type DynamicToast,
   DynamicToastPill,
@@ -120,6 +121,7 @@ export function App() {
   const [online, setOnline] = useState<boolean>(() => isOnline());
   const [onboardingOrgData, setOnboardingOrgData] = useState<RegisterStep1Data | null>(null);
   const [selectedPropertyId, setSelectedPropertyId] = useState<string>("tenant-galle-fort");
+  const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
 
   const activeProperty =
     DEFAULT_PROPERTIES.find((p) => p.id === selectedPropertyId) ?? DEFAULT_PROPERTIES[0];
@@ -171,7 +173,7 @@ export function App() {
   };
 
   const handleSpotlight = () => {
-    showToast("Spotlight Quick Search", "Press ⌘K to search folios, rooms, and guests", "info");
+    setIsSpotlightOpen(true);
   };
 
   // Render Auth views
@@ -243,14 +245,28 @@ export function App() {
 
   // Admin PMS / Operations Portal
   const activeModule = currentRoute.kind === "ADMIN" ? currentRoute.params.module : "dashboard";
+  const activeSubModule = currentRoute.kind === "ADMIN" ? currentRoute.params.subModule : undefined;
 
   return (
     <>
       {/* Apple Dynamic Island Top Notification Toast Pill */}
       <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
 
+      {/* Global ⌘K Spotlight Command Palette */}
+      <CommandPalette
+        isOpen={isSpotlightOpen}
+        onClose={() => setIsSpotlightOpen(false)}
+        onSelect={(item) => {
+          setIsSpotlightOpen(false);
+          if (item.url) {
+            navigateTo(item.url);
+          }
+        }}
+      />
+
       <AdminShell
         currentModule={activeModule}
+        subModule={activeSubModule}
         userRole="HOTEL_ADMIN"
         staffName="Kasun Perera"
         activeTenantName={activeTenantName}

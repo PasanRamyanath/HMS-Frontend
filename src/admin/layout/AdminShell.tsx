@@ -123,6 +123,7 @@ export interface HotelPropertyOption {
 
 export interface AdminShellProps {
   readonly currentModule?: string | undefined;
+  readonly subModule?: string | undefined;
   readonly userRole?: StaffRole | undefined;
   readonly staffName?: string | undefined;
   readonly activeTenantName?: string | undefined;
@@ -631,6 +632,19 @@ export interface AdminModuleViewProps {
   readonly isLiveSyncing?: boolean | undefined;
   readonly onOrderAction?: ((orderId: string, action: string) => void) | undefined;
   readonly onSaveSuccess?: ((section: string) => void) | undefined;
+  readonly subModule?: string | undefined;
+}
+
+function resolveSettingsInitialTab(
+  subModule?: string,
+): "PROFILE" | "TAXES" | "PAYMENTS" | "SMS" | "STAFF" | "BILLING" {
+  const sub = subModule?.toUpperCase();
+  if (sub === "TAXES" || sub === "TAX") return "TAXES";
+  if (sub === "PAYMENTS" || sub === "PAYMENT") return "PAYMENTS";
+  if (sub === "SMS") return "SMS";
+  if (sub === "STAFF" || sub === "ROSTER") return "STAFF";
+  if (sub === "BILLING" || sub === "SAAS") return "BILLING";
+  return "PROFILE";
 }
 
 export function renderAdminModuleView(
@@ -678,13 +692,16 @@ export function renderAdminModuleView(
       return <LazyReportsAdminPage initialTab="GM_FLASH" hotelName={extraProps?.propertyTitle} />;
     case "payroll":
       return <LazyHrAndPayrollPage />;
-    case "settings":
+    case "settings": {
+      const initialTab = resolveSettingsInitialTab(extraProps?.subModule);
       return (
         <LazySettingsPage
+          initialTab={initialTab}
           propertyTitle={extraProps?.propertyTitle}
           onSaveSuccess={extraProps?.onSaveSuccess}
         />
       );
+    }
     case "saas":
       return <LazySaasSuperAdminView currentUserRole="SUPER_ADMIN" />;
     default:
@@ -729,7 +746,11 @@ function SidebarContent({
     <div className="flex flex-col h-full min-h-0 justify-between">
       <div className="flex flex-col min-h-0 flex-1">
         {/* App Title Header */}
-        <div className="p-4 flex items-center gap-3 border-b border-slate-200/50 dark:border-white/10 shrink-0">
+        <button
+          type="button"
+          onClick={() => onNavigate("/admin")}
+          className="p-4 flex items-center gap-3 border-b border-slate-200/50 dark:border-white/10 shrink-0 w-full text-left hover:bg-black/5 dark:hover:bg-white/5 transition-apple-spring cursor-pointer"
+        >
           {hotelLogoUrl ? (
             <img
               src={hotelLogoUrl}
@@ -762,7 +783,7 @@ function SidebarContent({
               {hotelName || "PMS & Operations"}
             </span>
           </div>
-        </div>
+        </button>
 
         {/* Navigation list */}
         <nav
@@ -810,27 +831,57 @@ function SidebarContent({
           />
         </div>
 
-        <button
-          type="button"
-          onClick={onLogout}
-          className="w-full min-h-[36px] apple-touch-target flex items-center justify-center gap-2 rounded-lg text-xs font-medium text-apple-red hover:bg-apple-red/10 transition-apple-spring cursor-pointer"
-        >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
+        <div className="flex items-center gap-1.5 mt-2">
+          <button
+            type="button"
+            onClick={() => onNavigate("/admin/settings")}
+            className="flex-1 min-h-[36px] apple-touch-target flex items-center justify-center gap-1.5 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 bg-white/70 dark:bg-white/10 hover:bg-white dark:hover:bg-white/15 transition-apple-spring cursor-pointer border border-slate-200/50 dark:border-white/10 shadow-sm"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-            />
-          </svg>
-          <span>Sign Out</span>
-        </button>
+            <svg
+              className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.8}
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.8}
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+            <span>Settings</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={onLogout}
+            className="flex-1 min-h-[36px] apple-touch-target flex items-center justify-center gap-1.5 rounded-xl text-xs font-semibold text-apple-red hover:bg-apple-red/10 transition-apple-spring cursor-pointer border border-apple-red/20"
+          >
+            <svg
+              className="w-3.5 h-3.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
+            </svg>
+            <span>Sign Out</span>
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -842,6 +893,7 @@ function SidebarContent({
 
 export function AdminShell({
   currentModule = "dashboard",
+  subModule,
   userRole = "HOTEL_ADMIN",
   staffName = "Kasun Perera",
   activeTenantName = "Galle Fort Lighthouse Villa",
@@ -1066,6 +1118,40 @@ export function AdminShell({
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Quick Settings Shortcut */}
+            <button
+              type="button"
+              onClick={() => handleNavigate("/admin/settings")}
+              aria-label="Open Hotel Settings"
+              className={`min-h-[40px] px-3 py-1.5 rounded-xl border border-slate-200/60 dark:border-white/10 text-xs font-semibold flex items-center gap-1.5 transition-apple-spring cursor-pointer ${
+                currentModule === "settings"
+                  ? "bg-apple-blue text-white shadow-sm"
+                  : "bg-black/5 dark:bg-white/10 text-slate-700 dark:text-slate-200 hover:bg-black/10 dark:hover:bg-white/15"
+              }`}
+            >
+              <svg
+                className="w-4 h-4 text-slate-500 dark:text-slate-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.8}
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.8}
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              <span className="hidden sm:inline">Settings</span>
+            </button>
+
             {/* ⌘K Spotlight Command Trigger */}
             <button
               type="button"
@@ -1138,6 +1224,7 @@ export function AdminShell({
                 isLiveSyncing,
                 onOrderAction,
                 onSaveSuccess,
+                subModule,
               })}
             </Suspense>
           ) : (

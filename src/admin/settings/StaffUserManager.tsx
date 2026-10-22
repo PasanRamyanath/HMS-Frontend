@@ -3,6 +3,7 @@ import { useId, useMemo, useState } from "react";
 import { DialogModal } from "../../components/DialogModal.js";
 import { GlassCard } from "../../components/GlassCard.js";
 import { StatusBadge } from "../../components/StatusBadge.js";
+import { WebpUploadField } from "../../components/WebpUploadField.js";
 import type { StaffRole } from "../../lib/auth.js";
 import { formatLkr } from "../../lib/i18n.js";
 
@@ -31,6 +32,7 @@ export interface StaffUser {
   readonly scPointWeight: number; // 1.0 to 5.0
   readonly isActive: boolean;
   readonly joinedDate: string;
+  readonly avatarUrl?: string | undefined;
 }
 
 export interface EpfEtfBreakdown {
@@ -244,6 +246,7 @@ export function buildStaffCandidate(formDraft: Partial<StaffUser>, fallbackId: s
     scPointWeight: Number(formDraft.scPointWeight) || 1.0,
     isActive: formDraft.isActive ?? true,
     joinedDate: formDraft.joinedDate || new Date().toISOString().slice(0, 10),
+    avatarUrl: formDraft.avatarUrl || undefined,
   };
 }
 
@@ -358,9 +361,17 @@ function StaffTableRow({ staff, onToggle, onEdit, onDelete }: StaffTableRowProps
     <tr className="hover:bg-slate-50/60 dark:hover:bg-white/5 transition-colors">
       <td className="py-3 px-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-apple-blue/10 text-apple-blue font-bold flex items-center justify-center text-xs shrink-0">
-            {staff.fullName.slice(0, 2).toUpperCase()}
-          </div>
+          {staff.avatarUrl ? (
+            <img
+              src={staff.avatarUrl}
+              alt={staff.fullName}
+              className="w-8 h-8 rounded-full object-cover shrink-0 border border-slate-200/60 dark:border-white/10 shadow-sm"
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-full bg-apple-blue/10 text-apple-blue font-bold flex items-center justify-center text-xs shrink-0">
+              {staff.fullName.slice(0, 2).toUpperCase()}
+            </div>
+          )}
           <div>
             <span className="font-semibold text-slate-900 dark:text-white block">
               {staff.fullName}
@@ -485,6 +496,16 @@ function StaffIdentityFields({
 }: StaffIdentityFieldsProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="sm:col-span-2">
+        <WebpUploadField
+          preset="SQUARE_500"
+          label="Staff Profile Photo / ID Badge"
+          description="WebP square format (<100 KB). Displayed on employee card and shift reports."
+          currentImageUrl={formDraft.avatarUrl}
+          onUploadSuccess={(res) => onChangeDraft({ ...formDraft, avatarUrl: res.url })}
+        />
+      </div>
+
       <div>
         <label
           htmlFor={`${formId}-fullName`}

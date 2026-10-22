@@ -350,12 +350,14 @@ export function SettingsPage({
       )}
 
       {/* Apple HIG Segmented Navigation Control */}
-      <GlassCard material="regular" radius="xl" className="p-2">
+      <GlassCard material="regular" radius="xl" className="p-2 overflow-x-auto scrollbar-none">
         <SegmentedControl
           options={SETTINGS_SEGMENTED_OPTIONS}
           value={activeTab}
           onChange={handleTabSelect}
           size="md"
+          fullWidth={true}
+          className="w-full min-w-[620px] sm:min-w-0"
         />
       </GlassCard>
 

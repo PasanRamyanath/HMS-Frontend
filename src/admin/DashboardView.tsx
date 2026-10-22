@@ -702,6 +702,50 @@ export function DashboardView({
         </div>
       </div>
 
+      {/* Quick Setup & Operations Shortcut Chips */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <button
+          type="button"
+          onClick={() => navigateTo("/admin/settings")}
+          className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
+        >
+          <span>⚙️</span>
+          <span>Hotel Settings & Branding</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => navigateTo("/admin/menus")}
+          className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
+        >
+          <span>🍽️</span>
+          <span>Menu & Food Items</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => navigateTo("/admin/rooms")}
+          className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
+        >
+          <span>🛏️</span>
+          <span>Room Inventory & Rates</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => navigateTo("/admin/settings/taxes")}
+          className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
+        >
+          <span>🏛️</span>
+          <span>Statutory Tax (RAMIS)</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => navigateTo("/admin/settings/staff")}
+          className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-800 dark:text-slate-100 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-apple-spring flex items-center gap-1.5 cursor-pointer shrink-0"
+        >
+          <span>👥</span>
+          <span>Staff & EPF Roster</span>
+        </button>
+      </div>
+
       {/* Top Bento Row: 4 High-Priority Executive Financial KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <ExecutiveKpiCard
