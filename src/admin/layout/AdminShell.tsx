@@ -15,6 +15,7 @@ import {
   logoutStaff,
 } from "../../lib/auth.js";
 import { getStoredHotelProfile, subscribeToHotelProfile } from "../../lib/hotelProfile.js";
+import { useTranslation } from "../../lib/i18n.js";
 import { navigateTo } from "../../lib/router.js";
 
 // ============================================================================
@@ -754,19 +755,19 @@ function SidebarContent({
   onLogout,
 }: SidebarContentProps) {
   return (
-    <div className="flex flex-col h-full min-h-0 justify-between">
+    <div className="flex flex-col h-full min-h-0 justify-between bg-[#082F21] text-emerald-100">
       <div className="flex flex-col min-h-0 flex-1">
         {/* App Title Header */}
         <button
           type="button"
           onClick={() => onNavigate("/admin")}
-          className="p-4 flex items-center gap-3 border-b border-slate-200/50 dark:border-white/10 shrink-0 w-full text-left hover:bg-black/5 dark:hover:bg-white/5 transition-apple-spring cursor-pointer"
+          className="p-4 flex items-center gap-3 border-b border-[#0E3E2D] shrink-0 w-full text-left hover:bg-white/5 transition-apple-spring cursor-pointer"
         >
           {hotelLogoUrl ? (
             <img
               src={hotelLogoUrl}
               alt={hotelName ?? "Hotel Logo"}
-              className="w-9 h-9 rounded-xl object-cover shadow-md border border-slate-200/60 dark:border-white/10 shrink-0"
+              className="w-9 h-9 rounded-xl object-cover shadow-md border border-white/10 shrink-0"
             />
           ) : (
             <div className="w-9 h-9 rounded-xl bg-brand flex items-center justify-center text-white shadow-brand shrink-0">
@@ -787,10 +788,10 @@ function SidebarContent({
             </div>
           )}
           <div className="min-w-0 flex-1">
-            <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-white block leading-tight truncate">
+            <span className="font-bold text-sm tracking-tight text-white block leading-tight truncate">
               Sri Lanka HMS
             </span>
-            <span className="text-[11px] text-slate-500 dark:text-slate-400 block truncate">
+            <span className="text-[11px] text-emerald-300/80 block truncate font-medium">
               {hotelName || "PMS & Operations"}
             </span>
           </div>
@@ -813,8 +814,8 @@ function SidebarContent({
                 onClick={() => onNavigate(item.path)}
                 className={`w-full min-h-[44px] apple-touch-target flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-apple-spring cursor-pointer ${
                   isActive
-                    ? "bg-brand text-white shadow-sm font-semibold"
-                    : "text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/10"
+                    ? "bg-emerald-600 text-white shadow-md shadow-emerald-950/40 font-semibold"
+                    : "text-emerald-100/80 hover:bg-white/10 hover:text-white"
                 }`}
               >
                 <NavItemIcon iconName={item.iconName} />
@@ -826,13 +827,11 @@ function SidebarContent({
       </div>
 
       {/* Staff User & Shift Session Footer */}
-      <div className="p-3 border-t border-slate-200/50 dark:border-white/10 bg-black/5 dark:bg-white/5 m-3 rounded-2xl shrink-0">
+      <div className="p-3 border-t border-[#0E3E2D] bg-[#052318] m-3 rounded-2xl shrink-0">
         <div className="flex items-center justify-between mb-2">
           <div className="truncate">
-            <span className="block text-xs font-semibold text-slate-900 dark:text-white truncate">
-              {staffName}
-            </span>
-            <span className="block text-[11px] text-slate-500 dark:text-slate-400">{userRole}</span>
+            <span className="block text-xs font-semibold text-white truncate">{staffName}</span>
+            <span className="block text-[11px] text-emerald-300/80">{userRole}</span>
           </div>
           <StatusBadge
             status={shiftSession ? "CLEAN" : "DIRTY"}
@@ -846,10 +845,10 @@ function SidebarContent({
           <button
             type="button"
             onClick={() => onNavigate("/admin/settings")}
-            className="flex-1 min-h-[36px] apple-touch-target flex items-center justify-center gap-1.5 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 bg-white/70 dark:bg-white/10 hover:bg-white dark:hover:bg-white/15 transition-apple-spring cursor-pointer border border-slate-200/50 dark:border-white/10 shadow-sm"
+            className="flex-1 min-h-[36px] apple-touch-target flex items-center justify-center gap-1.5 rounded-xl text-xs font-semibold text-white bg-white/10 hover:bg-white/15 transition-apple-spring cursor-pointer border border-white/10 shadow-xs"
           >
             <svg
-              className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400"
+              className="w-3.5 h-3.5 text-emerald-300"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -874,7 +873,7 @@ function SidebarContent({
           <button
             type="button"
             onClick={onLogout}
-            className="flex-1 min-h-[36px] apple-touch-target flex items-center justify-center gap-1.5 rounded-xl text-xs font-semibold text-apple-red hover:bg-apple-red/10 transition-apple-spring cursor-pointer border border-apple-red/20"
+            className="flex-1 min-h-[36px] apple-touch-target flex items-center justify-center gap-1.5 rounded-xl text-xs font-semibold text-rose-300 hover:bg-rose-900/30 transition-apple-spring cursor-pointer border border-rose-500/30"
           >
             <svg
               className="w-3.5 h-3.5"
@@ -952,6 +951,60 @@ function QuickSectionShortcuts({ currentModule, onNavigate }: QuickSectionShortc
   );
 }
 
+interface TrilingualHeaderSwitchProps {
+  readonly currentLanguage: "en" | "si" | "ta";
+  readonly onSelectLanguage: (lang: "en" | "si" | "ta") => void;
+}
+
+function TrilingualHeaderSwitch({
+  currentLanguage,
+  onSelectLanguage,
+}: TrilingualHeaderSwitchProps) {
+  return (
+    <nav
+      aria-label="Language Selector"
+      className="hidden md:flex items-center p-0.5 rounded-xl bg-black/5 dark:bg-white/10 border border-slate-200/60 dark:border-white/10 text-xs font-semibold"
+    >
+      <button
+        type="button"
+        onClick={() => onSelectLanguage("en")}
+        className={`px-2 py-1 rounded-lg transition-all cursor-pointer ${
+          currentLanguage === "en"
+            ? "bg-brand text-white shadow-xs font-bold"
+            : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+        }`}
+        title="English"
+      >
+        EN
+      </button>
+      <button
+        type="button"
+        onClick={() => onSelectLanguage("si")}
+        className={`px-2 py-1 rounded-lg transition-all cursor-pointer ${
+          currentLanguage === "si"
+            ? "bg-brand text-white shadow-xs font-bold"
+            : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+        }`}
+        title="සිංහල"
+      >
+        සිංහල
+      </button>
+      <button
+        type="button"
+        onClick={() => onSelectLanguage("ta")}
+        className={`px-2 py-1 rounded-lg transition-all cursor-pointer ${
+          currentLanguage === "ta"
+            ? "bg-brand text-white shadow-xs font-bold"
+            : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
+        }`}
+        title="தமிழ்"
+      >
+        தமிழ்
+      </button>
+    </nav>
+  );
+}
+
 // ============================================================================
 // Main AdminShell Component
 // ============================================================================
@@ -981,6 +1034,7 @@ export function AdminShell({
   });
   const [selectedProperty, setSelectedProperty] = useState(properties[0]?.id ?? "");
   const [hotelProfile, setHotelProfile] = useState(() => getStoredHotelProfile());
+  const { currentLanguage, setLanguage } = useTranslation();
 
   useEffect(() => {
     return subscribeToHotelProfile((profile) => {
@@ -1038,11 +1092,11 @@ export function AdminShell({
   };
 
   return (
-    <div className="min-h-screen w-full flex bg-slate-100 dark:bg-slate-950 font-sf-pro antialiased">
+    <div className="min-h-screen w-full flex bg-[#F4F7F5] dark:bg-slate-950 font-sf-pro antialiased">
       {/* Desktop macOS-Style 260px Vibrancy Translucent Sidebar */}
       <aside
         aria-label="Desktop Navigation Sidebar"
-        className="hidden lg:block w-[260px] h-screen sticky top-0 shrink-0 apple-liquid-glass border-r border-slate-200/60 dark:border-white/10 z-30"
+        className="hidden lg:block w-[260px] h-screen sticky top-0 shrink-0 bg-[#082F21] text-emerald-100 border-r border-[#0E3E2D] z-30 shadow-2xl flex flex-col"
       >
         <SidebarContent
           navItems={visibleNavItems}
@@ -1072,7 +1126,7 @@ export function AdminShell({
             }}
             className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity cursor-pointer"
           />
-          <div className="relative w-[280px] max-w-xs h-full bg-white dark:bg-slate-900 shadow-2xl z-10 flex flex-col">
+          <div className="relative w-[280px] max-w-xs h-full bg-[#082F21] text-emerald-100 shadow-2xl z-10 flex flex-col">
             <SidebarContent
               navItems={visibleNavItems}
               currentModule={currentModule}
@@ -1178,6 +1232,12 @@ export function AdminShell({
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Trilingual Localization Switcher (Unified v5.0) */}
+            <TrilingualHeaderSwitch
+              currentLanguage={currentLanguage}
+              onSelectLanguage={setLanguage}
+            />
+
             {/* Real-Time CBSL Mid FX Ticker Pill */}
             <div className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/5 dark:bg-white/10 text-xs font-mono text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-white/10">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
