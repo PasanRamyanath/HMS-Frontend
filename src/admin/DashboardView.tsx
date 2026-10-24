@@ -76,6 +76,8 @@ export interface GuestMovement {
   readonly status: "CONFIRMED" | "CHECKED_IN" | "PENDING_FOLIO" | "SETTLED";
 }
 
+export type DashboardTabId = "OVERVIEW" | "KDS_FEED" | "TAX_LIABILITIES" | "TOP_DISHES";
+
 export interface DashboardViewProps {
   readonly propertyTitle?: string | undefined;
   readonly metrics?: TodayExecutiveMetrics | undefined;
@@ -85,6 +87,8 @@ export interface DashboardViewProps {
   readonly kdsOrders?: readonly KdsOrder[] | undefined;
   readonly movements?: readonly GuestMovement[] | undefined;
   readonly isLiveSyncing?: boolean | undefined;
+  readonly initialTab?: DashboardTabId | undefined;
+  readonly onTabChange?: ((tab: DashboardTabId) => void) | undefined;
   readonly onOrderAction?: ((orderId: string, action: string) => void) | undefined;
   readonly onRefresh?: (() => void) | undefined;
 }
@@ -567,6 +571,442 @@ function TopDishesCard({
 }
 
 // ============================================================================
+// Specialized Tab Panels (Live KDS, Tax Liabilities, Top Dishes)
+// ============================================================================
+
+function KdsFeedTabView({
+  orders,
+  onOrderAction,
+}: {
+  readonly orders: readonly KdsOrder[];
+  readonly onOrderAction?: ((orderId: string, action: string) => void) | undefined;
+}) {
+  const activeCount = orders.length;
+  const cookingCount = orders.filter((o) => o.status === "IN_PREPARATION").length;
+  const readyCount = orders.filter((o) => o.status === "READY").length;
+  const newCount = orders.filter((o) => o.status === "SUBMITTED").length;
+
+  return (
+    <div className="space-y-5">
+      {/* Action Banner */}
+      <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs flex flex-wrap items-center justify-between gap-3 apple-liquid-glass">
+        <div>
+          <h2 className="text-base font-bold text-slate-900">Live KDS &amp; Room Service Queue</h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Real-time kitchen display stream for in-house orders, pool bar, and villa dining
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => navigateTo("/staff/pos")}
+            className="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 cursor-pointer min-h-[38px]"
+          >
+            + New POS Order
+          </button>
+          <button
+            type="button"
+            onClick={() => navigateTo("/staff/kds")}
+            className="px-4 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-xs font-semibold text-white cursor-pointer min-h-[38px] shadow-xs"
+          >
+            Launch Staff KDS →
+          </button>
+        </div>
+      </div>
+
+      {/* KPI Ribbon */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+            Total In-Flight
+          </span>
+          <p className="text-2xl font-black text-slate-900 tabular-nums-lkr mt-1">{activeCount}</p>
+        </div>
+        <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+            New / Queued
+          </span>
+          <p className="text-2xl font-black text-amber-600 tabular-nums-lkr mt-1">{newCount}</p>
+        </div>
+        <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+            In Preparation
+          </span>
+          <p className="text-2xl font-black text-[#0B6E4F] tabular-nums-lkr mt-1">{cookingCount}</p>
+        </div>
+        <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+            Ready for Delivery
+          </span>
+          <p className="text-2xl font-black text-blue-600 tabular-nums-lkr mt-1">{readyCount}</p>
+        </div>
+      </div>
+
+      {/* Expanded Order Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {orders.map((order) => {
+          const actionText =
+            order.status === "SUBMITTED"
+              ? "Start Cooking"
+              : order.status === "IN_PREPARATION"
+                ? "Mark as Ready"
+                : "Dispatch Order";
+          const badgeColor =
+            order.status === "SUBMITTED"
+              ? "bg-amber-50 text-amber-800 border-amber-200"
+              : order.status === "IN_PREPARATION"
+                ? "bg-[#ECFDF5] text-[#0B6E4F] border-[#A7F3D0]"
+                : "bg-blue-50 text-blue-700 border-blue-200";
+
+          return (
+            <GlassCard
+              key={order.id}
+              material="regular"
+              radius="lg"
+              className="p-5 flex flex-col justify-between space-y-4 apple-liquid-glass"
+            >
+              <div className="space-y-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <span className="text-base font-extrabold text-slate-900 block">
+                      {order.orderNumber}
+                    </span>
+                    <span className="text-xs font-semibold text-slate-600">
+                      {order.locationName}
+                    </span>
+                  </div>
+                  <span
+                    className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border ${badgeColor}`}
+                  >
+                    {order.status}
+                  </span>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-50/80 border border-slate-100 text-xs text-slate-700">
+                  <span className="font-semibold block text-slate-900 mb-0.5">Order Items:</span>
+                  <p className="leading-relaxed">{order.itemsSummary}</p>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                <div>
+                  <span className="text-[10px] text-slate-400 block uppercase">Elapsed Time</span>
+                  <span className="text-xs font-bold text-slate-700">{order.placedTime} ago</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px] text-slate-400 block uppercase">Total Amount</span>
+                  <span className="text-sm font-black text-slate-900 tabular-nums-lkr">
+                    {formatLkr(order.totalLkr)}
+                  </span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => onOrderAction?.(order.id, "ADVANCE")}
+                className="w-full min-h-[40px] px-4 py-2 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-white text-xs font-semibold cursor-pointer shadow-xs transition-all active:scale-98 flex items-center justify-center gap-1.5"
+              >
+                <span>{actionText}</span>
+              </button>
+            </GlassCard>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function TaxLiabilitiesTabView({
+  tax,
+}: {
+  readonly tax: TaxLiabilitySummary;
+}) {
+  const totalTaxLkr = tax.serviceChargeLkr + tax.tdlLkr + tax.ssclLkr + tax.vatLkr;
+
+  return (
+    <div className="space-y-5">
+      {/* Action Banner */}
+      <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs flex flex-wrap items-center justify-between gap-3 apple-liquid-glass">
+        <div>
+          <h2 className="text-base font-bold text-slate-900">
+            Sri Lanka SLTDA &amp; IRD Statutory Tax Liabilities
+          </h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            4-stage compounding statutory compliance ledger (RAMIS 2.0 • Remittance due in{" "}
+            {tax.settlementDueDays} days)
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => navigateTo("/admin/tax")}
+          className="px-4 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-xs font-semibold text-white cursor-pointer min-h-[38px] shadow-xs"
+        >
+          Open Full Tax &amp; RAMIS Portal →
+        </button>
+      </div>
+
+      {/* 4 Statutory Pool Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <GlassCard
+          material="regular"
+          radius="lg"
+          className="p-5 border-l-4 border-l-[#0B6E4F] apple-liquid-glass"
+        >
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+            10% Service Charge
+          </span>
+          <p className="text-2xl font-black text-slate-900 tabular-nums-lkr mt-1">
+            {formatLkr(tax.serviceChargeLkr)}
+          </p>
+          <span className="text-[11px] text-slate-500 block mt-1">
+            100% disbursed to hotel employee pool
+          </span>
+        </GlassCard>
+
+        <GlassCard
+          material="regular"
+          radius="lg"
+          className="p-5 border-l-4 border-l-blue-500 apple-liquid-glass"
+        >
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+            1% SLTDA Levy (TDL)
+          </span>
+          <p className="text-2xl font-black text-slate-900 tabular-nums-lkr mt-1">
+            {formatLkr(tax.tdlLkr)}
+          </p>
+          <span className="text-[11px] text-slate-500 block mt-1">
+            Tourism Development Act remittance
+          </span>
+        </GlassCard>
+
+        <GlassCard
+          material="regular"
+          radius="lg"
+          className="p-5 border-l-4 border-l-amber-500 apple-liquid-glass"
+        >
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+            2.5% SSCL
+          </span>
+          <p className="text-2xl font-black text-slate-900 tabular-nums-lkr mt-1">
+            {formatLkr(tax.ssclLkr)}
+          </p>
+          <span className="text-[11px] text-slate-500 block mt-1">
+            Social Security Contribution Levy
+          </span>
+        </GlassCard>
+
+        <GlassCard
+          material="regular"
+          radius="lg"
+          className="p-5 border-l-4 border-l-rose-500 apple-liquid-glass"
+        >
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+            18% Value Added Tax
+          </span>
+          <p className="text-2xl font-black text-slate-900 tabular-nums-lkr mt-1">
+            {formatLkr(tax.vatLkr)}
+          </p>
+          <span className="text-[11px] text-slate-500 block mt-1">
+            Compounded Inland Revenue Dept (IRD)
+          </span>
+        </GlassCard>
+      </div>
+
+      {/* Tax Breakdown & Computation Audit Card */}
+      <GlassCard material="regular" radius="lg" className="p-6 apple-liquid-glass space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div>
+            <h3 className="text-sm font-bold text-slate-900">
+              Statutory Tax Compounding Mechanism
+            </h3>
+            <p className="text-xs text-slate-500">
+              Sri Lankan statutory hierarchy: Base → +10% SC → +1% TDL → +2.5% SSCL on (Base+SC) →
+              +18% VAT on (Base+SC+SSCL)
+            </p>
+          </div>
+          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#ECFDF5] text-[#0B6E4F] border border-[#A7F3D0]">
+            Audit Certified Intact
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-100 space-y-2.5">
+            <div className="flex justify-between text-slate-600">
+              <span>Service Charge Pool Liability:</span>
+              <span className="font-bold text-slate-900 tabular-nums-lkr">
+                {formatLkr(tax.serviceChargeLkr)}
+              </span>
+            </div>
+            <div className="flex justify-between text-slate-600">
+              <span>SLTDA Tourism Development Levy:</span>
+              <span className="font-bold text-slate-900 tabular-nums-lkr">
+                {formatLkr(tax.tdlLkr)}
+              </span>
+            </div>
+            <div className="flex justify-between text-slate-600">
+              <span>SSCL &amp; VAT Combined IRD Liability:</span>
+              <span className="font-bold text-slate-900 tabular-nums-lkr">
+                {formatLkr(tax.ssclLkr + tax.vatLkr)}
+              </span>
+            </div>
+            <div className="pt-2 border-t border-slate-200 flex justify-between font-extrabold text-[#0B6E4F] text-sm">
+              <span>Total Statutory Provision:</span>
+              <span className="tabular-nums-lkr">{formatLkr(totalTaxLkr)}</span>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-100 flex flex-col justify-between space-y-3">
+            <div>
+              <span className="font-bold text-slate-900 block mb-1">
+                RAMIS 2.0 Settlement Window:
+              </span>
+              <p className="text-slate-600 leading-relaxed">
+                Monthly VAT returns must be remitted electronically to the Inland Revenue Department
+                via LankaClear CEFT before the 20th of next month.
+              </p>
+            </div>
+            <div className="flex items-center justify-between text-xs pt-2 border-t border-slate-200">
+              <span className="text-slate-500 font-medium">Filing Deadline:</span>
+              <span className="font-bold text-amber-700">Due in {tax.settlementDueDays} Days</span>
+            </div>
+          </div>
+        </div>
+      </GlassCard>
+    </div>
+  );
+}
+
+function TopDishesTabView({
+  items,
+}: {
+  readonly items: readonly BarChartItem[];
+}) {
+  return (
+    <div className="space-y-5">
+      {/* Action Banner */}
+      <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs flex flex-wrap items-center justify-between gap-3 apple-liquid-glass">
+        <div>
+          <h2 className="text-base font-bold text-slate-900">
+            Top Revenue Dishes &amp; Beverage Performance
+          </h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Bestselling food and drink items ranked by daily revenue volume and portion counts
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => navigateTo("/admin/orders")}
+            className="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 cursor-pointer min-h-[38px]"
+          >
+            Orders Master Register →
+          </button>
+          <button
+            type="button"
+            onClick={() => navigateTo("/admin/menus")}
+            className="px-4 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-xs font-semibold text-white cursor-pointer min-h-[38px] shadow-xs"
+          >
+            Manage Menus &amp; Catalog →
+          </button>
+        </div>
+      </div>
+
+      {/* 4 Performance KPI Cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+            #1 Best Seller
+          </span>
+          <p className="text-base font-extrabold text-slate-900 truncate mt-1">
+            {items[0]?.label ?? "Jaffna Lagoon Crab"}
+          </p>
+          <span className="text-xs font-bold text-[#0B6E4F] mt-0.5 block">
+            {items[0]?.formattedValue ?? "LKR 142,000"}
+          </span>
+        </div>
+
+        <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+            Daily F&amp;B Gross
+          </span>
+          <p className="text-xl font-black text-slate-900 tabular-nums-lkr mt-1">LKR 361,400</p>
+          <span className="text-xs text-slate-500 mt-0.5 block">Across all 4 outlets</span>
+        </div>
+
+        <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+            Top Beverage
+          </span>
+          <p className="text-base font-extrabold text-slate-900 truncate mt-1">
+            Arrack Old Fashioned
+          </p>
+          <span className="text-xs font-bold text-[#0B6E4F] mt-0.5 block">41 Cocktails Sold</span>
+        </div>
+
+        <div className="p-4 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+            Average Ticket
+          </span>
+          <p className="text-xl font-black text-slate-900 tabular-nums-lkr mt-1">LKR 6,450</p>
+          <span className="text-xs text-slate-500 mt-0.5 block">Dine-In &amp; Poolside</span>
+        </div>
+      </div>
+
+      {/* Main Charts & Table Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <GlassCard material="regular" radius="lg" className="p-6 apple-liquid-glass space-y-4">
+          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+            <div>
+              <h3 className="text-sm font-bold text-slate-900">Revenue Ranking Chart</h3>
+              <p className="text-xs text-slate-500">Visual relative revenue weight</p>
+            </div>
+            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#ECFDF5] text-[#0B6E4F] border border-[#A7F3D0]">
+              Live POS Feed
+            </span>
+          </div>
+          <HorizontalBarChart items={items} barHeight={8} rowGap={20} />
+        </GlassCard>
+
+        <GlassCard material="regular" radius="lg" className="p-6 apple-liquid-glass space-y-4">
+          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+            <div>
+              <h3 className="text-sm font-bold text-slate-900">Bestsellers Breakdown</h3>
+              <p className="text-xs text-slate-500">Portions and revenue totals</p>
+            </div>
+            <span className="text-xs text-slate-500">Today</span>
+          </div>
+
+          <div className="divide-y divide-slate-100 text-xs">
+            {items.map((item, idx) => (
+              <div key={item.id} className="py-3 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <span className="w-5 h-5 rounded-full bg-slate-100 text-slate-700 font-bold flex items-center justify-center text-[10px] shrink-0">
+                    {idx + 1}
+                  </span>
+                  <div className="truncate">
+                    <span className="font-bold text-slate-900 block truncate">{item.label}</span>
+                    <span className="text-[11px] text-slate-500">{item.sublabel}</span>
+                  </div>
+                </div>
+
+                <div className="text-right shrink-0">
+                  <span className="font-black text-slate-900 block tabular-nums-lkr">
+                    {item.formattedValue}
+                  </span>
+                  <span className="text-[10px] text-slate-500 tabular-nums-lkr">
+                    {item.value} Portions
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
 // Main Bento Grid Executive Hotel Dashboard Component
 // ============================================================================
 
@@ -579,13 +1019,18 @@ export function DashboardView({
   kdsOrders = DEFAULT_KDS_ORDERS,
   movements = DEFAULT_MOVEMENTS,
   isLiveSyncing = true,
+  initialTab = "OVERVIEW",
+  onTabChange,
   onOrderAction,
   onRefresh,
 }: DashboardViewProps) {
-  const [activeTab, setActiveTab] = useState<
-    "OVERVIEW" | "KDS_FEED" | "TAX_LIABILITIES" | "TOP_DISHES"
-  >("OVERVIEW");
+  const [activeTab, setActiveTab] = useState<DashboardTabId>(initialTab);
   const [activeRange, setActiveRange] = useState<"TODAY" | "WEEK" | "MONTH">("TODAY");
+
+  const handleTabSelect = (tab: DashboardTabId) => {
+    setActiveTab(tab);
+    onTabChange?.(tab);
+  };
 
   const occupancyPct =
     metrics.totalRooms > 0 ? Math.round((metrics.occupiedRooms / metrics.totalRooms) * 100) : 0;
@@ -632,13 +1077,13 @@ export function DashboardView({
       </div>
 
       {/* 2. Underline Tabs Strip */}
-      <div className="flex items-center gap-6 border-b border-slate-200 overflow-x-auto">
+      <div className="flex items-center gap-6 border-b border-slate-200 overflow-x-auto no-scrollbar">
         <button
           type="button"
-          onClick={() => setActiveTab("OVERVIEW")}
+          onClick={() => handleTabSelect("OVERVIEW")}
           className={`pb-2.5 text-xs font-semibold transition-colors border-b-2 whitespace-nowrap cursor-pointer ${
             activeTab === "OVERVIEW"
-              ? "border-[#0B6E4F] text-[#0B6E4F] "
+              ? "border-[#0B6E4F] text-[#0B6E4F] font-bold"
               : "border-transparent text-slate-500 hover:text-slate-800"
           }`}
         >
@@ -646,24 +1091,30 @@ export function DashboardView({
         </button>
         <button
           type="button"
-          onClick={() => setActiveTab("KDS_FEED")}
+          onClick={() => handleTabSelect("KDS_FEED")}
           className={`pb-2.5 text-xs font-semibold transition-colors border-b-2 whitespace-nowrap flex items-center gap-1.5 cursor-pointer ${
             activeTab === "KDS_FEED"
-              ? "border-[#0B6E4F] text-[#0B6E4F] "
+              ? "border-[#0B6E4F] text-[#0B6E4F] font-bold"
               : "border-transparent text-slate-500 hover:text-slate-800"
           }`}
         >
           <span>Live KDS &amp; Room Feed</span>
-          <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-slate-100 text-slate-600 tabular-nums-lkr">
+          <span
+            className={`px-1.5 py-0.5 rounded-full text-[10px] tabular-nums-lkr ${
+              activeTab === "KDS_FEED"
+                ? "bg-[#ECFDF5] text-[#0B6E4F] font-bold"
+                : "bg-slate-100 text-slate-600"
+            }`}
+          >
             {kdsOrders.length}
           </span>
         </button>
         <button
           type="button"
-          onClick={() => setActiveTab("TAX_LIABILITIES")}
+          onClick={() => handleTabSelect("TAX_LIABILITIES")}
           className={`pb-2.5 text-xs font-semibold transition-colors border-b-2 whitespace-nowrap cursor-pointer ${
             activeTab === "TAX_LIABILITIES"
-              ? "border-[#0B6E4F] text-[#0B6E4F] "
+              ? "border-[#0B6E4F] text-[#0B6E4F] font-bold"
               : "border-transparent text-slate-500 hover:text-slate-800"
           }`}
         >
@@ -671,10 +1122,10 @@ export function DashboardView({
         </button>
         <button
           type="button"
-          onClick={() => setActiveTab("TOP_DISHES")}
+          onClick={() => handleTabSelect("TOP_DISHES")}
           className={`pb-2.5 text-xs font-semibold transition-colors border-b-2 whitespace-nowrap cursor-pointer ${
             activeTab === "TOP_DISHES"
-              ? "border-[#0B6E4F] text-[#0B6E4F] "
+              ? "border-[#0B6E4F] text-[#0B6E4F] font-bold"
               : "border-transparent text-slate-500 hover:text-slate-800"
           }`}
         >
@@ -740,74 +1191,87 @@ export function DashboardView({
         </div>
       </div>
 
-      {/* 4. Top Row: 4 Executive Financial KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <ExecutiveKpiCard
-          title="RevPAR (LKR / USD)"
-          amountLkr={metrics.revParLkr}
-          changePercent={metrics.revParChangePercent}
-          subtitle="UTC+05:30"
-        />
-        <ExecutiveKpiCard
-          title="ADR (Average Daily Rate)"
-          amountLkr={metrics.adrLkr}
-          changePercent={metrics.adrChangePercent}
-          subtitle={`Across ${metrics.occupiedRooms} rooms`}
-        />
-        <ExecutiveKpiCard
-          title="Today's Gross Billing"
-          amountLkr={metrics.totalRevenueLkr}
-          changePercent={metrics.totalRevenueChangePercent}
-          subtitle="Rooms + F&B"
-        />
+      {/* 4. Active Tab Content Panels */}
+      {activeTab === "OVERVIEW" && (
+        <>
+          {/* Top Row: 4 Executive Financial KPI Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <ExecutiveKpiCard
+              title="RevPAR (LKR / USD)"
+              amountLkr={metrics.revParLkr}
+              changePercent={metrics.revParChangePercent}
+              subtitle="UTC+05:30"
+            />
+            <ExecutiveKpiCard
+              title="ADR (Average Daily Rate)"
+              amountLkr={metrics.adrLkr}
+              changePercent={metrics.adrChangePercent}
+              subtitle={`Across ${metrics.occupiedRooms} rooms`}
+            />
+            <ExecutiveKpiCard
+              title="Today's Gross Billing"
+              amountLkr={metrics.totalRevenueLkr}
+              changePercent={metrics.totalRevenueChangePercent}
+              subtitle="Rooms + F&B"
+            />
 
-        <GlassCard material="regular" radius="lg" className="p-5 flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-xs font-medium text-slate-500 ">In-House Guest Roster</span>
-              <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#ECFDF5] text-[#0B6E4F] border border-[#A7F3D0] tabular-nums-lkr">
-                {occupancyPct}% Occ
-              </span>
+            <GlassCard material="regular" radius="lg" className="p-5 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-medium text-slate-500 ">In-House Guest Roster</span>
+                  <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#ECFDF5] text-[#0B6E4F] border border-[#A7F3D0] tabular-nums-lkr">
+                    {occupancyPct}% Occ
+                  </span>
+                </div>
+                <div className="mt-2 flex items-baseline gap-1.5">
+                  <span className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 tabular-nums-lkr">
+                    {metrics.occupiedRooms} / {metrics.totalRooms} Rooms
+                  </span>
+                </div>
+              </div>
+              <div className="mt-2 text-xs text-slate-500 tabular-nums-lkr">
+                Clean: {metrics.cleanRooms} • Touch-Up: {metrics.inProgressRooms} • Dirty:{" "}
+                {metrics.dirtyRooms}
+              </div>
+            </GlassCard>
+          </div>
+
+          {/* 5. Main 3-Column Bento Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            {/* Column 1: Cumulative Revenue Trajectory + Arrivals & Departures */}
+            <div className="space-y-5">
+              <RevenueTrendBentoCard trendData={revenueTrend} />
+              <ArrivalsDeparturesCard movements={movements} />
             </div>
-            <div className="mt-2 flex items-baseline gap-1.5">
-              <span className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 tabular-nums-lkr">
-                {metrics.occupiedRooms} / {metrics.totalRooms} Rooms
-              </span>
+
+            {/* Column 2: Live KDS & Room Service Queue + Top Revenue Dishes */}
+            <div className="space-y-5">
+              <LiveKdsQueueCard orders={kdsOrders} onOrderAction={onOrderAction} />
+              <TopDishesCard items={topDishes} />
+            </div>
+
+            {/* Column 3: Occupancy Donut Ring + SLTDA & IRD Liabilities */}
+            <div className="space-y-5">
+              <OccupancyBentoCard
+                occupied={metrics.occupiedRooms}
+                total={metrics.totalRooms}
+                clean={metrics.cleanRooms}
+                inProgress={metrics.inProgressRooms}
+                dirty={metrics.dirtyRooms}
+              />
+              <TaxLiabilityBentoCard tax={taxLiability} />
             </div>
           </div>
-          <div className="mt-2 text-xs text-slate-500 tabular-nums-lkr">
-            Clean: {metrics.cleanRooms} • Touch-Up: {metrics.inProgressRooms} • Dirty:{" "}
-            {metrics.dirtyRooms}
-          </div>
-        </GlassCard>
-      </div>
+        </>
+      )}
 
-      {/* 5. Main 3-Column Bento Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        {/* Column 1: Cumulative Revenue Trajectory + Arrivals & Departures */}
-        <div className="space-y-5">
-          <RevenueTrendBentoCard trendData={revenueTrend} />
-          <ArrivalsDeparturesCard movements={movements} />
-        </div>
+      {activeTab === "KDS_FEED" && (
+        <KdsFeedTabView orders={kdsOrders} onOrderAction={onOrderAction} />
+      )}
 
-        {/* Column 2: Live KDS & Room Service Queue + Top Revenue Dishes */}
-        <div className="space-y-5">
-          <LiveKdsQueueCard orders={kdsOrders} onOrderAction={onOrderAction} />
-          <TopDishesCard items={topDishes} />
-        </div>
+      {activeTab === "TAX_LIABILITIES" && <TaxLiabilitiesTabView tax={taxLiability} />}
 
-        {/* Column 3: Occupancy Donut Ring + SLTDA & IRD Liabilities */}
-        <div className="space-y-5">
-          <OccupancyBentoCard
-            occupied={metrics.occupiedRooms}
-            total={metrics.totalRooms}
-            clean={metrics.cleanRooms}
-            inProgress={metrics.inProgressRooms}
-            dirty={metrics.dirtyRooms}
-          />
-          <TaxLiabilityBentoCard tax={taxLiability} />
-        </div>
-      </div>
+      {activeTab === "TOP_DISHES" && <TopDishesTabView items={topDishes} />}
     </div>
   );
 }

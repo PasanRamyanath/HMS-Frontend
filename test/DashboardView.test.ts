@@ -163,6 +163,42 @@ describe("Apple Bento-Grid Executive Hotel Dashboard (DashboardView.tsx)", () =>
       );
       assert.equal(actions.length, 0);
     });
+
+    it("renders KDS_FEED tab view when initialTab is KDS_FEED", () => {
+      const html = renderToStaticMarkup(
+        React.createElement(DashboardView, { initialTab: "KDS_FEED" }),
+      );
+      assert.ok(html.includes("Total In-Flight"), "Should render KDS feed KPI ribbon");
+      assert.ok(html.includes("Launch Staff KDS"), "Should render KDS launch button");
+      assert.ok(html.includes("ORD-8401"), "Should render in-flight orders");
+    });
+
+    it("renders TAX_LIABILITIES tab view when initialTab is TAX_LIABILITIES", () => {
+      const html = renderToStaticMarkup(
+        React.createElement(DashboardView, { initialTab: "TAX_LIABILITIES" }),
+      );
+      assert.ok(
+        html.includes("Sri Lanka SLTDA &amp; IRD Statutory Tax Liabilities") ||
+          html.includes("Sri Lanka SLTDA & IRD Statutory Tax Liabilities"),
+        "Should render Tax liabilities header",
+      );
+      assert.ok(html.includes("Statutory Tax Compounding Mechanism"));
+      assert.ok(html.includes("10% Service Charge"));
+      assert.ok(html.includes("RAMIS 2.0 Settlement Window"));
+    });
+
+    it("renders TOP_DISHES tab view when initialTab is TOP_DISHES", () => {
+      const html = renderToStaticMarkup(
+        React.createElement(DashboardView, { initialTab: "TOP_DISHES" }),
+      );
+      assert.ok(
+        html.includes("Top Revenue Dishes &amp; Beverage Performance") ||
+          html.includes("Top Revenue Dishes & Beverage Performance"),
+        "Should render Top dishes header",
+      );
+      assert.ok(html.includes("Revenue Ranking Chart"));
+      assert.ok(html.includes("Bestsellers Breakdown"));
+    });
   });
 
   describe("Type Definitions & Verification", () => {
