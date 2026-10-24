@@ -4,9 +4,9 @@ import {
   SegmentedControl,
   type SegmentedControlOption,
 } from "../../components/SegmentedControl.js";
-import { StatusBadge } from "../../components/StatusBadge.js";
 import { formatLkr } from "../../lib/i18n.js";
 import { generateQrSvg } from "../../lib/qrSvg.js";
+import { AdminPageHeader } from "../components/AdminPageHeader.js";
 import { BankPromoManager } from "./BankPromoManager.js";
 import { ChannelManagerView } from "./ChannelManagerView.js";
 import { OtaCommissionTable } from "./OtaCommissionTable.js";
@@ -129,45 +129,32 @@ function HeaderKpiBar({
   readonly portalUrl: string;
 }) {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-      <div>
-        <div className="flex items-center gap-2.5">
-          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 ">
-            Channels &amp; Direct — Distribution &amp; Direct Booking Hub
-          </h1>
-          <StatusBadge
-            status="CHANNEX 2-WAY LIVE"
-            label="CHANNEX 2-WAY LIVE"
-            color="green"
-            size="sm"
-          />
+    <AdminPageHeader
+      title="Channels & Direct — Distribution & Direct Booking Hub"
+      subtitle="Channex 2-Way ARI sync, Stop-Sell & MinLOS controls, OTA reconciliation, and bank card promos"
+      statusBadge={{ label: "CHANNEX 2-WAY LIVE", variant: "success", pulse: true }}
+      actions={
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+          <button
+            type="button"
+            onClick={onOpenWebhooks}
+            className="min-h-[38px] px-4 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 border border-slate-200 transition-colors cursor-pointer"
+          >
+            Webhook Inspector
+          </button>
+
+          <a
+            href={portalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={onOpenPortal}
+            className="min-h-[38px] px-4 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
+          >
+            <span>Live Booking Portal</span>
+          </a>
         </div>
-        <p className="text-xs text-slate-500 mt-0.5">
-          Channex 2-Way ARI sync, Stop-Sell &amp; MinLOS controls, OTA reconciliation, and bank card
-          promos
-        </p>
-      </div>
-
-      <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-        <button
-          type="button"
-          onClick={onOpenWebhooks}
-          className="min-h-[38px] px-4 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 border border-slate-200 transition-colors cursor-pointer"
-        >
-          Webhook Inspector
-        </button>
-
-        <a
-          href={portalUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={onOpenPortal}
-          className="min-h-[38px] px-4 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
-        >
-          <span>Live Booking Portal</span>
-        </a>
-      </div>
-    </div>
+      }
+    />
   );
 }
 

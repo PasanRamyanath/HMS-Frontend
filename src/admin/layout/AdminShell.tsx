@@ -729,14 +729,14 @@ export function renderAdminModuleView(
     case "folios":
       return <LazyFoliosAndBillingPage />;
     case "housekeeping":
-      return <LazyHousekeepingAdminPage />;
+      return <LazyHousekeepingAdminPage propertyTitle={extraProps?.propertyTitle} />;
     case "banquets":
-      return <LazyBanquetsAdminPage />;
+      return <LazyBanquetsAdminPage propertyTitle={extraProps?.propertyTitle} />;
     case "spa":
-      return <LazyActivitiesAdminPage />;
+      return <LazyActivitiesAdminPage propertyTitle={extraProps?.propertyTitle} />;
     case "inventory":
     case "stores":
-      return <LazyInventoryAdminPage />;
+      return <LazyInventoryAdminPage propertyTitle={extraProps?.propertyTitle} />;
     case "tax":
       return (
         <LazyReportsAdminPage initialTab="SLTDA_OCCUPANCY" hotelName={extraProps?.propertyTitle} />

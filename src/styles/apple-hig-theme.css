@@ -25,11 +25,12 @@
   --color-apple-gray-800: #1e293b;
   --color-apple-gray-900: #0f172a;
 
-  --font-sf-pro: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
-    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-sf-pro: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Geist", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-sf-mono: "JetBrains Mono", "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
-  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-display: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Geist", "Segoe UI",
+    Roboto, sans-serif;
 
   --ease-apple-spring: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-apple-smooth: cubic-bezier(0.32, 0.72, 0, 1);
@@ -192,6 +193,71 @@ html.dark body {
   box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
 }
 
+/* ============================================================================
+ * Universal Admin Surface & Component Utility Classes
+ * ============================================================================ */
+.admin-card {
+  background-color: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.admin-card-inner {
+  background-color: #f8fafc;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 0.75rem;
+}
+
+.admin-btn-primary {
+  min-height: 38px;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  background-color: var(--brand-primary, #0b6e4f);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  transition: all 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+}
+.admin-btn-primary:hover {
+  background-color: var(--brand-hover, #09583f);
+}
+.admin-btn-primary:active {
+  transform: scale(0.98);
+}
+
+.admin-btn-secondary {
+  min-height: 38px;
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.75rem;
+  background-color: #ffffff;
+  color: #334155;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  transition: all 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+}
+.admin-btn-secondary:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+.admin-btn-secondary:active {
+  transform: scale(0.98);
+}
+
 /* Full System-Wide Dark Mode Overrides */
 html.dark .bg-\[\#F4F7F5\],
 html.dark .bg-\[\#f4f7f5\],
@@ -199,6 +265,7 @@ html.dark .bg-apple-gray-50 {
   background-color: #0b1120 !important;
 }
 
+html.dark .admin-card,
 html.dark .apple-liquid-glass,
 html.dark .apple-material-regular,
 html.dark .apple-material-thin,
@@ -211,6 +278,7 @@ html.dark .bg-white\/70 {
   color: #f8fafc;
 }
 
+html.dark .admin-card-inner,
 html.dark .apple-material-thick,
 html.dark .apple-material-elevated,
 html.dark .apple-liquid-glass-clear,

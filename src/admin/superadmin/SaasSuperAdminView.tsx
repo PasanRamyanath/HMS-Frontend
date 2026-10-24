@@ -461,7 +461,7 @@ export function SaasSuperAdminView({
             <button
               type="button"
               onClick={onRefreshHealth}
-              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-2 rounded-xl border border-apple-gray-200 bg-white/70 px-4 py-2.5 text-sm font-medium text-apple-gray-700 shadow-sm transition hover:bg-white active:scale-95 "
+              className="admin-btn-secondary min-h-[44px] min-w-[44px] text-xs font-medium cursor-pointer flex items-center justify-center gap-2"
             >
               <svg
                 className="h-4 w-4"
@@ -484,7 +484,7 @@ export function SaasSuperAdminView({
           <button
             type="button"
             onClick={onProvisionTenantClick ?? (() => setIsProvisionModalOpen(true))}
-            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-2 rounded-xl bg-[#0B6E4F] px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-apple-blue-500/20 transition hover:bg-[#095C42] active:scale-95 "
+            className="admin-btn-primary min-h-[44px] min-w-[44px] text-xs font-semibold cursor-pointer flex items-center justify-center gap-2"
           >
             <svg
               className="h-4 w-4"

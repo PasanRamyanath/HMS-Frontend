@@ -33,6 +33,8 @@ import {
   type SegmentedControlOption,
 } from "../../components/SegmentedControl.js";
 import { type SupportedLanguage, formatLkr } from "../../lib/i18n.js";
+import { AdminKpiCard } from "../components/AdminKpiCard.js";
+import { AdminPageHeader } from "../components/AdminPageHeader.js";
 import { BarPegAuditView } from "./BarPegAuditView.js";
 import { ExpiryAlertCard } from "./ExpiryAlertCard.js";
 import { FnbFlashCostCard } from "./FnbFlashCostCard.js";
@@ -316,75 +318,70 @@ const InventoryHeaderBar: FC<InventoryHeaderBarProps> = ({
   onOpenWastage,
 }) => {
   return (
-    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-6 rounded-xl bg-white border border-[#E2E8F0] shadow-xs">
-      <div>
-        <div className="flex items-center gap-2">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">{i18n.pageTitle}</h1>
-        </div>
-        <p className="text-xs text-slate-500 mt-1 max-w-2xl">
-          {propertyTitle ? `${propertyTitle} • ` : ""}
-          {i18n.pageSubtitle}
-        </p>
-      </div>
+    <AdminPageHeader
+      title={i18n.pageTitle}
+      subtitle={i18n.pageSubtitle}
+      propertyTitle={propertyTitle}
+      actions={
+        <>
+          <button
+            type="button"
+            onClick={onOpenScanner}
+            className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer"
+          >
+            {i18n.quickActions.scanBarcode}
+          </button>
 
-      <div className="flex flex-wrap items-center gap-2">
-        <button
-          type="button"
-          onClick={onOpenScanner}
-          className="px-3.5 py-2 text-xs font-semibold rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-[#E2E8F0] transition-all min-h-[44px] cursor-pointer"
-        >
-          {i18n.quickActions.scanBarcode}
-        </button>
+          <button
+            type="button"
+            onClick={onOpenPr}
+            className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer"
+          >
+            {i18n.quickActions.newPr}
+          </button>
 
-        <button
-          type="button"
-          onClick={onOpenPr}
-          className="px-3.5 py-2 text-xs font-semibold rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-[#E2E8F0] transition-all min-h-[44px] cursor-pointer"
-        >
-          {i18n.quickActions.newPr}
-        </button>
+          <button
+            type="button"
+            onClick={onOpenPo}
+            className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer"
+          >
+            {i18n.quickActions.newPo}
+          </button>
 
-        <button
-          type="button"
-          onClick={onOpenPo}
-          className="px-3.5 py-2 text-xs font-semibold rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-[#E2E8F0] transition-all min-h-[44px] cursor-pointer"
-        >
-          {i18n.quickActions.newPo}
-        </button>
+          <button
+            type="button"
+            onClick={onOpenGrn}
+            className="admin-btn-primary min-h-[38px] text-xs cursor-pointer"
+          >
+            {i18n.quickActions.newGrn}
+          </button>
 
-        <button
-          type="button"
-          onClick={onOpenGrn}
-          className="px-3 py-2 text-xs font-semibold rounded-lg bg-[#0B6E4F] hover:bg-[#095C42] text-white shadow transition-all min-h-[44px] cursor-pointer"
-        >
-          {i18n.quickActions.newGrn}
-        </button>
+          <button
+            type="button"
+            onClick={onOpenGin}
+            className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer"
+          >
+            {i18n.quickActions.newGin}
+          </button>
 
-        <button
-          type="button"
-          onClick={onOpenGin}
-          className="px-3 py-2 text-xs font-semibold rounded-lg bg-blue-600 hover:bg-blue-500 text-white shadow transition-all min-h-[44px] cursor-pointer"
-        >
-          {i18n.quickActions.newGin}
-        </button>
+          <button
+            type="button"
+            onClick={onOpenDebitNote}
+            className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer text-rose-700 dark:text-rose-400"
+          >
+            {i18n.quickActions.newDebitNote}
+          </button>
 
-        <button
-          type="button"
-          onClick={onOpenDebitNote}
-          className="px-3 py-2 text-xs font-semibold rounded-lg bg-red-600 hover:bg-red-500 text-white shadow transition-all min-h-[44px] cursor-pointer"
-        >
-          {i18n.quickActions.newDebitNote}
-        </button>
-
-        <button
-          type="button"
-          onClick={onOpenWastage}
-          className="px-3 py-2 text-xs font-semibold rounded-lg bg-amber-600 hover:bg-amber-500 text-white shadow transition-all min-h-[44px] cursor-pointer"
-        >
-          {i18n.quickActions.logWastage}
-        </button>
-      </div>
-    </div>
+          <button
+            type="button"
+            onClick={onOpenWastage}
+            className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer text-amber-800 dark:text-amber-400"
+          >
+            {i18n.quickActions.logWastage}
+          </button>
+        </>
+      }
+    />
   );
 };
 
@@ -395,60 +392,54 @@ interface InventoryKpiRibbonProps {
 
 const InventoryKpiRibbon: FC<InventoryKpiRibbonProps> = ({ i18n, metrics }) => {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-      <GlassCard className="p-5 rounded-xl border border-[#E2E8F0] bg-white shadow-xs">
-        <span className="text-[11px] uppercase tracking-wider text-slate-500 block font-bold">
-          {i18n.kpi.totalValuation}
-        </span>
-        <div className="text-xl font-bold text-slate-900 tabular-nums-lkr mt-1 font-mono">
-          {formatLkr(metrics.totalValuationLkr)}
-        </div>
-      </GlassCard>
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
+      <AdminKpiCard
+        title={i18n.kpi.totalValuation}
+        size="sm"
+        value={formatLkr(metrics.totalValuationLkr)}
+        badge={{ text: "FIFO Cost", variant: "neutral" }}
+        subtitle="Current warehouse stock"
+      />
 
-      <GlassCard className="p-5 rounded-xl border border-[#E2E8F0] bg-white shadow-xs">
-        <span className="text-[11px] uppercase tracking-wider text-slate-500 block font-bold">
-          {i18n.kpi.activeSkus}
-        </span>
-        <div className="text-xl font-bold text-slate-900 tabular-nums-lkr mt-1">
-          {metrics.totalActiveSkus} SKUs
-        </div>
-      </GlassCard>
+      <AdminKpiCard
+        title={i18n.kpi.activeSkus}
+        size="sm"
+        value={`${metrics.totalActiveSkus} SKUs`}
+        badge={{ text: "Catalog", variant: "success" }}
+        subtitle="Dry store, meat & beverage"
+      />
 
-      <GlassCard className="p-5 rounded-xl border border-[#E2E8F0] bg-white shadow-xs">
-        <span className="text-[11px] uppercase tracking-wider text-slate-500 block font-bold">
-          {i18n.kpi.pendingPrs}
-        </span>
-        <div className="text-xl font-bold text-amber-700 tabular-nums-lkr mt-1">
-          {metrics.pendingRequisitions} Pending
-        </div>
-      </GlassCard>
+      <AdminKpiCard
+        title={i18n.kpi.pendingPrs}
+        size="sm"
+        value={`${metrics.pendingRequisitions} Pending`}
+        badge={{ text: "Requisitions", variant: "warning" }}
+        subtitle="Awaiting GM approval"
+      />
 
-      <GlassCard className="p-5 rounded-xl border border-[#E2E8F0] bg-white shadow-xs">
-        <span className="text-[11px] uppercase tracking-wider text-slate-500 block font-bold">
-          {i18n.kpi.outstandingAp}
-        </span>
-        <div className="text-xl font-bold text-slate-900 tabular-nums-lkr mt-1 font-mono">
-          {formatLkr(metrics.outstandingPayablesLkr)}
-        </div>
-      </GlassCard>
+      <AdminKpiCard
+        title={i18n.kpi.outstandingAp}
+        size="sm"
+        value={formatLkr(metrics.outstandingPayablesLkr)}
+        badge={{ text: "AP Ledger", variant: "info" }}
+        subtitle="Unsettled supplier bills"
+      />
 
-      <GlassCard className="p-5 rounded-xl border border-[#E2E8F0] bg-white shadow-xs">
-        <span className="text-[11px] uppercase tracking-wider text-slate-500 block font-bold">
-          {i18n.kpi.fnbCost}
-        </span>
-        <div className="text-xl font-bold text-[#0B6E4F] tabular-nums-lkr mt-1 font-mono">
-          {metrics.dailyFnbCostPercent.toFixed(1)}%
-        </div>
-      </GlassCard>
+      <AdminKpiCard
+        title={i18n.kpi.fnbCost}
+        size="sm"
+        value={`${metrics.dailyFnbCostPercent.toFixed(1)}%`}
+        badge={{ text: "Target <32%", variant: "success" }}
+        subtitle="Kitchen consumption vs revenue"
+      />
 
-      <GlassCard className="p-5 rounded-xl border border-[#E2E8F0] bg-white shadow-xs">
-        <span className="text-[11px] uppercase tracking-wider text-slate-500 block font-bold">
-          {i18n.kpi.criticalFefo}
-        </span>
-        <div className="text-xl font-bold text-rose-700 tabular-nums-lkr mt-1">
-          {metrics.criticalExpiryBatches} Critical
-        </div>
-      </GlassCard>
+      <AdminKpiCard
+        title={i18n.kpi.criticalFefo}
+        size="sm"
+        value={`${metrics.criticalExpiryBatches} Batches`}
+        badge={{ text: "FEFO <72h", variant: "danger" }}
+        subtitle="Perishable kitchen alert"
+      />
     </div>
   );
 };
@@ -498,10 +489,7 @@ export const InventoryAdminPage: FC<InventoryAdminPageProps> = ({
   };
 
   return (
-    <div
-      data-testid={testId}
-      className={`space-y-6 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 ${className}`}
-    >
+    <div data-testid={testId} className={`space-y-6 font-sf-pro ${className}`}>
       {/* 1. Header Bar with Global Quick Action Triggers */}
       <InventoryHeaderBar
         i18n={i18n}

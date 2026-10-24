@@ -617,14 +617,14 @@ export function DashboardView({
             type="button"
             onClick={onRefresh}
             aria-label="Refresh Dashboard"
-            className="min-h-[38px] px-4 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
+            className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer"
           >
             Refresh Feed
           </button>
           <button
             type="button"
             onClick={() => navigateTo("/admin/front-desk")}
-            className="min-h-[38px] px-4 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-white text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5"
+            className="admin-btn-primary min-h-[38px] text-xs cursor-pointer flex items-center gap-1.5"
           >
             <span>+ New Reservation</span>
           </button>

@@ -29,6 +29,8 @@ import {
   type SegmentedControlOption,
 } from "../../components/SegmentedControl.js";
 import type { SupportedLanguage } from "../../lib/i18n.js";
+import { AdminKpiCard } from "../components/AdminKpiCard.js";
+import { AdminPageHeader } from "../components/AdminPageHeader.js";
 import { BanquetBarAndBitesForm } from "./BanquetBarAndBitesForm.js";
 import { type BanquetBookingFormData, BanquetBookingModal } from "./BanquetBookingModal.js";
 import { BanquetCalendar } from "./BanquetCalendar.js";
@@ -317,75 +319,58 @@ function BanquetPageHeader({
   );
 
   return (
-    <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 p-5 rounded-2xl bg-white bg-white/80 border border-[#E2E8F0] shadow-sm backdrop-blur-xl">
-      <div className="space-y-1">
-        <div className="flex items-center gap-2">
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 text-slate-900">
-            {text.title}
-          </h1>
-          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200 ">
-            {propertyTitle}
-          </span>
-        </div>
-        <p className="text-xs text-slate-500">
-          {text.subtitle} • Current:{" "}
-          <span className="font-semibold text-slate-700 text-slate-700">
-            {currentTabDef?.label}
-          </span>
-        </p>
-      </div>
+    <AdminPageHeader
+      title={text.title}
+      subtitle={`${text.subtitle} • Current: ${currentTabDef?.label}`}
+      propertyTitle={propertyTitle}
+      actions={
+        <>
+          <button
+            type="button"
+            onClick={onOpenSpotlight}
+            className="admin-btn-secondary min-h-[38px] text-xs flex items-center gap-2 cursor-pointer"
+            title="Spotlight Search (⌘K)"
+          >
+            <span>Search...</span>
+            <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">
+              ⌘K
+            </kbd>
+          </button>
 
-      <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
-        {/* Spotlight Command Bar Search Button */}
-        <button
-          type="button"
-          onClick={onOpenSpotlight}
-          className="min-h-[44px] px-3.5 py-2 rounded-2xl text-xs font-medium bg-slate-100 hover:bg-slate-200 bg-slate-100 text-slate-600 text-slate-700 border border-slate-200/80 transition-all flex items-center gap-2"
-          title="Spotlight Search (⌘K)"
-        >
-          <span className="hidden sm:inline">Search...</span>
-          <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-white bg-white border border-slate-300 rounded">
-            ⌘K
-          </kbd>
-        </button>
+          <button
+            type="button"
+            onClick={onSettlementClick}
+            className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer"
+          >
+            <span>{text.finalSettlementBtn}</span>
+          </button>
 
-        {/* Action 1: New Booking Wizard */}
-        <button
-          type="button"
-          onClick={onNewBookingClick}
-          className="min-h-[44px] px-4 py-2 rounded-2xl text-xs font-semibold bg-[#0B6E4F] hover:bg-[#095C42] text-white shadow-sm transition-all flex items-center justify-center gap-1.5 flex-1 sm:flex-initial"
-        >
-          <span>{text.newBookingBtn}</span>
-        </button>
+          <button
+            type="button"
+            onClick={onLiquorGatePassClick}
+            className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer text-amber-800 dark:text-amber-400"
+          >
+            <span>{text.liquorPassBtn}</span>
+          </button>
 
-        {/* Action 2: Final Settlement */}
-        <button
-          type="button"
-          onClick={onSettlementClick}
-          className="min-h-[44px] px-3.5 py-2 rounded-2xl text-xs font-semibold bg-[#0B6E4F] hover:bg-[#095C42] active:bg-black text-white shadow-sm transition-all flex items-center justify-center gap-1.5 flex-1 sm:flex-initial"
-        >
-          <span>{text.finalSettlementBtn}</span>
-        </button>
+          <button
+            type="button"
+            onClick={onPrintBeoClick}
+            className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer"
+          >
+            <span>{text.quickPrintBeo}</span>
+          </button>
 
-        {/* Action 3: Liquor Gate Pass */}
-        <button
-          type="button"
-          onClick={onLiquorGatePassClick}
-          className="min-h-[44px] px-3 py-2 rounded-2xl text-xs font-semibold bg-amber-500/10 text-amber-700 hover:bg-amber-500/20 border border-amber-500/30 transition-all flex items-center justify-center gap-1.5 flex-1 sm:flex-initial"
-        >
-          <span>{text.liquorPassBtn}</span>
-        </button>
-
-        {/* Action 4: Quick Print BEO */}
-        <button
-          type="button"
-          onClick={onPrintBeoClick}
-          className="min-h-[44px] px-3 py-2 rounded-2xl text-xs font-semibold bg-blue-500/10 text-blue-700 hover:bg-blue-500/20 border border-blue-500/30 transition-all flex items-center justify-center gap-1.5 flex-1 sm:flex-initial"
-        >
-          <span>{text.quickPrintBeo}</span>
-        </button>
-      </div>
-    </div>
+          <button
+            type="button"
+            onClick={onNewBookingClick}
+            className="admin-btn-primary min-h-[38px] text-xs flex items-center justify-center gap-1.5 cursor-pointer"
+          >
+            <span>{text.newBookingBtn}</span>
+          </button>
+        </>
+      }
+    />
   );
 }
 
@@ -397,108 +382,66 @@ interface BanquetOverviewStatsProps {
 
 function BanquetOverviewStatsRibbon({ metrics, text, onSelectTab }: BanquetOverviewStatsProps) {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
       {/* 1. Monthly Bookings */}
-      <button
-        type="button"
+      <AdminKpiCard
+        title={text.totalBookings}
+        size="sm"
+        value={`${metrics.totalBookingsThisMonth} Events`}
+        badge={{ text: "Pipeline", variant: "info" }}
+        subtitle="Ballroom & lawn functions"
         onClick={() => onSelectTab("CALENDAR")}
-        className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs text-left transition-all hover:border-sky-300 "
-      >
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block mb-1">
-          {text.totalBookings}
-        </span>
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-2xl font-bold text-sky-600 tabular-nums font-mono">
-            {metrics.totalBookingsThisMonth}
-          </span>
-          <span className="text-xs text-slate-400">events</span>
-        </div>
-      </button>
+      />
 
       {/* 2. Confirmed Weddings */}
-      <button
-        type="button"
+      <AdminKpiCard
+        title={text.confirmed}
+        size="sm"
+        value={`${metrics.confirmedWeddings} Locked`}
+        badge={{ text: "Deposit Paid", variant: "success" }}
+        subtitle="Poruwa & Homecoming"
         onClick={() => onSelectTab("CALENDAR")}
-        className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs text-left transition-all hover:border-emerald-300 "
-      >
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block mb-1">
-          {text.confirmed}
-        </span>
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-2xl font-bold text-emerald-600 tabular-nums font-mono">
-            {metrics.confirmedWeddings}
-          </span>
-          <span className="text-xs text-slate-400">locked</span>
-        </div>
-      </button>
+      />
 
       {/* 3. Expiring Tentative Holds */}
-      <button
-        type="button"
+      <AdminKpiCard
+        title={text.tentativeHolds}
+        size="sm"
+        value={metrics.expiringHoldsAlert}
+        badge={{ text: `${metrics.tentativeHolds} Holds`, variant: "danger" }}
+        subtitle="Expiring in <48 hours"
         onClick={() => onSelectTab("LEADS")}
-        className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs text-left transition-all hover:border-rose-300 "
-      >
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block mb-1">
-          {text.tentativeHolds}
-        </span>
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-2xl font-bold text-rose-600 tabular-nums font-mono">
-            {metrics.expiringHoldsAlert}
-          </span>
-          <span className="text-xs text-rose-500 font-medium">
-            /{metrics.tentativeHolds} urgent
-          </span>
-        </div>
-      </button>
+      />
 
       {/* 4. Banquet Revenue */}
-      <button
-        type="button"
+      <AdminKpiCard
+        title={text.pipelineRevenue}
+        size="sm"
+        value={formatBanquetLkr(metrics.totalRevenueLkr)}
+        badge={{ text: "Pipeline", variant: "neutral" }}
+        subtitle="Menu & hall billing"
         onClick={() => onSelectTab("PROFIT")}
-        className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs text-left transition-all hover:border-amber-300 "
-      >
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block mb-1">
-          {text.pipelineRevenue}
-        </span>
-        <div className="flex items-baseline gap-1">
-          <span className="text-lg font-bold text-amber-600 tabular-nums font-mono truncate">
-            {formatBanquetLkr(metrics.totalRevenueLkr)}
-          </span>
-        </div>
-      </button>
+      />
 
       {/* 5. Food Cost Margin */}
-      <button
-        type="button"
+      <AdminKpiCard
+        title={text.foodCostMargin}
+        size="sm"
+        value={`${metrics.averageFoodCostMarginPct.toFixed(1)}%`}
+        badge={{ text: "Target >55%", variant: "success" }}
+        subtitle="Gross catering margin"
         onClick={() => onSelectTab("PROFIT")}
-        className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs text-left transition-all hover:border-purple-300 "
-      >
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block mb-1">
-          {text.foodCostMargin}
-        </span>
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-2xl font-bold text-purple-600 tabular-nums font-mono">
-            {metrics.averageFoodCostMarginPct}%
-          </span>
-          <span className="text-xs text-emerald-500 font-semibold">target: 55%</span>
-        </div>
-      </button>
+      />
 
       {/* 6. Casual Steward Payout */}
-      <button
-        type="button"
+      <AdminKpiCard
+        title={text.stewardLabor}
+        size="sm"
+        value={formatBanquetLkr(metrics.casualLaborPayoutTodayLkr)}
+        badge={{ text: "Wages", variant: "warning" }}
+        subtitle="Daily steward wage pool"
         onClick={() => onSelectTab("STEWARDS")}
-        className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs text-left transition-all hover:border-indigo-300 "
-      >
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block mb-1">
-          {text.stewardLabor}
-        </span>
-        <div className="flex items-baseline gap-1">
-          <span className="text-lg font-bold text-indigo-600 tabular-nums font-mono truncate">
-            {formatBanquetLkr(metrics.casualLaborPayoutTodayLkr)}
-          </span>
-        </div>
-      </button>
+      />
     </div>
   );
 }
@@ -735,9 +678,7 @@ export const BanquetsAdminPage: FC<BanquetsAdminPageProps> = ({
   };
 
   return (
-    <div
-      className={`min-h-screen bg-[#F4F7F5] text-slate-900 font-sans p-4 sm:p-6 lg:p-8 space-y-6 ${className}`}
-    >
+    <div className={`space-y-6 font-sf-pro text-slate-900 ${className}`}>
       {/* 1. Header Banner with Actions */}
       <BanquetPageHeader
         propertyTitle={propertyTitle}

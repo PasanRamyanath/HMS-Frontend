@@ -17,12 +17,12 @@
  */
 
 import { useMemo, useState } from "react";
-import { GlassCard } from "../../components/GlassCard.js";
 import {
   SegmentedControl,
   type SegmentedControlOption,
 } from "../../components/SegmentedControl.js";
-import { StatusBadge } from "../../components/StatusBadge.js";
+import { AdminKpiCard } from "../components/AdminKpiCard.js";
+import { AdminPageHeader } from "../components/AdminPageHeader.js";
 import { StaffUserManager } from "../settings/StaffUserManager.js";
 import { AttendanceManagerView } from "./AttendanceManagerView.js";
 import { EpfEtfReturnView } from "./EpfEtfReturnView.js";
@@ -93,74 +93,70 @@ export interface HrSummaryRibbonProps {
 
 export function HrSummaryRibbon({ metrics }: HrSummaryRibbonProps) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3 mb-6">
-      <div className="p-4 rounded-xl bg-white border border-[#E2E8F0] shadow-xs backdrop-blur-xl">
-        <p className="text-[11px] font-medium text-neutral-500 text-slate-500">Total Staff</p>
-        <p className="text-lg font-bold font-mono tabular-nums text-neutral-900 text-slate-900 mt-0.5">
-          {metrics.totalStaffHeadcount}
-        </p>
-        <span className="text-[10px] text-neutral-500">
-          {metrics.staffOnDutyToday} on shift today
-        </span>
-      </div>
+    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
+      <AdminKpiCard
+        title="Total Staff"
+        size="sm"
+        value={metrics.totalStaffHeadcount}
+        badge={{ text: `${metrics.staffOnDutyToday} on shift`, variant: "neutral" }}
+        subtitle="Active staff roster"
+      />
 
-      <div className="p-4 rounded-xl bg-white border border-[#E2E8F0] shadow-xs backdrop-blur-xl">
-        <p className="text-[11px] font-medium text-neutral-500 text-slate-500">Attendance Rate</p>
-        <p className="text-lg font-bold font-mono tabular-nums text-emerald-600 mt-0.5">
-          {((metrics.staffOnDutyToday / metrics.totalStaffHeadcount) * 100).toFixed(1)}%
-        </p>
-        <span className="text-[10px] text-emerald-600 ">Live QR Clock-In</span>
-      </div>
+      <AdminKpiCard
+        title="Attendance Rate"
+        size="sm"
+        value={`${((metrics.staffOnDutyToday / metrics.totalStaffHeadcount) * 100).toFixed(1)}%`}
+        badge={{ text: "Live QR", variant: "success" }}
+        subtitle="Clocked in today"
+      />
 
-      <div className="p-4 rounded-xl bg-white border border-[#E2E8F0] shadow-xs backdrop-blur-xl">
-        <p className="text-[11px] font-medium text-neutral-500 text-slate-500">10% SC Pool</p>
-        <p className="text-lg font-bold font-mono tabular-nums text-indigo-600 mt-0.5">
-          {formatLkr(metrics.grossScPoolLkr)}
-        </p>
-        <span className="text-[10px] text-indigo-500 ">Guest Pass-Through</span>
-      </div>
+      <AdminKpiCard
+        title="10% SC Pool"
+        size="sm"
+        value={formatLkr(metrics.grossScPoolLkr)}
+        badge={{ text: "Pass-Through", variant: "info" }}
+        subtitle="Guest service charge"
+      />
 
-      <div className="p-4 rounded-xl bg-white border border-[#E2E8F0] shadow-xs backdrop-blur-xl">
-        <p className="text-[11px] font-medium text-neutral-500 text-slate-500">Net Payroll</p>
-        <p className="text-lg font-bold font-mono tabular-nums text-neutral-900 text-slate-900 mt-0.5">
-          {formatLkr(metrics.netPayrollDisbursementLkr)}
-        </p>
-        <span className="text-[10px] text-neutral-500">Bank SLIPS Direct</span>
-      </div>
+      <AdminKpiCard
+        title="Net Payroll"
+        size="sm"
+        value={formatLkr(metrics.netPayrollDisbursementLkr)}
+        badge={{ text: "SLIPS", variant: "neutral" }}
+        subtitle="Bank direct credit"
+      />
 
-      <div className="p-4 rounded-xl bg-white border border-[#E2E8F0] shadow-xs backdrop-blur-xl">
-        <p className="text-[11px] font-medium text-neutral-500 text-slate-500">EPF/ETF Remit</p>
-        <p className="text-lg font-bold font-mono tabular-nums text-blue-600 mt-0.5">
-          {formatLkr(metrics.employerEpfEtfRemittanceLkr)}
-        </p>
-        <span className="text-[10px] text-neutral-500">CBSL C-Form 15%</span>
-      </div>
+      <AdminKpiCard
+        title="EPF/ETF Remit"
+        size="sm"
+        value={formatLkr(metrics.employerEpfEtfRemittanceLkr)}
+        badge={{ text: "15% CBSL", variant: "info" }}
+        subtitle="Monthly C-Form"
+      />
 
-      <div className="p-4 rounded-xl bg-white border border-[#E2E8F0] shadow-xs backdrop-blur-xl">
-        <p className="text-[11px] font-medium text-neutral-500 text-slate-500">True Labor %</p>
-        <p className="text-lg font-bold font-mono tabular-nums text-emerald-600 mt-0.5">
-          {metrics.trueLaborCostPercent.toFixed(1)}%
-        </p>
-        <span className="text-[10px] text-neutral-500">Benchmark: 20-25%</span>
-      </div>
+      <AdminKpiCard
+        title="True Labor %"
+        size="sm"
+        value={`${metrics.trueLaborCostPercent.toFixed(1)}%`}
+        badge={{ text: "Target <25%", variant: "success" }}
+        subtitle="Excl. guest SC"
+      />
 
-      <div className="p-4 rounded-xl bg-white border border-[#E2E8F0] shadow-xs backdrop-blur-xl">
-        <p className="text-[11px] font-medium text-neutral-500 text-slate-500">Gratuity Accrual</p>
-        <p className="text-lg font-bold font-mono tabular-nums text-amber-600 mt-0.5">
-          {formatLkr(metrics.totalGratuityLiabilityLkr)}
-        </p>
-        <span className="text-[10px] text-neutral-500">LKAS 19 Liability</span>
-      </div>
+      <AdminKpiCard
+        title="Gratuity Accrual"
+        size="sm"
+        value={formatLkr(metrics.totalGratuityLiabilityLkr)}
+        badge={{ text: "LKAS 19", variant: "warning" }}
+        subtitle="Balance sheet provision"
+      />
 
-      <div className="p-4 rounded-xl bg-white border border-[#E2E8F0] shadow-xs backdrop-blur-xl">
-        <p className="text-[11px] font-medium text-neutral-500 text-slate-500">
-          Quarters Occupancy
-        </p>
-        <p className="text-lg font-bold font-mono tabular-nums text-neutral-900 text-slate-900 mt-0.5">
-          {metrics.activeQuartersOccupancyPercent.toFixed(1)}%
-        </p>
-        <span className="text-[10px] text-neutral-500">Dormitory Beds</span>
-      </div>
+      <AdminKpiCard
+        title="Quarters Occupancy"
+        size="sm"
+        value={`${metrics.activeQuartersOccupancyPercent.toFixed(1)}%`}
+        badge={{ text: "Dormitory", variant: "neutral" }}
+        subtitle="Staff boarding beds"
+      />
     </div>
   );
 }
@@ -199,70 +195,59 @@ export function HrAndPayrollPage({
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-sf-pro">
       {/* Top Banner & Header */}
-      <GlassCard className="p-6 md:p-8 apple-liquid-glass">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-neutral-200/70 ">
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 text-slate-900">
-                HR, Roster, 10% Service Charge &amp; Payroll
-              </h1>
-              <StatusBadge status="PHASE_18" label="Phase 18 Master ERP" color="indigo" />
-            </div>
-            <p className="text-xs md:text-sm text-neutral-500 text-slate-500 mt-1">
-              {hotelName} • {currentPeriod} • Central Bank EPF/ETF, LankaPay SLIPS &amp; Gratuity
-              Engine
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
+      <AdminPageHeader
+        title="HR, Roster, 10% Service Charge & Payroll"
+        subtitle={`${hotelName} • ${currentPeriod} • Central Bank EPF/ETF, LankaPay SLIPS & Gratuity Engine`}
+        propertyTitle={hotelName}
+        statusBadge={{ label: "Phase 18 Master ERP", variant: "success" }}
+        actions={
+          <>
             <button
               type="button"
               onClick={() => handleTabChange("STAFF")}
-              className="px-4 py-2.5 min-h-[44px] rounded-xl text-xs font-semibold bg-[#0B6E4F] hover:bg-[#095C42] text-white shadow-sm transition-all"
+              className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer"
             >
               Add / Edit Staff
             </button>
             <button
               type="button"
-              onClick={() => handleTabChange("PAYROLL")}
-              className="px-4 py-2.5 min-h-[44px] rounded-xl text-xs font-semibold bg-[#0B6E4F] hover:bg-[#095C42] text-white shadow-sm transition-all"
-            >
-              Run Monthly Payroll
-            </button>
-            <button
-              type="button"
               onClick={() => handleTabChange("EPF_ETF")}
-              className="px-4 py-2.5 min-h-[44px] rounded-xl text-xs font-semibold bg-white/80 bg-white border border-neutral-200 text-neutral-800 hover:bg-neutral-100 shadow-sm transition-all"
+              className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer"
             >
               Export EPF C-Form
             </button>
             <button
               type="button"
               onClick={() => window.print()}
-              className="px-4 py-2.5 min-h-[44px] rounded-xl text-xs font-semibold bg-white/80 bg-white border border-neutral-200 text-neutral-800 hover:bg-neutral-100 shadow-sm transition-all"
+              className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer"
             >
               Print Master Schedule
             </button>
-          </div>
-        </div>
+            <button
+              type="button"
+              onClick={() => handleTabChange("PAYROLL")}
+              className="admin-btn-primary min-h-[38px] text-xs cursor-pointer"
+            >
+              Run Monthly Payroll
+            </button>
+          </>
+        }
+      />
 
-        {/* Executive KPI Summary Ribbon */}
-        <div className="mt-6">
-          <HrSummaryRibbon metrics={DEFAULT_HR_METRICS} />
-        </div>
+      {/* Executive KPI Summary Ribbon */}
+      <HrSummaryRibbon metrics={DEFAULT_HR_METRICS} />
 
-        {/* Segmented Control Navigation */}
-        <div className="overflow-x-auto pb-1">
-          <SegmentedControl
-            options={tabOptions}
-            value={activeTab}
-            onChange={handleTabChange}
-            ariaLabel="HR and Payroll Navigation"
-          />
-        </div>
-      </GlassCard>
+      {/* Segmented Control Navigation */}
+      <div className="overflow-x-auto border-b border-slate-200 pb-3">
+        <SegmentedControl
+          options={tabOptions}
+          value={activeTab}
+          onChange={handleTabChange}
+          ariaLabel="HR and Payroll Navigation"
+        />
+      </div>
 
       {/* Tab Panels */}
       {activeTab === "STAFF" && (

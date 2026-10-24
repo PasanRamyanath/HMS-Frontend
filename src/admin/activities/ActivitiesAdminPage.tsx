@@ -28,6 +28,8 @@ import {
   type SegmentedControlOption,
 } from "../../components/SegmentedControl.js";
 import { type SupportedLanguage, formatLkr } from "../../lib/i18n.js";
+import { AdminKpiCard } from "../components/AdminKpiCard.js";
+import { AdminPageHeader } from "../components/AdminPageHeader.js";
 import { ActivityKpiCard } from "./ActivityKpiCard.js";
 import { ActivityWaiverModal, STANDARD_ACTIVITY_PROFILES } from "./ActivityWaiverModal.js";
 import { AirportTransferBoard } from "./AirportTransferBoard.js";
@@ -232,61 +234,56 @@ export const ActivitiesHeaderBar: FC<ActivitiesHeaderBarProps> = ({
   onOpenWaiver,
 }) => {
   return (
-    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-[#E2E8F0]">
-      <div>
-        <div className="flex items-center gap-2">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 text-slate-900">
-            {i18n.pageTitle}
-          </h1>
-        </div>
-        <p className="text-xs text-slate-500 mt-1 max-w-2xl">
-          {propertyTitle ? `${propertyTitle} • ` : ""}
-          {i18n.pageSubtitle}
-        </p>
-      </div>
+    <AdminPageHeader
+      title={i18n.pageTitle}
+      subtitle={i18n.pageSubtitle}
+      propertyTitle={propertyTitle}
+      actions={
+        <>
+          <button
+            type="button"
+            onClick={onOpenExcursion}
+            className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer"
+          >
+            {i18n.bookSafari}
+          </button>
 
-      <div className="flex flex-wrap items-center gap-2">
-        <button
-          type="button"
-          onClick={onOpenConsultation}
-          className="min-h-[44px] px-3.5 py-2 text-xs font-semibold rounded-xl bg-[#0B6E4F] hover:bg-[#095C42] text-white shadow-sm active:scale-95 transition-all"
-        >
-          {i18n.newSpaBooking}
-        </button>
-        <button
-          type="button"
-          onClick={onOpenExcursion}
-          className="min-h-[44px] px-3.5 py-2 text-xs font-semibold rounded-xl bg-sky-600 hover:bg-sky-700 text-white shadow-sm active:scale-95 transition-all"
-        >
-          {i18n.bookSafari}
-        </button>
-        <button
-          type="button"
-          onClick={onOpenWaiver}
-          className="min-h-[44px] px-3.5 py-2 text-xs font-semibold rounded-xl bg-amber-600 hover:bg-amber-700 text-white shadow-sm active:scale-95 transition-all"
-        >
-          {i18n.signWaiver}
-        </button>
+          <button
+            type="button"
+            onClick={onOpenWaiver}
+            className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer text-amber-800 dark:text-amber-400"
+          >
+            {i18n.signWaiver}
+          </button>
 
-        {/* Language Switcher */}
-        <div className="inline-flex rounded-xl bg-slate-100/90 p-1 border border-slate-200 ">
-          {(["en", "si", "ta"] as const).map((lang) => (
-            <button
-              key={lang}
-              type="button"
-              onClick={() => onLanguageChange(lang)}
-              className={`min-h-[36px] px-2.5 py-1 text-xs font-semibold rounded-lg transition-all ${
-                language === lang
-                  ? "bg-white text-slate-900 text-slate-900 shadow-sm"
-                  : "text-slate-500 hover:text-slate-900 text-slate-500"
-              }`}
-            >
-              {lang === "en" ? "EN" : lang === "si" ? "සිං" : "த"}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
+          {/* Trilingual Pill Switcher */}
+          <div className="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-0.5 border border-slate-200 dark:border-slate-700">
+            {(["en", "si", "ta"] as const).map((lang) => (
+              <button
+                key={lang}
+                type="button"
+                onClick={() => onLanguageChange(lang)}
+                className={`min-h-[30px] px-2.5 py-1 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${
+                  language === lang
+                    ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
+                    : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                {lang === "en" ? "EN" : lang === "si" ? "සිං" : "த"}
+              </button>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={onOpenConsultation}
+            className="admin-btn-primary min-h-[38px] text-xs cursor-pointer flex items-center gap-1.5"
+          >
+            {i18n.newSpaBooking}
+          </button>
+        </>
+      }
+    />
   );
 };
 
@@ -297,60 +294,54 @@ export interface ActivitiesKpiRibbonProps {
 
 export const ActivitiesKpiRibbon: FC<ActivitiesKpiRibbonProps> = ({ i18n, metrics }) => {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 py-4">
-      <div className="p-3.5 rounded-2xl bg-white/70 border border-[#E2E8F0] backdrop-blur-md">
-        <span className="text-[11px] font-medium text-slate-500 block truncate">
-          {i18n.spaAppointmentsToday}
-        </span>
-        <span className="text-xl font-bold tracking-tight tabular-nums-lkr text-slate-900 text-slate-900 mt-1 block">
-          {metrics.activeSpaAppointmentsToday}
-        </span>
-      </div>
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
+      <AdminKpiCard
+        title={i18n.spaAppointmentsToday}
+        size="sm"
+        value={metrics.activeSpaAppointmentsToday}
+        badge={{ text: "Ayurveda", variant: "success" }}
+        subtitle="Scheduled sessions"
+      />
 
-      <div className="p-3.5 rounded-2xl bg-white/70 border border-[#E2E8F0] backdrop-blur-md">
-        <span className="text-[11px] font-medium text-slate-500 block truncate">
-          {i18n.safarisToday}
-        </span>
-        <span className="text-xl font-bold tracking-tight tabular-nums-lkr text-slate-900 text-slate-900 mt-1 block">
-          {metrics.dispatchedSafarisToday}
-        </span>
-      </div>
+      <AdminKpiCard
+        title={i18n.safarisToday}
+        size="sm"
+        value={metrics.dispatchedSafarisToday}
+        badge={{ text: "Dispatched", variant: "info" }}
+        subtitle="Yala & whale watching"
+      />
 
-      <div className="p-3.5 rounded-2xl bg-white/70 border border-[#E2E8F0] backdrop-blur-md">
-        <span className="text-[11px] font-medium text-slate-500 block truncate">
-          {i18n.airportTransfersToday}
-        </span>
-        <span className="text-xl font-bold tracking-tight tabular-nums-lkr text-slate-900 text-slate-900 mt-1 block">
-          {metrics.scheduledAirportTransfers}
-        </span>
-      </div>
+      <AdminKpiCard
+        title={i18n.airportTransfersToday}
+        size="sm"
+        value={metrics.scheduledAirportTransfers}
+        badge={{ text: "BIA Chauffeur", variant: "neutral" }}
+        subtitle="Flight arrivals & pickups"
+      />
 
-      <div className="p-3.5 rounded-2xl bg-white/70 border border-[#E2E8F0] backdrop-blur-md">
-        <span className="text-[11px] font-medium text-slate-500 block truncate">
-          {i18n.gearRentalsActive}
-        </span>
-        <span className="text-xl font-bold tracking-tight tabular-nums-lkr text-slate-900 text-slate-900 mt-1 block">
-          {metrics.activeGearRentals}
-        </span>
-      </div>
+      <AdminKpiCard
+        title={i18n.gearRentalsActive}
+        size="sm"
+        value={metrics.activeGearRentals}
+        badge={{ text: "In Circulation", variant: "warning" }}
+        subtitle="Surfboards & e-bikes"
+      />
 
-      <div className="p-3.5 rounded-2xl bg-white/70 border border-[#E2E8F0] backdrop-blur-md">
-        <span className="text-[11px] font-medium text-slate-500 block truncate">
-          {i18n.pendingPayouts}
-        </span>
-        <span className="text-xl font-bold tracking-tight tabular-nums-lkr text-amber-600 mt-1 block">
-          {formatLkr(metrics.pendingPayoutsLkr)}
-        </span>
-      </div>
+      <AdminKpiCard
+        title={i18n.pendingPayouts}
+        size="sm"
+        value={formatLkr(metrics.pendingPayoutsLkr)}
+        badge={{ text: "Commissions", variant: "danger" }}
+        subtitle="Therapist & driver ledger"
+      />
 
-      <div className="p-3.5 rounded-2xl bg-white/70 border border-[#E2E8F0] backdrop-blur-md">
-        <span className="text-[11px] font-medium text-slate-500 block truncate">
-          {i18n.ancillaryRevPor}
-        </span>
-        <span className="text-xl font-bold tracking-tight tabular-nums-lkr text-emerald-600 mt-1 block">
-          {formatLkr(metrics.ancillaryRevPorLkr)}
-        </span>
-      </div>
+      <AdminKpiCard
+        title={i18n.ancillaryRevPor}
+        size="sm"
+        value={formatLkr(metrics.ancillaryRevPorLkr)}
+        badge={{ text: "RevPOR", variant: "success" }}
+        subtitle="Non-room guest spend"
+      />
     </div>
   );
 };
@@ -488,10 +479,7 @@ export const ActivitiesAdminPage: FC<ActivitiesAdminPageProps> = ({
   );
 
   return (
-    <div
-      data-testid={testId}
-      className={`min-h-screen bg-[#F4F7F5] text-slate-900 p-4 sm:p-6 lg:p-8 space-y-6 ${className}`}
-    >
+    <div data-testid={testId} className={`space-y-6 font-sf-pro text-slate-900 ${className}`}>
       {/* 1. Header Bar */}
       <ActivitiesHeaderBar
         i18n={i18n}

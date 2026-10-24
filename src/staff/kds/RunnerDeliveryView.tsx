@@ -385,128 +385,130 @@ const DeliveryTicketCard: FC<DeliveryTicketCardProps> = ({
   return (
     <article
       data-testid={`delivery-ticket-${ticket.orderId}`}
-      className="p-4 rounded-2xl bg-white border border-[#E2E8F0] shadow-xl space-y-3 apple-liquid-glass"
+      className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-sm hover:shadow-md apple-liquid-glass flex flex-col justify-between h-full space-y-2.5 transition-all"
     >
-      {/* Header: Destination & SLA Timer */}
-      <div className="flex items-start justify-between gap-2 pb-2.5 border-b border-[#E2E8F0]">
-        <div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-xl font-black text-slate-900 tracking-tight">
-              {ticket.destination}
-            </h3>
-            <span className="text-[10px] font-mono font-bold bg-slate-50 px-2 py-0.5 rounded-md text-slate-700">
-              {ticket.ticketNumber}
+      <div className="space-y-2.5">
+        {/* Header: Destination & SLA Timer */}
+        <div className="flex items-start justify-between gap-2 pb-2 border-b border-[#E2E8F0]">
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="text-lg font-black text-slate-900 tracking-tight">
+                {ticket.destination}
+              </h3>
+              <span className="text-[10px] font-mono font-bold bg-slate-50 px-2 py-0.5 rounded-md text-slate-700">
+                {ticket.ticketNumber}
+              </span>
+            </div>
+
+            {ticket.guestName && (
+              <p className="text-xs text-slate-400 font-medium mt-0.5">User {ticket.guestName}</p>
+            )}
+          </div>
+
+          {/* SLA Timer Badge */}
+          <div
+            className={`flex flex-col items-end px-2.5 py-1 rounded-xl border text-right font-mono font-bold shrink-0 ${urgencyTheme}`}
+          >
+            <span className="text-xs sm:text-sm font-black tabular-nums-lkr tracking-wider">
+              ⏱ {formatElapsedTimer(ticket.elapsedSeconds)}
+            </span>
+            <span className="text-[9px] uppercase tracking-wider">{urgencyDetails.label}</span>
+          </div>
+        </div>
+
+        {/* Allergens & Notes Alert */}
+        {ticket.allergens && ticket.allergens.length > 0 && (
+          <div className="p-2 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-center gap-2 text-rose-800 text-xs">
+            <span className="text-base" aria-hidden="true">
+              <svg
+                className="w-4 h-4 inline-block shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                <path d="M12 9v4" />
+                <path d="M12 17h.01" />
+              </svg>
+              <span className="sr-only">Alert</span>
+            </span>
+            <div className="flex-1 font-bold text-[11px]">
+              <span>{t.allergyAlert}: </span>
+              <span className="text-slate-900 underline">{ticket.allergens.join(", ")}</span>
+            </div>
+          </div>
+        )}
+
+        {ticket.guestNotes && (
+          <p className="text-[11px] text-amber-800/90 italic bg-amber-500/10 border border-amber-500/20 p-2 rounded-xl">
+            Note {ticket.guestNotes}
+          </p>
+        )}
+
+        {/* Tray Checklist */}
+        <div className="space-y-1.5 pt-0.5">
+          <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
+            <span>{t.trayChecklist}</span>
+            <span className="font-mono tabular-nums-lkr text-amber-700">
+              {checkedCount}/{ticket.items.length} {t.verified}
             </span>
           </div>
 
-          {ticket.guestName && (
-            <p className="text-xs text-slate-400 font-medium mt-0.5">User {ticket.guestName}</p>
-          )}
-        </div>
-
-        {/* SLA Timer Badge */}
-        <div
-          className={`flex flex-col items-end px-2.5 py-1 rounded-xl border text-right font-mono font-bold ${urgencyTheme}`}
-        >
-          <span className="text-sm font-black tabular-nums-lkr tracking-wider">
-            ⏱ {formatElapsedTimer(ticket.elapsedSeconds)}
-          </span>
-          <span className="text-[9px] uppercase tracking-wider">{urgencyDetails.label}</span>
-        </div>
-      </div>
-
-      {/* Allergens & Notes Alert */}
-      {ticket.allergens && ticket.allergens.length > 0 && (
-        <div className="p-2.5 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-center gap-2 text-rose-800 text-xs">
-          <span className="text-base" aria-hidden="true">
-            <svg
-              className="w-4 h-4 inline-block shrink-0"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
-              <path d="M12 9v4" />
-              <path d="M12 17h.01" />
-            </svg>
-            <span className="sr-only">Alert</span>
-          </span>
-          <div className="flex-1 font-bold">
-            <span>{t.allergyAlert}: </span>
-            <span className="text-slate-900 underline">{ticket.allergens.join(", ")}</span>
-          </div>
-        </div>
-      )}
-
-      {ticket.guestNotes && (
-        <p className="text-[11px] text-amber-800/90 italic bg-amber-500/10 border border-amber-500/20 p-2 rounded-xl">
-          Note {ticket.guestNotes}
-        </p>
-      )}
-
-      {/* Tray Checklist */}
-      <div className="space-y-1.5 pt-1">
-        <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
-          <span>{t.trayChecklist}</span>
-          <span className="font-mono tabular-nums-lkr text-amber-700">
-            {checkedCount}/{ticket.items.length} {t.verified}
-          </span>
-        </div>
-
-        <ul className="space-y-1" aria-label={`Tray items for ${ticket.destination}`}>
-          {ticket.items.map((item) => (
-            <li
-              key={item.id}
-              className={`p-2 rounded-xl border flex items-center justify-between text-xs transition-all ${
-                item.checkedOnTray
-                  ? "bg-[#F4F7F5] border-emerald-500/30 text-slate-700"
-                  : "bg-[#F4F7F5] border-[#E2E8F0] text-slate-900"
-              }`}
-            >
-              <button
-                type="button"
-                onClick={() => onToggleItem(ticket.orderId, item.id)}
-                className="flex-1 flex items-center gap-2.5 text-left cursor-pointer min-h-[44px]"
-                aria-label={`Verify ${item.quantity}x ${item.name} on tray`}
+          <ul className="space-y-1" aria-label={`Tray items for ${ticket.destination}`}>
+            {ticket.items.map((item) => (
+              <li
+                key={item.id}
+                className={`p-1.5 rounded-xl border flex items-center justify-between text-xs transition-all ${
+                  item.checkedOnTray
+                    ? "bg-[#F4F7F5] border-emerald-500/30 text-slate-700"
+                    : "bg-[#F4F7F5] border-[#E2E8F0] text-slate-900"
+                }`}
               >
-                <span
-                  className={`w-6 h-6 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 transition-all ${
-                    item.checkedOnTray
-                      ? "bg-emerald-500 text-slate-950 font-black shadow-sm"
-                      : "bg-slate-100 text-slate-500 border border-[#E2E8F0]"
-                  }`}
+                <button
+                  type="button"
+                  onClick={() => onToggleItem(ticket.orderId, item.id)}
+                  className="flex-1 flex items-center gap-2 text-left cursor-pointer min-h-[44px]"
+                  aria-label={`Verify ${item.quantity}x ${item.name} on tray`}
                 >
-                  {item.checkedOnTray ? "OK" : ""}
-                </span>
-                <span className="font-bold flex-1">
-                  <span className="text-amber-700 font-mono mr-1.5">{item.quantity}x</span>
-                  <span className={item.checkedOnTray ? "line-through text-slate-400" : ""}>
-                    {item.name}
+                  <span
+                    className={`w-6 h-6 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 transition-all ${
+                      item.checkedOnTray
+                        ? "bg-emerald-500 text-slate-950 font-black shadow-sm"
+                        : "bg-slate-100 text-slate-500 border border-[#E2E8F0]"
+                    }`}
+                  >
+                    {item.checkedOnTray ? "OK" : ""}
                   </span>
-                </span>
-              </button>
+                  <span className="font-bold flex-1 text-xs">
+                    <span className="text-amber-700 font-mono mr-1.5">{item.quantity}x</span>
+                    <span className={item.checkedOnTray ? "line-through text-slate-400" : ""}>
+                      {item.name}
+                    </span>
+                  </span>
+                </button>
 
-              {item.portion && (
-                <span className="text-[10px] font-mono text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">
-                  {item.portion}
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
+                {item.portion && (
+                  <span className="text-[10px] font-mono text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">
+                    {item.portion}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       {/* Action Buttons */}
-      <div className="pt-2 flex items-center gap-2">
+      <div className="pt-2 flex items-center gap-2 mt-auto border-t border-slate-100">
         {onCallDestination && (
           <button
             type="button"
             onClick={() => onCallDestination(ticket.destination)}
-            className="min-h-[44px] px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-700 text-xs font-bold border border-[#E2E8F0] flex items-center gap-1.5 cursor-pointer active:scale-95"
+            className="min-h-[44px] px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold border border-[#E2E8F0] flex items-center gap-1.5 cursor-pointer active:scale-95"
             aria-label={`Call ${ticket.destination}`}
           >
             <span>{t.callGuestBtn}</span>
@@ -527,7 +529,7 @@ const DeliveryTicketCard: FC<DeliveryTicketCardProps> = ({
           type="button"
           onClick={() => onConfirmDelivered(ticket.orderId)}
           className={`min-h-[44px] ${
-            isOutForDelivery ? "flex-1" : "px-4"
+            isOutForDelivery ? "flex-1" : "px-3.5"
           } py-2 rounded-xl text-xs font-black transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-1.5 shadow-lg ${
             isAllChecked
               ? "bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-emerald-500/20"
@@ -614,79 +616,83 @@ export const RunnerDeliveryView: FC<RunnerDeliveryViewProps> = ({
     >
       {/* Top Smartphone Navigation Header */}
       <header className="sticky top-0 z-30 bg-white backdrop-blur-xl border-b border-[#E2E8F0] px-4 py-3 shrink-0 apple-liquid-glass">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div>
-              <h1 className="text-base font-black text-slate-900 leading-tight">{t.appTitle}</h1>
-              <p className="text-[11px] text-slate-400">
-                Online {t.activeRunner}:{" "}
-                <span className="text-slate-800 font-bold">{runnerName}</span>
-              </p>
+        <div className="w-full max-w-[1700px] mx-auto">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div>
+                <h1 className="text-base font-black text-slate-900 leading-tight">{t.appTitle}</h1>
+                <p className="text-[11px] text-slate-400">
+                  Online {t.activeRunner}:{" "}
+                  <span className="text-slate-800 font-bold">{runnerName}</span>
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              {/* Audio Toggle */}
+              <button
+                type="button"
+                onClick={handleToggleMute}
+                className="w-9 h-9 rounded-full bg-slate-50 hover:bg-slate-50 flex items-center justify-center text-sm cursor-pointer transition-all active:scale-95"
+                aria-label={isAudioMuted ? "Unmute Alerts" : "Mute Alerts"}
+              >
+                <DynamicTokenIcon token={isAudioMuted ? "Muted" : "Sound"} />
+              </button>
+
+              {/* Total Ready Count Badge */}
+              <span className="font-mono text-xs font-black bg-amber-500 text-slate-950 px-2.5 py-1 rounded-full tabular-nums-lkr shadow-sm">
+                {tickets.length} {t.readyOrders}
+              </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            {/* Audio Toggle */}
-            <button
-              type="button"
-              onClick={handleToggleMute}
-              className="w-9 h-9 rounded-full bg-slate-50 hover:bg-slate-50 flex items-center justify-center text-sm cursor-pointer transition-all active:scale-95"
-              aria-label={isAudioMuted ? "Unmute Alerts" : "Mute Alerts"}
-            >
-              <DynamicTokenIcon token={isAudioMuted ? "Muted" : "Sound"} />
-            </button>
-
-            {/* Total Ready Count Badge */}
-            <span className="font-mono text-xs font-black bg-amber-500 text-slate-950 px-2.5 py-1 rounded-full tabular-nums-lkr shadow-sm">
-              {tickets.length} {t.readyOrders}
-            </span>
+          {/* Filter Pills */}
+          <div className="mt-3 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+            {[
+              { id: "ALL" as const, label: `${t.filterAll} (${tickets.length})` },
+              { id: "ROOMS" as const, label: t.filterRooms },
+              { id: "TABLES" as const, label: t.filterTables },
+              { id: "OUTDOOR_CABANAS" as const, label: t.filterCabanas },
+            ].map((pill) => (
+              <button
+                key={pill.id}
+                type="button"
+                aria-pressed={filter === pill.id}
+                onClick={() => setFilter(pill.id)}
+                className={`min-h-[44px] px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                  filter === pill.id
+                    ? "bg-amber-500 text-slate-950 font-black shadow-md shadow-amber-500/20"
+                    : "bg-slate-100 text-slate-700 border border-[#E2E8F0] hover:border-[#E2E8F0]"
+                }`}
+              >
+                {pill.label}
+              </button>
+            ))}
           </div>
-        </div>
-
-        {/* Filter Pills */}
-        <div className="mt-3 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-          {[
-            { id: "ALL" as const, label: `${t.filterAll} (${tickets.length})` },
-            { id: "ROOMS" as const, label: t.filterRooms },
-            { id: "TABLES" as const, label: t.filterTables },
-            { id: "OUTDOOR_CABANAS" as const, label: t.filterCabanas },
-          ].map((pill) => (
-            <button
-              key={pill.id}
-              type="button"
-              aria-pressed={filter === pill.id}
-              onClick={() => setFilter(pill.id)}
-              className={`min-h-[44px] px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
-                filter === pill.id
-                  ? "bg-amber-500 text-slate-950 font-black shadow-md shadow-amber-500/20"
-                  : "bg-slate-100 text-slate-700 border border-[#E2E8F0] hover:border-[#E2E8F0]"
-              }`}
-            >
-              {pill.label}
-            </button>
-          ))}
         </div>
       </header>
 
       {/* Main Ticket Queue */}
-      <main className="flex-1 p-4 max-w-xl mx-auto w-full space-y-4">
+      <main className="flex-1 w-full max-w-[1700px] mx-auto p-3 sm:p-4 lg:p-6">
         {filteredTickets.length > 0 ? (
-          filteredTickets.map((ticket) => (
-            <DeliveryTicketCard
-              key={ticket.orderId}
-              ticket={ticket}
-              t={t}
-              onToggleItem={handleToggleItem}
-              onStartDelivery={handleStartDelivery}
-              onConfirmDelivered={handleConfirmDelivered}
-              onCallDestination={onCallDestination}
-            />
-          ))
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3.5">
+            {filteredTickets.map((ticket) => (
+              <DeliveryTicketCard
+                key={ticket.orderId}
+                ticket={ticket}
+                t={t}
+                onToggleItem={handleToggleItem}
+                onStartDelivery={handleStartDelivery}
+                onConfirmDelivered={handleConfirmDelivered}
+                onCallDestination={onCallDestination}
+              />
+            ))}
+          </div>
         ) : (
           /* Empty State */
           <div
             data-testid="delivery-queue-empty"
-            className="my-12 p-8 text-center rounded-2xl bg-white border border-[#E2E8F0] space-y-3 apple-liquid-glass"
+            className="my-12 p-8 text-center rounded-2xl bg-white border border-[#E2E8F0] space-y-3 apple-liquid-glass max-w-md mx-auto"
           >
             <span className="text-4xl block" aria-hidden="true">
               <svg

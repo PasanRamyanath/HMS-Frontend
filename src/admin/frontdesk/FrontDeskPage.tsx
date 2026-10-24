@@ -5,6 +5,8 @@ import {
   type SegmentedControlOption,
 } from "../../components/SegmentedControl.js";
 import { SearchSvgIcon } from "../../components/SvgIcons.js";
+import { AdminKpiCard } from "../components/AdminKpiCard.js";
+import { AdminPageHeader } from "../components/AdminPageHeader.js";
 import {
   CancelReservationDialog,
   type CancelReservationPayload,
@@ -239,42 +241,36 @@ function FrontDeskHeader({
   disabled = false,
 }: FrontDeskHeaderProps): React.JSX.Element {
   return (
-    <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-      <div>
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-[#0B6E4F] ">
-            Front-Desk Command Center • {hotelName}
-          </span>
+    <AdminPageHeader
+      title={`Front Desk & ${activeTabInfo.label}`}
+      subtitle={`Front-Desk Command Center • ${activeTabInfo.description}`}
+      propertyTitle={hotelName}
+      statusBadge={{ label: "Live Room Rack", variant: "success", pulse: true }}
+      actions={
+        <div className="flex items-center gap-2.5 flex-wrap shrink-0">
+          <button
+            type="button"
+            onClick={onOpenFindGuest}
+            disabled={disabled}
+            title="Search Guest CRM (Press F)"
+            className="min-h-[38px] px-4 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center gap-2 border border-slate-200 transition-colors cursor-pointer"
+          >
+            <SearchSvgIcon size={14} />
+            <span>Find Guest (Walk-In Check-In)</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={onOpenNewBooking}
+            disabled={disabled}
+            title="Create New Reservation / Walk-In (Press N)"
+            className="min-h-[38px] px-4 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+          >
+            <span>+ New Booking / Reservation</span>
+          </button>
         </div>
-        <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 mt-0.5">
-          Front Desk &amp; {activeTabInfo.label}
-        </h1>
-        <p className="text-xs text-slate-500 mt-0.5">{activeTabInfo.description}</p>
-      </div>
-
-      <div className="flex items-center gap-2.5 flex-wrap shrink-0">
-        <button
-          type="button"
-          onClick={onOpenFindGuest}
-          disabled={disabled}
-          title="Search Guest CRM (Press F)"
-          className="min-h-[38px] px-4 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center gap-2 border border-slate-200 transition-colors cursor-pointer"
-        >
-          <SearchSvgIcon size={14} />
-          <span>Find Guest (Walk-In Check-In)</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={onOpenNewBooking}
-          disabled={disabled}
-          title="Create New Reservation / Walk-In (Press N)"
-          className="min-h-[38px] px-4 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
-        >
-          <span>+ New Booking / Reservation</span>
-        </button>
-      </div>
-    </header>
+      }
+    />
   );
 }
 
@@ -300,52 +296,54 @@ function FrontDeskMetricsStrip({ dailyEntries }: FrontDeskMetricsStripProps): Re
   );
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-      <div className="p-4 rounded-2xl bg-white apple-liquid-glass border border-slate-200/90 space-y-1">
-        <span className="text-xs font-medium text-slate-500 block">Arrivals Today</span>
-        <span className="text-2xl font-extrabold text-slate-900 tabular-nums-lkr block">
-          {arrivalsCount}
-        </span>
-        <span className="text-[11px] text-slate-400 block">3 Ready to Check In</span>
-      </div>
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+      <AdminKpiCard
+        title="Arrivals Today"
+        value={arrivalsCount}
+        subtitle="3 Ready to Check In"
+        size="sm"
+        badge={{ text: "Arrivals", variant: "neutral" }}
+      />
 
-      <div className="p-4 rounded-2xl bg-white apple-liquid-glass border border-slate-200/90 space-y-1">
-        <span className="text-xs font-medium text-slate-500 block">Departures Today</span>
-        <span className="text-2xl font-extrabold text-slate-900 tabular-nums-lkr block">
-          {departuresCount}
-        </span>
-        <span className="text-[11px] text-slate-400 block">11:00 AM Checkout</span>
-      </div>
+      <AdminKpiCard
+        title="Departures Today"
+        value={departuresCount}
+        subtitle="11:00 AM Checkout"
+        size="sm"
+        badge={{ text: "Departures", variant: "neutral" }}
+      />
 
-      <div className="p-4 rounded-2xl bg-white apple-liquid-glass border border-slate-200/90 space-y-1">
-        <span className="text-xs font-medium text-slate-500 block">In-House Stays</span>
-        <span className="text-2xl font-extrabold text-slate-900 tabular-nums-lkr block">
-          {inHouseCount}
-        </span>
-        <span className="text-[11px] text-slate-400 block">86% Occupancy</span>
-      </div>
+      <AdminKpiCard
+        title="In-House Stays"
+        value={inHouseCount}
+        subtitle="86% Occupancy"
+        size="sm"
+        badge={{ text: "In-House", variant: "success" }}
+      />
 
-      <div className="p-4 rounded-2xl bg-white apple-liquid-glass border border-slate-200/90 space-y-1">
-        <span className="text-xs font-medium text-slate-500 block">Driver Dorm Beds</span>
-        <span className="text-2xl font-extrabold text-slate-900 tabular-nums-lkr block">
-          8 / 12
-        </span>
-        <span className="text-[11px] text-slate-400 block">DMC Chauffeurs</span>
-      </div>
+      <AdminKpiCard
+        title="Driver Dorm Beds"
+        value="8 / 12"
+        subtitle="DMC Chauffeurs"
+        size="sm"
+        badge={{ text: "Quarters", variant: "info" }}
+      />
 
-      <div className="p-4 rounded-2xl bg-white apple-liquid-glass border border-slate-200/90 space-y-1">
-        <span className="text-xs font-medium text-slate-500 block">Breakfast Buffet</span>
+      <AdminKpiCard
+        title="Breakfast Buffet"
+        value="48 Pax"
+        subtitle="BB / HB / FB"
+        size="sm"
+        badge={{ text: "Dining", variant: "warning" }}
+      />
 
-        <span className="text-[11px] text-slate-400 block">BB / HB / FB</span>
-      </div>
-
-      <div className="p-4 rounded-2xl bg-white apple-liquid-glass border border-slate-200/90 space-y-1">
-        <span className="text-xs font-medium text-slate-500 block">Police B-Cards</span>
-        <span className="text-2xl font-extrabold text-[#0B6E4F] tabular-nums-lkr block">
-          100% OK
-        </span>
-        <span className="text-[11px] text-slate-400 block">Passports Verified</span>
-      </div>
+      <AdminKpiCard
+        title="Police B-Cards"
+        value="100% OK"
+        subtitle="Passports Verified"
+        size="sm"
+        badge={{ text: "Verified", variant: "success" }}
+      />
     </div>
   );
 }

@@ -13,6 +13,8 @@ import {
   type SegmentedControlOption,
 } from "../../components/SegmentedControl.js";
 import { useTranslation } from "../../lib/i18n.js";
+import { AdminKpiCard } from "../components/AdminKpiCard.js";
+import { AdminPageHeader } from "../components/AdminPageHeader.js";
 import { type BulkPriceItem, BulkPriceModal } from "./BulkPriceModal.js";
 import { CategoryManager, DEFAULT_DOMSPEED_CATEGORIES } from "./CategoryManager.js";
 import { HappyHourRules } from "./HappyHourRules.js";
@@ -228,40 +230,33 @@ export function MenuCatalogHeader({
 }: MenuCatalogHeaderProps) {
   return (
     <div className="space-y-4">
-      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-[#0B6E4F] ">{propertyTitle}</span>
-            {activeTabInfo.badge && (
-              <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#ECFDF5] text-[#0B6E4F] border border-[#A7F3D0]">
-                {activeTabInfo.badge}
-              </span>
-            )}
+      <AdminPageHeader
+        title={`Menus & Outlets — ${activeTabInfo.label}`}
+        subtitle={activeTabInfo.description}
+        propertyTitle={propertyTitle}
+        statusBadge={
+          activeTabInfo.badge ? { label: activeTabInfo.badge, variant: "success" } : undefined
+        }
+        actions={
+          <div className="flex items-center gap-2.5 shrink-0">
+            <button
+              type="button"
+              onClick={onOpenBulkPrice}
+              className="px-4 py-1.5 min-h-[38px] rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 transition-colors cursor-pointer"
+            >
+              Bulk Reprice
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onAddNewDish?.()}
+              className="px-4 py-1.5 min-h-[38px] rounded-xl text-xs font-semibold text-white bg-[#0B6E4F] hover:bg-[#09583F] transition-colors cursor-pointer"
+            >
+              + Add Dish / Drink
+            </button>
           </div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight mt-0.5">
-            Menus &amp; Outlets — {activeTabInfo.label}
-          </h1>
-          <p className="text-xs text-slate-500 mt-0.5">{activeTabInfo.description}</p>
-        </div>
-
-        <div className="flex items-center gap-2.5 shrink-0">
-          <button
-            type="button"
-            onClick={onOpenBulkPrice}
-            className="px-4 py-1.5 min-h-[38px] rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 transition-colors cursor-pointer"
-          >
-            Bulk Reprice
-          </button>
-
-          <button
-            type="button"
-            onClick={() => onAddNewDish?.()}
-            className="px-4 py-1.5 min-h-[38px] rounded-xl text-xs font-semibold text-white bg-[#0B6E4F] hover:bg-[#09583F] transition-colors cursor-pointer"
-          >
-            + Add Dish / Drink
-          </button>
-        </div>
-      </header>
+        }
+      />
 
       {/* Action Pill Bar */}
       <div className="flex items-center gap-2 flex-wrap">
@@ -315,101 +310,65 @@ export function MenuCatalogKPIBanner({ kpis, activeTab, onSelectTab }: MenuCatal
       data-testid="menu-catalog-kpi-banner"
       className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3"
     >
-      <button
-        type="button"
+      <AdminKpiCard
+        title="Total Dishes"
+        value={kpis.totalDishes}
+        subtitle="Live on QR & POS"
+        size="sm"
+        badge={{ text: "Catalog", variant: activeTab === "ITEMS" ? "success" : "neutral" }}
         onClick={() => onSelectTab("ITEMS")}
-        className={`p-3.5 rounded-2xl border text-left transition-colors cursor-pointer ${
-          activeTab === "ITEMS"
-            ? "bg-[#ECFDF5] border-[#A7F3D0] text-[#0B6E4F]"
-            : "bg-white border-slate-200/90 text-slate-700 "
-        }`}
-      >
-        <span className="text-[11px] font-medium text-slate-500 block">Total Dishes</span>
-        <div className="text-xl font-extrabold tabular-nums-lkr text-slate-900 mt-0.5">
-          {kpis.totalDishes}
-        </div>
-        <span className="text-[11px] text-slate-400">Live on QR &amp; POS</span>
-      </button>
+        className={activeTab === "ITEMS" ? "ring-2 ring-[#0B6E4F]" : ""}
+      />
 
-      <button
-        type="button"
+      <AdminKpiCard
+        title="Categories"
+        value={kpis.totalCategories}
+        subtitle="DOMSpeed Taxonomy"
+        size="sm"
+        badge={{ text: "Taxonomy", variant: activeTab === "CATEGORIES" ? "success" : "neutral" }}
         onClick={() => onSelectTab("CATEGORIES")}
-        className={`p-3.5 rounded-2xl border text-left transition-colors cursor-pointer ${
-          activeTab === "CATEGORIES"
-            ? "bg-[#ECFDF5] border-[#A7F3D0] text-[#0B6E4F]"
-            : "bg-white border-slate-200/90 text-slate-700 "
-        }`}
-      >
-        <span className="text-[11px] font-medium text-slate-500 block">Categories</span>
-        <div className="text-xl font-extrabold tabular-nums-lkr text-slate-900 mt-0.5">
-          {kpis.totalCategories}
-        </div>
-        <span className="text-[11px] text-slate-400">DOMSpeed Taxonomy</span>
-      </button>
+        className={activeTab === "CATEGORIES" ? "ring-2 ring-[#0B6E4F]" : ""}
+      />
 
-      <button
-        type="button"
+      <AdminKpiCard
+        title="86'd Items"
+        value={kpis.outOfStockCount}
+        subtitle="Kitchen & Bar SLA"
+        size="sm"
+        badge={{ text: "86'd", variant: activeTab === "OUT_OF_STOCK" ? "danger" : "warning" }}
         onClick={() => onSelectTab("OUT_OF_STOCK")}
-        className={`p-3.5 rounded-2xl border text-left transition-colors cursor-pointer ${
-          activeTab === "OUT_OF_STOCK"
-            ? "bg-rose-50 border-rose-200 text-rose-800"
-            : "bg-white border-slate-200/90 text-slate-700 "
-        }`}
-      >
-        <span className="text-[11px] font-medium text-slate-500 block">86&apos;d Items</span>
-        <div className="text-xl font-extrabold tabular-nums-lkr text-rose-600 mt-0.5">
-          {kpis.outOfStockCount}
-        </div>
-        <span className="text-[11px] text-slate-400">Kitchen &amp; Bar SLA</span>
-      </button>
+        className={activeTab === "OUT_OF_STOCK" ? "ring-2 ring-rose-500" : ""}
+      />
 
-      <button
-        type="button"
+      <AdminKpiCard
+        title="Minibar Lines"
+        value={kpis.minibarItemsCount}
+        subtitle="Villa Par Stock"
+        size="sm"
+        badge={{ text: "Par Stock", variant: activeTab === "MINIBAR" ? "success" : "neutral" }}
         onClick={() => onSelectTab("MINIBAR")}
-        className={`p-3.5 rounded-2xl border text-left transition-colors cursor-pointer ${
-          activeTab === "MINIBAR"
-            ? "bg-[#ECFDF5] border-[#A7F3D0] text-[#0B6E4F]"
-            : "bg-white border-slate-200/90 text-slate-700 "
-        }`}
-      >
-        <span className="text-[11px] font-medium text-slate-500 block">Minibar Lines</span>
-        <div className="text-xl font-extrabold tabular-nums-lkr text-slate-900 mt-0.5">
-          {kpis.minibarItemsCount}
-        </div>
-        <span className="text-[11px] text-slate-400">Villa Par Stock</span>
-      </button>
+        className={activeTab === "MINIBAR" ? "ring-2 ring-[#0B6E4F]" : ""}
+      />
 
-      <button
-        type="button"
+      <AdminKpiCard
+        title="Laundry Tariff"
+        value={kpis.laundryItemsCount}
+        subtitle="+50% 4h Express"
+        size="sm"
+        badge={{ text: "Tariffs", variant: activeTab === "LAUNDRY" ? "success" : "neutral" }}
         onClick={() => onSelectTab("LAUNDRY")}
-        className={`p-3.5 rounded-2xl border text-left transition-colors cursor-pointer ${
-          activeTab === "LAUNDRY"
-            ? "bg-[#ECFDF5] border-[#A7F3D0] text-[#0B6E4F]"
-            : "bg-white border-slate-200/90 text-slate-700 "
-        }`}
-      >
-        <span className="text-[11px] font-medium text-slate-500 block">Laundry Tariff</span>
-        <div className="text-xl font-extrabold tabular-nums-lkr text-slate-900 mt-0.5">
-          {kpis.laundryItemsCount}
-        </div>
-        <span className="text-[11px] text-slate-400">+50% 4h Express</span>
-      </button>
+        className={activeTab === "LAUNDRY" ? "ring-2 ring-[#0B6E4F]" : ""}
+      />
 
-      <button
-        type="button"
+      <AdminKpiCard
+        title="Happy Hours"
+        value={kpis.activeHappyHourRules}
+        subtitle="Sunset Dynamic"
+        size="sm"
+        badge={{ text: "Dynamic", variant: activeTab === "HAPPY_HOUR" ? "success" : "neutral" }}
         onClick={() => onSelectTab("HAPPY_HOUR")}
-        className={`p-3.5 rounded-2xl border text-left transition-colors cursor-pointer ${
-          activeTab === "HAPPY_HOUR"
-            ? "bg-[#ECFDF5] border-[#A7F3D0] text-[#0B6E4F]"
-            : "bg-white border-slate-200/90 text-slate-700 "
-        }`}
-      >
-        <span className="text-[11px] font-medium text-slate-500 block">Happy Hours</span>
-        <div className="text-xl font-extrabold tabular-nums-lkr text-[#0B6E4F] mt-0.5">
-          {kpis.activeHappyHourRules}
-        </div>
-        <span className="text-[11px] text-slate-400">Sunset Dynamic</span>
-      </button>
+        className={activeTab === "HAPPY_HOUR" ? "ring-2 ring-[#0B6E4F]" : ""}
+      />
     </div>
   );
 }

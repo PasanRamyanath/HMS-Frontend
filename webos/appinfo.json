@@ -1,0 +1,15 @@
+{
+  "id": "com.srilankahms.app",
+  "version": "1.0.0",
+  "vendor": "Sri Lanka HMS",
+  "type": "web",
+  "main": "index.html",
+  "title": "Sri Lanka HMS",
+  "icon": "icon.png",
+  "largeIcon": "largeIcon.png",
+  "resolution": "1920x1080",
+  "transparent": false,
+  "appDescription": "Sri Lankan Hotel Management System, Guest Services & Smart Room Display",
+  "disableBackHistoryAPI": false,
+  "handlesRelaunch": true
+}

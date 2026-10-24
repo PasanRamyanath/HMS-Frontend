@@ -26,6 +26,8 @@ import {
   type SegmentedControlOption,
 } from "../../components/SegmentedControl.js";
 import type { SupportedLanguage } from "../../lib/i18n.js";
+import { AdminKpiCard } from "../components/AdminKpiCard.js";
+import { AdminPageHeader } from "../components/AdminPageHeader.js";
 import { AmenityUsageCard } from "./AmenityUsageCard.js";
 import { DeepCleanSchedule } from "./DeepCleanSchedule.js";
 import {
@@ -283,32 +285,20 @@ function HkPageHeader({ propertyTitle, text, activeTab, onPrintClick }: HkPageHe
   );
 
   return (
-    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm backdrop-blur-xl">
-      <div className="space-y-1">
-        <div className="flex items-center gap-2">
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 ">
-            {text.title}
-          </h1>
-          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 ">
-            {propertyTitle}
-          </span>
-        </div>
-        <p className="text-xs text-slate-500 ">
-          {text.subtitle} • Current:{" "}
-          <span className="font-semibold text-slate-700 ">{currentTabDef?.label}</span>
-        </p>
-      </div>
-
-      <div className="flex items-center gap-2.5 w-full md:w-auto">
+    <AdminPageHeader
+      title={text.title}
+      subtitle={`${text.subtitle} • Current: ${currentTabDef?.label}`}
+      propertyTitle={propertyTitle}
+      actions={
         <button
           type="button"
           onClick={onPrintClick}
-          className="min-h-[44px] px-4 py-2 rounded-2xl text-xs font-semibold bg-[#0B6E4F] hover:bg-[#095C42] active:bg-black text-white shadow-sm transition-all flex items-center justify-center gap-2 shrink-0"
+          className="admin-btn-primary min-h-[38px] text-xs"
         >
           <span>{text.quickPrint}</span>
         </button>
-      </div>
-    </div>
+      }
+    />
   );
 }
 
@@ -322,96 +312,65 @@ function HkOverviewStatsRibbon({ metrics, text, onSelectTab }: HkOverviewStatsPr
   const cleanPct = Math.round((metrics.cleanRooms / metrics.totalRooms) * 100);
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
       {/* 1. Clean & Ready */}
-      <button
-        type="button"
+      <AdminKpiCard
+        title={text.cleanRatio}
+        size="sm"
+        value={
+          <div className="flex items-baseline gap-1.5">
+            <span>{metrics.cleanRooms}</span>
+            <span className="text-xs text-slate-400 font-normal">/{metrics.totalRooms}</span>
+          </div>
+        }
+        badge={{ text: `${cleanPct}%`, variant: "success" }}
+        subtitle="Inspected and guest ready"
         onClick={() => onSelectTab("ASSIGNMENTS")}
-        className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs text-left transition-all hover:border-emerald-300 "
-      >
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block mb-1">
-          {text.cleanRatio}
-        </span>
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-2xl font-bold text-emerald-600 tabular-nums">
-            {metrics.cleanRooms}
-          </span>
-          <span className="text-xs text-slate-400">/{metrics.totalRooms}</span>
-          <span className="text-xs font-semibold text-emerald-600 ml-auto">{cleanPct}%</span>
-        </div>
-      </button>
+      />
 
       {/* 2. Dirty Turnover */}
-      <button
-        type="button"
+      <AdminKpiCard
+        title={text.dirtyAttention}
+        size="sm"
+        value={metrics.dirtyRooms}
+        badge={{ text: `${metrics.inProgressRooms} in progress`, variant: "danger" }}
+        subtitle="Checkout and stayover dirty"
         onClick={() => onSelectTab("ASSIGNMENTS")}
-        className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs text-left transition-all hover:border-rose-300 "
-      >
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block mb-1">
-          {text.dirtyAttention}
-        </span>
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-2xl font-bold text-rose-600 tabular-nums">
-            {metrics.dirtyRooms}
-          </span>
-          <span className="text-xs text-slate-400">({metrics.inProgressRooms} in progress)</span>
-        </div>
-      </button>
+      />
 
       {/* 3. Open Maintenance Tickets */}
-      <button
-        type="button"
+      <AdminKpiCard
+        title={text.openTickets}
+        size="sm"
+        value={metrics.openMaintenanceCount}
+        badge={
+          metrics.urgentMaintenanceCount > 0
+            ? { text: `${metrics.urgentMaintenanceCount} Urgent`, variant: "danger" }
+            : { text: "Routine", variant: "warning" }
+        }
+        subtitle="HVAC, plumbing, electrical"
         onClick={() => onSelectTab("MAINTENANCE")}
-        className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs text-left transition-all hover:border-amber-300 "
-      >
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block mb-1">
-          {text.openTickets}
-        </span>
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-2xl font-bold text-amber-600 tabular-nums">
-            {metrics.openMaintenanceCount}
-          </span>
-          {metrics.urgentMaintenanceCount > 0 && (
-            <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-rose-100 text-rose-800 ml-auto">
-              {metrics.urgentMaintenanceCount} Urgent
-            </span>
-          )}
-        </div>
-      </button>
+      />
 
       {/* 4. Active Laundry Jobs */}
-      <button
-        type="button"
+      <AdminKpiCard
+        title={text.activeLaundry}
+        size="sm"
+        value={metrics.activeLaundryJobs}
+        badge={{ text: "In Wash", variant: "info" }}
+        subtitle="Batches in wash & press"
         onClick={() => onSelectTab("LAUNDRY")}
-        className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs text-left transition-all hover:border-blue-300 "
-      >
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block mb-1">
-          {text.activeLaundry}
-        </span>
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-2xl font-bold text-blue-600 tabular-nums">
-            {metrics.activeLaundryJobs}
-          </span>
-          <span className="text-xs text-slate-400">batches in wash</span>
-        </div>
-      </button>
+      />
 
       {/* 5. Generator Hours */}
-      <button
-        type="button"
+      <AdminKpiCard
+        title={text.generatorRun}
+        size="sm"
+        value={`${metrics.generatorHoursToday}h`}
+        badge={{ text: "CEB Grid Normal", variant: "neutral" }}
+        subtitle="Diesel generator runtime"
         onClick={() => onSelectTab("UTILITIES")}
-        className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs text-left transition-all hover:border-purple-300 col-span-2 sm:col-span-1"
-      >
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block mb-1">
-          {text.generatorRun}
-        </span>
-        <div className="flex items-baseline gap-1.5">
-          <span className="text-2xl font-bold text-purple-600 tabular-nums">
-            {metrics.generatorHoursToday}h
-          </span>
-          <span className="text-xs text-slate-400">CEB Grid ok</span>
-        </div>
-      </button>
+      />
     </div>
   );
 }
@@ -508,9 +467,7 @@ export const HousekeepingAdminPage: FC<HousekeepingAdminPageProps> = ({
   };
 
   return (
-    <div
-      className={`housekeeping-admin-page font-sans text-slate-900 space-y-5 p-4 sm:p-6 max-w-7xl mx-auto ${className}`}
-    >
+    <div className={`housekeeping-admin-page font-sf-pro text-slate-900 space-y-6 ${className}`}>
       {/* 1. Header with title & Print Quick Action */}
       <HkPageHeader
         propertyTitle={propertyTitle}

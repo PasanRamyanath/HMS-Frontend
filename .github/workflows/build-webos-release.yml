@@ -1,0 +1,238 @@
+name: Build & Release webOS App (IPK)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g. 1.0.0 or leave blank to use package.json version)"
+        required: false
+        type: string
+        default: ""
+      app_id:
+        description: "webOS App Identifier (reverse-DNS, lowercase)"
+        required: false
+        type: string
+        default: "com.srilankahms.app"
+      app_title:
+        description: "webOS App Display Title"
+        required: false
+        type: string
+        default: "Sri Lanka HMS"
+      create_release:
+        description: "Publish to GitHub Releases"
+        required: false
+        type: boolean
+        default: true
+      prerelease:
+        description: "Mark as Pre-release"
+        required: false
+        type: boolean
+        default: false
+      draft:
+        description: "Create as Draft Release"
+        required: false
+        type: boolean
+        default: false
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+  packages: read
+
+jobs:
+  build-and-package-webos:
+    name: Build, Package & Release webOS IPK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 22 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install Project Dependencies
+        run: npm ci
+
+      - name: Install webOS Tools CLI
+        run: |
+          npm install -g @webos-tools/cli
+          ares-package --version
+
+      - name: Quality Gate — Biome Lint Check
+        run: npx biome check .
+
+      - name: Quality Gate — Knip Dead Code Analysis
+        run: npx knip
+
+      - name: Quality Gate — TypeScript Validation
+        run: npx tsc --noEmit
+
+      - name: Quality Gate — Unit Tests
+        run: npm test
+
+      - name: Resolve Version and Metadata
+        id: meta
+        run: |
+          if [ -n "${{ inputs.version }}" ]; then
+            RAW_VER="${{ inputs.version }}"
+          elif [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            RAW_VER="${GITHUB_REF#refs/tags/v}"
+          elif [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            RAW_VER="${GITHUB_REF#refs/tags/}"
+          else
+            RAW_VER=$(node -p "require('./package.json').version")
+          fi
+
+          CLEAN_VER="${RAW_VER#v}"
+          TAG_NAME="v${CLEAN_VER}"
+
+          APP_ID="${{ inputs.app_id || 'com.srilankahms.app' }}"
+          APP_TITLE="${{ inputs.app_title || 'Sri Lanka HMS' }}"
+
+          echo "version=${CLEAN_VER}" >> $GITHUB_OUTPUT
+          echo "tag=${TAG_NAME}" >> $GITHUB_OUTPUT
+          echo "app_id=${APP_ID}" >> $GITHUB_OUTPUT
+          echo "app_title=${APP_TITLE}" >> $GITHUB_OUTPUT
+
+          echo "Target webOS Configuration:"
+          echo "  App ID:      ${APP_ID}"
+          echo "  Version:     ${CLEAN_VER}"
+          echo "  Release Tag: ${TAG_NAME}"
+          echo "  Title:       ${APP_TITLE}"
+
+      - name: Build Web Application for webOS (Relative Base)
+        run: |
+          npx vite build --base ./
+
+      - name: Prepare webOS Package Directory
+        run: |
+          node -e '
+            const fs = require("fs");
+            const path = require("path");
+
+            const templatePath = path.join("webos", "appinfo.json");
+            let manifest = {};
+            if (fs.existsSync(templatePath)) {
+              manifest = JSON.parse(fs.readFileSync(templatePath, "utf-8"));
+            }
+
+            manifest.id = "${{ steps.meta.outputs.app_id }}";
+            manifest.version = "${{ steps.meta.outputs.version }}";
+            manifest.title = "${{ steps.meta.outputs.app_title }}";
+            manifest.type = manifest.type || "web";
+            manifest.main = "index.html";
+            manifest.icon = "icon.png";
+            manifest.largeIcon = "largeIcon.png";
+            manifest.resolution = manifest.resolution || "1920x1080";
+            manifest.transparent = false;
+            manifest.vendor = manifest.vendor || "Sri Lanka HMS";
+
+            fs.writeFileSync(path.join("dist", "appinfo.json"), JSON.stringify(manifest, null, 2));
+          '
+
+          if [ -d "webos" ]; then
+            cp -f webos/*.png dist/ 2>/dev/null || true
+          fi
+
+          if [ ! -f "dist/icon.png" ]; then
+            cp -f public/icons/icon-192.png dist/icon.png
+          fi
+          if [ ! -f "dist/largeIcon.png" ]; then
+            cp -f public/icons/icon-192.png dist/largeIcon.png
+          fi
+
+      - name: Package webOS Application (.ipk)
+        id: package
+        run: |
+          mkdir -p webos-pkg
+          ares-package ./dist -o ./webos-pkg
+          ls -la ./webos-pkg
+
+          IPK_FILE=$(ls ./webos-pkg/*.ipk | head -n 1)
+          IPK_NAME=$(basename "$IPK_FILE")
+          echo "ipk_path=${IPK_FILE}" >> $GITHUB_OUTPUT
+          echo "ipk_name=${IPK_NAME}" >> $GITHUB_OUTPUT
+
+          cd ./webos-pkg
+          sha256sum "$IPK_NAME" > "${IPK_NAME}.sha256"
+          cd ..
+
+      - name: Upload webOS Package Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: webos-package-${{ steps.meta.outputs.version }}
+          path: |
+            webos-pkg/*.ipk
+            webos-pkg/*.sha256
+          retention-days: 30
+
+      - name: Create or Update GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/') || github.event.inputs.create_release != 'false'
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          name: "Sri Lanka HMS webOS v${{ steps.meta.outputs.version }}"
+          body: |
+            ## 📺 Sri Lanka HMS — LG webOS TV & Smart Display Application
+
+            Official LG webOS application package (`.ipk`) for Sri Lanka Hotel Management System, Guest Services, Banquet Tape Chart & KDS Displays.
+
+            ### 📦 Release Assets
+            - **webOS Application Package**: `${{ steps.package.outputs.ipk_name }}`
+            - **Package Format**: Debian/webOS `.ipk`
+            - **Resolution**: Full HD 1920×1080
+            - **App ID**: `${{ steps.meta.outputs.app_id }}`
+            - **Version**: `${{ steps.meta.outputs.version }}`
+            - **Commit**: `${{ github.sha }}`
+
+            ### 🛠️ Installation on LG webOS TV
+            1. Enable **Developer Mode** on your LG webOS TV (via the Developer Mode app from LG Content Store).
+            2. Install the modern webOS CLI on your computer:
+               ```bash
+               npm install -g @webos-tools/cli
+               ```
+            3. Register your TV target:
+               ```bash
+               ares-setup-device
+               ```
+            4. Install and launch the application:
+               ```bash
+               ares-install ${{ steps.package.outputs.ipk_name }} -d <device_name>
+               ares-launch ${{ steps.meta.outputs.app_id }} -d <device_name>
+               ```
+
+            ---
+            *Automated build powered by GitHub Actions.*
+          files: |
+            webos-pkg/*.ipk
+            webos-pkg/*.sha256
+          draft: ${{ github.event.inputs.draft == 'true' }}
+          prerelease: ${{ github.event.inputs.prerelease == 'true' }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish Workflow Step Summary
+        run: |
+          echo "## 🚀 webOS IPK Package Built Successfully" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Attribute | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          echo "| **App ID** | \`${{ steps.meta.outputs.app_id }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Version** | \`${{ steps.meta.outputs.version }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Release Tag** | \`${{ steps.meta.outputs.tag }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **IPK Package** | \`${{ steps.package.outputs.ipk_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **GitHub Release** | Published to repository Releases |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### SHA-256 Checksum" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat webos-pkg/*.sha256 >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY

@@ -3,6 +3,7 @@ import {
   SegmentedControl,
   type SegmentedControlOption,
 } from "../../components/SegmentedControl.js";
+import { AdminPageHeader } from "../components/AdminPageHeader.js";
 import { DriverDormManager } from "./DriverDormManager.js";
 import { QrLocationManager } from "./QrLocationManager.js";
 import { QrPrintSheetModal } from "./QrPrintSheetModal.js";
@@ -105,39 +106,33 @@ function RoomsHeader({
   onOpenQrPrint,
 }: RoomsHeaderProps) {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-      <div>
-        <div className="flex items-center gap-2.5">
-          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 ">
-            {propertyTitle} — {activeTabInfo.label}
-          </h1>
-          {activeTabInfo.badge && (
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#ECFDF5] text-[#0B6E4F] border border-[#A7F3D0]">
-              {activeTabInfo.badge}
-            </span>
-          )}
-        </div>
-        <p className="text-xs text-slate-500 mt-0.5">{activeTabInfo.description}</p>
-      </div>
+    <AdminPageHeader
+      title={`${propertyTitle} — ${activeTabInfo.label}`}
+      subtitle={activeTabInfo.description}
+      propertyTitle={propertyTitle}
+      statusBadge={
+        activeTabInfo.badge ? { label: activeTabInfo.badge, variant: "success" } : undefined
+      }
+      actions={
+        <>
+          <button
+            type="button"
+            onClick={onOpenQrPrint}
+            className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer"
+          >
+            Print QR Sheets
+          </button>
 
-      <div className="flex items-center gap-2.5 self-start sm:self-center shrink-0">
-        <button
-          type="button"
-          onClick={onOpenQrPrint}
-          className="min-h-[38px] px-4 py-1.5 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
-        >
-          Print QR Sheets
-        </button>
-
-        <button
-          type="button"
-          onClick={onOpenSimulator}
-          className="min-h-[38px] px-4 py-1.5 rounded-xl text-xs font-semibold bg-[#0B6E4F] hover:bg-[#09583F] text-white transition-colors cursor-pointer"
-        >
-          Rate Quote Simulator
-        </button>
-      </div>
-    </div>
+          <button
+            type="button"
+            onClick={onOpenSimulator}
+            className="admin-btn-primary min-h-[38px] text-xs cursor-pointer"
+          >
+            Rate Quote Simulator
+          </button>
+        </>
+      }
+    />
   );
 }
 

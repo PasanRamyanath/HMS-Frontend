@@ -1,5 +1,7 @@
 import { useId, useMemo, useState } from "react";
 import { formatLkr } from "../../lib/i18n.js";
+import { AdminKpiCard } from "../components/AdminKpiCard.js";
+import { AdminPageHeader } from "../components/AdminPageHeader.js";
 import { AccountingExportView } from "./AccountingExportView.js";
 import { AuditArchiveList } from "./AuditArchiveList.js";
 import { IrdTaxReturnView } from "./IrdTaxReturnView.js";
@@ -210,65 +212,37 @@ interface OverviewRibbonProps {
 
 function OverviewRibbon({ kpis }: OverviewRibbonProps) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-      <div className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs">
-        <div className="flex items-center justify-between">
-          <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
-            Today Gross Revenue
-          </span>
-        </div>
-        <span className="text-lg sm:text-xl font-black font-mono text-emerald-600 mt-1 block truncate">
-          {formatLkr(kpis.todayGrossRevenueLkr)}
-        </span>
-        <span className="text-[10px] text-slate-400 block mt-0.5 font-mono">
-          Occupancy: {kpis.todayOccupancyPercent.toFixed(1)}%
-        </span>
-      </div>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <AdminKpiCard
+        title="Today Gross Revenue"
+        value={formatLkr(kpis.todayGrossRevenueLkr)}
+        badge={{ text: `${kpis.todayOccupancyPercent.toFixed(1)}% Occ`, variant: "success" }}
+        subtitle="SLTDA day ledger"
+      />
 
-      <div className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs">
-        <div className="flex items-center justify-between">
-          <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
-            MTD Revenue
-          </span>
-        </div>
-        <span className="text-lg sm:text-xl font-black font-mono text-blue-600 mt-1 block truncate">
-          {formatLkr(kpis.mtdGrossRevenueLkr)}
-        </span>
-        <span className="text-[10px] text-slate-400 block mt-0.5 font-mono">
-          MTD Avg: {kpis.mtdOccupancyPercent.toFixed(1)}%
-        </span>
-      </div>
+      <AdminKpiCard
+        title="MTD Revenue"
+        value={formatLkr(kpis.mtdGrossRevenueLkr)}
+        badge={{ text: `${kpis.mtdOccupancyPercent.toFixed(1)}% Avg`, variant: "info" }}
+        subtitle="Month-to-date trajectory"
+      />
 
-      <div className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs">
-        <div className="flex items-center justify-between">
-          <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
-            Statutory Taxes Due
-          </span>
-        </div>
-        <span className="text-lg sm:text-xl font-black font-mono text-amber-600 mt-1 block truncate">
-          {formatLkr(kpis.quarterlyTdlPayableLkr)}
-        </span>
-        <span className="text-[10px] text-slate-400 block mt-0.5 truncate font-mono">
-          TDL Qtr • VAT {formatLkr(kpis.monthlyVatPayableLkr)}
-        </span>
-      </div>
+      <AdminKpiCard
+        title="Statutory Taxes Due"
+        value={formatLkr(kpis.quarterlyTdlPayableLkr)}
+        badge={{ text: "RAMIS Due", variant: "warning" }}
+        subtitle={`TDL Qtr • VAT ${formatLkr(kpis.monthlyVatPayableLkr)}`}
+      />
 
-      <div className="p-5 rounded-xl bg-white border border-[#E2E8F0] shadow-xs">
-        <div className="flex items-center justify-between">
-          <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
-            Audit Ledger Trail
-          </span>
-        </div>
-        <div className="flex items-center gap-2 mt-1">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-sm font-bold text-slate-900 ">
-            {kpis.ledgerHashChainStatus === "INTACT" ? "Tamper-Evident Intact" : "Audit Alert"}
-          </span>
-        </div>
-        <span className="text-[10px] text-slate-400 block mt-0.5 font-mono">
-          SHA-256 Chained • 42 Entities
-        </span>
-      </div>
+      <AdminKpiCard
+        title="Audit Ledger Trail"
+        value={kpis.ledgerHashChainStatus === "INTACT" ? "Tamper-Evident Intact" : "Audit Alert"}
+        badge={{
+          text: "SHA-256",
+          variant: kpis.ledgerHashChainStatus === "INTACT" ? "success" : "danger",
+        }}
+        subtitle="42 Chained entities verified"
+      />
     </div>
   );
 }
@@ -332,30 +306,19 @@ export function ReportsAdminPage({
   }, [activeTab]);
 
   return (
-    <div id={containerId} className={`w-full max-w-7xl mx-auto space-y-6 ${className}`}>
+    <div id={containerId} className={`w-full space-y-6 font-sf-pro ${className}`}>
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-6 rounded-xl bg-white border border-[#E2E8F0] shadow-xs">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold tracking-tight text-slate-950 ">
-              Finance, Night Audit &amp; Statutory Compliance Cockpit
-            </h1>
-          </div>
-          <p className="text-xs text-slate-500 mt-1">
-            {hotelName} • SLTDA: <span className="font-mono">{sltdaRegNo}</span> • Multi-Tenant ID:{" "}
-            <span className="font-mono">{tenantId}</span>
-          </p>
-        </div>
-
-        {/* Tab badge & quick description */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-100 bg-slate-50 border border-slate-200 border-[#E2E8F0] text-xs">
-          <span className="font-semibold text-slate-800 ">{activeTabMeta.label}</span>
-          <span className="text-slate-400">|</span>
-          <span className="text-[11px] text-slate-500 max-w-xs truncate hidden lg:inline">
+      <AdminPageHeader
+        title="Finance, Night Audit & Statutory Compliance Cockpit"
+        subtitle={`${hotelName} • SLTDA: ${sltdaRegNo} • Multi-Tenant ID: ${tenantId}`}
+        propertyTitle={hotelName}
+        statusBadge={{ label: activeTabMeta.label, variant: "neutral" }}
+        actions={
+          <span className="text-xs text-slate-500 max-w-sm text-right hidden lg:inline">
             {activeTabMeta.description}
           </span>
-        </div>
-      </div>
+        }
+      />
 
       {/* Overview KPI Ribbon */}
       <OverviewRibbon kpis={kpis} />

@@ -9,6 +9,7 @@ import {
   type HallLayoutConfig,
   compileAlphabeticalGuestDirectory,
   computeLayoutSummary,
+  detectTableCollision,
   generateDefault30Tables,
   getCategoryBadgeColor,
 } from "../src/admin/banquets/BanquetTableLayout.js";
@@ -44,6 +45,34 @@ describe("Step 343: BanquetTableLayout — Banquet Hall Floor Plan & Table Numbe
       assert.ok(zoneIds.includes("ZONE-BUFFET-RIGHT"));
       assert.ok(zoneIds.includes("ZONE-BAR"));
       assert.ok(zoneIds.includes("ZONE-OIL-LAMP"));
+    });
+
+    it("ensures zero collisions between default 30 tables and all functional hall zones", () => {
+      const tables = generateDefault30Tables();
+      for (const table of tables) {
+        const collision = detectTableCollision(table, DEFAULT_HALL_ZONES);
+        assert.strictEqual(
+          collision,
+          null,
+          `Table ${table.tableNumber} at (${table.cx}, ${table.cy}) collides with zone: ${collision}`,
+        );
+      }
+    });
+
+    it("detects obstacle collisions when a table is placed inside dance floor or stage", () => {
+      const collidingTable = {
+        id: "TEST-COLLISION",
+        tableNumber: 99,
+        label: "Colliding Table",
+        category: "VIP" as const,
+        capacity: 10,
+        cx: 450, // inside Dance Floor (x: 400..600, y: 270..390)
+        cy: 300,
+        assignedGuests: [],
+      };
+
+      const collision = detectTableCollision(collidingTable, DEFAULT_HALL_ZONES);
+      assert.strictEqual(collision, "Dance Floor & DJ Band");
     });
   });
 
@@ -163,24 +192,68 @@ describe("Step 343: BanquetTableLayout — Banquet Hall Floor Plan & Table Numbe
       assert.match(htmlTa, /நுழைவு இருக்கை பலகையை அச்சிடுக/);
     });
 
-    it("handles minimal layout configuration without crashing", () => {
-      const minimalConfig: HallLayoutConfig = {
-        hallName: "Lotus Hall",
-        eventName: "Annual Gathering",
-        eventDate: "2026-12-31",
-        totalPaxTarget: 50,
+    it("renders add table and add zone action buttons in layout header", () => {
+      const html = renderToStaticMarkup(
+        React.createElement(BanquetTableLayout, {
+          config: DEFAULT_BANQUET_LAYOUT_CONFIG,
+        }),
+      );
+
+      assert.match(html, /\+ Add Table/);
+      assert.match(html, /\+ Add Zone \/ Rectangle/);
+    });
+
+    it("renders rename table control and remove table action in selected table sheet", () => {
+      const html = renderToStaticMarkup(
+        React.createElement(BanquetTableLayout, {
+          config: DEFAULT_BANQUET_LAYOUT_CONFIG,
+        }),
+      );
+
+      assert.match(html, /Table Name \/ Label/);
+      assert.match(html, /Remove Table/);
+    });
+
+    it("renders custom functional hall zone rectangle with rename controls and quick presets", () => {
+      const customConfig: HallLayoutConfig = {
+        hallName: "Sapphire Ballroom",
+        eventName: "Gala Dinner",
+        eventDate: "2026-11-20",
+        totalPaxTarget: 100,
         tables: [],
-        zones: [],
+        zones: [
+          {
+            id: "ZONE-CAKE",
+            labelEn: "Cake & Champagne Table",
+            labelSi: "කේක් සහ ෂැම්පේන් මේසය",
+            labelTa: "கேக் & ஷாம்பெயின் மேசை",
+            x: 400,
+            y: 350,
+            width: 180,
+            height: 80,
+            iconType: "BUFFET",
+          },
+        ],
       };
 
       const html = renderToStaticMarkup(
         React.createElement(BanquetTableLayout, {
-          config: minimalConfig,
+          config: customConfig,
         }),
       );
 
-      assert.match(html, /Lotus Hall/);
-      assert.match(html, /0 seats/);
+      assert.match(html, /Cake &amp; Champagne Table/);
+    });
+
+    it("renders direct seat number input and stepper controls for table capacity", () => {
+      const html = renderToStaticMarkup(
+        React.createElement(BanquetTableLayout, {
+          config: DEFAULT_BANQUET_LAYOUT_CONFIG,
+        }),
+      );
+
+      assert.match(html, /id="table-capacity-input"/);
+      assert.match(html, /Seats \(e\.g\. 10\)/);
     });
   });
 });

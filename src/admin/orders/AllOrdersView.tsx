@@ -19,6 +19,8 @@ import {
   formatLkr,
   roundRupees,
 } from "../../staff/pos/PosTerminalView.js";
+import { AdminKpiCard } from "../components/AdminKpiCard.js";
+import { AdminPageHeader } from "../components/AdminPageHeader.js";
 
 // ============================================================================
 // Types & Domain Models
@@ -473,57 +475,33 @@ interface KpiMetricCardsProps {
 const KpiMetricCards: FC<KpiMetricCardsProps> = ({ kpis, t }) => {
   return (
     <section className="grid grid-cols-2 lg:grid-cols-4 gap-4" aria-label="Order KPI Summary">
-      <div className="p-5 rounded-2xl bg-white border border-slate-200/90 apple-liquid-glass flex flex-col justify-between">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-medium text-slate-500 ">{t.kpiRevenue}</span>
-          <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#ECFDF5] text-[#0B6E4F] border border-[#A7F3D0]">
-            +11.2%
-          </span>
-        </div>
-        <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 tabular-nums-lkr mt-2 block">
-          {formatLkr(kpis.netRevenueLkr)}
-        </span>
-        <span className="text-xs text-slate-400 mt-1 block">Includes 4-stage tax &amp; SC</span>
-      </div>
+      <AdminKpiCard
+        title={t.kpiRevenue}
+        value={formatLkr(kpis.netRevenueLkr)}
+        subtitle="Includes 4-stage tax & SC"
+        badge={{ text: "+11.2%", variant: "success" }}
+      />
 
-      <div className="p-5 rounded-2xl bg-white border border-slate-200/90 apple-liquid-glass flex flex-col justify-between">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-medium text-slate-500 ">{t.kpiActive}</span>
-          <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-200">
-            Live KDS/BOT
-          </span>
-        </div>
-        <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 tabular-nums-lkr mt-2 block">
-          {kpis.activeTickets} Active
-        </span>
-        <span className="text-xs text-slate-400 mt-1 block">Cooking in Kitchen / Bar</span>
-      </div>
+      <AdminKpiCard
+        title={t.kpiActive}
+        value={`${kpis.activeTickets} Active`}
+        subtitle="Cooking in Kitchen / Bar"
+        badge={{ text: "Live KDS/BOT", variant: "warning" }}
+      />
 
-      <div className="p-5 rounded-2xl bg-white border border-slate-200/90 apple-liquid-glass flex flex-col justify-between">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-medium text-slate-500 ">{t.kpiDelivered}</span>
-          <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#ECFDF5] text-[#0B6E4F] border border-[#A7F3D0]">
-            On Time
-          </span>
-        </div>
-        <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 tabular-nums-lkr mt-2 block">
-          {kpis.deliveredCount} Delivered
-        </span>
-        <span className="text-xs text-slate-400 mt-1 block">Avg delivery: 18 mins</span>
-      </div>
+      <AdminKpiCard
+        title={t.kpiDelivered}
+        value={`${kpis.deliveredCount} Delivered`}
+        subtitle="Avg delivery: 18 mins"
+        badge={{ text: "On Time", variant: "success" }}
+      />
 
-      <div className="p-5 rounded-2xl bg-white border border-slate-200/90 apple-liquid-glass flex flex-col justify-between">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-medium text-slate-500 ">{t.kpiTotal}</span>
-          <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700">
-            All Outlets
-          </span>
-        </div>
-        <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 tabular-nums-lkr mt-2 block">
-          {kpis.totalOrders}
-        </span>
-        <span className="text-xs text-slate-400 mt-1 block">Today&apos;s receipt count</span>
-      </div>
+      <AdminKpiCard
+        title={t.kpiTotal}
+        value={kpis.totalOrders}
+        subtitle="Today's receipt count"
+        badge={{ text: "All Outlets", variant: "neutral" }}
+      />
     </section>
   );
 };
@@ -697,36 +675,34 @@ export const AllOrdersView: FC<AllOrdersViewProps> = ({
   return (
     <div
       data-testid="all-orders-master-view"
-      className="space-y-5 max-w-7xl mx-auto w-full text-slate-900 font-sf-pro"
+      className="space-y-6 w-full text-slate-900 font-sf-pro"
     >
       {/* 1. Clean Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-            {t.title}
-          </h1>
-          <p className="text-xs text-slate-500 mt-0.5">{t.subtitle}</p>
-        </div>
-
-        <div className="flex items-center gap-2.5 shrink-0">
-          <button
-            type="button"
-            onClick={() => {
-              if (typeof window !== "undefined") window.print();
-            }}
-            className="min-h-[38px] px-4 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer"
-          >
-            Export Daily F&amp;B CSV
-          </button>
-          <button
-            type="button"
-            onClick={() => navigateTo("/staff/pos")}
-            className="min-h-[38px] px-4 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-white text-xs font-semibold cursor-pointer"
-          >
-            + New POS Order
-          </button>
-        </div>
-      </div>
+      <AdminPageHeader
+        title={t.title}
+        subtitle={t.subtitle}
+        statusBadge={{ label: "Active KDS Queue", variant: "info", pulse: true }}
+        actions={
+          <div className="flex items-center gap-2.5 shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                if (typeof window !== "undefined") window.print();
+              }}
+              className="min-h-[38px] px-4 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer"
+            >
+              Export Daily F&amp;B CSV
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateTo("/staff/pos")}
+              className="min-h-[38px] px-4 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-white text-xs font-semibold cursor-pointer"
+            >
+              + New POS Order
+            </button>
+          </div>
+        }
+      />
 
       {/* 2. KPI Cards */}
       <KpiMetricCards kpis={kpis} t={t} />

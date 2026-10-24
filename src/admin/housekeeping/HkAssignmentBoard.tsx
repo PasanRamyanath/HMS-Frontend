@@ -545,7 +545,7 @@ const BoardHeader: FC<BoardHeaderProps> = ({
         <button
           type="button"
           onClick={onPrint}
-          className="min-h-[44px] px-3.5 py-2 rounded-xl bg-slate-50 hover:bg-slate-50 border border-[#E2E8F0] text-xs font-semibold text-slate-700 hover:text-slate-900 transition-all flex items-center gap-1.5"
+          className="admin-btn-secondary min-h-[44px] text-xs font-semibold flex items-center gap-1.5"
         >
           <span>{t.printAction}</span>
         </button>
@@ -553,7 +553,7 @@ const BoardHeader: FC<BoardHeaderProps> = ({
         <button
           type="button"
           onClick={onAutoBalance}
-          className="min-h-[44px] px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition-all shadow-md active:scale-95 flex items-center gap-1.5"
+          className="admin-btn-secondary min-h-[44px] text-xs font-semibold flex items-center gap-1.5"
         >
           <span>{t.autoBalanceAction}</span>
         </button>
@@ -562,7 +562,7 @@ const BoardHeader: FC<BoardHeaderProps> = ({
           type="button"
           onClick={onPush}
           disabled={isPushing}
-          className="min-h-[44px] px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold transition-all shadow-md active:scale-95 flex items-center gap-1.5 disabled:opacity-50"
+          className="admin-btn-primary min-h-[44px] text-xs font-semibold flex items-center gap-1.5 disabled:opacity-50"
         >
           {isPushing ? (
             <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />

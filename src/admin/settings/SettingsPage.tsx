@@ -4,6 +4,7 @@ import {
   type SegmentedControlOption,
 } from "../../components/SegmentedControl.js";
 import { navigateTo } from "../../lib/router.js";
+import { AdminPageHeader } from "../components/AdminPageHeader.js";
 import { ExchangeRateCard } from "./ExchangeRateCard.js";
 import { OnboardingChecklist } from "./OnboardingChecklist.js";
 import { PaymentSettingsForm } from "./PaymentSettingsForm.js";
@@ -109,39 +110,35 @@ interface SettingsHeaderProps {
 }
 
 function SettingsHeader({ propertyTitle, activeTabInfo, onSave }: SettingsHeaderProps) {
-  return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-      <div>
-        <div className="flex items-center gap-2.5">
-          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 ">
-            {propertyTitle ? `${propertyTitle} — ${activeTabInfo.label}` : activeTabInfo.label}
-          </h1>
-          {activeTabInfo.badge && (
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#ECFDF5] text-[#0B6E4F] border border-[#A7F3D0]">
-              {activeTabInfo.badge}
-            </span>
-          )}
-        </div>
-        <p className="text-xs text-slate-500 mt-0.5">{activeTabInfo.description}</p>
-      </div>
+  const title = propertyTitle ? `${propertyTitle} — ${activeTabInfo.label}` : activeTabInfo.label;
 
-      <div className="flex items-center gap-2.5 shrink-0">
-        <button
-          type="button"
-          onClick={() => navigateTo("/admin/rooms")}
-          className="min-h-[38px] px-4 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer"
-        >
-          Print Room QRs
-        </button>
-        <button
-          type="button"
-          onClick={() => onSave?.()}
-          className="min-h-[38px] px-4 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-white text-xs font-semibold cursor-pointer"
-        >
-          + Save Configuration
-        </button>
-      </div>
-    </div>
+  return (
+    <AdminPageHeader
+      title={title}
+      subtitle={activeTabInfo.description}
+      propertyTitle={propertyTitle}
+      statusBadge={
+        activeTabInfo.badge ? { label: activeTabInfo.badge, variant: "success" } : undefined
+      }
+      actions={
+        <>
+          <button
+            type="button"
+            onClick={() => navigateTo("/admin/rooms")}
+            className="admin-btn-secondary min-h-[38px] text-xs cursor-pointer"
+          >
+            Print Room QRs
+          </button>
+          <button
+            type="button"
+            onClick={() => onSave?.()}
+            className="admin-btn-primary min-h-[38px] text-xs cursor-pointer"
+          >
+            + Save Configuration
+          </button>
+        </>
+      }
+    />
   );
 }
 

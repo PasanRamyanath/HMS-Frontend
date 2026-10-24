@@ -7,6 +7,8 @@ import {
 } from "../../components/SegmentedControl.js";
 import { StatusBadge } from "../../components/StatusBadge.js";
 import { formatLkr } from "../../lib/i18n.js";
+import { AdminKpiCard } from "../components/AdminKpiCard.js";
+import { AdminPageHeader } from "../components/AdminPageHeader.js";
 import { CashierShiftModal } from "./CashierShiftModal.js";
 import { CityLedgerView } from "./CityLedgerView.js";
 import { FolioArchiveList } from "./FolioArchiveList.js";
@@ -201,80 +203,74 @@ interface BillingHeaderBentoProps {
 function BillingHeaderBento({ kpis, hotelName, onOpenShiftModal }: BillingHeaderBentoProps) {
   return (
     <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 ">
-            Folios, Cashiering &amp; City Ledger
-          </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
-            {hotelName} • Split DMC vs. Guest folios, CBSL foreign currency encashment, petty cash
-            vouchers, and LankaQR
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2.5 shrink-0">
-          <button
-            type="button"
-            onClick={onOpenShiftModal}
-            className="min-h-[38px] px-4 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer"
-          >
-            Shift Handover Drop
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              if (typeof window !== "undefined") window.print();
-            }}
-            className="min-h-[38px] px-4 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-white text-xs font-semibold cursor-pointer"
-          >
-            + Issue IRD Tax Invoice
-          </button>
-        </div>
-      </div>
+      <AdminPageHeader
+        title="Folios, Cashiering & City Ledger"
+        subtitle={`${hotelName} • Split DMC vs. Guest folios, CBSL foreign currency encashment, petty cash vouchers, and LankaQR`}
+        propertyTitle={hotelName}
+        statusBadge={{ label: "Active Cashier Shift", variant: "success", pulse: true }}
+        actions={
+          <div className="flex items-center gap-2.5 shrink-0">
+            <button
+              type="button"
+              onClick={onOpenShiftModal}
+              className="min-h-[38px] px-4 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer"
+            >
+              Shift Handover Drop
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (typeof window !== "undefined") window.print();
+              }}
+              className="min-h-[38px] px-4 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-white text-xs font-semibold cursor-pointer"
+            >
+              + Issue IRD Tax Invoice
+            </button>
+          </div>
+        }
+      />
 
       {/* 5-Column Bento KPI Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <GlassCard material="regular" radius="xl" className="p-4 space-y-1">
-          <span className="text-xs font-medium text-slate-500 block">
-            Active Folios ({kpis.activeFolioCount})
-          </span>
-          <div className="text-xl sm:text-2xl font-extrabold tabular-nums-lkr text-slate-900 ">
-            {formatLkr(kpis.totalActiveIncurredLkr)}
-          </div>
-          <span className="text-[11px] text-slate-400 block">In-Stay Running Total</span>
-        </GlassCard>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+        <AdminKpiCard
+          title={`Active Folios (${kpis.activeFolioCount})`}
+          value={formatLkr(kpis.totalActiveIncurredLkr)}
+          subtitle="In-Stay Running Total"
+          size="sm"
+          badge={{ text: "Active", variant: "neutral" }}
+        />
 
-        <GlassCard material="regular" radius="xl" className="p-4 space-y-1">
-          <span className="text-xs font-medium text-slate-500 block">Guest Balance Due</span>
-          <div className="text-xl sm:text-2xl font-extrabold tabular-nums-lkr text-amber-700 ">
-            {formatLkr(kpis.guestBalanceDueLkr)}
-          </div>
-          <span className="text-[11px] text-slate-400 block">Personal Incidentals</span>
-        </GlassCard>
+        <AdminKpiCard
+          title="Guest Balance Due"
+          value={formatLkr(kpis.guestBalanceDueLkr)}
+          subtitle="Personal Incidentals"
+          size="sm"
+          badge={{ text: "Pending", variant: "warning" }}
+        />
 
-        <GlassCard material="regular" radius="xl" className="p-4 space-y-1">
-          <span className="text-xs font-medium text-slate-500 block">City Ledger AR</span>
-          <div className="text-xl sm:text-2xl font-extrabold tabular-nums-lkr text-slate-900 ">
-            {formatLkr(kpis.cityLedgerArBalanceLkr)}
-          </div>
-          <span className="text-[11px] text-slate-400 block">DMC Corporate Accounts</span>
-        </GlassCard>
+        <AdminKpiCard
+          title="City Ledger AR"
+          value={formatLkr(kpis.cityLedgerArBalanceLkr)}
+          subtitle="DMC Corporate Accounts"
+          size="sm"
+          badge={{ text: "Wholesale", variant: "info" }}
+        />
 
-        <GlassCard material="regular" radius="xl" className="p-4 space-y-1">
-          <span className="text-xs font-medium text-slate-500 block">Today&apos;s Collections</span>
-          <div className="text-xl sm:text-2xl font-extrabold tabular-nums-lkr text-[#0B6E4F] ">
-            {formatLkr(kpis.todayCashAndLankaQrCollectedLkr)}
-          </div>
-          <span className="text-[11px] text-slate-400 block">LankaQR + Card + Cash</span>
-        </GlassCard>
+        <AdminKpiCard
+          title="Today's Collections"
+          value={formatLkr(kpis.todayCashAndLankaQrCollectedLkr)}
+          subtitle="LankaQR + Card + Cash"
+          size="sm"
+          badge={{ text: "Direct", variant: "success" }}
+        />
 
-        <GlassCard material="regular" radius="xl" className="p-4 space-y-1">
-          <span className="text-xs font-medium text-slate-500 block">Statutory Taxes</span>
-          <div className="text-xl sm:text-2xl font-extrabold tabular-nums-lkr text-slate-900 ">
-            {formatLkr(kpis.statutoryVatAndSsclPoolLkr)}
-          </div>
-          <span className="text-[11px] text-slate-400 block">SC + TDL + SSCL + VAT</span>
-        </GlassCard>
+        <AdminKpiCard
+          title="Statutory Taxes"
+          value={formatLkr(kpis.statutoryVatAndSsclPoolLkr)}
+          subtitle="SC + TDL + SSCL + VAT"
+          size="sm"
+          badge={{ text: "Tax Pool", variant: "neutral" }}
+        />
       </div>
     </div>
   );
