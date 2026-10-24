@@ -85,7 +85,7 @@ describe("Step 323: Master Housekeeping & Engineering Admin Page (HousekeepingAd
     it("returns Sinhala translations accurately", () => {
       const si = getHkAdminPageText("si");
       assert.equal(si.title, "කාමර පිරිසිදු කිරීම සහ ඉංජිනේරු අංශය");
-      assert.equal(si.quickPrint, "ලේඛනය මුද්‍රණය");
+      assert.equal(si.quickPrint, "ලේඛනය මුද්රණය");
     });
 
     it("returns Tamil translations accurately", () => {

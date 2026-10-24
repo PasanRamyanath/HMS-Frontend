@@ -59,12 +59,12 @@ describe("Step 325: Shared Housekeeping Status Helpers & Theme Tokens (hkStatusH
       const clean = getStatusStyle("CLEAN");
       assert.ok(clean.badgeBg.includes("emerald"));
       assert.strictEqual(clean.hexColor, "#34C759");
-      assert.strictEqual(clean.icon, "✓");
+      assert.strictEqual(clean.icon, "OK");
 
       const inspected = getStatusStyle("INSPECTED_CLEAN");
       assert.ok(inspected.badgeBg.includes("sky"));
       assert.strictEqual(inspected.hexColor, "#007AFF");
-      assert.strictEqual(inspected.icon, "★");
+      assert.strictEqual(inspected.icon, "*");
 
       const touchUp = getStatusStyle("TOUCH_UP");
       assert.ok(touchUp.badgeBg.includes("amber"));
@@ -81,7 +81,7 @@ describe("Step 325: Shared Housekeeping Status Helpers & Theme Tokens (hkStatusH
       const dirty = getStatusStyle("VACANT_DIRTY");
       assert.ok(dirty.badgeBg.includes("rose"));
       assert.strictEqual(dirty.hexColor, "#FF3B30");
-      assert.strictEqual(dirty.icon, "🧹");
+      assert.strictEqual(dirty.icon, "Clean");
     });
 
     it("verifies dictionary completeness of STATUS_STYLES and STATUS_TRILINGUAL_LABELS", () => {

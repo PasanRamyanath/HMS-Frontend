@@ -65,15 +65,15 @@ describe("Step 316: Room Discrepancy Alert Banner (DiscrepancyAlertBar.tsx)", ()
   describe("2. Dynamic Apple HIG System Badges & Filters", () => {
     it("resolves distinct styling and icons for SLEEP, SKIP, and PERSONS_MISMATCH", () => {
       const sleepBadge = resolveDiscrepancyTypeBadge("SLEEP");
-      assert.equal(sleepBadge.icon, "🛑");
+      assert.equal(sleepBadge.icon, "Stop");
       assert.match(sleepBadge.style, /rose/);
 
       const skipBadge = resolveDiscrepancyTypeBadge("SKIP");
-      assert.equal(skipBadge.icon, "🏃");
+      assert.equal(skipBadge.icon, "Skip");
       assert.match(skipBadge.style, /amber/);
 
       const personsBadge = resolveDiscrepancyTypeBadge("PERSONS_MISMATCH");
-      assert.equal(personsBadge.icon, "👥");
+      assert.equal(personsBadge.icon, "Pax");
       assert.match(personsBadge.style, /purple/);
     });
 

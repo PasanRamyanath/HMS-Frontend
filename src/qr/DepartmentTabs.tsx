@@ -56,7 +56,7 @@ export const DEFAULT_DEPARTMENT_CONFIGS: Readonly<Record<QrDepartment, Departmen
   {
     DINING: {
       department: "DINING",
-      icon: "🍛",
+      icon: "Curry",
       title: {
         en: "In-Room Dining",
         si: "කාමර ආහාර සේවා",
@@ -64,7 +64,7 @@ export const DEFAULT_DEPARTMENT_CONFIGS: Readonly<Record<QrDepartment, Departmen
       },
       subtitle: {
         en: "Breakfast, Ceylon Curries & Night Bites",
-        si: "උදෑසන ආහාර, සිලෝන් ව්‍යංජන සහ රාත්‍රී ආහාර",
+        si: "උදෑසන ආහාර, සිලෝන් ව්යංජන සහ රාත්රී ආහාර",
         ta: "காலை உணவு, சிலோன் கறிகள் & இரவு உணவு",
       },
       hours: {
@@ -76,7 +76,7 @@ export const DEFAULT_DEPARTMENT_CONFIGS: Readonly<Record<QrDepartment, Departmen
     },
     BAR: {
       department: "BAR",
-      icon: "🍹",
+      icon: "Drink",
       title: {
         en: "Drinks & Bar",
         si: "බීම වර්ග සහ බාර්",
@@ -96,7 +96,7 @@ export const DEFAULT_DEPARTMENT_CONFIGS: Readonly<Record<QrDepartment, Departmen
     },
     HOUSEKEEPING: {
       department: "HOUSEKEEPING",
-      icon: "🧹",
+      icon: "Clean",
       title: {
         en: "Room Amenities",
         si: "කාමර පහසුකම්",
@@ -116,7 +116,7 @@ export const DEFAULT_DEPARTMENT_CONFIGS: Readonly<Record<QrDepartment, Departmen
     },
     LAUNDRY: {
       department: "LAUNDRY",
-      icon: "👔",
+      icon: "Staff",
       title: {
         en: "Laundry & Pressing",
         si: "රෙදි සේදීම සහ මැදීම",
@@ -136,7 +136,7 @@ export const DEFAULT_DEPARTMENT_CONFIGS: Readonly<Record<QrDepartment, Departmen
     },
     SPA_EXCURSIONS: {
       department: "SPA_EXCURSIONS",
-      icon: "🪷",
+      icon: "Spa",
       title: {
         en: "Spa & Excursions",
         si: "සුවතා සහ විනෝද චාරිකා",
@@ -170,9 +170,8 @@ export function getSlstComponents(refDate?: Date): {
   readonly timeStr: string;
 } {
   const date = refDate ?? new Date();
-  const utcMs = date.getTime() + date.getTimezoneOffset() * 60000;
   const slstOffsetMs = 5.5 * 3600000;
-  const slstDate = new Date(utcMs + slstOffsetMs);
+  const slstDate = new Date(date.getTime() + slstOffsetMs);
 
   const hours = slstDate.getUTCHours();
   const minutes = slstDate.getUTCMinutes();
@@ -263,7 +262,7 @@ export function DepartmentTabs({
     <nav
       aria-label="Department Categories"
       data-testid="department-tabs-nav"
-      className={`apple-liquid-glass rounded-2xl p-1.5 border border-white/50 dark:border-white/10 mb-4 flex items-center gap-1.5 overflow-x-auto no-scrollbar shadow-sm ${className}`}
+      className={`apple-liquid-glass rounded-2xl p-1.5 border border-white/50 mb-4 flex items-center gap-1.5 overflow-x-auto no-scrollbar shadow-sm ${className}`}
     >
       {departmentList.map((cfg) => {
         const isSelected = activeDepartment === cfg.department;
@@ -280,13 +279,9 @@ export function DepartmentTabs({
             className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-300 ease-apple-spring whitespace-nowrap flex items-center gap-2 shrink-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 ${
               isSelected
                 ? "bg-sky-600 text-white shadow-md transform scale-[1.02]"
-                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+                : "text-slate-600 hover:text-slate-900 hover:bg-black/5 "
             }`}
           >
-            <span aria-hidden="true" className="text-base select-none">
-              {cfg.icon}
-            </span>
-
             <span>{localizedTitle}</span>
 
             {/* Live Operational Status Dot */}
@@ -303,7 +298,7 @@ export function DepartmentTabs({
                     : "bg-emerald-500"
                   : isSelected
                     ? "bg-slate-300/80"
-                    : "bg-slate-400 dark:bg-slate-600"
+                    : "bg-slate-400 "
               }`}
             />
           </button>

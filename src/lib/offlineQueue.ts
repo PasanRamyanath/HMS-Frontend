@@ -295,6 +295,22 @@ export async function registerServiceWorker(
     return ok(undefined);
   }
 
+  if (import.meta.env?.DEV) {
+    try {
+      navigator.serviceWorker.getRegistrations().then((regs) => {
+        for (const reg of regs) reg.unregister();
+      });
+      if ("caches" in window) {
+        caches.keys().then((keys) => {
+          for (const k of keys) caches.delete(k);
+        });
+      }
+    } catch {
+      // Ignore dev cleanup errors
+    }
+    return ok(undefined);
+  }
+
   try {
     const registration = await navigator.serviceWorker.register(scriptUrl, {
       scope: "/",

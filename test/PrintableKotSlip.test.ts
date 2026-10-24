@@ -44,12 +44,12 @@ describe("Step 280: 80mm Thermal KOT / BOT Ticket Auto-Print View (PrintableKotS
     it("getSlipTitle returns trilingual titles for KOT and BOT slips", () => {
       // KOT titles
       assert.strictEqual(getSlipTitle("KOT", "en").title, "KITCHEN ORDER TICKET (KOT)");
-      assert.strictEqual(getSlipTitle("KOT", "si").title, "කුස්සි ඇණවුම් පත්‍රිකාව (KOT)");
+      assert.strictEqual(getSlipTitle("KOT", "si").title, "කුස්සි ඇණවුම් පත්රිකාව (KOT)");
       assert.strictEqual(getSlipTitle("KOT", "ta").title, "சமையலறை ஆர்டர் சீட்டு (KOT)");
 
       // BOT titles
       assert.strictEqual(getSlipTitle("BOT", "en").title, "BAR ORDER TICKET (BOT)");
-      assert.strictEqual(getSlipTitle("BOT", "si").title, "බාර් ඇණවුම් පත්‍රිකාව (BOT)");
+      assert.strictEqual(getSlipTitle("BOT", "si").title, "බාර් ඇණවුම් පත්රිකාව (BOT)");
       assert.strictEqual(getSlipTitle("BOT", "ta").title, "பார் ஆர்டர் சீட்டு (BOT)");
     });
   });
@@ -64,7 +64,7 @@ describe("Step 280: 80mm Thermal KOT / BOT Ticket Auto-Print View (PrintableKotS
         name: "Jaffna Lagoon Crab Curry",
         quantity: 2,
         portion: "Large Clay Pot",
-        spiceLevel: "Extra Hot Sri Lankan 🌶️🌶️🌶️",
+        spiceLevel: "Extra Hot Sri Lankan",
         modifiers: ["Extra Roast Paan (2 pcs)", "Thick Coconut Gravy"],
         specialInstructions: "Guest requested mild salt on the roast paan",
       },
@@ -180,7 +180,7 @@ describe("Step 280: 80mm Thermal KOT / BOT Ticket Auto-Print View (PrintableKotS
           language: "si",
         }),
       );
-      assert.ok(htmlSi.includes("කුස්සි ඇණවුම් පත්‍රිකාව (KOT)"));
+      assert.ok(htmlSi.includes("කුස්සි ඇණවුම් පත්රිකාව (KOT)"));
 
       const htmlTa = renderToStaticMarkup(
         React.createElement(PrintableKotSlip, {

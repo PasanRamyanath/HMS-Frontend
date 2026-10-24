@@ -107,9 +107,9 @@ describe("Step 278: Smartphone Single-Column Compact KDS Mode (KdsMobileCompact.
     it("renders mobile system action controls: mute, test chime, and wake-lock", () => {
       const html = renderToStaticMarkup(React.createElement(KdsMobileCompact, {}));
 
-      assert.ok(html.includes("🔔")); // Unmuted bell button
-      assert.ok(html.includes("🎵")); // Chime test button
-      assert.ok(html.includes("💡")); // Screen wake-lock button
+      assert.ok(html.includes("Bell")); // Unmuted bell button
+      assert.ok(html.includes("Audio")); // Chime test button
+      assert.ok(html.includes("Light")); // Screen wake-lock button
     });
   });
 
@@ -141,7 +141,7 @@ describe("Step 278: Smartphone Single-Column Compact KDS Mode (KdsMobileCompact.
       const html = renderToStaticMarkup(React.createElement(KdsMobileCompact, { readOnly: true }));
 
       assert.ok(!html.includes("Start Cooking"));
-      assert.ok(!html.includes("↩️"));
+      assert.ok(!html.includes("Undo"));
     });
 
     it("validates all exported types are constructible", () => {

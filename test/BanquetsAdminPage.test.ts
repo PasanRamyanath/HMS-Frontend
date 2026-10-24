@@ -91,8 +91,8 @@ describe("Step 348: Unified Banquets, Weddings & MICE Admin Page (BanquetsAdminP
 
     it("returns Sinhala translations accurately", () => {
       const si = getBanquetAdminTranslations("si");
-      assert.equal(si.title, "මංගල උත්සව සහ සම්මන්ත්‍රණ මෙහෙයුම් මධ්‍යස්ථානය");
-      assert.equal(si.quickPrintBeo, "BEO ලේඛනය මුද්‍රණය");
+      assert.equal(si.title, "මංගල උත්සව සහ සම්මන්ත්රණ මෙහෙයුම් මධ්යස්ථානය");
+      assert.equal(si.quickPrintBeo, "BEO ලේඛනය මුද්රණය");
     });
 
     it("returns Tamil translations accurately", () => {
@@ -232,7 +232,7 @@ describe("Step 348: Unified Banquets, Weddings & MICE Admin Page (BanquetsAdminP
           initialTab: "CALENDAR",
         }),
       );
-      assert.ok(htmlSi.includes("මංගල උත්සව සහ සම්මන්ත්‍රණ මෙහෙයුම් මධ්‍යස්ථානය"));
+      assert.ok(htmlSi.includes("මංගල උත්සව සහ සම්මන්ත්රණ මෙහෙයුම් මධ්යස්ථානය"));
       assert.ok(htmlSi.includes("නව උත්සව වෙන්කිරීම"));
 
       const htmlTa = renderToStaticMarkup(

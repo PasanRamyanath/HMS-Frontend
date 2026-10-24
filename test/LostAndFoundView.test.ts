@@ -189,7 +189,7 @@ describe("Step 311: Lost & Found Register with Photo & Guest NIC/Phone Link (Los
 
     it("renders trilingual localized text in Sinhala and Tamil", () => {
       const textSi = getLostFoundText("si");
-      assert.equal(textSi.title, "අස්ථානගත වූ සහ හමුවූ ද්‍රව්‍ය ලේඛනය");
+      assert.equal(textSi.title, "අස්ථානගත වූ සහ හමුවූ ද්රව්ය ලේඛනය");
       assert.equal(textSi.sendSmsAction, "SMS පණිවිඩයක් යවන්න");
       assert.equal(textSi.claimReturnAction, "අමුත්තාට භාරදෙන්න");
 
@@ -203,7 +203,7 @@ describe("Step 311: Lost & Found Register with Photo & Guest NIC/Phone Link (Los
           language: "si",
         }),
       );
-      assert.ok(htmlSi.includes("අස්ථානගත වූ සහ හමුවූ ද්‍රව්‍ය ලේඛනය"));
+      assert.ok(htmlSi.includes("අස්ථානගත වූ සහ හමුවූ ද්රව්ය ලේඛනය"));
       assert.ok(htmlSi.includes("SMS පණිවිඩයක් යවන්න"));
 
       const htmlTa = renderToStaticMarkup(

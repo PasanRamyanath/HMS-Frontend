@@ -200,8 +200,8 @@ describe("Step 359: Contactless Guest QR Ayurveda Spa & Excursion Self-Booking T
 
       assert.ok(html.includes("ස්පා සහ සංචාරක අත්දැකීම්"));
       assert.ok(html.includes("ආයුර්වේද ස්පා"));
-      assert.ok(html.includes("ශිරෝධාරා සන්සුන් ප්‍රතිකාරය"));
-      assert.ok(html.includes("යාල ජාතික වනෝද්‍යාන දිවි සෆාරි"));
+      assert.ok(html.includes("ශිරෝධාරා සන්සුන් ප්රතිකාරය"));
+      assert.ok(html.includes("යාල ජාතික වනෝද්යාන දිවි සෆාරි"));
       assert.ok(html.includes("මෙම කාමරය සඳහා තවමත් වෙන්කිරීම් සිදුකර නොමැත."));
     });
 
@@ -238,7 +238,7 @@ describe("Step 359: Contactless Guest QR Ayurveda Spa & Excursion Self-Booking T
         timeSlots: ["10:00 AM"],
         location: "Garden Pavilion",
         earlyMorning: false,
-        iconEmoji: "🌸",
+        iconEmoji: "Flower",
       };
 
       assert.strictEqual(item.category, "AYURVEDA_SPA");

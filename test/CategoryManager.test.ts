@@ -31,7 +31,7 @@ describe("Step 226: DOMSpeed-Style Category Manager (CategoryManager.tsx)", () =
       const riceCurry = DEFAULT_DOMSPEED_CATEGORIES.find((c) => c.id === "CAT-RICE-CURRY");
       assert.ok(riceCurry);
       assert.strictEqual(riceCurry.name.en, "Sri Lankan Rice & Curry");
-      assert.strictEqual(riceCurry.name.si, "ශ්‍රී ලාංකික බත් සහ ව්‍යංජන");
+      assert.strictEqual(riceCurry.name.si, "ශ්රී ලාංකික බත් සහ ව්යංජන");
       assert.strictEqual(riceCurry.name.ta, "இலங்கை அரிசி மற்றும் கறி");
       assert.strictEqual(riceCurry.department, Department.Kitchen);
       assert.strictEqual(riceCurry.iconKey, "rice-bowl");
@@ -123,7 +123,7 @@ describe("Step 226: DOMSpeed-Style Category Manager (CategoryManager.tsx)", () =
       const html = renderToStaticMarkup(React.createElement(CategoryManager, props));
       assert.ok(html.includes("Mirissa Fresh Lagoon Catch"));
       assert.ok(html.includes("test-category-manager"));
-      assert.ok(html.includes("🕒 12:00–22:00"));
+      assert.ok(html.includes("12:00–22:00"));
       assert.ok(html.includes("5 items"));
     });
   });

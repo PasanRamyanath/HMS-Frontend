@@ -33,17 +33,17 @@ describe("Step 214: PaidOutVoucherModal & Front Desk Cash Advance Disbursements"
 
     it("returns correct category metadata with icon and description", () => {
       const tuktuk = getCategoryInfo("TUK_TUK_TRANSPORT");
-      assert.strictEqual(tuktuk.icon, "🛺");
+      assert.strictEqual(tuktuk.icon, "TukTuk");
       assert.strictEqual(tuktuk.label, "Tuk-Tuk / Taxi Fare");
 
       const pharmacy = getCategoryInfo("PHARMACY_MEDICAL");
-      assert.strictEqual(pharmacy.icon, "💊");
+      assert.strictEqual(pharmacy.icon, "Med");
 
       const courier = getCategoryInfo("POSTAGE_COURIER");
-      assert.strictEqual(courier.icon, "📮");
+      assert.strictEqual(courier.icon, "Post");
 
       const fallback = getCategoryInfo("UNKNOWN_CAT" as PaidOutCategory);
-      assert.strictEqual(fallback.icon, "🧾");
+      assert.strictEqual(fallback.icon, "Folio");
     });
 
     it("validates paid-out payloads strictly against required fields", () => {

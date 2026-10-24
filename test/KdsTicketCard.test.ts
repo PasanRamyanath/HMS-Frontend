@@ -107,7 +107,7 @@ describe("Step 277: KDS Order Ticket Card with SLA Color Escalation & Spice/Alle
       assert.ok(html.includes("K-101"));
       assert.ok(html.includes("Room 204 (Deluxe Ocean)"));
       assert.ok(html.includes("Jaffna Lagoon Crab Curry"));
-      assert.ok(html.includes("Extra Spicy 🌶️🌶️🌶️"));
+      assert.ok(html.includes("Extra Spicy"));
       assert.ok(html.includes("tabular-nums-lkr"));
       assert.ok(html.includes("HALAL"));
       assert.ok(html.includes("DAIRY_FREE"));
@@ -120,7 +120,7 @@ describe("Step 277: KDS Order Ticket Card with SLA Color Escalation & Spice/Alle
 
       assert.ok(html.includes("Guest allergic to dairy"));
       assert.ok(html.includes("bg-red-950/40"));
-      assert.ok(html.includes("⚠️"));
+      assert.ok(html.includes("Alert"));
     });
 
     it("escalates visual border to amber for tickets > 15 minutes", () => {
@@ -170,21 +170,21 @@ describe("Step 277: KDS Order Ticket Card with SLA Color Escalation & Spice/Alle
         React.createElement(KdsTicketCard, { ticket: testTicket1 }),
       );
       assert.ok(newOrderHtml.includes("Start Cooking"));
-      assert.ok(!newOrderHtml.includes("↩️")); // No recall on new order
+      assert.ok(!newOrderHtml.includes("Undo")); // No recall on new order
 
       // COOKING ticket -> "Mark Plated & Ready" and has recall button
       const cookingHtml = renderToStaticMarkup(
         React.createElement(KdsTicketCard, { ticket: testTicket2 }),
       );
       assert.ok(cookingHtml.includes("Mark Plated") && cookingHtml.includes("Ready"));
-      assert.ok(cookingHtml.includes("↩️"));
+      assert.ok(cookingHtml.includes("Undo"));
 
       // READY_TO_DELIVER ticket -> "Dispatched / Complete"
       const readyHtml = renderToStaticMarkup(
         React.createElement(KdsTicketCard, { ticket: testTicket3 }),
       );
       assert.ok(readyHtml.includes("Dispatched / Complete"));
-      assert.ok(readyHtml.includes("↩️"));
+      assert.ok(readyHtml.includes("Undo"));
     });
 
     it("hides action buttons when readOnly is enabled", () => {
@@ -196,7 +196,7 @@ describe("Step 277: KDS Order Ticket Card with SLA Color Escalation & Spice/Alle
       );
 
       assert.ok(!html.includes("Start Cooking"));
-      assert.ok(!html.includes("↩️"));
+      assert.ok(!html.includes("Undo"));
     });
 
     it("renders thermal print slip action button", () => {
@@ -204,7 +204,7 @@ describe("Step 277: KDS Order Ticket Card with SLA Color Escalation & Spice/Alle
         React.createElement(KdsTicketCard, { ticket: testTicket1 }),
       );
       assert.ok(html.includes("Print Slip"));
-      assert.ok(html.includes("🖨️"));
+      assert.ok(html.includes("Print"));
     });
   });
 });

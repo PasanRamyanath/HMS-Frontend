@@ -73,7 +73,7 @@ describe("Step 247: Out-of-Stock ('86'd Items') Quick Board (OutOfStockBoard.tsx
       code: "CUR-204",
       title: {
         en: "Jumbo Lagoon Prawn Curry",
-        si: "ගමේ ක්‍රමයට ඉදුණු කලපු ඉස්සන් ව්‍යංජනය",
+        si: "ගමේ ක්රමයට ඉදුණු කලපු ඉස්සන් ව්යංජනය",
         ta: "ஜம்போ இறால் கறி",
       },
       categoryName: "Rice & Curries",
@@ -89,7 +89,7 @@ describe("Step 247: Out-of-Stock ('86'd Items') Quick Board (OutOfStockBoard.tsx
     });
 
     it("resolves Sinhala title when active language is si", () => {
-      assert.strictEqual(resolveItemTitle(sampleItem.title, "si"), "ගමේ ක්‍රමයට ඉදුණු කලපු ඉස්සන් ව්‍යංජනය");
+      assert.strictEqual(resolveItemTitle(sampleItem.title, "si"), "ගමේ ක්රමයට ඉදුණු කලපු ඉස්සන් ව්යංජනය");
     });
 
     it("resolves Tamil title when active language is ta", () => {

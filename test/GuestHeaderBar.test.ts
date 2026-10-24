@@ -134,7 +134,7 @@ describe("Step 252: Trilingual Language & Currency Header Bar (GuestHeaderBar.ts
       assert.ok(html.includes('data-testid="guest-header-bar"'));
       assert.ok(html.includes("Galle Fort Lighthouse Villa"));
       assert.ok(html.includes("Room 104"));
-      assert.ok(html.includes("🔑"));
+      assert.ok(html.includes("Key"));
       assert.ok(html.includes("LKR"));
       assert.ok(html.includes("~USD"));
     });
@@ -152,7 +152,7 @@ describe("Step 252: Trilingual Language & Currency Header Bar (GuestHeaderBar.ts
         }),
       );
 
-      assert.ok(html.includes("🛒"));
+      assert.ok(html.includes("Cart"));
       assert.ok(html.includes("3"));
       assert.ok(html.includes("LKR") && html.includes("6,200.00"));
       assert.ok(html.includes('aria-label="View Cart (3 items, LKR 6,200.00)"'));
@@ -168,7 +168,7 @@ describe("Step 252: Trilingual Language & Currency Header Bar (GuestHeaderBar.ts
         }),
       );
 
-      assert.ok(html.includes("🔍"));
+      assert.ok(html.includes("Search"));
       assert.ok(html.includes('aria-label="Close menu search"'));
     });
 

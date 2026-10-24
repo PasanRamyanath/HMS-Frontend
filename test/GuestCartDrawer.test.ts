@@ -33,7 +33,7 @@ const SAMPLE_ITEMS: ReadonlyArray<CartItem> = [
     selectedPortion: { id: "p-full", name: { en: "Full Portion" }, priceAdjustmentLkr: 0 },
     selectedSpiceLevel: {
       id: "sp-spicy",
-      name: { en: "Sri Lankan Spicy 🌶️🌶️🌶️" },
+      name: { en: "Sri Lankan Spicy" },
       priceAdjustmentLkr: 0,
     },
     selectedAddOns: [

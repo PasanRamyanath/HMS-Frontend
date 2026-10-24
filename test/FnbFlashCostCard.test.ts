@@ -202,7 +202,7 @@ describe("Step 392: Daily Food & Beverage Cost % Flash Report", () => {
       );
 
       assert.ok(html.includes("දිනපතා ආහාර සහ පාන පිරිවැය %"));
-      assert.ok(html.includes("ආහාර පිරිවැය ප්‍රතිශතය %"));
+      assert.ok(html.includes("ආහාර පිරිවැය ප්රතිශතය %"));
       assert.ok(html.includes("සාරාංශ දැක්ම"));
     });
 

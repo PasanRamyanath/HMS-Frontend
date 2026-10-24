@@ -170,10 +170,10 @@ describe("Step 329: Banquet & Wedding Availability Calendar (BanquetCalendar.tsx
       );
 
       // Morning slot icon
-      assert.ok(html.includes("☀️"));
+      assert.ok(html.includes("Day"));
       assert.ok(html.includes("Morning (Poruwa)"));
       // Evening slot icon
-      assert.ok(html.includes("🌙"));
+      assert.ok(html.includes("Night"));
       assert.ok(html.includes("Evening (Homecoming)"));
       assert.ok(html.includes("Available"));
     });

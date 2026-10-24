@@ -69,21 +69,21 @@ describe("Step 317: Room Deep-Cleaning & Monsoon Mold Tracker (DeepCleanSchedule
   describe("3. Service Badges, Status Badges & Filtering", () => {
     it("resolves distinct icons and styles for all 5 tropical maintenance services", () => {
       const ac = resolveServiceTypeBadge("AC_CHEMICAL_FLUSH");
-      assert.equal(ac.icon, "❄️");
+      assert.equal(ac.icon, "AC");
       assert.match(ac.style, /cyan/);
 
       const mold = resolveServiceTypeBadge("MOLD_FOLIAGE_FOGGING");
-      assert.equal(mold.icon, "🌿");
+      assert.equal(mold.icon, "Eco");
       assert.match(mold.style, /emerald/);
 
       const mattress = resolveServiceTypeBadge("MATTRESS_STEAM_UV");
-      assert.equal(mattress.icon, "🛏️");
+      assert.equal(mattress.icon, "Room");
 
       const grout = resolveServiceTypeBadge("GROUT_DESCALING");
-      assert.equal(grout.icon, "🚿");
+      assert.equal(grout.icon, "Shower");
 
       const pest = resolveServiceTypeBadge("PEST_FUMIGATION");
-      assert.equal(pest.icon, "🦟");
+      assert.equal(pest.icon, "Pest");
     });
 
     it("resolves status badges with pulsing indicators for overdue records", () => {

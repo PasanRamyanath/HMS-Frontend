@@ -97,12 +97,12 @@ describe("Step 281: Chef 1-Tap '86 Item' Quick Toggle Drawer (KdsStockToggleDraw
       // Items rendered
       assert.ok(html.includes("Jaffna Lagoon Crab Curry"));
       assert.ok(html.includes("IN STOCK"));
-      assert.ok(html.includes("🚫 86 Item"));
+      assert.ok(html.includes("86 Item"));
 
       // 86'd out of stock item (King Coconut)
       assert.ok(html.includes("Mirissa King Coconut (Thambili)"));
       assert.ok(html.includes("86&#x27;D (OUT)"));
-      assert.ok(html.includes("✓ Restore"));
+      assert.ok(html.includes("Restore"));
       assert.ok(html.includes("Daily Tree Harvest Depleted"));
     });
 

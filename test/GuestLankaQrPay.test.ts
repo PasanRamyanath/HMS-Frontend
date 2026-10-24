@@ -32,17 +32,17 @@ describe("Step 261: Instant LankaQR & Alipay+ Scan-to-Pay Checkout View (GuestLa
       const en = getLankaQrPayText("en");
       assert.strictEqual(en.title, "Instant LankaQR Scan & Pay");
       assert.strictEqual(en.copyReference, "Copy Reference");
-      assert.strictEqual(en.secureCbslBadge, "🔒 Central Bank of Sri Lanka Certified LankaQR");
+      assert.strictEqual(en.secureCbslBadge, "Central Bank of Sri Lanka Certified LankaQR");
 
       const si = getLankaQrPayText("si");
       assert.strictEqual(si.title, "ක්ෂණික LankaQR මඟින් ගෙවන්න");
       assert.strictEqual(si.copyReference, "අංකය පිටපත් කරන්න");
-      assert.strictEqual(si.secureCbslBadge, "🔒 ශ්‍රී ලංකා මහ බැංකුව විසින් සහතික කළ LankaQR");
+      assert.strictEqual(si.secureCbslBadge, "ශ්රී ලංකා මහ බැංකුව විසින් සහතික කළ LankaQR");
 
       const ta = getLankaQrPayText("ta");
       assert.strictEqual(ta.title, "உடனடி LankaQR ஸ்கேன் & கட்டணம்");
       assert.strictEqual(ta.copyReference, "குறிப்பை நகலெடு");
-      assert.strictEqual(ta.secureCbslBadge, "🔒 இலங்கை மத்திய வங்கியால் சான்றளிக்கப்பட்ட LankaQR");
+      assert.strictEqual(ta.secureCbslBadge, "இலங்கை மத்திய வங்கியால் சான்றளிக்கப்பட்ட LankaQR");
     });
   });
 
@@ -111,7 +111,7 @@ describe("Step 261: Instant LankaQR & Alipay+ Scan-to-Pay Checkout View (GuestLa
 
       assert.ok(html.includes("ක්ෂණික LankaQR මඟින් ගෙවන්න"));
       assert.ok(html.includes("12,500.00"));
-      assert.ok(html.includes("ශ්‍රී ලංකා මහ බැංකුව"));
+      assert.ok(html.includes("ශ්රී ලංකා මහ බැංකුව"));
     });
   });
 

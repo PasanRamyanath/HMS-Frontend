@@ -151,7 +151,7 @@ describe("Step 343: BanquetTableLayout — Banquet Hall Floor Plan & Table Numbe
         }),
       );
       assert.match(htmlSi, /උත්සව ශාලා සැකැස්ම සහ මේස සැලසුම් පුවරුව/);
-      assert.match(htmlSi, /ප්‍රවේශ ආසන පුවරුව මුද්‍රණය/);
+      assert.match(htmlSi, /ප්රවේශ ආසන පුවරුව මුද්රණය/);
 
       const htmlTa = renderToStaticMarkup(
         React.createElement(BanquetTableLayout, {

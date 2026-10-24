@@ -147,7 +147,7 @@ describe("Step 307: Daily Attendant Task Sheet & Print/Mobile Assignment View (H
     it("renders trilingual localized interface in Sinhala and Tamil", () => {
       const textSi = getBoardText("si");
       assert.equal(textSi.title, "දෛනික කාමර සේවක පැවරුම් පුවරුව");
-      assert.equal(textSi.autoBalanceAction, "වැඩ බර ස්වයංක්‍රීයව තුලනය කරන්න");
+      assert.equal(textSi.autoBalanceAction, "වැඩ බර ස්වයංක්රීයව තුලනය කරන්න");
       assert.equal(textSi.pushMobileAction, "ස්මාර්ට්ෆෝන් වලට යවන්න");
 
       const textTa = getBoardText("ta");
@@ -161,7 +161,7 @@ describe("Step 307: Daily Attendant Task Sheet & Print/Mobile Assignment View (H
         }),
       );
       assert.ok(htmlSi.includes("දෛනික කාමර සේවක පැවරුම් පුවරුව"));
-      assert.ok(htmlSi.includes("වැඩ බර ස්වයංක්‍රීයව තුලනය කරන්න"));
+      assert.ok(htmlSi.includes("වැඩ බර ස්වයංක්රීයව තුලනය කරන්න"));
 
       const htmlTa = renderToStaticMarkup(
         React.createElement(HkAssignmentBoard, {

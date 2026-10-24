@@ -155,7 +155,7 @@ describe("Step 308: Guest Laundry Job Tracker & Folio Auto-Poster (LaundryTracke
       assert.ok(html.includes("Ready to Return"));
       assert.ok(html.includes("Folio Billed Revenue"));
       assert.ok(html.includes("All Jobs"));
-      assert.ok(html.includes("⚡ Express Only"));
+      assert.ok(html.includes("Express Only"));
     });
 
     it("renders job cards with room badges, express badges, and action buttons", () => {
@@ -167,7 +167,7 @@ describe("Step 308: Guest Laundry Job Tracker & Folio Auto-Poster (LaundryTracke
 
       assert.ok(html.includes("Room #101"));
       assert.ok(html.includes("LND-101-08"));
-      assert.ok(html.includes("⚡ Express 4h"));
+      assert.ok(html.includes("Express 4h"));
       assert.ok(html.includes("Advance Stage"));
       assert.ok(html.includes("Post to Folio"));
       assert.ok(html.includes("min-h-[44px]"));

@@ -128,7 +128,7 @@ describe("Step 335: Printable A4 Banquet Event Order (PrintableBeoSheet.tsx)", (
         }),
       );
 
-      assert.ok(html.includes("මංගල සහ උත්සව නියෝග පත්‍රිකාව (BEO)"));
+      assert.ok(html.includes("මංගල සහ උත්සව නියෝග පත්රිකාව (BEO)"));
       assert.ok(html.includes("සුබ නැකත් සහ උත්සව කාලසටහන"));
       assert.ok(html.includes("මුළුතැන්ගෙය"));
     });

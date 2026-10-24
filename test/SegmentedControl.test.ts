@@ -107,7 +107,7 @@ describe("iOS/macOS Sliding Pill Segmented Control (SegmentedControl.tsx)", () =
           id: "open",
           label: "Active Orders",
           badge: 5,
-          icon: React.createElement("span", { className: "icon" }, "★"),
+          icon: React.createElement("span", { className: "icon" }, "*"),
         },
         { id: "completed", label: "Completed", badge: 12 },
       ];
@@ -121,7 +121,7 @@ describe("iOS/macOS Sliding Pill Segmented Control (SegmentedControl.tsx)", () =
       );
 
       assert.ok(markup.includes("Active Orders"));
-      assert.ok(markup.includes("★"));
+      assert.ok(markup.includes("*"));
       assert.ok(markup.includes("5"));
       assert.ok(markup.includes("12"));
     });

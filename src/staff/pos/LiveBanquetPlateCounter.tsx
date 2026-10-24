@@ -1,3 +1,4 @@
+import { DynamicTokenIcon } from "../../components/SvgIcons.js";
 /**
  * Event-Day Live Plate Counter & Extra-Pax Overflow Tracker (LiveBanquetPlateCounter.tsx)
  *
@@ -6,25 +7,25 @@
  * banquet dinners, and corporate functions:
  *
  * 1. Live Plate Counting & Extra-Pax Reconciliation:
- *    - Real-time plate issuance tracking: Guaranteed Pax (e.g. 200) vs Actual Issued (e.g. 214) -> Extra Pax (+14).
- *    - Kitchen Buffer Pax monitoring (e.g. +20 buffer plates before kitchen food exhaustion).
- *    - Tactile >= 44x44pt 1-tap increment buttons (+1, +5, +10, -1 correction).
+ * - Real-time plate issuance tracking: Guaranteed Pax (e.g. 200) vs Actual Issued (e.g. 214) -> Extra Pax (+14).
+ * - Kitchen Buffer Pax monitoring (e.g. +20 buffer plates before kitchen food exhaustion).
+ * - Tactile >= 44x44pt 1-tap increment buttons (+1, +5, +10, -1 correction).
  * 2. Instant Extra Bites & Chasers On-the-Fly Ordering:
- *    - Live order entry for extra Devilled Chicken, Hot Butter Cuttlefish (HBC), Cashew Fry,
- *      Soda, Elephant House Ginger Beer (EGB), Tonic, and Ice Buckets during dinner.
+ * - Live order entry for extra Devilled Chicken, Hot Butter Cuttlefish (HBC), Cashew Fry,
+ * Soda, Elephant House Ginger Beer (EGB), Tonic, and Ice Buckets during dinner.
  * 3. Real-Time Financial Settlement Calculation:
- *    - Computes Base Pax, Extra Pax Overflow, Extra Bites/Chasers, 10% Service Charge,
- *      1% TDL, 2.5% SSCL, and 18% VAT.
+ * - Computes Base Pax, Extra Pax Overflow, Extra Bites/Chasers, 10% Service Charge,
+ * 1% TDL, 2.5% SSCL, and 18% VAT.
  * 4. Apple Human Interface Guidelines:
- *    - OLED high-contrast vibrancy cards with Apple dynamic system colors:
- *      systemGreen (#34C759) Within Guarantee, systemAmber (#FF9500) Buffer Warning,
- *      systemRed (#FF3B30) Extra Pax Overflow.
- *    - Translucent .apple-liquid-glass backdrop surfaces.
- *    - .tabular-nums-lkr typography for monetary amounts and counters.
- *    - Screen Wake-Lock API integration to prevent display sleep during service.
- *    - Web Audio API harmonic glass and warning chimes.
- *    - IndexedDB offline queue persistence when ballroom Wi-Fi disconnects.
- *    - 80mm POS Thermal Slip print layout and preview.
+ * - OLED high-contrast vibrancy cards with Apple dynamic system colors:
+ * systemGreen (#34C759) Within Guarantee, systemAmber (#FF9500) Buffer Warning,
+ * systemRed (#FF3B30) Extra Pax Overflow.
+ * - Translucent .apple-liquid-glass backdrop surfaces.
+ * - .tabular-nums-lkr typography for monetary amounts and counters.
+ * - Screen Wake-Lock API integration to prevent display sleep during service.
+ * - Web Audio API harmonic glass and warning chimes.
+ * - IndexedDB offline queue persistence when ballroom Wi-Fi disconnects.
+ * - 80mm POS Thermal Slip print layout and preview.
  * 5. Trilingual Localization (English, සිංහල, தமிழ்).
  * 6. Zero console noise, cognitive complexity <= 12 per function.
  */
@@ -197,7 +198,7 @@ export const DEFAULT_BANQUET_EXTRA_CATALOG: readonly BanquetExtraItem[] = [
   {
     id: "bite-fries",
     name: "Crispy French Fries Basket",
-    nameSi: "ප්‍රංශ ෆ්‍රයිස් බඳුන",
+    nameSi: "ප්රංශ ෆ්රයිස් බඳුන",
     nameTa: "பிரெஞ்சு பொரியல் கூடை",
     category: "BITE",
     unitPriceLkr: 1500,
@@ -397,44 +398,44 @@ export function generateBanquetThermalSlip(
 
   return [
     border,
-    "   SRI LANKAN CLOUD HMS - BANQUET POS   ",
-    "       LIVE PLATE RECONCILIATION SLIP    ",
+    " SRI LANKAN CLOUD HMS - BANQUET POS ",
+    " LIVE PLATE RECONCILIATION SLIP ",
     border,
-    `BEO Function:  ${event.functionNumber}`,
-    `Event ID:      ${event.eventId}`,
-    `Client:        ${event.clientName}`,
-    `Hall / Venue:  ${event.hallName}`,
-    `Captain:       ${event.captainName}`,
-    `Timestamp:     ${timestampIso.replace("T", " ").slice(0, 19)}`,
+    `BEO Function: ${event.functionNumber}`,
+    `Event ID: ${event.eventId}`,
+    `Client: ${event.clientName}`,
+    `Hall / Venue: ${event.hallName}`,
+    `Captain: ${event.captainName}`,
+    `Timestamp: ${timestampIso.replace("T", " ").slice(0, 19)}`,
     divider,
     "PLATE ATTENDANCE SUMMARY",
-    `Guaranteed Pax:       ${event.guaranteedPax.toString().padStart(16)}`,
+    `Guaranteed Pax: ${event.guaranteedPax.toString().padStart(16)}`,
     `Actual Plates Issued: ${issuedPax.toString().padStart(16)}`,
-    `Kitchen Buffer Pax:   ${event.bufferPax.toString().padStart(16)}`,
-    `Extra Pax Overflow:   ${financials.extraPax.toString().padStart(16)}`,
-    `Plate Tariff Rate:    ${formatLkrAmount(event.ratePerPlateLkr).padStart(16)}`,
-    `Extra Pax Surcharge:  ${formatLkrAmount(financials.extraPaxAmountLkr).padStart(16)}`,
+    `Kitchen Buffer Pax: ${event.bufferPax.toString().padStart(16)}`,
+    `Extra Pax Overflow: ${financials.extraPax.toString().padStart(16)}`,
+    `Plate Tariff Rate: ${formatLkrAmount(event.ratePerPlateLkr).padStart(16)}`,
+    `Extra Pax Surcharge: ${formatLkrAmount(financials.extraPaxAmountLkr).padStart(16)}`,
     divider,
     "EXTRA BITES & CHASERS ORDERED",
     orderLines || "No extra bites/chasers ordered.",
     divider,
     "FINANCIAL SETTLEMENT BREAKDOWN",
     `Base Guaranteed Cost: ${formatLkrAmount(financials.basePlateTotalLkr).padStart(16)}`,
-    `Extra Pax Overflow:   ${formatLkrAmount(financials.extraPaxAmountLkr).padStart(16)}`,
-    `Extra Bites Total:    ${formatLkrAmount(financials.extraBitesTotalLkr).padStart(16)}`,
-    `Extra Chasers Total:  ${formatLkrAmount(financials.extraChasersTotalLkr).padStart(16)}`,
+    `Extra Pax Overflow: ${formatLkrAmount(financials.extraPaxAmountLkr).padStart(16)}`,
+    `Extra Bites Total: ${formatLkrAmount(financials.extraBitesTotalLkr).padStart(16)}`,
+    `Extra Chasers Total: ${formatLkrAmount(financials.extraChasersTotalLkr).padStart(16)}`,
     `Gross Food & Beverage:${formatLkrAmount(financials.grossSubtotalLkr).padStart(16)}`,
-    `10% Service Charge:   ${formatLkrAmount(financials.serviceChargeLkr).padStart(16)}`,
-    `1% TDL Levy:          ${formatLkrAmount(financials.tdlLkr).padStart(16)}`,
-    `2.5% SSCL Tax:        ${formatLkrAmount(financials.ssclLkr).padStart(16)}`,
-    `18% VAT Tax:          ${formatLkrAmount(financials.vatLkr).padStart(16)}`,
+    `10% Service Charge: ${formatLkrAmount(financials.serviceChargeLkr).padStart(16)}`,
+    `1% TDL Levy: ${formatLkrAmount(financials.tdlLkr).padStart(16)}`,
+    `2.5% SSCL Tax: ${formatLkrAmount(financials.ssclLkr).padStart(16)}`,
+    `18% VAT Tax: ${formatLkrAmount(financials.vatLkr).padStart(16)}`,
     divider,
     `GRAND TOTAL SETTLEMENT:${formatLkrAmount(financials.grandTotalLkr).padStart(15)}`,
     border,
     "",
-    "Captain Signature:  ___________________",
+    "Captain Signature: ___________________",
     "",
-    "Host/Client Sign:   ___________________",
+    "Host/Client Sign: ___________________",
     border,
   ].join("\n");
 }
@@ -527,7 +528,7 @@ export const LIVE_PLATE_TRANSLATIONS: Readonly<
   },
   si: {
     title: "සජීවී උත්සව පිඟන් ගණකය සහ අතිරේක අමුත්තන් සටහන",
-    subtitle: "නියමිත පිඟන් සංඛ්‍යාව, අතිරේක අයවීම් සහ ක්ෂණික බයිට්ස් ඇණවුම් කිරීම",
+    subtitle: "නියමිත පිඟන් සංඛ්යාව, අතිරේක අයවීම් සහ ක්ෂණික බයිට්ස් ඇණවුම් කිරීම",
     guaranteedPax: "සහතික කළ අමුත්තන්",
     issuedPax: "නිකුත් කළ මුළු පිඟන්",
     extraPax: "අතිරේක අමුත්තන්",
@@ -541,19 +542,19 @@ export const LIVE_PLATE_TRANSLATIONS: Readonly<
     quickBitesTitle: "ක්ෂණික බයිට්ස් සහ බීම ඇණවුම්",
     quickBitesTab: "ඩෙවිල්ඩ් බයිට්ස්",
     quickChasersTab: "බීම සහ අයිස්",
-    tableRefPlaceholder: "මේස අංකය (උදා: මේසය 08, ප්‍රභූ අසුන්)",
+    tableRefPlaceholder: "මේස අංකය (උදා: මේසය 08, ප්රභූ අසුන්)",
     dispatchOrder: "ඇණවුම යවන්න (KOT)",
-    liveOrdersTitle: "රාත්‍රී භෝජන සංග්‍රහයේ අතිරේක ඇණවුම්",
+    liveOrdersTitle: "රාත්රී භෝජන සංග්රහයේ අතිරේක ඇණවුම්",
     noOrdersYet: "තවමත් අතිරේක බයිට්ස් හෝ බීම ඇණවුම් කර නැත.",
     markServed: "පිළිගැන්වූ බව සටහන් කරන්න",
     served: "පිළිගන්වන ලදී",
     settlementTitle: "සජීවී උත්සව අවසන් බිල්පත",
     syncSettlementButton: "අවසාන බිල්පතට යොමු කරන්න",
-    printThermalSlipButton: "මි.මී. 80 කුවිතාන්සිය මුද්‍රණය",
+    printThermalSlipButton: "මි.මී. 80 කුවිතාන්සිය මුද්රණය",
     auditLogTitle: "පිඟන් ගණන් කිරීමේ ඉතිහාසය",
     screenAwakeActive: "තිරය නොනිවේ",
-    screenAwakeInactive: "සාමාන්‍ය තිරය",
-    soundAlertsActive: "ශබ්ද සක්‍රීයයි",
+    screenAwakeInactive: "සාමාන්ය තිරය",
+    soundAlertsActive: "ශබ්ද සක්රීයයි",
     soundAlertsMuted: "නිහඬයි",
     offlinePendingBadge: "නොබැඳි පෙළගැස්ම",
     liveSyncedBadge: "සජීවීව යාවත්කාලීනයි",
@@ -637,18 +638,18 @@ const PlateCounterHeader: FC<PlateCounterHeaderProps> = ({
   offlineQueueCount,
 }) => {
   return (
-    <header className="p-4 sm:p-6 rounded-[24px] bg-slate-900/90 text-white border border-slate-800 shadow-xl backdrop-blur-2xl">
+    <header className="p-4 sm:p-6 rounded-[24px] bg-white text-slate-900 border border-slate-800 shadow-xl backdrop-blur-2xl">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 flex-wrap mb-1">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/30">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/20 text-amber-800 border border-amber-500/30">
               {event.functionNumber}
             </span>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-300">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">
               {event.hallName}
             </span>
             {offlineQueueCount > 0 ? (
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40 animate-pulse">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-800 border border-amber-500/40 animate-pulse">
                 {t.offlinePendingBadge}: {offlineQueueCount}
               </span>
             ) : (
@@ -658,7 +659,7 @@ const PlateCounterHeader: FC<PlateCounterHeaderProps> = ({
               </span>
             )}
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
             {event.clientName}
           </h1>
           <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
@@ -669,9 +670,9 @@ const PlateCounterHeader: FC<PlateCounterHeaderProps> = ({
         {/* Controls Toolbar */}
         <div className="flex items-center gap-2 flex-wrap">
           {/* Service Elapsed Timer */}
-          <div className="flex items-center gap-1.5 bg-slate-800/80 px-3 py-2 rounded-[16px] border border-slate-700">
+          <div className="flex items-center gap-1.5 bg-slate-100 px-3 py-2 rounded-[16px] border border-slate-700">
             <span className="text-xs text-slate-400 font-medium">{t.timerRunning}:</span>
-            <span className="text-sm font-bold font-mono text-emerald-400 tabular-nums">
+            <span className="text-sm font-bold font-mono text-[#0B6E4F] tabular-nums">
               {formatBanquetServiceTimer(elapsedSeconds)}
             </span>
             <button
@@ -699,10 +700,10 @@ const PlateCounterHeader: FC<PlateCounterHeaderProps> = ({
             className={`min-h-[44px] px-3 py-2 rounded-[16px] text-xs font-semibold flex items-center gap-1.5 transition-all border ${
               isWakeLockActive
                 ? "bg-[#34C759]/20 text-[#34C759] border-[#34C759]/40"
-                : "bg-slate-800 text-slate-400 border-slate-700 hover:text-white"
+                : "bg-slate-100 text-slate-400 border-slate-700 hover:text-slate-900"
             }`}
           >
-            <span>{isWakeLockActive ? "💡" : "💤"}</span>
+            <span>{isWakeLockActive ? "Light" : "Sleep"}</span>
             <span>{isWakeLockActive ? t.screenAwakeActive : t.screenAwakeInactive}</span>
           </button>
 
@@ -712,11 +713,13 @@ const PlateCounterHeader: FC<PlateCounterHeaderProps> = ({
             onClick={onToggleMute}
             className={`min-h-[44px] px-3 py-2 rounded-[16px] text-xs font-semibold flex items-center gap-1.5 transition-all border ${
               !isMuted
-                ? "bg-sky-500/20 text-sky-300 border-sky-500/40"
-                : "bg-slate-800 text-slate-400 border-slate-700 hover:text-white"
+                ? "bg-sky-500/20 text-sky-800 border-sky-500/40"
+                : "bg-slate-100 text-slate-400 border-slate-700 hover:text-slate-900"
             }`}
           >
-            <span>{!isMuted ? "🔔" : "🔕"}</span>
+            <span>
+              <DynamicTokenIcon token={!isMuted ? "Bell" : "Muted"} />
+            </span>
             <span>{!isMuted ? t.soundAlertsActive : t.soundAlertsMuted}</span>
           </button>
         </div>
@@ -746,7 +749,7 @@ const PlateCounterKpis: FC<PlateCounterKpisProps> = ({
     if (status === "BUFFER_EXCEEDED") {
       return {
         cardBorder: "border-[#FF3B30] bg-[#FF3B30]/10",
-        badgeBg: "bg-[#FF3B30] text-white",
+        badgeBg: "bg-[#FF3B30] text-slate-900",
         badgeLabel: t.bufferExceededAlertBadge,
         textColor: "text-[#FF3B30]",
       };
@@ -754,14 +757,14 @@ const PlateCounterKpis: FC<PlateCounterKpisProps> = ({
     if (status === "EXTRA_PAX_BUFFER") {
       return {
         cardBorder: "border-[#FF9500] bg-[#FF9500]/10",
-        badgeBg: "bg-[#FF9500] text-white",
+        badgeBg: "bg-[#FF9500] text-slate-900",
         badgeLabel: t.extraPaxWarningBadge,
         textColor: "text-[#FF9500]",
       };
     }
     return {
       cardBorder: "border-[#34C759] bg-[#34C759]/10",
-      badgeBg: "bg-[#34C759] text-white",
+      badgeBg: "bg-[#34C759] text-slate-900",
       badgeLabel: t.withinGuaranteeBadge,
       textColor: "text-[#34C759]",
     };
@@ -772,11 +775,11 @@ const PlateCounterKpis: FC<PlateCounterKpisProps> = ({
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
       {/* 1. Guaranteed Pax */}
-      <div className="p-4 rounded-[20px] bg-slate-900/80 border border-slate-800 backdrop-blur-xl">
+      <div className="p-4 rounded-[20px] bg-white border border-slate-800 backdrop-blur-xl">
         <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
           {t.guaranteedPax}
         </span>
-        <div className="text-2xl sm:text-3xl font-extrabold text-white mt-1 tabular-nums">
+        <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1 tabular-nums">
           {event.guaranteedPax}
         </div>
         <p className="text-xs text-slate-400 mt-1">
@@ -789,7 +792,7 @@ const PlateCounterKpis: FC<PlateCounterKpisProps> = ({
         className={`p-4 rounded-[20px] border backdrop-blur-xl transition-all shadow-lg ${statusConfig.cardBorder}`}
       >
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-300">
+          <span className="text-xs font-semibold uppercase tracking-wider text-slate-700">
             {t.issuedPax}
           </span>
           <span
@@ -803,14 +806,14 @@ const PlateCounterKpis: FC<PlateCounterKpisProps> = ({
         >
           {issuedPax}
         </div>
-        <p className="text-xs text-slate-300 mt-1">
+        <p className="text-xs text-slate-700 mt-1">
           {Math.round((issuedPax / event.guaranteedPax) * 100)}% of commitment
         </p>
       </div>
 
       {/* 3. Extra Pax Overflow */}
       <div
-        className={`p-4 rounded-[20px] bg-slate-900/80 border backdrop-blur-xl ${
+        className={`p-4 rounded-[20px] bg-white border backdrop-blur-xl ${
           financials.extraPax > 0 ? "border-[#FF3B30]/60 bg-[#FF3B30]/5" : "border-slate-800"
         }`}
       >
@@ -830,15 +833,15 @@ const PlateCounterKpis: FC<PlateCounterKpisProps> = ({
       </div>
 
       {/* 4. Kitchen Buffer Pax */}
-      <div className="p-4 rounded-[20px] bg-slate-900/80 border border-slate-800 backdrop-blur-xl">
+      <div className="p-4 rounded-[20px] bg-white border border-slate-800 backdrop-blur-xl">
         <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
           {t.bufferPax}
         </span>
-        <div className="text-2xl sm:text-3xl font-extrabold text-amber-400 mt-1 tabular-nums">
+        <div className="text-2xl sm:text-3xl font-extrabold text-amber-700 mt-1 tabular-nums">
           +{event.bufferPax}
         </div>
         <p className="text-xs text-slate-400 mt-1">
-          {t.remainingWithinBuffer}: <strong className="text-white">{remainingBuffer}</strong>
+          {t.remainingWithinBuffer}: <strong className="text-slate-900">{remainingBuffer}</strong>
         </p>
       </div>
     </div>
@@ -866,7 +869,7 @@ const PlateActionButtons: FC<PlateActionButtonsProps> = ({
   onIncrement,
 }) => {
   return (
-    <div className="p-4 sm:p-6 rounded-[24px] bg-slate-900/90 border border-slate-800 backdrop-blur-xl shadow-xl">
+    <div className="p-4 sm:p-6 rounded-[24px] bg-white border border-slate-800 backdrop-blur-xl shadow-xl">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
         <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
           {t.stationSelect}
@@ -880,7 +883,7 @@ const PlateActionButtons: FC<PlateActionButtonsProps> = ({
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                 selectedStation === station
                   ? "bg-blue-600 text-white shadow-md font-semibold"
-                  : "bg-slate-800 text-slate-400 hover:text-white"
+                  : "bg-slate-100 text-slate-400 hover:text-slate-900"
               }`}
             >
               {station}
@@ -921,7 +924,7 @@ const PlateActionButtons: FC<PlateActionButtonsProps> = ({
         <button
           type="button"
           onClick={() => onIncrement(-1)}
-          className="min-h-[64px] sm:min-h-[72px] px-4 py-3 rounded-[20px] bg-rose-950/80 hover:bg-rose-900 border border-rose-800 active:scale-95 text-rose-300 font-extrabold text-sm sm:text-base flex flex-col items-center justify-center transition-transform"
+          className="min-h-[64px] sm:min-h-[72px] px-4 py-3 rounded-[20px] bg-rose-950/80 hover:bg-rose-900 border border-rose-800 active:scale-95 text-rose-800 font-extrabold text-sm sm:text-base flex flex-col items-center justify-center transition-transform"
         >
           <span>{t.minusOnePlate}</span>
           <span className="text-xs font-normal opacity-70">Undo / -1</span>
@@ -958,22 +961,22 @@ const ExtraOrdersQuickOrder: FC<ExtraOrdersQuickOrderProps> = ({
   };
 
   return (
-    <div className="p-4 sm:p-6 rounded-[24px] bg-slate-900/90 border border-slate-800 backdrop-blur-xl shadow-xl">
+    <div className="p-4 sm:p-6 rounded-[24px] bg-white border border-slate-800 backdrop-blur-xl shadow-xl">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
         <div>
-          <h2 className="text-base sm:text-lg font-bold text-white">{t.quickBitesTitle}</h2>
+          <h2 className="text-base sm:text-lg font-bold text-slate-900">{t.quickBitesTitle}</h2>
           <p className="text-xs text-slate-400">1-tap kitchen & bar dispatch during function</p>
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex items-center gap-1 bg-slate-800 p-1 rounded-full border border-slate-700">
+        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-full border border-slate-700">
           <button
             type="button"
             onClick={() => setActiveTab("BITE")}
             className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
               activeTab === "BITE"
                 ? "bg-amber-500 text-slate-950 shadow-md"
-                : "text-slate-400 hover:text-white"
+                : "text-slate-400 hover:text-slate-900"
             }`}
           >
             {t.quickBitesTab}
@@ -984,7 +987,7 @@ const ExtraOrdersQuickOrder: FC<ExtraOrdersQuickOrderProps> = ({
             className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
               activeTab === "CHASER"
                 ? "bg-sky-500 text-slate-950 shadow-md"
-                : "text-slate-400 hover:text-white"
+                : "text-slate-400 hover:text-slate-900"
             }`}
           >
             {t.quickChasersTab}
@@ -1005,7 +1008,7 @@ const ExtraOrdersQuickOrder: FC<ExtraOrdersQuickOrderProps> = ({
           type="text"
           value={customTableRef}
           onChange={(e) => setCustomTableRef(e.target.value)}
-          className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 flex-1 max-w-xs"
+          className="bg-slate-100 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-900 placeholder-slate-500 focus:outline-none focus:border-blue-500 flex-1 max-w-xs"
         />
       </div>
 
@@ -1014,11 +1017,11 @@ const ExtraOrdersQuickOrder: FC<ExtraOrdersQuickOrderProps> = ({
         {filteredCatalog.map((item) => (
           <div
             key={item.id}
-            className="p-3 rounded-[16px] bg-slate-800/80 border border-slate-700 hover:border-slate-600 transition-all flex items-center justify-between gap-3"
+            className="p-3 rounded-[16px] bg-slate-100 border border-slate-700 hover:border-slate-600 transition-all flex items-center justify-between gap-3"
           >
             <div>
-              <div className="text-sm font-bold text-white">{getItemName(item)}</div>
-              <div className="text-xs font-semibold text-emerald-400 tabular-nums">
+              <div className="text-sm font-bold text-slate-900">{getItemName(item)}</div>
+              <div className="text-xs font-semibold text-[#0B6E4F] tabular-nums">
                 {formatLkrAmount(item.unitPriceLkr)}
                 <span className="text-slate-400 font-normal"> / {item.unitLabel}</span>
               </div>
@@ -1047,14 +1050,14 @@ interface ExtraOrdersTableProps {
 const ExtraOrdersTable: FC<ExtraOrdersTableProps> = ({ t, orders, onToggleStatus }) => {
   if (orders.length === 0) {
     return (
-      <div className="p-4 rounded-[20px] bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
+      <div className="p-4 rounded-[20px] bg-white border border-slate-800 text-center text-xs text-slate-400">
         {t.noOrdersYet}
       </div>
     );
   }
 
   return (
-    <div className="p-4 sm:p-6 rounded-[24px] bg-slate-900/90 border border-slate-800 backdrop-blur-xl shadow-xl">
+    <div className="p-4 sm:p-6 rounded-[24px] bg-white border border-slate-800 backdrop-blur-xl shadow-xl">
       <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-3">
         {t.liveOrdersTitle} ({orders.length})
       </h3>
@@ -1062,20 +1065,20 @@ const ExtraOrdersTable: FC<ExtraOrdersTableProps> = ({ t, orders, onToggleStatus
         {orders.map((ord) => (
           <div
             key={ord.id}
-            className="p-3 rounded-[14px] bg-slate-800/70 border border-slate-700/80 flex items-center justify-between gap-3 text-xs"
+            className="p-3 rounded-[14px] bg-slate-100 border border-slate-700/80 flex items-center justify-between gap-3 text-xs"
           >
             <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded-md font-bold bg-slate-700 text-amber-300">
+              <span className="px-2 py-0.5 rounded-md font-bold bg-slate-700 text-amber-800">
                 x{ord.quantity}
               </span>
               <div>
-                <span className="font-semibold text-white">{ord.itemName}</span>
+                <span className="font-semibold text-slate-900">{ord.itemName}</span>
                 <span className="text-slate-400 ml-2">({ord.tableRef})</span>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="font-bold text-emerald-400 tabular-nums">
+              <span className="font-bold text-[#0B6E4F] tabular-nums">
                 {formatLkrAmount(ord.totalPriceLkr)}
               </span>
               <button
@@ -1084,10 +1087,10 @@ const ExtraOrdersTable: FC<ExtraOrdersTableProps> = ({ t, orders, onToggleStatus
                 className={`min-h-[36px] px-2.5 py-1 rounded-lg font-semibold text-[11px] transition-all ${
                   ord.status === "SERVED"
                     ? "bg-[#34C759]/20 text-[#34C759] border border-[#34C759]/40"
-                    : "bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30"
+                    : "bg-amber-500/20 text-amber-800 border border-amber-500/40 hover:bg-amber-500/30"
                 }`}
               >
-                {ord.status === "SERVED" ? `✓ ${t.served}` : t.markServed}
+                {ord.status === "SERVED" ? `OK ${t.served}` : t.markServed}
               </button>
             </div>
           </div>
@@ -1111,10 +1114,10 @@ const SettlementInvoiceCard: FC<SettlementInvoiceCardProps> = ({
   onPrint,
 }) => {
   return (
-    <div className="p-4 sm:p-6 rounded-[24px] bg-slate-900/90 border border-slate-800 backdrop-blur-xl shadow-xl">
+    <div className="p-4 sm:p-6 rounded-[24px] bg-white border border-slate-800 backdrop-blur-xl shadow-xl">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
         <div>
-          <h3 className="text-base sm:text-lg font-bold text-white">{t.settlementTitle}</h3>
+          <h3 className="text-base sm:text-lg font-bold text-slate-900">{t.settlementTitle}</h3>
           <p className="text-xs text-slate-400">
             Real-time automated Sri Lankan statutory tax compounding
           </p>
@@ -1124,9 +1127,8 @@ const SettlementInvoiceCard: FC<SettlementInvoiceCardProps> = ({
           <button
             type="button"
             onClick={onPrint}
-            className="min-h-[44px] px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs border border-slate-700 transition-all flex items-center gap-1.5"
+            className="min-h-[44px] px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-800 font-semibold text-xs border border-slate-700 transition-all flex items-center gap-1.5"
           >
-            <span>🖨</span>
             <span>{t.printThermalSlipButton}</span>
           </button>
           <button
@@ -1134,7 +1136,6 @@ const SettlementInvoiceCard: FC<SettlementInvoiceCardProps> = ({
             onClick={onSync}
             className="min-h-[44px] px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg transition-all flex items-center gap-1.5"
           >
-            <span>⚡</span>
             <span>{t.syncSettlementButton}</span>
           </button>
         </div>
@@ -1142,17 +1143,17 @@ const SettlementInvoiceCard: FC<SettlementInvoiceCardProps> = ({
 
       {/* Tabular Cost Breakdown */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-        <div className="space-y-2 p-3 rounded-[16px] bg-slate-800/50 border border-slate-800">
-          <div className="flex justify-between text-slate-300">
+        <div className="space-y-2 p-3 rounded-[16px] bg-slate-100 border border-slate-800">
+          <div className="flex justify-between text-slate-700">
             <span>
               Guaranteed Pax ({financials.guaranteedPax} ×{" "}
               {formatLkrAmount(financials.ratePerPlateLkr)}):
             </span>
-            <span className="font-semibold text-white tabular-nums">
+            <span className="font-semibold text-slate-900 tabular-nums">
               {formatLkrAmount(financials.basePlateTotalLkr)}
             </span>
           </div>
-          <div className="flex justify-between text-slate-300">
+          <div className="flex justify-between text-slate-700">
             <span>
               Extra Pax Overflow ({financials.extraPax} ×{" "}
               {formatLkrAmount(financials.ratePerPlateLkr)}):
@@ -1165,24 +1166,24 @@ const SettlementInvoiceCard: FC<SettlementInvoiceCardProps> = ({
               {formatLkrAmount(financials.extraPaxAmountLkr)}
             </span>
           </div>
-          <div className="flex justify-between text-slate-300">
+          <div className="flex justify-between text-slate-700">
             <span>Extra Bites Total:</span>
-            <span className="font-semibold text-white tabular-nums">
+            <span className="font-semibold text-slate-900 tabular-nums">
               {formatLkrAmount(financials.extraBitesTotalLkr)}
             </span>
           </div>
-          <div className="flex justify-between text-slate-300">
+          <div className="flex justify-between text-slate-700">
             <span>Extra Chasers Total:</span>
-            <span className="font-semibold text-white tabular-nums">
+            <span className="font-semibold text-slate-900 tabular-nums">
               {formatLkrAmount(financials.extraChasersTotalLkr)}
             </span>
           </div>
         </div>
 
-        <div className="space-y-2 p-3 rounded-[16px] bg-slate-800/50 border border-slate-800">
-          <div className="flex justify-between text-slate-300">
+        <div className="space-y-2 p-3 rounded-[16px] bg-slate-100 border border-slate-800">
+          <div className="flex justify-between text-slate-700">
             <span>Gross F&B Subtotal:</span>
-            <span className="font-semibold text-white tabular-nums">
+            <span className="font-semibold text-slate-900 tabular-nums">
               {formatLkrAmount(financials.grossSubtotalLkr)}
             </span>
           </div>
@@ -1202,7 +1203,7 @@ const SettlementInvoiceCard: FC<SettlementInvoiceCardProps> = ({
             <span>18% Value Added Tax (VAT):</span>
             <span className="tabular-nums">{formatLkrAmount(financials.vatLkr)}</span>
           </div>
-          <div className="pt-2 border-t border-slate-700 flex justify-between text-sm font-extrabold text-emerald-400">
+          <div className="pt-2 border-t border-slate-700 flex justify-between text-sm font-extrabold text-[#0B6E4F]">
             <span>Final Settlement Grand Total:</span>
             <span className="tabular-nums">{formatLkrAmount(financials.grandTotalLkr)}</span>
           </div>
@@ -1223,19 +1224,19 @@ const ThermalSlipModal: FC<ThermalSlipModalProps> = ({ isOpen, slipContent, onCl
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-      <div className="max-w-md w-full bg-slate-900 rounded-[24px] border border-slate-800 p-4 sm:p-6 shadow-2xl flex flex-col max-h-[90vh]">
+      <div className="max-w-md w-full bg-white rounded-[24px] border border-slate-800 p-4 sm:p-6 shadow-2xl flex flex-col max-h-[90vh]">
         <div className="flex items-center justify-between pb-3 border-b border-slate-800">
           <h3 className="font-bold text-white text-base">80mm POS Verification Slip</h3>
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center"
+            className="w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-900 flex items-center justify-center"
           >
-            ✕
+            x
           </button>
         </div>
 
-        <pre className="mt-4 p-4 rounded-[16px] bg-black font-mono text-[11px] text-emerald-400 overflow-y-auto flex-1 whitespace-pre leading-relaxed border border-slate-800">
+        <pre className="mt-4 p-4 rounded-[16px] bg-black font-mono text-[11px] text-[#0B6E4F] overflow-y-auto flex-1 whitespace-pre leading-relaxed border border-slate-800">
           {slipContent}
         </pre>
 
@@ -1245,12 +1246,12 @@ const ThermalSlipModal: FC<ThermalSlipModalProps> = ({ isOpen, slipContent, onCl
             onClick={() => window.print()}
             className="flex-1 min-h-[44px] rounded-xl bg-blue-600 hover:bg-blue-500 font-bold text-xs text-white shadow-lg transition-all"
           >
-            🖨 Print 80mm Slip Now
+            Print 80mm Slip Now
           </button>
           <button
             type="button"
             onClick={onClose}
-            className="px-4 min-h-[44px] rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300"
+            className="px-4 min-h-[44px] rounded-xl bg-slate-100 hover:bg-slate-700 text-xs font-semibold text-slate-700"
           >
             Close
           </button>
@@ -1456,7 +1457,7 @@ export const LiveBanquetPlateCounter: FC<LiveBanquetPlateCounterProps> = ({
     <div
       id={containerId}
       className={`min-h-screen p-3 sm:p-6 space-y-4 sm:space-y-6 ${
-        isDarkMode ? "bg-slate-950 text-slate-100" : "bg-slate-100 text-slate-900"
+        isDarkMode ? "bg-[#F4F7F5] text-slate-800" : "bg-slate-100 text-slate-900"
       }`}
     >
       {/* 1. Header with Controls & Elapsed Service Timer */}

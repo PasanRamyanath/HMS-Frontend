@@ -99,7 +99,7 @@ describe("Step 354: SpaScheduleGrid — Interactive Spa Therapist & Treatment Ro
         }),
       );
       assert.ok(siHtml.includes(SPA_GRID_TRANSLATIONS.si.title));
-      assert.ok(siHtml.includes("ප්‍රතිකාර කාමර"));
+      assert.ok(siHtml.includes("ප්රතිකාර කාමර"));
 
       const taHtml = renderToStaticMarkup(
         React.createElement(SpaScheduleGrid, {

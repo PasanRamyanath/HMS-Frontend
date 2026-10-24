@@ -66,19 +66,19 @@ describe("Step 313: Turndown Service Evening Checklist Mode (TurndownServiceView
     it("resolves distinct badge style and emoji for each turndown status", () => {
       const pendingBadge = resolveTurndownBadge("PENDING");
       assert.match(pendingBadge.label, /Pending/i);
-      assert.equal(pendingBadge.icon, "🌙");
+      assert.equal(pendingBadge.icon, "Night");
 
       const completedBadge = resolveTurndownBadge("COMPLETED");
       assert.match(completedBadge.label, /Turned Down/i);
-      assert.equal(completedBadge.icon, "✨");
+      assert.equal(completedBadge.icon, "Clean");
 
       const dndBadge = resolveTurndownBadge("DND_SKIPPED");
       assert.match(dndBadge.label, /Do Not Disturb/i);
-      assert.equal(dndBadge.icon, "🛑");
+      assert.equal(dndBadge.icon, "Stop");
 
       const refusedBadge = resolveTurndownBadge("REFUSED_BY_GUEST");
       assert.match(refusedBadge.label, /Declined/i);
-      assert.equal(refusedBadge.icon, "🙅");
+      assert.equal(refusedBadge.icon, "Refused");
     });
 
     it("filters rooms by active tab selection", () => {
@@ -126,7 +126,7 @@ describe("Step 313: Turndown Service Evening Checklist Mode (TurndownServiceView
       const ta = getTurndownText("ta");
 
       assert.match(en.title, /Evening Turndown/i);
-      assert.match(si.title, /සන්ධ්‍යා ඇඳ/);
+      assert.match(si.title, /සන්ධ්යා ඇඳ/);
       assert.match(ta.title, /மாலை படுக்கை/);
     });
   });
@@ -176,7 +176,7 @@ describe("Step 313: Turndown Service Evening Checklist Mode (TurndownServiceView
         }),
       );
 
-      assert.match(markup, /සන්ධ්‍යා ඇඳ පිළියෙළ කිරීමේ පිරික්සුම් ලැයිස්තුව/);
+      assert.match(markup, /සන්ධ්යා ඇඳ පිළියෙළ කිරීමේ පිරික්සුම් ලැයිස්තුව/);
       assert.match(markup, /පැවරූ කාමර/);
       assert.match(markup, /පිළියෙළ කළ/);
     });

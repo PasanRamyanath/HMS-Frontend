@@ -202,7 +202,7 @@ describe("Step 397: ReturnableContainerCard & Empty Cylinder Tracker", () => {
 
       assert.match(html, /හිස් ගෑස් සිලින්ඩර සහ ආපසු භාරදෙන කූඩ ලුහුබැඳීම/);
       assert.match(html, /ගබඩාවේ ඇති පූර්ණ ඒකක/);
-      assert.match(html, /සිරවී ඇති තැන්පතු ප්‍රාග්ධනය/);
+      assert.match(html, /සිරවී ඇති තැන්පතු ප්රාග්ධනය/);
     });
 
     it("renders correctly in Tamil localization", () => {

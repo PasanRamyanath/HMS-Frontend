@@ -104,11 +104,11 @@ describe("Step 303: Attendant In-Room Minibar Consumption 1-Tap Logger (HkMiniba
     });
 
     it("returns appropriate emoji icon for each minibar item category", () => {
-      assert.equal(getItemIcon("BEER_WINE"), "🍺");
-      assert.equal(getItemIcon("SPIRITS_MINIATURES"), "🥃");
-      assert.equal(getItemIcon("SNACKS"), "🥜");
-      assert.equal(getItemIcon("SOFT_DRINKS"), "🥤");
-      assert.equal(getItemIcon("WELLNESS_MINERAL"), "💧");
+      assert.equal(getItemIcon("BEER_WINE"), "Beer");
+      assert.equal(getItemIcon("SPIRITS_MINIATURES"), "Spirit");
+      assert.equal(getItemIcon("SNACKS"), "Nuts");
+      assert.equal(getItemIcon("SOFT_DRINKS"), "Drink");
+      assert.equal(getItemIcon("WELLNESS_MINERAL"), "Water");
     });
 
     it("builds logged item list correctly from catalog and tally map", () => {

@@ -126,30 +126,30 @@ describe("Step 246: Top-Selling & Low-Margin Menu Engineering Matrix (MenuEngine
     it("resolveTrilingualTitle handles English, Sinhala, and Tamil lookups", () => {
       const title = {
         en: "Chicken Curry",
-        si: "කුකුළු මස් ව්‍යංජනය",
+        si: "කුකුළු මස් ව්යංජනය",
         ta: "கோழிக்கறி",
       };
       assert.strictEqual(resolveTrilingualTitle(title, "en"), "Chicken Curry");
-      assert.strictEqual(resolveTrilingualTitle(title, "si"), "කුකුළු මස් ව්‍යංජනය");
+      assert.strictEqual(resolveTrilingualTitle(title, "si"), "කුකුළු මස් ව්යංජනය");
       assert.strictEqual(resolveTrilingualTitle(title, "ta"), "கோழிக்கறி");
     });
 
     it("getQuadrantMetadata provides descriptive labels and strategies", () => {
       const star = getQuadrantMetadata("STAR");
-      assert.ok(star.emoji.includes("⭐"));
+      assert.ok(star.emoji.includes("Star"));
       assert.ok(star.label.includes("Stars"));
       assert.ok(star.strategy.includes("recipe quality"));
 
       const plow = getQuadrantMetadata("PLOWHORSE");
-      assert.ok(plow.emoji.includes("🐎"));
+      assert.ok(plow.emoji.includes("Plow"));
       assert.ok(plow.strategy.includes("Reprice") || plow.strategy.includes("portion"));
 
       const puzzle = getQuadrantMetadata("PUZZLE");
-      assert.ok(puzzle.emoji.includes("🧩"));
+      assert.ok(puzzle.emoji.includes("Puzzle"));
       assert.ok(puzzle.strategy.includes("Chef's Recommendation"));
 
       const dog = getQuadrantMetadata("DOG");
-      assert.ok(dog.emoji.includes("🐕"));
+      assert.ok(dog.emoji.includes("Dog"));
       assert.ok(dog.strategy.includes("seasonal") || dog.strategy.includes("86"));
     });
   });

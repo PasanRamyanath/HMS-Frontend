@@ -286,13 +286,13 @@ describe("Interactive Rate Quote Simulator & WhatsApp Formatter (RateSimulatorDi
       };
       const whatsappText = formatWhatsAppQuote(simulation, options);
 
-      assert.ok(whatsappText.includes("🏨 *Mirissa Bay Ocean Villas*"));
+      assert.ok(whatsappText.includes("*Mirissa Bay Ocean Villas*"));
       assert.ok(whatsappText.includes("Dear Mr. Perera,"));
-      assert.ok(whatsappText.includes("📅 *Stay Period*: 2026-12-20 to 2026-12-23 (3 Nights)"));
-      assert.ok(whatsappText.includes("🛏️ *Room Category*: Deluxe Ocean View"));
-      assert.ok(whatsappText.includes("🍽️ *Meal Plan*: Half Board (HB — Breakfast & Dinner)"));
-      assert.ok(whatsappText.includes("🌟 *GRAND TOTAL*"));
-      assert.ok(whatsappText.includes("📞 *Call / WhatsApp Us*: +94 41 225 9999"));
+      assert.ok(whatsappText.includes("*Stay Period*: 2026-12-20 to 2026-12-23 (3 Nights)"));
+      assert.ok(whatsappText.includes("*Room Category*: Deluxe Ocean View"));
+      assert.ok(whatsappText.includes("*Meal Plan*: Half Board (HB — Breakfast & Dinner)"));
+      assert.ok(whatsappText.includes("*GRAND TOTAL*"));
+      assert.ok(whatsappText.includes("*Call / WhatsApp Us*: +94 41 225 9999"));
       assert.ok(whatsappText.includes("valid for *48 hours*"));
     });
 

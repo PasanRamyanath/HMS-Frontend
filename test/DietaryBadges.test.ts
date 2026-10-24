@@ -266,7 +266,7 @@ describe("Step 240: Allergen, Halal, Vegetarian, Vegan & Dietary Badges (Dietary
         }),
       );
       assert.ok(mildHtml.includes("Mild Spice"));
-      assert.ok(mildHtml.includes("🌶️"));
+      assert.ok(mildHtml.includes("Spicy"));
 
       const zeroHtml = renderToStaticMarkup(
         React.createElement(SpicyChiliBar, {

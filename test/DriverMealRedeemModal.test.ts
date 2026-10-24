@@ -234,7 +234,7 @@ describe("Step 293: DriverMealRedeemModal — Driver / Guide Meal Voucher Redemp
       assert.strictEqual(getDriverMealPeriodLabel("LUNCH", "ta"), "மதிய உணவு");
 
       assert.strictEqual(getDriverMealPeriodLabel("DINNER", "en"), "Dinner");
-      assert.strictEqual(getDriverMealPeriodLabel("DINNER", "si"), "රාත්‍රී ආහාරය");
+      assert.strictEqual(getDriverMealPeriodLabel("DINNER", "si"), "රාත්රී ආහාරය");
       assert.strictEqual(getDriverMealPeriodLabel("DINNER", "ta"), "இரவு உணவு");
     });
 

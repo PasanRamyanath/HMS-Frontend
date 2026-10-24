@@ -123,9 +123,9 @@ describe("Step 289: Waiter / Room-Service Runner Delivery Dispatch Queue (Runner
       );
       assert.ok(html.includes("Nuwan Bandara"));
       assert.ok(html.includes("Ready Orders"));
-      assert.ok(html.includes("Rooms 🏨"));
-      assert.ok(html.includes("Tables 🍽️"));
-      assert.ok(html.includes("Cabanas 🌴"));
+      assert.ok(html.includes("Rooms"));
+      assert.ok(html.includes("Tables"));
+      assert.ok(html.includes("Cabanas"));
 
       // Check destinations
       assert.ok(html.includes("Room 302"));
@@ -137,8 +137,8 @@ describe("Step 289: Waiter / Room-Service Runner Delivery Dispatch Queue (Runner
       assert.ok(html.includes("Ceylon Lagoon Crab Curry"));
       assert.ok(html.includes("Critical Allergen Alert"));
       assert.ok(html.includes("Crab / Shellfish"));
-      assert.ok(html.includes("Out for Delivery 🚶‍♂️"));
-      assert.ok(html.includes("Confirm Delivered ✓"));
+      assert.ok(html.includes("Out for Delivery"));
+      assert.ok(html.includes("Confirm Delivered"));
       assert.ok(html.includes("apple-liquid-glass"));
       assert.ok(html.includes("tabular-nums-lkr"));
     });
@@ -163,10 +163,10 @@ describe("Step 289: Waiter / Room-Service Runner Delivery Dispatch Queue (Runner
       );
 
       assert.ok(html.includes("කාමර සේවා සහ බෙදාහැරීම් පද්ධතිය"));
-      assert.ok(html.includes("ක්‍රියාකාරී සේවකයා"));
+      assert.ok(html.includes("ක්රියාකාරී සේවකයා"));
       assert.ok(html.includes("සූදානම් ඇණවුම්"));
-      assert.ok(html.includes("කාමර 🏨"));
-      assert.ok(html.includes("බෙදාහැරීම තහවුරු කරන්න ✓"));
+      assert.ok(html.includes("කාමර"));
+      assert.ok(html.includes("බෙදාහැරීම තහවුරු කරන්න"));
     });
 
     it("supports Tamil localization", () => {
@@ -180,8 +180,8 @@ describe("Step 289: Waiter / Room-Service Runner Delivery Dispatch Queue (Runner
       assert.ok(html.includes("அறை சேவை மற்றும் டெலிவரி அமைப்பு"));
       assert.ok(html.includes("செயலில் உள்ள ஊழியர்"));
       assert.ok(html.includes("தயாரான ஆர்டர்கள்"));
-      assert.ok(html.includes("அறைகள் 🏨"));
-      assert.ok(html.includes("வழங்கப்பட்டதை உறுதிசெய் ✓"));
+      assert.ok(html.includes("அறைகள்"));
+      assert.ok(html.includes("வழங்கப்பட்டதை உறுதிசெய்"));
     });
   });
 });

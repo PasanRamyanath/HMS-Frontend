@@ -91,15 +91,15 @@ describe("Step 301: Housekeeping Smartphone Room Status Grid (HousekeepingMobile
     it("getStatusStyle maps statuses to Apple HIG theme tokens", () => {
       const clean = getStatusStyle("CLEAN");
       assert.ok(clean.badgeBg.includes("emerald"));
-      assert.strictEqual(clean.icon, "✓");
+      assert.strictEqual(clean.icon, "OK");
 
       const inspected = getStatusStyle("INSPECTED");
       assert.ok(inspected.badgeBg.includes("sky"));
-      assert.strictEqual(inspected.icon, "★");
+      assert.strictEqual(inspected.icon, "*");
 
       const dirty = getStatusStyle("DIRTY");
       assert.ok(dirty.badgeBg.includes("rose"));
-      assert.strictEqual(dirty.icon, "🧹");
+      assert.strictEqual(dirty.icon, "Clean");
 
       const dnd = getStatusStyle("DO_NOT_DISTURB");
       assert.ok(dnd.badgeBg.includes("purple"));
@@ -182,7 +182,7 @@ describe("Step 301: Housekeeping Smartphone Room Status Grid (HousekeepingMobile
         }),
       );
       assert.ok(htmlSi.includes("කාමර පිරිසිදු කිරීම් පද්ධතිය"));
-      assert.ok(htmlSi.includes("අද පැමිණේ • අධි ප්‍රමුඛතාව"));
+      assert.ok(htmlSi.includes("අද පැමිණේ • අධි ප්රමුඛතාව"));
 
       const htmlTa = renderToStaticMarkup(
         React.createElement(HousekeepingMobileView, {

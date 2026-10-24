@@ -1,3 +1,4 @@
+import { DynamicTokenIcon } from "../components/SvgIcons.js";
 /**
  * Unified Staff Smartphone Launcher & Hub (StaffMobileHub.tsx)
  * Single entrypoint for hotel smartphone & tablet operations across departments.
@@ -5,23 +6,23 @@
  * Modeled on Apple Human Interface Guidelines:
  * - Thumb-friendly responsive bento-grid tiles (>= 44x44pt touch targets, continuous squircle radii)
  * - 6 Core Staff Operational Modules:
- *     1. Kitchen KDS (Kanban & Single-Column Mobile modes, SLA alert timers)
- *     2. Bar BOT (Cocktails, beers, wine dispenser queue)
- *     3. Waiter POS (Interactive table floor map, seat ordering, bill splitting)
- *     4. Order Runner (Ready tray checklist, guest delivery dispatch)
- *     5. Buffet Host (Meal-plan check-off, attendance forecast)
- *     6. Housekeeping (Room turnaround, cleaning queue, priority turn-down)
+ * 1. Kitchen KDS (Kanban & Single-Column Mobile modes, SLA alert timers)
+ * 2. Bar BOT (Cocktails, beers, wine dispenser queue)
+ * 3. Waiter POS (Interactive table floor map, seat ordering, bill splitting)
+ * 4. Order Runner (Ready tray checklist, guest delivery dispatch)
+ * 5. Buffet Host (Meal-plan check-off, attendance forecast)
+ * 6. Housekeeping (Room turnaround, cleaning queue, priority turn-down)
  * - Quick Action Modals:
- *     - Driver / Tour Guide Meal Voucher Redemption Scanner
- *     - Daily Outlet Shift X-Read / Z-Read Financial Closing
- *     - Chef 1-Tap '86 Item' Quick Stock Out
+ * - Driver / Tour Guide Meal Voucher Redemption Scanner
+ * - Daily Outlet Shift X-Read / Z-Read Financial Closing
+ * - Chef 1-Tap '86 Item' Quick Stock Out
  * - Screen Wake-Lock integration (prevents screen dimming while on duty)
  * - Translucent .apple-liquid-glass surfaces & .tabular-nums-lkr typography
  * - Trilingual localization (English, සිංහල, தமிழ்)
  * - Zero console noise & cognitive complexity <= 12 per function
  */
 
-import { type FC, useMemo, useState } from "react";
+import { type FC, useEffect, useMemo, useState } from "react";
 import type { SupportedLanguage } from "../lib/i18n.js";
 import { navigateTo } from "../lib/router.js";
 import { getSoundSettings, playOrderBell, setMuted } from "../lib/soundAlert.js";
@@ -30,9 +31,9 @@ import {
   getWakeLockBadgeColor,
   useWakeLock,
 } from "../lib/useWakeLock.js";
+import { HousekeepingMobileView } from "./housekeeping/HousekeepingMobileView.js";
 import { BarBotView } from "./kds/BarBotView.js";
 import { KdsKanbanView } from "./kds/KdsKanbanView.js";
-import { KdsMobileCompact } from "./kds/KdsMobileCompact.js";
 import { KdsStockToggleDrawer } from "./kds/KdsStockToggleDrawer.js";
 import { RunnerDeliveryView } from "./kds/RunnerDeliveryView.js";
 import { BuffetCheckInView } from "./pos/BuffetCheckInView.js";
@@ -198,20 +199,20 @@ export const HUB_TRANSLATIONS: Record<SupportedLanguage, HubTranslationBundle> =
     },
   },
   si: {
-    staffHubTitle: "කාර්ය මණ්ඩල මෙහෙයුම් කේන්ද්‍රය",
+    staffHubTitle: "කාර්ය මණ්ඩල මෙහෙයුම් කේන්ද්රය",
     staffHubSubtitle: "ස්මාර්ට්ෆෝන් මෙවලම් සහ මුර පුවරුව",
     shiftOnDuty: "සේවයේ නියුතුයි",
-    quickShortcuts: "ක්ෂණික ක්‍රියාකාරකම් සහ මුදල් ලේඛනය",
+    quickShortcuts: "ක්ෂණික ක්රියාකාරකම් සහ මුදල් ලේඛනය",
     driverVouchers: "රියදුරු ආහාර වවුචර්",
     driverVouchersDesc: "DMC රියදුරු වවුචර් පරිලෝකනය",
     shiftZRead: "දෛනික Z-වාර්තාව",
     shiftZReadDesc: "මුරය අවසන් කර ගිණුම් පියවීම",
-    chef86Stock: "ඉවුම් පිහුම් ද්‍රව්‍ය අක්‍රියකය ('86')",
+    chef86Stock: "ඉවුම් පිහුම් ද්රව්ය අක්රියකය ('86')",
     chef86StockDesc: "අවසන් වූ කෑම වර්ග සලකුණු කිරීම",
     returnToHub: "ආපසු මුල් පිටුවට",
-    wakeLockActive: "තිරය සක්‍රීයයි",
-    wakeLockDisabled: "තිර නිද්‍රාව සක්‍රීයයි",
-    soundOn: "ශබ්දය ක්‍රියාත්මකයි",
+    wakeLockActive: "තිරය සක්රීයයි",
+    wakeLockDisabled: "තිර නිද්රාව සක්රීයයි",
+    soundOn: "ශබ්දය ක්රියාත්මකයි",
     soundOff: "නිහඬ කර ඇත",
     logout: "ඉවත් වන්න",
     activeAlerts: "හදිසි ඇඟවීම්",
@@ -234,7 +235,7 @@ export const HUB_TRANSLATIONS: Record<SupportedLanguage, HubTranslationBundle> =
       },
       BUFFET_HOST: {
         title: "බුෆේ පාලක",
-        subtitle: "අමුත්තන්ගේ ආහාර පැකේජ සත්‍යාපනය",
+        subtitle: "අමුත්තන්ගේ ආහාර පැකේජ සත්යාපනය",
       },
       HOUSEKEEPING: {
         title: "කාමර සේවාව",
@@ -344,7 +345,7 @@ export function getToolAccentBorder(toolId: StaffToolId): string {
     case "HOUSEKEEPING":
       return "border-[#FF9500]/40 hover:border-[#FF9500]";
     default:
-      return "border-white/20 hover:border-white/40";
+      return "border-[#E2E8F0] hover:border-[#E2E8F0]";
   }
 }
 
@@ -404,20 +405,20 @@ const HubTopBar: FC<HubTopBarProps> = ({
   };
 
   return (
-    <header className="apple-liquid-glass sticky top-0 z-40 px-4 py-3 border-b border-white/10 backdrop-blur-xl bg-slate-900/85 text-white flex items-center justify-between gap-3">
+    <header className="apple-liquid-glass sticky top-0 z-40 px-4 py-3 border-b border-[#E2E8F0] backdrop-blur-xl bg-white text-slate-900 flex items-center justify-between gap-3">
       {/* Property & Staff Identity */}
       <div className="flex items-center gap-3 min-w-0">
-        <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center font-bold text-black text-sm shrink-0 shadow-md">
+        <div className="bg-amber-500 hover:bg-amber-600 w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-black text-sm shrink-0 shadow-md">
           {user.avatarInitials || user.name.slice(0, 2).toUpperCase()}
         </div>
         <div className="min-w-0">
-          <h1 className="text-sm font-bold truncate leading-tight tracking-tight text-white">
+          <h1 className="text-sm font-bold truncate leading-tight tracking-tight text-slate-900">
             {hotelName}
           </h1>
           <p className="text-xs text-slate-400 truncate flex items-center gap-1.5">
-            <span className="font-medium text-slate-200">{user.name}</span>
+            <span className="font-medium text-slate-700">{user.name}</span>
             <span className="w-1 h-1 rounded-full bg-slate-500" />
-            <span className="text-[11px] font-semibold text-amber-400">{user.role}</span>
+            <span className="text-[11px] font-semibold text-[#0B6E4F]">{user.role}</span>
           </p>
         </div>
       </div>
@@ -446,16 +447,16 @@ const HubTopBar: FC<HubTopBarProps> = ({
           title={isAudioMuted ? t.soundOff : t.soundOn}
           className={`p-2 rounded-full border transition-all min-h-[44px] min-w-[44px] flex items-center justify-center ${
             isAudioMuted
-              ? "bg-slate-800/80 border-slate-700 text-slate-400"
-              : "bg-emerald-500/20 border-emerald-500/40 text-emerald-400"
+              ? "bg-slate-100 border-slate-700 text-slate-400"
+              : "bg-emerald-500/20 border-emerald-500/40 text-[#0B6E4F]"
           }`}
           aria-label={isAudioMuted ? t.soundOff : t.soundOn}
         >
-          {isAudioMuted ? "🔕" : "🔔"}
+          <DynamicTokenIcon token={isAudioMuted ? "Muted" : "Bell"} />
         </button>
 
         {/* Language Pill Switcher */}
-        <div className="flex bg-slate-800/90 rounded-full p-0.5 border border-white/10 text-xs">
+        <div className="flex bg-slate-100 rounded-full p-0.5 border border-[#E2E8F0] text-xs">
           {(["en", "si", "ta"] as const).map((lng) => (
             <button
               key={lng}
@@ -464,7 +465,7 @@ const HubTopBar: FC<HubTopBarProps> = ({
               className={`px-2 py-1 rounded-full font-medium transition-all min-h-[32px] ${
                 language === lng
                   ? "bg-amber-500 text-black font-bold shadow-sm"
-                  : "text-slate-300 hover:text-white"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
               {lng.toUpperCase()}
@@ -477,9 +478,8 @@ const HubTopBar: FC<HubTopBarProps> = ({
           type="button"
           onClick={() => navigateTo("/admin")}
           title="Switch to PMS Admin Portal"
-          className="px-3 py-1.5 rounded-full bg-sky-500/20 border border-sky-400/40 text-sky-300 text-xs font-semibold hover:bg-sky-500/30 transition-all min-h-[36px] flex items-center gap-1.5 cursor-pointer"
+          className="px-3 py-1.5 rounded-full bg-sky-500/20 border border-sky-400/40 text-sky-800 text-xs font-semibold hover:bg-sky-500/30 transition-all min-h-[36px] flex items-center gap-1.5 cursor-pointer"
         >
-          <span>🏢</span>
           <span className="hidden sm:inline">PMS Admin</span>
         </button>
 
@@ -489,10 +489,10 @@ const HubTopBar: FC<HubTopBarProps> = ({
             type="button"
             onClick={onLogout}
             title={t.logout}
-            className="p-2 rounded-full bg-slate-800/80 hover:bg-red-500/20 text-slate-400 hover:text-red-400 border border-white/10 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+            className="p-2 rounded-full bg-slate-100 hover:bg-red-500/20 text-slate-400 hover:text-red-700 border border-[#E2E8F0] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
             aria-label={t.logout}
           >
-            ✕
+            x
           </button>
         )}
       </div>
@@ -511,7 +511,7 @@ const ShiftBanner: FC<ShiftBannerProps> = ({ user, badgeCounts, language }) => {
   const shiftDuration = formatShiftDuration(user.shiftStartTimeIso);
 
   return (
-    <section className="apple-liquid-glass mx-4 mt-4 p-4 rounded-3xl bg-slate-900/60 border border-white/10 backdrop-blur-xl text-white shadow-xl flex flex-wrap items-center justify-between gap-3">
+    <section className="apple-liquid-glass mx-4 mt-4 p-4 rounded-2xl bg-white border border-[#E2E8F0] backdrop-blur-xl text-slate-900 shadow-xl flex flex-wrap items-center justify-between gap-3">
       <div className="flex items-center gap-3">
         <div className="w-3 h-3 rounded-full bg-emerald-400 animate-ping" />
         <div>
@@ -519,19 +519,18 @@ const ShiftBanner: FC<ShiftBannerProps> = ({ user, badgeCounts, language }) => {
             <span className="text-xs uppercase tracking-wider text-slate-400 font-bold">
               {t.shiftOnDuty}
             </span>
-            <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-semibold border border-emerald-500/30">
+            <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold border border-emerald-500/30">
               Active Shift
             </span>
           </div>
-          <p className="tabular-nums-lkr text-lg font-bold text-white tracking-tight mt-0.5">
+          <p className="tabular-nums-lkr text-lg font-bold text-slate-900 tracking-tight mt-0.5">
             {shiftDuration}
           </p>
         </div>
       </div>
 
       {badgeCounts.urgentSlaAlertsCount > 0 && (
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-red-500/20 border border-red-500/40 text-red-300 text-xs font-bold">
-          <span className="text-sm">⚠️</span>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold">
           <span>
             {badgeCounts.urgentSlaAlertsCount} {t.activeAlerts}
           </span>
@@ -554,14 +553,14 @@ const ToolGrid: FC<ToolGridProps> = ({ configs, onSelectTool }) => {
           key={tool.id}
           type="button"
           onClick={() => onSelectTool(tool.id)}
-          className={`apple-liquid-glass group relative p-5 rounded-3xl bg-slate-900/70 border backdrop-blur-xl text-left transition-all duration-300 hover:scale-[1.015] active:scale-[0.985] min-h-[120px] flex flex-col justify-between shadow-lg ${getToolAccentBorder(
+          className={`apple-liquid-glass group relative p-5 rounded-2xl bg-white border backdrop-blur-xl text-left transition-all duration-300 hover:scale-[1.015] active:scale-[0.985] min-h-[120px] flex flex-col justify-between shadow-lg ${getToolAccentBorder(
             tool.id,
           )}`}
         >
           {/* Top row: Icon and Badge Counter */}
           <div className="flex items-start justify-between gap-3">
-            <span className="text-3xl filter drop-shadow-sm group-hover:scale-110 transition-transform">
-              {tool.iconSvg}
+            <span className="px-2.5 py-1 rounded-lg bg-[#ECFDF5] border border-[#A7F3D0] text-[11px] font-bold uppercase tracking-wider text-[#0B6E4F]">
+              <DynamicTokenIcon token={tool.iconSvg} />
             </span>
             {tool.badgeCount > 0 && (
               <span
@@ -576,10 +575,10 @@ const ToolGrid: FC<ToolGridProps> = ({ configs, onSelectTool }) => {
 
           {/* Bottom row: Titles */}
           <div className="mt-3">
-            <h2 className="text-base font-bold text-white group-hover:text-amber-400 transition-colors">
+            <h2 className="text-base font-bold text-slate-900 group-hover:text-[#0B6E4F] transition-colors">
               {tool.title}
             </h2>
-            <p className="text-xs text-slate-400 line-clamp-2 mt-0.5 leading-relaxed">
+            <p className="text-xs text-slate-500 line-clamp-2 mt-0.5 leading-relaxed">
               {tool.subtitle}
             </p>
           </div>
@@ -614,13 +613,10 @@ const QuickActions: FC<QuickActionsProps> = ({
         <button
           type="button"
           onClick={onOpenDriverVoucher}
-          className="apple-liquid-glass p-3.5 rounded-2xl bg-slate-900/60 border border-white/10 hover:border-emerald-500/40 text-left transition-all active:scale-95 flex items-center gap-3 min-h-[56px]"
+          className="apple-liquid-glass p-4 rounded-xl bg-white border border-[#E2E8F0] shadow-xs hover:border-emerald-500/40 text-left transition-all active:scale-95 flex items-center gap-3 min-h-[56px]"
         >
-          <span className="text-2xl p-2 rounded-xl bg-emerald-500/20 text-emerald-400 shrink-0">
-            🚐
-          </span>
           <div className="min-w-0">
-            <p className="text-xs font-bold text-white truncate">{t.driverVouchers}</p>
+            <p className="text-xs font-bold text-slate-900 truncate">{t.driverVouchers}</p>
             <p className="text-[11px] text-slate-400 truncate">{t.driverVouchersDesc}</p>
           </div>
         </button>
@@ -629,13 +625,10 @@ const QuickActions: FC<QuickActionsProps> = ({
         <button
           type="button"
           onClick={onOpenZRead}
-          className="apple-liquid-glass p-3.5 rounded-2xl bg-slate-900/60 border border-white/10 hover:border-amber-500/40 text-left transition-all active:scale-95 flex items-center gap-3 min-h-[56px]"
+          className="apple-liquid-glass p-4 rounded-xl bg-white border border-[#E2E8F0] shadow-xs hover:border-amber-500/40 text-left transition-all active:scale-95 flex items-center gap-3 min-h-[56px]"
         >
-          <span className="text-2xl p-2 rounded-xl bg-amber-500/20 text-amber-400 shrink-0">
-            🧾
-          </span>
           <div className="min-w-0">
-            <p className="text-xs font-bold text-white truncate">{t.shiftZRead}</p>
+            <p className="text-xs font-bold text-slate-900 truncate">{t.shiftZRead}</p>
             <p className="text-[11px] text-slate-400 truncate">{t.shiftZReadDesc}</p>
           </div>
         </button>
@@ -644,11 +637,10 @@ const QuickActions: FC<QuickActionsProps> = ({
         <button
           type="button"
           onClick={onOpenStockDrawer}
-          className="apple-liquid-glass p-3.5 rounded-2xl bg-slate-900/60 border border-white/10 hover:border-red-500/40 text-left transition-all active:scale-95 flex items-center gap-3 min-h-[56px]"
+          className="apple-liquid-glass p-4 rounded-xl bg-white border border-[#E2E8F0] shadow-xs hover:border-red-500/40 text-left transition-all active:scale-95 flex items-center gap-3 min-h-[56px]"
         >
-          <span className="text-2xl p-2 rounded-xl bg-red-500/20 text-red-400 shrink-0">🚫</span>
           <div className="min-w-0">
-            <p className="text-xs font-bold text-white truncate">{t.chef86Stock}</p>
+            <p className="text-xs font-bold text-slate-900 truncate">{t.chef86Stock}</p>
             <p className="text-[11px] text-slate-400 truncate">{t.chef86StockDesc}</p>
           </div>
         </button>
@@ -676,6 +668,12 @@ export const StaffMobileHub: FC<StaffMobileHubProps> = ({
   const [isZReadModalOpen, setIsZReadModalOpen] = useState(false);
   const [isStockDrawerOpen, setIsStockDrawerOpen] = useState(false);
 
+  useEffect(() => {
+    if (initialView) {
+      setActiveView(initialView);
+    }
+  }, [initialView]);
+
   const t = HUB_TRANSLATIONS[selectedLanguage];
   const mergedBadges: HubBadgeCounts = useMemo(
     () => ({ ...DEFAULT_HUB_BADGES, ...badgeCounts }),
@@ -690,7 +688,7 @@ export const StaffMobileHub: FC<StaffMobileHubProps> = ({
         subtitle: t.tools.KITCHEN_KDS.subtitle,
         badgeCount: mergedBadges.activeKitchenKotCount,
         accentColor: "#FF9500",
-        iconSvg: "🍳",
+        iconSvg: "Kitchen",
       },
       {
         id: "BAR_BOT",
@@ -698,7 +696,7 @@ export const StaffMobileHub: FC<StaffMobileHubProps> = ({
         subtitle: t.tools.BAR_BOT.subtitle,
         badgeCount: mergedBadges.activeBarBotCount,
         accentColor: "#AF52DE",
-        iconSvg: "🍸",
+        iconSvg: "Bar",
       },
       {
         id: "WAITER_POS",
@@ -706,7 +704,7 @@ export const StaffMobileHub: FC<StaffMobileHubProps> = ({
         subtitle: t.tools.WAITER_POS.subtitle,
         badgeCount: mergedBadges.openTableCount,
         accentColor: "#007AFF",
-        iconSvg: "🛎️",
+        iconSvg: "Bell",
       },
       {
         id: "ORDER_RUNNER",
@@ -714,7 +712,7 @@ export const StaffMobileHub: FC<StaffMobileHubProps> = ({
         subtitle: t.tools.ORDER_RUNNER.subtitle,
         badgeCount: mergedBadges.readyDeliveriesCount,
         accentColor: "#34C759",
-        iconSvg: "🏃",
+        iconSvg: "Skip",
       },
       {
         id: "BUFFET_HOST",
@@ -722,7 +720,7 @@ export const StaffMobileHub: FC<StaffMobileHubProps> = ({
         subtitle: t.tools.BUFFET_HOST.subtitle,
         badgeCount: mergedBadges.buffetCheckedInCount,
         accentColor: "#30B0C7",
-        iconSvg: "🍽️",
+        iconSvg: "Dining",
       },
       {
         id: "HOUSEKEEPING",
@@ -730,7 +728,7 @@ export const StaffMobileHub: FC<StaffMobileHubProps> = ({
         subtitle: t.tools.HOUSEKEEPING.subtitle,
         badgeCount: mergedBadges.dirtyRoomsCount,
         accentColor: "#FF9500",
-        iconSvg: "🧹",
+        iconSvg: "Clean",
       },
     ],
     [t, mergedBadges],
@@ -743,6 +741,7 @@ export const StaffMobileHub: FC<StaffMobileHubProps> = ({
 
   const handleReturnToHub = () => {
     setActiveView("HUB");
+    navigateTo("/staff");
   };
 
   // --------------------------------------------------------------------------
@@ -750,14 +749,14 @@ export const StaffMobileHub: FC<StaffMobileHubProps> = ({
   // --------------------------------------------------------------------------
   if (activeView !== "HUB") {
     return (
-      <div className="min-h-screen bg-slate-950 text-white flex flex-col">
+      <div className="min-h-screen bg-[#F4F7F5] text-slate-900 flex flex-col">
         {/* Navigation Return Bar */}
-        <div className="apple-liquid-glass sticky top-0 z-50 px-4 py-2.5 bg-slate-900/90 border-b border-white/10 backdrop-blur-xl flex items-center justify-between">
+        <div className="apple-liquid-glass sticky top-0 z-50 px-4 py-2.5 bg-white border-b border-[#E2E8F0] backdrop-blur-xl flex items-center justify-between">
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={handleReturnToHub}
-              className="px-3 py-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs flex items-center gap-1.5 transition-all min-h-[36px] cursor-pointer"
+              className="px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-[#0B6E4F] font-bold text-xs flex items-center gap-1.5 transition-all min-h-[36px] cursor-pointer"
             >
               <span>←</span>
               <span>{t.returnToHub}</span>
@@ -766,13 +765,12 @@ export const StaffMobileHub: FC<StaffMobileHubProps> = ({
               type="button"
               onClick={() => navigateTo("/admin")}
               title="Return to PMS Admin Portal"
-              className="px-3 py-1.5 rounded-full bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 font-semibold text-xs flex items-center gap-1.5 transition-all min-h-[36px] cursor-pointer"
+              className="px-3 py-1.5 rounded-full bg-sky-500/20 hover:bg-sky-500/30 text-sky-800 font-semibold text-xs flex items-center gap-1.5 transition-all min-h-[36px] cursor-pointer"
             >
-              <span>🏢</span>
               <span className="hidden sm:inline">PMS Admin</span>
             </button>
           </div>
-          <div className="text-xs font-semibold text-slate-300 truncate max-w-[200px]">
+          <div className="text-xs font-semibold text-slate-700 truncate max-w-[200px]">
             {toolConfigs.find((c) => c.id === activeView)?.title}
           </div>
         </div>
@@ -785,9 +783,10 @@ export const StaffMobileHub: FC<StaffMobileHubProps> = ({
           {activeView === "ORDER_RUNNER" && <RunnerDeliveryView />}
           {activeView === "BUFFET_HOST" && <BuffetCheckInView />}
           {activeView === "HOUSEKEEPING" && (
-            <div className="p-4">
-              <KdsMobileCompact defaultTab="NEW_ORDER" />
-            </div>
+            <HousekeepingMobileView
+              language={selectedLanguage}
+              onNavigateBack={handleReturnToHub}
+            />
           )}
         </main>
       </div>
@@ -798,7 +797,7 @@ export const StaffMobileHub: FC<StaffMobileHubProps> = ({
   // Main Staff Hub View
   // --------------------------------------------------------------------------
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F4F7F5] text-slate-900 flex flex-col font-sans">
       {/* Top Bar */}
       <HubTopBar
         hotelName={hotelName}
@@ -811,7 +810,7 @@ export const StaffMobileHub: FC<StaffMobileHubProps> = ({
       <main className="flex-1 max-w-5xl w-full mx-auto">
         {/* Hub Launcher Title */}
         <div className="px-4 pt-4 pb-1">
-          <h2 className="text-xl font-bold text-white tracking-tight">{t.staffHubTitle}</h2>
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">{t.staffHubTitle}</h2>
           <p className="text-xs text-slate-400">{t.staffHubSubtitle}</p>
         </div>
 

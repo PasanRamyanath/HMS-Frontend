@@ -158,7 +158,7 @@ describe("Step 282: Touch-Friendly Restaurant & Counter POS Terminal View (PosTe
       );
       assert.ok(htmlSi.includes("ආපනශාලා සහ බාර් POS"));
       assert.ok(htmlSi.includes("සියලුම කෑම"));
-      assert.ok(htmlSi.includes("ප්‍රධාන ආහාර සහ කරි"));
+      assert.ok(htmlSi.includes("ප්රධාන ආහාර සහ කරි"));
       assert.ok(htmlSi.includes("යාපනය කලපු කකුළු කරිය"));
 
       const htmlTa = renderToStaticMarkup(

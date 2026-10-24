@@ -60,7 +60,7 @@ describe("CallWaiterButton (Step 272)", () => {
       assert.ok(html.includes("min-h-[44px]"));
       assert.ok(html.includes("Table 14"));
       assert.ok(html.includes("Call Waiter"));
-      assert.ok(html.includes("🛎️"));
+      assert.ok(html.includes("Bell"));
     });
 
     it("renders inline variant with dual action buttons (Call Waiter & Request Bill)", () => {

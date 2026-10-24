@@ -267,7 +267,7 @@ describe("Step 390: Cold-Room FEFO & Expiry-Date Alert Hub", () => {
         }),
       );
 
-      assert.ok(html.includes("ශීතාගාර කල්ඉකුත්වීම් සහ FEFO අනතුරු ඇඟවීමේ මධ්‍යස්ථානය"));
+      assert.ok(html.includes("ශීතාගාර කල්ඉකුත්වීම් සහ FEFO අනතුරු ඇඟවීමේ මධ්යස්ථානය"));
       assert.ok(html.includes("අවදානම් මුළු වටිනාකම"));
       assert.ok(html.includes("විශේෂ කෑම වට්ටෝරුවක්"));
     });

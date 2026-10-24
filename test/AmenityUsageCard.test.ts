@@ -65,27 +65,27 @@ describe("Step 318: Amenity Consumption & Eco-Refill Cost Tracker (AmenityUsageC
       const t = getAmenityUsageText("en");
 
       const bath = resolveAmenityCategoryBadge("BATH_BODY_ECO", t);
-      assert.equal(bath.icon, "🧴");
+      assert.equal(bath.icon, "Bath");
       assert.equal(bath.label, "Ayurvedic Bulk Dispenser");
       assert.match(bath.style, /emerald/);
 
       const water = resolveAmenityCategoryBadge("GLASS_WATER", t);
-      assert.equal(water.icon, "💧");
+      assert.equal(water.icon, "Water");
       assert.equal(water.label, "Reusable Glass Bottle");
       assert.match(water.style, /cyan/);
 
       const tea = resolveAmenityCategoryBadge("BEVERAGE_CEYLON", t);
-      assert.equal(tea.icon, "🫖");
+      assert.equal(tea.icon, "Tea");
       assert.equal(tea.label, "Ceylon Artisan Tea");
       assert.match(tea.style, /amber/);
 
       const hygiene = resolveAmenityCategoryBadge("ECO_HYGIENE", t);
-      assert.equal(hygiene.icon, "🎋");
+      assert.equal(hygiene.icon, "Bamboo");
       assert.equal(hygiene.label, "Compostable Bamboo");
       assert.match(hygiene.style, /lime/);
 
       const aroma = resolveAmenityCategoryBadge("AROMA_WELLNESS", t);
-      assert.equal(aroma.icon, "🌿");
+      assert.equal(aroma.icon, "Eco");
       assert.equal(aroma.label, "Citronella & Wellness");
       assert.match(aroma.style, /purple/);
     });

@@ -215,8 +215,8 @@ describe("Step 338: LiquorBottleLogModal — Liquor Bottle Gate-Pass & Empty-Bot
         }),
       );
 
-      assert.ok(html.includes("මධ්‍යසාර බෝතල් ඇතුළත් කිරීම"));
-      assert.ok(html.includes("1. බෝතල් භාරගැනීමේ අවසරපත්‍රය"));
+      assert.ok(html.includes("මධ්යසාර බෝතල් ඇතුළත් කිරීම"));
+      assert.ok(html.includes("1. බෝතල් භාරගැනීමේ අවසරපත්රය"));
       assert.ok(html.includes("2. හිස් බෝතල් පරීක්ෂාව"));
       assert.ok(html.includes("3. අත්සන් කිරීම සහ කෝකේජ් ගාස්තු"));
     });

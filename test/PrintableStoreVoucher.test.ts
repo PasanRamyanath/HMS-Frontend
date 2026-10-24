@@ -191,8 +191,8 @@ describe("Step 395: Printable A4 GRN, GIN & Purchase Order Voucher Template", ()
 
       assert.ok(html.includes("භාණ්ඩ ලැබීමේ සටහන (GRN)"));
       assert.ok(html.includes("ගබඩා භාරකරු / නිකුත් කළේ"));
-      assert.ok(html.includes("භාරගත් විධායක චෙෆ් / ප්‍රධානී"));
-      assert.ok(html.includes("මූල්‍ය පාලක / සාමාන්‍යාධිකාරී"));
+      assert.ok(html.includes("භාරගත් විධායක චෙෆ් / ප්රධානී"));
+      assert.ok(html.includes("මූල්ය පාලක / සාමාන්යාධිකාරී"));
     });
 
     it("renders correctly in Tamil localization", () => {

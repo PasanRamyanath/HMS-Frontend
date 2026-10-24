@@ -59,7 +59,7 @@ describe("Step 353: AyurvedaConsultationModal — Ayurveda Doctor Dosha Consulta
         }),
       );
       assert.ok(siHtml.includes(CONSULTATION_TRANSLATIONS.si.title));
-      assert.ok(siHtml.includes("ප්‍රකෘති දේහ ස්වභාවය"));
+      assert.ok(siHtml.includes("ප්රකෘති දේහ ස්වභාවය"));
 
       const taHtml = renderToStaticMarkup(
         React.createElement(AyurvedaConsultationModal, {

@@ -135,11 +135,11 @@ describe("Step 322: Printable Daily Housekeeping Floor Sheet (PrintableHkFloorSh
     it("resolves status badges correctly for each housekeeping room status", () => {
       const checkout = resolveRoomStatusBadge("CHECKOUT");
       assert.equal(checkout.label, "Checkout Clean");
-      assert.equal(checkout.icon, "🚪");
+      assert.equal(checkout.icon, "Door");
 
       const stayover = resolveRoomStatusBadge("STAYOVER");
       assert.equal(stayover.label, "Stayover Tidy");
-      assert.equal(stayover.icon, "🛏️");
+      assert.equal(stayover.icon, "Room");
 
       const vacant = resolveRoomStatusBadge("VACANT_DIRTY");
       assert.equal(vacant.label, "Vacant Dirty");
@@ -152,17 +152,17 @@ describe("Step 322: Printable Daily Housekeeping Floor Sheet (PrintableHkFloorSh
 
       const clean = resolveRoomStatusBadge("INSPECTED_CLEAN");
       assert.equal(clean.label, "Inspected Clean");
-      assert.equal(clean.icon, "✅");
+      assert.equal(clean.icon, "Done");
     });
 
     it("resolves linen protocol options", () => {
       const full = resolveLinenOptionBadge("FULL_CHANGE");
       assert.equal(full.label, "Full Change");
-      assert.equal(full.icon, "🔄");
+      assert.equal(full.icon, "Sync");
 
       const eco = resolveLinenOptionBadge("ECO_REUSE");
       assert.equal(eco.label, "Eco-Reuse (Tidy)");
-      assert.equal(eco.icon, "🌿");
+      assert.equal(eco.icon, "Eco");
 
       const towels = resolveLinenOptionBadge("TOWELS_ONLY");
       assert.equal(towels.label, "Towels Only");
@@ -210,8 +210,8 @@ describe("Step 322: Printable Daily Housekeeping Floor Sheet (PrintableHkFloorSh
     it("returns Sinhala translations accurately", () => {
       const si = getFloorSheetText("si");
       assert.equal(si.title, "දෛනික කාමර පිරිසිදු කිරීමේ ලේඛනය");
-      assert.equal(si.printButton, "ලේඛනය මුද්‍රණය කරන්න");
-      assert.ok(si.sltdaComplianceFooter.includes("ශ්‍රී ලංකා සංචාරක සංවර්ධන අධිකාරිය"));
+      assert.equal(si.printButton, "ලේඛනය මුද්රණය කරන්න");
+      assert.ok(si.sltdaComplianceFooter.includes("ශ්රී ලංකා සංචාරක සංවර්ධන අධිකාරිය"));
     });
 
     it("returns Tamil translations accurately", () => {

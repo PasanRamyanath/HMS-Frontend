@@ -80,34 +80,34 @@ describe("Step 319: Pool & Beach Towel Deposit Tracker (PoolTowelTracker.tsx)", 
     it("resolves distinctive icons and styles for all 3 towel types", () => {
       const t = getPoolTowelText("en");
       const blue = resolveTowelTypeDetails("POOL_BLUE_STRIPE", t);
-      assert.equal(blue.icon, "🏊");
+      assert.equal(blue.icon, "Pool");
       assert.equal(blue.label, "Pool Blue Stripe");
       assert.match(blue.badgeStyle, /cyan/);
 
       const yellow = resolveTowelTypeDetails("BEACH_CABANA_YELLOW", t);
-      assert.equal(yellow.icon, "🏖️");
+      assert.equal(yellow.icon, "Cabana");
       assert.equal(yellow.label, "Beach Cabana Gold");
       assert.match(yellow.badgeStyle, /amber/);
 
       const spa = resolveTowelTypeDetails("LUXURY_SPA_WHITE", t);
-      assert.equal(spa.icon, "✨");
+      assert.equal(spa.icon, "Clean");
       assert.equal(spa.label, "Luxury Spa White");
       assert.match(spa.badgeStyle, /purple/);
     });
 
     it("resolves deposit method icons and labels", () => {
       const t = getPoolTowelText("en");
-      assert.equal(resolveDepositMethodDetails("TOWEL_TOKEN_CARD", t).icon, "🎟️");
-      assert.equal(resolveDepositMethodDetails("ROOM_KEY_CARD", t).icon, "🔑");
-      assert.equal(resolveDepositMethodDetails("DIRECT_ROOM_FOLIO_HOLD", t).icon, "📋");
+      assert.equal(resolveDepositMethodDetails("TOWEL_TOKEN_CARD", t).icon, "Ticket");
+      assert.equal(resolveDepositMethodDetails("ROOM_KEY_CARD", t).icon, "Key");
+      assert.equal(resolveDepositMethodDetails("DIRECT_ROOM_FOLIO_HOLD", t).icon, "List");
     });
 
     it("resolves pool zones and status badges", () => {
       const t = getPoolTowelText("en");
-      assert.equal(resolvePoolZoneDetails("MAIN_INFINITY_POOL", t).icon, "🌊");
-      assert.equal(resolvePoolZoneDetails("BEACH_FRONT_CABANAS", t).icon, "🌴");
-      assert.equal(resolvePoolZoneDetails("LAGOON_POOL", t).icon, "🪷");
-      assert.equal(resolvePoolZoneDetails("AYURVEDA_WELLNESS_POOL", t).icon, "🧘");
+      assert.equal(resolvePoolZoneDetails("MAIN_INFINITY_POOL", t).icon, "Wave");
+      assert.equal(resolvePoolZoneDetails("BEACH_FRONT_CABANAS", t).icon, "Palm");
+      assert.equal(resolvePoolZoneDetails("LAGOON_POOL", t).icon, "Spa");
+      assert.equal(resolvePoolZoneDetails("AYURVEDA_WELLNESS_POOL", t).icon, "Yoga");
 
       const overdueBadge = resolveTowelLoanStatusDetails("OVERDUE");
       assert.match(overdueBadge.style, /animate-pulse/);

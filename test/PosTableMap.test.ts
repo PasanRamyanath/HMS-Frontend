@@ -110,7 +110,7 @@ describe("Step 283: Visual Restaurant Floor & Table Status Map (PosTableMap.tsx)
 
       // Table 02 with alert
       assert.ok(html.includes('data-testid="table-card-tbl-02"'));
-      assert.ok(html.includes("WAITER CALL 🛎️"));
+      assert.ok(html.includes("WAITER CALL"));
       assert.ok(html.includes("Dismiss Bell"));
 
       // Table 03 (Vacant)
@@ -126,7 +126,7 @@ describe("Step 283: Visual Restaurant Floor & Table Status Map (PosTableMap.tsx)
       );
       assert.ok(htmlSi.includes("ආපනශාලා මේස සැලැස්ම සහ තත්ත්වය"));
       assert.ok(htmlSi.includes("මුහුදු බැල්කනිය (5)"));
-      assert.ok(htmlSi.includes("සේවා ඇමතුම 🛎️"));
+      assert.ok(htmlSi.includes("සේවා ඇමතුම"));
 
       const htmlTa = renderToStaticMarkup(
         React.createElement(PosTableMap, {
@@ -135,7 +135,7 @@ describe("Step 283: Visual Restaurant Floor & Table Status Map (PosTableMap.tsx)
       );
       assert.ok(htmlTa.includes("உணவக தரைத்தளம் &amp; மேசை நிலை"));
       assert.ok(htmlTa.includes("கடல் பால்கனி (5)"));
-      assert.ok(htmlTa.includes("பணியாளர் அழைப்பு 🛎️"));
+      assert.ok(htmlTa.includes("பணியாளர் அழைப்பு"));
     });
   });
 

@@ -30,7 +30,7 @@ describe("Public Direct Booking Engine Route (DirectBookingEngine.tsx)", () => {
         assert.ok(typedRoom.baseRateResidentLkr > 0);
         assert.ok(typedRoom.baseRateForeignUsd > 0);
         assert.ok(typedRoom.amenities.length > 0);
-        assert.ok(typedRoom.photoUrl.startsWith("http"));
+        assert.ok(typedRoom.photoUrl.startsWith("/images/") || typedRoom.photoUrl.startsWith("http"));
       }
     });
 
@@ -135,7 +135,7 @@ describe("Public Direct Booking Engine Route (DirectBookingEngine.tsx)", () => {
       assert.ok(html.includes("Standard Tropical Garden Room"));
       assert.ok(html.includes("Select Meal Plan"));
       assert.ok(html.includes("Select Room"));
-      assert.ok(html.includes("Selected ✓"));
+      assert.ok(html.includes("Selected"));
       assert.ok(html.includes("Free Cancellation up to 48 hours"));
     });
 

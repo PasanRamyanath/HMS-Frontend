@@ -5,243 +5,243 @@ export type DialogVariant = "centerModal" | "bottomSheet" | "responsive";
 export type DialogSize = "sm" | "md" | "lg" | "xl" | "full";
 
 export interface DialogModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  title?: React.ReactNode | undefined;
-  description?: React.ReactNode | undefined;
-  children?: React.ReactNode | undefined;
-  footer?: React.ReactNode | undefined;
-  variant?: DialogVariant | undefined;
-  size?: DialogSize | undefined;
-  closeOnEsc?: boolean | undefined;
-  closeOnScrimClick?: boolean | undefined;
-  showCloseButton?: boolean | undefined;
-  showGrabber?: boolean | undefined;
-  ariaLabel?: string | undefined;
-  className?: string | undefined;
+ isOpen: boolean;
+ onClose: () => void;
+ title?: React.ReactNode | undefined;
+ description?: React.ReactNode | undefined;
+ children?: React.ReactNode | undefined;
+ footer?: React.ReactNode | undefined;
+ variant?: DialogVariant | undefined;
+ size?: DialogSize | undefined;
+ closeOnEsc?: boolean | undefined;
+ closeOnScrimClick?: boolean | undefined;
+ showCloseButton?: boolean | undefined;
+ showGrabber?: boolean | undefined;
+ ariaLabel?: string | undefined;
+ className?: string | undefined;
 }
 
 export interface DialogHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  children?: React.ReactNode | undefined;
+ children?: React.ReactNode | undefined;
 }
 
 export interface DialogTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  as?: "h1" | "h2" | "h3" | "h4" | undefined;
-  children?: React.ReactNode | undefined;
+ as?: "h1" | "h2" | "h3" | "h4" | undefined;
+ children?: React.ReactNode | undefined;
 }
 
 export interface DialogDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {
-  children?: React.ReactNode | undefined;
+ children?: React.ReactNode | undefined;
 }
 
 export interface DialogContentProps extends React.HTMLAttributes<HTMLDivElement> {
-  children?: React.ReactNode | undefined;
+ children?: React.ReactNode | undefined;
 }
 
 export interface DialogFooterProps extends React.HTMLAttributes<HTMLDivElement> {
-  children?: React.ReactNode | undefined;
+ children?: React.ReactNode | undefined;
 }
 
 export function getDialogSizeClasses(size: DialogSize = "md"): string {
-  switch (size) {
-    case "sm":
-      return "max-w-sm";
-    case "lg":
-      return "max-w-2xl";
-    case "xl":
-      return "max-w-4xl";
-    case "full":
-      return "max-w-[95vw]";
-    default:
-      return "max-w-lg";
-  }
+ switch (size) {
+ case "sm":
+ return "max-w-sm";
+ case "lg":
+ return "max-w-2xl";
+ case "xl":
+ return "max-w-4xl";
+ case "full":
+ return "max-w-[95vw]";
+ default:
+ return "max-w-lg";
+ }
 }
 
 export function getDialogVariantClasses(variant: DialogVariant = "responsive"): string {
-  switch (variant) {
-    case "bottomSheet":
-      return "fixed inset-x-0 bottom-0 m-0 max-h-[88vh] rounded-t-[28px] w-full";
-    case "centerModal":
-      return "fixed inset-0 m-auto max-h-[90vh] rounded-2xl w-full";
-    default:
-      return "fixed inset-x-0 bottom-0 m-0 max-h-[88vh] rounded-t-[28px] w-full md:inset-0 md:m-auto md:max-h-[90vh] md:rounded-2xl";
-  }
+ switch (variant) {
+ case "bottomSheet":
+ return "fixed inset-x-0 bottom-0 m-0 max-h-[88vh] rounded-t-[28px] w-full";
+ case "centerModal":
+ return "fixed inset-0 m-auto max-h-[90vh] rounded-2xl w-full";
+ default:
+ return "fixed inset-x-0 bottom-0 m-0 max-h-[88vh] rounded-t-[28px] w-full md:inset-0 md:m-auto md:max-h-[90vh] md:rounded-2xl";
+ }
 }
 
 export function syncDialogState(dialog: HTMLDialogElement | null, isOpen: boolean): void {
-  if (!dialog) return;
-  if (isOpen && typeof dialog.showModal === "function" && !dialog.open) {
-    dialog.showModal();
-  } else if (!isOpen && typeof dialog.close === "function" && dialog.open) {
-    dialog.close();
-  }
+ if (!dialog) return;
+ if (isOpen && typeof dialog.showModal === "function" && !dialog.open) {
+ dialog.showModal();
+ } else if (!isOpen && typeof dialog.close === "function" && dialog.open) {
+ dialog.close();
+ }
 }
 
 export function DialogModalHeader({ className = "", children, ...restProps }: DialogHeaderProps) {
-  return (
-    <div
-      className={`flex items-start justify-between px-6 pt-5 pb-3 border-b border-slate-200/50 dark:border-white/10 ${className}`.trim()}
-      {...restProps}
-    >
-      <div className="flex flex-col space-y-1">{children}</div>
-    </div>
-  );
+ return (
+ <div
+ className={`flex items-start justify-between px-6 pt-5 pb-3 border-b border-slate-200/50 ${className}`.trim()}
+ {...restProps}
+ >
+ <div className="flex flex-col space-y-1">{children}</div>
+ </div>
+ );
 }
 
 export function DialogModalTitle({
-  as: Heading = "h2",
-  className = "",
-  children,
-  ...restProps
+ as: Heading = "h2",
+ className = "",
+ children,
+ ...restProps
 }: DialogTitleProps) {
-  return (
-    <Heading
-      className={`text-lg font-semibold tracking-tight text-slate-900 dark:text-white ${className}`.trim()}
-      {...restProps}
-    >
-      {children}
-    </Heading>
-  );
+ return (
+ <Heading
+ className={`text-lg font-semibold tracking-tight text-slate-900 ${className}`.trim()}
+ {...restProps}
+ >
+ {children}
+ </Heading>
+ );
 }
 
 export function DialogModalDescription({
-  className = "",
-  children,
-  ...restProps
+ className = "",
+ children,
+ ...restProps
 }: DialogDescriptionProps) {
-  return (
-    <p className={`text-sm text-slate-500 dark:text-slate-400 ${className}`.trim()} {...restProps}>
-      {children}
-    </p>
-  );
+ return (
+ <p className={`text-sm text-slate-500 ${className}`.trim()} {...restProps}>
+ {children}
+ </p>
+ );
 }
 
 export function DialogModalContent({ className = "", children, ...restProps }: DialogContentProps) {
-  return (
-    <div className={`p-6 overflow-y-auto max-h-[65vh] ${className}`.trim()} {...restProps}>
-      {children}
-    </div>
-  );
+ return (
+ <div className={`p-6 overflow-y-auto max-h-[65vh] ${className}`.trim()} {...restProps}>
+ {children}
+ </div>
+ );
 }
 
 export function DialogModalFooter({ className = "", children, ...restProps }: DialogFooterProps) {
-  return (
-    <div
-      className={`flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-200/50 dark:border-white/10 bg-slate-50/50 dark:bg-slate-900/50 ${className}`.trim()}
-      {...restProps}
-    >
-      {children}
-    </div>
-  );
+ return (
+ <div
+ className={`flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-200/50 bg-slate-50/50 ${className}`.trim()}
+ {...restProps}
+ >
+ {children}
+ </div>
+ );
 }
 
 export function DialogModal({
-  isOpen,
-  onClose,
-  title,
-  description,
-  children,
-  footer,
-  variant = "responsive",
-  size = "md",
-  closeOnEsc = true,
-  closeOnScrimClick = true,
-  showCloseButton = true,
-  showGrabber = true,
-  ariaLabel = "Dialog",
-  className = "",
+ isOpen,
+ onClose,
+ title,
+ description,
+ children,
+ footer,
+ variant = "responsive",
+ size = "md",
+ closeOnEsc = true,
+ closeOnScrimClick = true,
+ showCloseButton = true,
+ showGrabber = true,
+ ariaLabel = "Dialog",
+ className = "",
 }: DialogModalProps) {
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
+ const dialogRef = useRef<HTMLDialogElement | null>(null);
 
-  useEffect(() => {
-    syncDialogState(dialogRef.current, isOpen);
-  }, [isOpen]);
+ useEffect(() => {
+ syncDialogState(dialogRef.current, isOpen);
+ }, [isOpen]);
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
-    if (!closeOnScrimClick) return;
-    if (e.target === dialogRef.current) {
-      onClose();
-    }
-  };
+ const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
+ if (!closeOnScrimClick) return;
+ if (e.target === dialogRef.current) {
+ onClose();
+ }
+ };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDialogElement>) => {
-    if (e.key === "Escape" && closeOnEsc) {
-      e.preventDefault();
-      onClose();
-    }
-  };
+ const handleKeyDown = (e: React.KeyboardEvent<HTMLDialogElement>) => {
+ if (e.key === "Escape" && closeOnEsc) {
+ e.preventDefault();
+ onClose();
+ }
+ };
 
-  const handleCancel = (e: React.SyntheticEvent<HTMLDialogElement, Event>) => {
-    e.preventDefault();
-    if (closeOnEsc) {
-      onClose();
-    }
-  };
+ const handleCancel = (e: React.SyntheticEvent<HTMLDialogElement, Event>) => {
+ e.preventDefault();
+ if (closeOnEsc) {
+ onClose();
+ }
+ };
 
-  if (!isOpen) return null;
+ if (!isOpen) return null;
 
-  const variantClass = getDialogVariantClasses(variant);
-  const sizeClass = getDialogSizeClasses(size);
+ const variantClass = getDialogVariantClasses(variant);
+ const sizeClass = getDialogSizeClasses(size);
 
-  const dialogClasses = [
-    "apple-material-thick shadow-2xl overflow-hidden border border-white/40 dark:border-white/15 backdrop:backdrop-blur-md backdrop:bg-black/45 transition-apple-spring",
-    variantClass,
-    sizeClass,
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
+ const dialogClasses = [
+ "apple-material-thick shadow-2xl overflow-hidden border border-[#E2E8F0] backdrop:backdrop-blur-md backdrop:bg-black/45 transition-apple-spring",
+ variantClass,
+ sizeClass,
+ className,
+ ]
+ .filter(Boolean)
+ .join(" ");
 
-  const isBottomSheet = variant === "bottomSheet" || variant === "responsive";
+ const isBottomSheet = variant === "bottomSheet" || variant === "responsive";
 
-  return (
-    <dialog
-      ref={dialogRef}
-      aria-modal="true"
-      aria-label={ariaLabel}
-      onClick={handleBackdropClick}
-      onKeyDown={handleKeyDown}
-      onCancel={handleCancel}
-      className={dialogClasses}
-    >
-      {showGrabber && isBottomSheet ? (
-        <div className="flex justify-center pt-2.5 pb-1 md:hidden" aria-hidden="true">
-          <div className="w-9 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600" />
-        </div>
-      ) : null}
+ return (
+ <dialog
+ ref={dialogRef}
+ aria-modal="true"
+ aria-label={ariaLabel}
+ onClick={handleBackdropClick}
+ onKeyDown={handleKeyDown}
+ onCancel={handleCancel}
+ className={dialogClasses}
+ >
+ {showGrabber && isBottomSheet ? (
+ <div className="flex justify-center pt-2.5 pb-1 md:hidden" aria-hidden="true">
+ <div className="w-9 h-1.5 rounded-full bg-slate-300 " />
+ </div>
+ ) : null}
 
-      {title ? (
-        <div className="flex items-start justify-between px-6 pt-4 pb-3 border-b border-slate-200/50 dark:border-white/10">
-          <div className="flex flex-col space-y-1">
-            <h2 className="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
-              {title}
-            </h2>
-            {description ? (
-              <p className="text-sm text-slate-500 dark:text-slate-400">{description}</p>
-            ) : null}
-          </div>
-          {showCloseButton ? (
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label="Close dialog"
-              className="apple-touch-target p-1.5 -mr-1 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            >
-              <span className="text-base font-bold leading-none">✕</span>
-            </button>
-          ) : null}
-        </div>
-      ) : null}
+ {title ? (
+ <div className="flex items-start justify-between px-6 pt-4 pb-3 border-b border-slate-200/50 ">
+ <div className="flex flex-col space-y-1">
+ <h2 className="text-lg font-semibold tracking-tight text-slate-900 ">
+ {title}
+ </h2>
+ {description ? (
+ <p className="text-sm text-slate-500 ">{description}</p>
+ ) : null}
+ </div>
+ {showCloseButton ? (
+ <button
+ type="button"
+ onClick={onClose}
+ aria-label="Close dialog"
+ className="apple-touch-target p-1.5 -mr-1 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+ >
+ <span className="text-base font-bold leading-none">x</span>
+ </button>
+ ) : null}
+ </div>
+ ) : null}
 
-      <div className="p-6 overflow-y-auto max-h-[65vh]">{children}</div>
+ <div className="p-6 overflow-y-auto max-h-[65vh]">{children}</div>
 
-      {footer ? (
-        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-200/50 dark:border-white/10 bg-slate-50/50 dark:bg-slate-900/50">
-          {footer}
-        </div>
-      ) : null}
-    </dialog>
-  );
+ {footer ? (
+ <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-200/50 bg-slate-50/50 ">
+ {footer}
+ </div>
+ ) : null}
+ </dialog>
+ );
 }
 
 DialogModal.Header = DialogModalHeader;

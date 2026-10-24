@@ -76,9 +76,9 @@ describe("Step 363: Ayurveda Multi-Day Panchakarma Package Progress Tracker (Pan
       assert.strictEqual(en.stageDetox, "Pradhanakarma (Deep Detox)");
 
       const si = getPanchakarmaTranslations("si");
-      assert.strictEqual(si.title, "පංචකර්ම නේවාසික ප්‍රතිකාර ප්‍රගති පුවරුව");
+      assert.strictEqual(si.title, "පංචකර්ම නේවාසික ප්රතිකාර ප්රගති පුවරුව");
       assert.strictEqual(si.kpiInHouse, "නේවාසික රෝගීන්");
-      assert.strictEqual(si.stageDetox, "ප්‍රධානකර්ම (ශෝධනය)");
+      assert.strictEqual(si.stageDetox, "ප්රධානකර්ම (ශෝධනය)");
 
       const ta = getPanchakarmaTranslations("ta");
       assert.strictEqual(ta.title, "பஞ்சகர்மா சிகிச்சை முன்னேற்ற கண்காணிப்பு");
@@ -125,10 +125,10 @@ describe("Step 363: Ayurveda Multi-Day Panchakarma Package Progress Tracker (Pan
         }),
       );
 
-      assert.ok(html.includes("පංචකර්ම නේවාසික ප්‍රතිකාර ප්‍රගති පුවරුව"));
+      assert.ok(html.includes("පංචකර්ම නේවාසික ප්රතිකාර ප්රගති පුවරුව"));
       assert.ok(html.includes("නේවාසික රෝගීන්"));
-      assert.ok(html.includes("උදෑසන ප්‍රතිකාර වාරය"));
-      assert.ok(html.includes("ප්‍රධානකර්ම"));
+      assert.ok(html.includes("උදෑසන ප්රතිකාර වාරය"));
+      assert.ok(html.includes("ප්රධානකර්ම"));
     });
 
     it("renders Tamil localized view correctly", () => {

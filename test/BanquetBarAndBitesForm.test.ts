@@ -145,8 +145,8 @@ describe("Step 332: Per-Table Sri Lankan Bite Plates, Corkage & Bar Configurator
       );
 
       assert.ok(html.includes("උත්සව බාර්, කෝකේජ් සහ ඩෙවිල්ඩ් බයිට්ස් සැකැස්ම"));
-      assert.ok(html.includes("ශ්‍රී ලාංකික ඩෙවිල්ඩ් බයිට්ස් (මේසයකට)"));
-      assert.ok(html.includes("කෝකේජ් (Corkage) ප්‍රතිපත්තිය"));
+      assert.ok(html.includes("ශ්රී ලාංකික ඩෙවිල්ඩ් බයිට්ස් (මේසයකට)"));
+      assert.ok(html.includes("කෝකේජ් (Corkage) ප්රතිපත්තිය"));
       assert.ok(html.includes("සැකැස්ම සුරකින්න"));
     });
 

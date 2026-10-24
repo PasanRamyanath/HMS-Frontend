@@ -173,7 +173,7 @@ describe("Step 298: Unified Staff Smartphone Launcher & Hub (StaffMobileHub.tsx)
         }),
       );
 
-      assert.ok(markup.includes("කාර්ය මණ්ඩල මෙහෙයුම් කේන්ද්‍රය"));
+      assert.ok(markup.includes("කාර්ය මණ්ඩල මෙහෙයුම් කේන්ද්රය"));
       assert.ok(markup.includes("කුස්සිය (KDS)"));
       assert.ok(markup.includes("පානයන් (BOT)"));
       assert.ok(markup.includes("වේටර් POS"));
@@ -247,7 +247,7 @@ describe("Step 298: Unified Staff Smartphone Launcher & Hub (StaffMobileHub.tsx)
         subtitle: "Cooking queue",
         badgeCount: 5,
         accentColor: "#FF9500",
-        iconSvg: "🍳",
+        iconSvg: "Kitchen",
       };
       assert.strictEqual(tileConfig.id, "KITCHEN_KDS");
     });

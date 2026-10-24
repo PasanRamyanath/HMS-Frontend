@@ -60,7 +60,7 @@ describe("Step 231: Dish Modifiers, Add-Ons & Portion Size Builder (ModifierGrou
       assert.strictEqual(hot.name.en, "Authentic Sri Lankan Spicy");
       assert.strictEqual(hot.priceAdjustmentLkr, 0);
       assert.strictEqual(hot.isDefault, false);
-      assert.ok(hot.name.si?.includes("සැබෑ ශ්‍රී ලාංකික සැර"));
+      assert.ok(hot.name.si?.includes("සැබෑ ශ්රී ලාංකික සැර"));
     });
 
     it("configures PRESET_BREAKFAST_EXTRAS with +Egg Hopper LKR 250 and +Prawn Curry LKR 950", () => {
@@ -130,12 +130,12 @@ describe("Step 231: Dish Modifiers, Add-Ons & Portion Size Builder (ModifierGrou
     it("resolves trilingual text correctly with fallbacks", () => {
       const text = {
         en: "Spice Level",
-        si: "මිරිස් සැර ප්‍රමාණය",
+        si: "මිරිස් සැර ප්රමාණය",
         ta: "கார அளவு",
       };
 
       assert.strictEqual(resolveModifierTrilingual(text, "en"), "Spice Level");
-      assert.strictEqual(resolveModifierTrilingual(text, "si"), "මිරිස් සැර ප්‍රමාණය");
+      assert.strictEqual(resolveModifierTrilingual(text, "si"), "මිරිස් සැර ප්රමාණය");
       assert.strictEqual(resolveModifierTrilingual(text, "ta"), "கார அளவு");
 
       // Fallback when missing
@@ -253,7 +253,7 @@ describe("Step 231: Dish Modifiers, Add-Ons & Portion Size Builder (ModifierGrou
       );
 
       assert.ok(html.includes("1-Click Sri Lankan Presets"));
-      assert.ok(html.includes("✓ Spice Level")); // Already added
+      assert.ok(html.includes("Spice Level")); // Already added
       assert.ok(html.includes("+ Sri Lankan Breakfast Extras"));
       assert.ok(html.includes("+ Portion Size"));
       assert.ok(html.includes("+ Rice Variety Choice"));
@@ -284,7 +284,7 @@ describe("Step 231: Dish Modifiers, Add-Ons & Portion Size Builder (ModifierGrou
       assert.ok(html.includes("+Egg Hopper"));
       assert.ok(html.includes("tabular-nums-lkr"));
       assert.ok(html.includes('value="250"'));
-      assert.ok(html.includes("★ Default"));
+      assert.ok(html.includes("* Default"));
       assert.ok(html.includes('aria-label="Remove option +Egg Hopper"'));
     });
 

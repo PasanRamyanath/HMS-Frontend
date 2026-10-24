@@ -88,7 +88,7 @@ describe("Step 362: Bicycle, Scooter, Surfboard & Snorkel Gear Rental Tracker (G
       assert.strictEqual(en.checkoutButton, "Rent Gear");
 
       const si = getGearTranslations("si");
-      assert.strictEqual(si.title, "ක්‍රීඩා සහ වික්‍රමාන්විත උපකරණ කුලියට දීමේ පුවරුව");
+      assert.strictEqual(si.title, "ක්රීඩා සහ වික්රමාන්විත උපකරණ කුලියට දීමේ පුවරුව");
       assert.strictEqual(si.categoryBicycle, "පාපැදි");
       assert.strictEqual(si.returnButton, "ආපසු භාරගන්න");
 
@@ -135,7 +135,7 @@ describe("Step 362: Bicycle, Scooter, Surfboard & Snorkel Gear Rental Tracker (G
         }),
       );
 
-      assert.ok(html.includes("ක්‍රීඩා සහ වික්‍රමාන්විත උපකරණ කුලියට දීමේ පුවරුව"));
+      assert.ok(html.includes("ක්රීඩා සහ වික්රමාන්විත උපකරණ කුලියට දීමේ පුවරුව"));
       assert.ok(html.includes("සර්ෆ්බෝඩ්"));
       assert.ok(html.includes("පාපැදි"));
       assert.ok(html.includes("ලබාගත හැකි"));
@@ -171,7 +171,7 @@ describe("Step 362: Bicycle, Scooter, Surfboard & Snorkel Gear Rental Tracker (G
         defaultDepositLkr: 7000,
         status: "AVAILABLE",
         sizeOrSpec: '5\'10" x 20.5"',
-        iconEmoji: "🏄",
+        iconEmoji: "Surf",
       };
 
       assert.strictEqual(asset.category, "SURFBOARD");

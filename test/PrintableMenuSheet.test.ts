@@ -32,7 +32,7 @@ describe("Step 244: Printable Physical Restaurant Menu & Wine List PDF/Print Vie
   const sampleCategories: ReadonlyArray<PrintableMenuCategory> = [
     {
       id: "CAT-CURRY",
-      name: { en: "Clay-Pot Curries & Rice", si: "ව්‍යංජන සහ බත්", ta: "கறிகள் மற்றும் சாதம்" },
+      name: { en: "Clay-Pot Curries & Rice", si: "ව්යංජන සහ බත්", ta: "கறிகள் மற்றும் சாதம்" },
       displayOrder: 1,
     },
     {
@@ -53,7 +53,7 @@ describe("Step 244: Printable Physical Restaurant Menu & Wine List PDF/Print Vie
       code: "CUR-101",
       title: {
         en: "Village Style Chicken Rice & Curry",
-        si: "ගමේ ක්‍රමයට සැකසූ කුකුළු මස් බත්",
+        si: "ගමේ ක්රමයට සැකසූ කුකුළු මස් බත්",
         ta: "கோழி சாதம்",
       },
       description: {
@@ -120,9 +120,9 @@ describe("Step 244: Printable Physical Restaurant Menu & Wine List PDF/Print Vie
     });
 
     it("resolveTrilingualString handles language lookups with fallbacks", () => {
-      const text = { en: "Curry", si: "ව්‍යංජන", ta: "கறி" };
+      const text = { en: "Curry", si: "ව්යංජන", ta: "கறி" };
       assert.strictEqual(resolveTrilingualString(text, "en"), "Curry");
-      assert.strictEqual(resolveTrilingualString(text, "si"), "ව්‍යංජන");
+      assert.strictEqual(resolveTrilingualString(text, "si"), "ව්යංජන");
       assert.strictEqual(resolveTrilingualString(text, "ta"), "கறி");
       assert.strictEqual(resolveTrilingualString(undefined, "en"), "");
     });
@@ -180,7 +180,7 @@ describe("Step 244: Printable Physical Restaurant Menu & Wine List PDF/Print Vie
       );
       assert.ok(html.includes(`data-testid="printable-item-${item.id}"`));
       assert.ok(html.includes("Village Style Chicken Rice"));
-      assert.ok(html.includes("🌶️🌶️"));
+      assert.ok(html.includes("Spicy"));
       assert.ok(html.includes("border-dotted"));
       assert.ok(html.includes("H")); // Halal badge
       assert.ok(html.includes("GF")); // Gluten-free badge
@@ -290,7 +290,7 @@ describe("Step 244: Printable Physical Restaurant Menu & Wine List PDF/Print Vie
       const itemWithPhoto: PrintableMenuItem = {
         id: "dish-photo",
         code: "CUR-999",
-        title: { en: "Illustrated Curry", si: "ව්‍යංජනය", ta: "கறி" },
+        title: { en: "Illustrated Curry", si: "ව්යංජනය", ta: "கறி" },
         description: { en: "Delicious slow cooked curry" },
         priceLkr: 2500,
         categoryId: "CAT-CURRY",

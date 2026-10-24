@@ -104,7 +104,7 @@ describe("OrderFeedbackPrompt (Step 268)", () => {
       orderId: "ORD-TEST-001",
       roomNumber: "Room 102",
       rating: 2,
-      selectedTags: ["❄️ Food was Lukewarm", "⏱️ Delivery was Slow"],
+      selectedTags: ["Food was Lukewarm", "Delivery was Slow"],
       comments: "Food arrived 40 minutes late and was cold",
       managerEscalated: true,
       submittedAt: new Date().toISOString(),

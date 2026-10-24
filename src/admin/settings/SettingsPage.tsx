@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { GlassCard } from "../../components/GlassCard.js";
 import {
   SegmentedControl,
   type SegmentedControlOption,
@@ -47,7 +46,8 @@ export const SETTINGS_TABS: ReadonlyArray<SettingsTab> = [
     id: "PROFILE",
     label: "Property Profile",
     shortLabel: "Profile",
-    description: "Hotel branding, SLTDA registration, contact info, and GPS coordinates.",
+    description:
+      "5-step onboarding checklist, CBSL/SLTDA registration, 4-stage tax rules, and gateway credentials",
   },
   {
     id: "TAXES",
@@ -55,13 +55,14 @@ export const SETTINGS_TABS: ReadonlyArray<SettingsTab> = [
     shortLabel: "Taxes",
     description:
       "Service Charge (10%), TDL (1%), SSCL (2.5%), VAT (18%) and IRD RAMIS TIN numbers.",
-    badge: "IRD Statutory",
+    badge: "1.34343×",
   },
   {
     id: "PAYMENTS",
     label: "Payments & Currency",
     shortLabel: "Payments",
     description: "LankaQR EMVCo merchant codes, PayHere, CBSL exchange rates, and bank accounts.",
+    badge: "PayHere",
   },
   {
     id: "SMS",
@@ -69,6 +70,7 @@ export const SETTINGS_TABS: ReadonlyArray<SettingsTab> = [
     shortLabel: "SMS",
     description:
       "SMSGo.lk and Notify.lk Sri Lankan sender masks, check-in templates, and guest alerts.",
+    badge: "SMSGo",
   },
   {
     id: "STAFF",
@@ -76,6 +78,7 @@ export const SETTINGS_TABS: ReadonlyArray<SettingsTab> = [
     shortLabel: "Staff",
     description:
       "Cognito RBAC roles, EPF/ETF statutory contributions, and 10% Service Charge points pool.",
+    badge: "10%",
   },
   {
     id: "BILLING",
@@ -88,39 +91,55 @@ export const SETTINGS_TABS: ReadonlyArray<SettingsTab> = [
 
 export const SETTINGS_SEGMENTED_OPTIONS: ReadonlyArray<SegmentedControlOption<SettingsTabId>> = [
   { id: "PROFILE", label: "Profile" },
-  { id: "TAXES", label: "Taxes" },
-  { id: "PAYMENTS", label: "Payments" },
-  { id: "SMS", label: "SMS" },
-  { id: "STAFF", label: "Staff & SC" },
+  { id: "TAXES", label: "Taxes", badge: "1.34343×" },
+  { id: "PAYMENTS", label: "Payments", badge: "PayHere" },
+  { id: "SMS", label: "SMS", badge: "SMSGo" },
+  { id: "STAFF", label: "Staff & SC", badge: "10%" },
   { id: "BILLING", label: "Billing" },
 ];
 
 // ============================================================================
-// Sub-Components (Cognitive Complexity <= 12)
+// Sub-Components (Matching Screen 07 of Version 2.zip)
 // ============================================================================
 
 interface SettingsHeaderProps {
   readonly propertyTitle?: string | undefined;
   readonly activeTabInfo: SettingsTab;
+  readonly onSave?: (() => void) | undefined;
 }
 
-function SettingsHeader({ propertyTitle, activeTabInfo }: SettingsHeaderProps) {
+function SettingsHeader({ propertyTitle, activeTabInfo, onSave }: SettingsHeaderProps) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
       <div>
         <div className="flex items-center gap-2.5">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 ">
             {propertyTitle ? `${propertyTitle} — ${activeTabInfo.label}` : activeTabInfo.label}
           </h1>
           {activeTabInfo.badge && (
-            <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-apple-blue/10 text-apple-blue">
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#ECFDF5] text-[#0B6E4F] border border-[#A7F3D0]">
               {activeTabInfo.badge}
             </span>
           )}
         </div>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-          {activeTabInfo.description}
-        </p>
+        <p className="text-xs text-slate-500 mt-0.5">{activeTabInfo.description}</p>
+      </div>
+
+      <div className="flex items-center gap-2.5 shrink-0">
+        <button
+          type="button"
+          onClick={() => navigateTo("/admin/rooms")}
+          className="min-h-[38px] px-4 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer"
+        >
+          Print Room QRs
+        </button>
+        <button
+          type="button"
+          onClick={() => onSave?.()}
+          className="min-h-[38px] px-4 py-1.5 rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-white text-xs font-semibold cursor-pointer"
+        >
+          + Save Configuration
+        </button>
       </div>
     </div>
   );
@@ -197,12 +216,12 @@ function TabPanelContent({ activeTab, onSaveSuccess }: TabPanelContentProps) {
     case "PROFILE":
       return (
         <div className="space-y-6">
-          <ThemeColorPicker />
           <PropertyProfileForm
             onSave={() => {
               onSaveSuccess?.("Property Profile");
             }}
           />
+          <ThemeColorPicker />
         </div>
       );
     case "TAXES": {
@@ -337,9 +356,24 @@ export function SettingsPage({
   };
 
   return (
-    <div className={`space-y-6 max-w-7xl mx-auto pb-12 font-sf-pro ${className}`}>
+    <div className={`space-y-5 font-sf-pro ${className}`}>
       {/* Top Header */}
-      <SettingsHeader propertyTitle={propertyTitle} activeTabInfo={activeTabInfo} />
+      <SettingsHeader
+        propertyTitle={propertyTitle}
+        activeTabInfo={activeTabInfo}
+        onSave={() => onSaveSuccess?.(activeTabInfo.label)}
+      />
+
+      {/* Segmented Navigation Control */}
+      <div className="border-b border-slate-200 pb-3 overflow-x-auto">
+        <SegmentedControl
+          options={SETTINGS_SEGMENTED_OPTIONS}
+          value={activeTab}
+          onChange={handleTabSelect}
+          size="md"
+          className="w-full sm:w-auto"
+        />
+      </div>
 
       {/* Onboarding Readiness Checklist Banner */}
       {showOnboardingBanner && (
@@ -359,20 +393,8 @@ export function SettingsPage({
         />
       )}
 
-      {/* Apple HIG Segmented Navigation Control */}
-      <GlassCard material="regular" radius="xl" className="p-2 overflow-x-auto scrollbar-none">
-        <SegmentedControl
-          options={SETTINGS_SEGMENTED_OPTIONS}
-          value={activeTab}
-          onChange={handleTabSelect}
-          size="md"
-          fullWidth={true}
-          className="w-full min-w-[620px] sm:min-w-0"
-        />
-      </GlassCard>
-
       {/* Active Tab Panel Content */}
-      <div className="transition-apple-spring">
+      <div>
         <TabPanelContent activeTab={activeTab} onSaveSuccess={onSaveSuccess} />
       </div>
     </div>

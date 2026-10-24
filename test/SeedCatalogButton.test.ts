@@ -35,7 +35,7 @@ describe("Step 238: 1-Click 'Seed Sri Lankan Hotel Menu & Housekeeping Catalog' 
       assert.ok(hk);
       assert.strictEqual(hk.defaultItemCount, 15);
       assert.strictEqual(hk.complimentaryCount, 15);
-      assert.strictEqual(hk.iconEmoji, "🧹");
+      assert.strictEqual(hk.iconEmoji, "Clean");
     });
 
     it("verifies trilingual text presence on all department options", () => {
@@ -143,8 +143,8 @@ describe("Step 238: 1-Click 'Seed Sri Lankan Hotel Menu & Housekeeping Catalog' 
       assert.ok(html.includes('data-testid="dept-selector-list"'));
       assert.ok(html.includes('data-testid="dept-checkbox-HOUSEKEEPING"'));
       assert.ok(html.includes('data-testid="dept-checkbox-BAR"'));
-      assert.ok(html.includes("🧹"));
-      assert.ok(html.includes("🍹"));
+      assert.ok(html.includes("Clean"));
+      assert.ok(html.includes("Drink"));
       assert.ok(html.includes("15 items"));
     });
 

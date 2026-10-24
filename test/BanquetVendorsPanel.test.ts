@@ -243,7 +243,7 @@ describe("Step 334: External Vendor & Cultural Add-Ons Tracker (BanquetVendorsPa
         }),
       );
 
-      assert.ok(html.includes("බාහිර සේවා සැපයුම්කරුවන් සහ සාම්ප්‍රදායික මංගල සේවා"));
+      assert.ok(html.includes("බාහිර සේවා සැපයුම්කරුවන් සහ සාම්ප්රදායික මංගල සේවා"));
       assert.ok(html.includes("පෝරුව සහ සංස්කෘතික"));
       assert.ok(html.includes("මුළුතැන්ගෙයි ආහාර පෙට්ටි"));
     });

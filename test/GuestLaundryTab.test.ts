@@ -83,7 +83,7 @@ describe("Step 264: Digital Laundry Pickup Request Form (GuestLaundryTab.tsx)", 
 
       const si = getLaundryText("si");
       assert.strictEqual(si.title, "රෙදි සේදීම සහ වියළි පිරිසිදු කිරීම");
-      assert.strictEqual(si.serviceTypeLabels.DRY_CLEAN, "ඩ්‍රයි ක්ලීනින්");
+      assert.strictEqual(si.serviceTypeLabels.DRY_CLEAN, "ඩ්රයි ක්ලීනින්");
 
       const ta = getLaundryText("ta");
       assert.strictEqual(ta.title, "டிஜிட்டல் சலவை & உலர் சுத்தம்");
@@ -167,7 +167,7 @@ describe("Step 264: Digital Laundry Pickup Request Form (GuestLaundryTab.tsx)", 
       );
 
       assert.ok(html.includes("රෙදි සේදීම සහ වියළි පිරිසිදු කිරීම"));
-      assert.ok(html.includes("සාමාන්‍ය (පසුදා වන විට)"));
+      assert.ok(html.includes("සාමාන්ය (පසුදා වන විට)"));
       assert.ok(html.includes("මෙම කාමරය සඳහා රෙදි සේදීමේ ඉල්ලීම් නොමැත."));
     });
   });

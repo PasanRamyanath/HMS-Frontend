@@ -302,7 +302,7 @@ describe("Step 387: BarPegAuditView & Sri Lankan Bar Peg Reconciliation", () => 
       const html = renderToStaticMarkup(React.createElement(BarPegAuditView, { language: "si" }));
 
       assert.ok(html.includes("බාර් දෛනික මත්පැන් පෙග්"));
-      assert.ok(html.includes("විගණන පත්‍රිකාව"));
+      assert.ok(html.includes("විගණන පත්රිකාව"));
     });
 
     it("renders correctly in Tamil localization", () => {

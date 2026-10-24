@@ -24,17 +24,17 @@ describe("Step 279: Bar Order Ticket (BOT) Display & Cocktail Queue (BarBotView.
     it("returns accurate destination metadata and icons in English", () => {
       const pool = getBarDestinationMeta("POOL_LOUNGER", "en");
       assert.strictEqual(pool.label, "Pool Lounger");
-      assert.strictEqual(pool.icon, "🏊");
+      assert.strictEqual(pool.icon, "Pool");
       assert.ok(pool.badgeClass.includes("cyan"));
 
       const cabana = getBarDestinationMeta("BEACH_CABANA", "en");
       assert.strictEqual(cabana.label, "Beach Cabana");
-      assert.strictEqual(cabana.icon, "🏖️");
+      assert.strictEqual(cabana.icon, "Cabana");
       assert.ok(cabana.badgeClass.includes("amber"));
 
       const counter = getBarDestinationMeta("BAR_COUNTER", "en");
       assert.strictEqual(counter.label, "Bar Counter");
-      assert.strictEqual(counter.icon, "🍸");
+      assert.strictEqual(counter.icon, "Bar");
     });
 
     it("returns trilingual destination labels in Sinhala and Tamil", () => {
@@ -126,7 +126,7 @@ describe("Step 279: Bar Order Ticket (BOT) Display & Cocktail Queue (BarBotView.
 
       assert.ok(html.includes("VIP Poolside reservation"));
       assert.ok(html.includes("bg-purple-950/40"));
-      assert.ok(html.includes("🍸"));
+      assert.ok(html.includes("Bar"));
     });
 
     it("renders beverage category filter switcher in header", () => {
@@ -142,9 +142,9 @@ describe("Step 279: Bar Order Ticket (BOT) Display & Cocktail Queue (BarBotView.
     it("renders system controls: mute, test chime, and screen wake-lock", () => {
       const html = renderToStaticMarkup(React.createElement(BarBotView, {}));
 
-      assert.ok(html.includes("🔔"));
-      assert.ok(html.includes("🎵 Test"));
-      assert.ok(html.includes("💡"));
+      assert.ok(html.includes("Bell"));
+      assert.ok(html.includes("Test"));
+      assert.ok(html.includes("Light"));
       assert.ok(html.includes("Print BOT"));
     });
 
@@ -173,7 +173,7 @@ describe("Step 279: Bar Order Ticket (BOT) Display & Cocktail Queue (BarBotView.
       const html = renderToStaticMarkup(React.createElement(BarBotView, { readOnly: true }));
 
       assert.ok(!html.includes("Start Pouring"));
-      assert.ok(!html.includes("↩️"));
+      assert.ok(!html.includes("Undo"));
     });
 
     it("validates all exported types are constructible", () => {

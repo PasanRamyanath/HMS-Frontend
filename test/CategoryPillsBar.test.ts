@@ -19,12 +19,12 @@ describe("Step 254: Horizontal Sticky Category Carousel (CategoryPillsBar.tsx)",
     it("resolves category names accurately across EN, SI, and TA with fallbacks", () => {
       const trilingualName: TrilingualName = {
         en: "Rice & Curry",
-        si: "බත් සහ ව්‍යංජන",
+        si: "බත් සහ ව්යංජන",
         ta: "அரிசி மற்றும் கறி",
       };
 
       assert.strictEqual(resolveCategoryName(trilingualName, "en"), "Rice & Curry");
-      assert.strictEqual(resolveCategoryName(trilingualName, "si"), "බත් සහ ව්‍යංජන");
+      assert.strictEqual(resolveCategoryName(trilingualName, "si"), "බත් සහ ව්යංජන");
       assert.strictEqual(resolveCategoryName(trilingualName, "ta"), "அரிசி மற்றும் கறி");
 
       // Fallback to English when SI or TA is missing
@@ -112,7 +112,7 @@ describe("Step 254: Horizontal Sticky Category Carousel (CategoryPillsBar.tsx)",
           activeDepartment: "DINING",
         }),
       );
-      assert.ok(sinhalaMarkup.includes("බත් සහ ව්‍යංජන"));
+      assert.ok(sinhalaMarkup.includes("බත් සහ ව්යංජන"));
       assert.ok(sinhalaMarkup.includes("ආප්ප සහ කොත්තු"));
 
       const tamilMarkup = renderToStaticMarkup(

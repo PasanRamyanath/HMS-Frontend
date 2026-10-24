@@ -156,7 +156,7 @@ describe("Step 333: Sri Lankan Wedding Menu Package Customizer (BanquetMenuSelec
         }),
       );
 
-      assert.ok(html.includes("මංගල භෝජන සංග්‍රහ මෙනු සැකැස්ම"));
+      assert.ok(html.includes("මංගල භෝජන සංග්රහ මෙනු සැකැස්ම"));
       assert.ok(html.includes("මූලික පිඟානක මිල"));
       assert.ok(html.includes("සජීවී ආහාර පිසීමේ සංදර්ශන"));
       assert.ok(html.includes("මෙනු පැකේජය සුරකින්න"));

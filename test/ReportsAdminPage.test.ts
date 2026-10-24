@@ -48,11 +48,11 @@ describe("Step 423: Assemble Master Statutory Reports, Night Audit & Finance Pag
     it("resolves tab definition correctly and returns default fallback for unknown ID", () => {
       const flashDef = getReportsTabDefinition("GM_FLASH");
       assert.equal(flashDef.label, "GM Daily Flash");
-      assert.equal(flashDef.icon, "⚡");
+      assert.equal(flashDef.icon, "Fast");
 
       const printDef = getReportsTabDefinition("PRINTABLE_STATUTORY");
       assert.equal(printDef.label, "Printable Official Forms");
-      assert.equal(printDef.icon, "🖨️");
+      assert.equal(printDef.icon, "Print");
 
       // @ts-expect-error - testing fallback
       const unknownDef = getReportsTabDefinition("UNKNOWN_TAB");

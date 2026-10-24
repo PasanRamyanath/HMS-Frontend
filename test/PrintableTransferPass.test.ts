@@ -33,8 +33,8 @@ describe("Step 361: Printable Airport Paging Board & Excursion Gate Pass (Printa
 
       const si: PassTranslations = getPassTranslations("si");
       assert.strictEqual(si.modePaging, "ගුවන් තොටුපළ නාම පුවරුව (තිරස්)");
-      assert.strictEqual(si.modeTripSheet, "රියදුරු ගමන් හා ගේට්ටු බලපත්‍රය");
-      assert.strictEqual(si.printAction, "මුද්‍රණය කරන්න");
+      assert.strictEqual(si.modeTripSheet, "රියදුරු ගමන් හා ගේට්ටු බලපත්රය");
+      assert.strictEqual(si.printAction, "මුද්රණය කරන්න");
 
       const ta: PassTranslations = getPassTranslations("ta");
       assert.strictEqual(ta.modePaging, "விமான நிலைய பெயர் பலகை (கிடைமட்டம்)");
@@ -117,7 +117,7 @@ describe("Step 361: Printable Airport Paging Board & Excursion Gate Pass (Printa
       );
 
       assert.ok(html.includes("ගුවන් තොටුපළ නාම පුවරුව (තිරස්)"));
-      assert.ok(html.includes("මුද්‍රණය කරන්න"));
+      assert.ok(html.includes("මුද්රණය කරන්න"));
     });
 
     it("renders localized Tamil view correctly", () => {

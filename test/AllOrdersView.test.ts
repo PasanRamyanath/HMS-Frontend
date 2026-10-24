@@ -138,7 +138,7 @@ describe("Step 290: All-Orders Master Live & Historical Table (AllOrdersView.tsx
       assert.ok(html.includes("Room 302"));
       assert.ok(html.includes("Jaffna Lagoon Crab Curry"));
       assert.ok(html.includes("Inspect"));
-      assert.ok(html.includes("🖨️"));
+      assert.ok(html.includes("Print"));
     });
 
     it("supports Sinhala localization", () => {
@@ -152,7 +152,7 @@ describe("Step 290: All-Orders Master Live & Historical Table (AllOrdersView.tsx
       assert.ok(html.includes("සියලු ඇණවුම් ලේඛනය"));
       assert.ok(html.includes("අද දින මුළු ඇණවුම්"));
       assert.ok(html.includes("මුළු ආදායම"));
-      assert.ok(html.includes("සක්‍රීය ඇණවුම්"));
+      assert.ok(html.includes("සක්රීය ඇණවුම්"));
     });
 
     it("supports Tamil localization", () => {

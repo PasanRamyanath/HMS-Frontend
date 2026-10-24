@@ -23,7 +23,7 @@ describe("Step 245: CSV / JSON Menu Import & Export Utility (menuImportExport.ts
     {
       id: "cat-1",
       nameEn: "Rice & Curries",
-      nameSi: "බත් සහ ව්‍යංජන",
+      nameSi: "බත් සහ ව්යංජන",
       nameTa: "அரிசி மற்றும் கறி",
       displayOrder: 1,
       isActive: true,

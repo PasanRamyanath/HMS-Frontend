@@ -167,9 +167,9 @@ describe("Step 398: InventoryAdminPage & Unified Stores Hub", () => {
         }),
       );
 
-      assert.match(html, /ගබඩා තොග, මිලදී ගැනීම් සහ පිරිවැය පාලන මධ්‍යස්ථානය/);
+      assert.match(html, /ගබඩා තොග, මිලදී ගැනීම් සහ පිරිවැය පාලන මධ්යස්ථානය/);
       assert.match(html, /මුළු තොග වටිනාකම/);
-      assert.match(html, /ක්‍රියාකාරී SKU ගණන/);
+      assert.match(html, /ක්රියාකාරී SKU ගණන/);
     });
 
     it("renders Tamil localization accurately", () => {

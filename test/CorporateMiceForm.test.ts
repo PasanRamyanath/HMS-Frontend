@@ -188,11 +188,11 @@ describe("Step 339: CorporateMiceForm — Corporate Conference, MICE & Day-Outin
     it("renders Sinhala localization properly", () => {
       const html = renderToStaticMarkup(React.createElement(CorporateMiceForm, { language: "si" }));
 
-      assert.ok(html.includes("ආයතනික සම්මන්ත්‍රණ"));
+      assert.ok(html.includes("ආයතනික සම්මන්ත්රණ"));
       assert.ok(html.includes("පැකේජ වර්ගය"));
       assert.ok(html.includes("ආයතනයේ / සමාගමේ නම"));
-      assert.ok(html.includes("ශ්‍රව්‍ය දෘශ්‍ය (AV) උපකරණ"));
-      assert.ok(html.includes("කණ්ඩායම් ක්‍රීඩා"));
+      assert.ok(html.includes("ශ්රව්ය දෘශ්ය (AV) උපකරණ"));
+      assert.ok(html.includes("කණ්ඩායම් ක්රීඩා"));
     });
 
     it("renders Tamil localization properly", () => {

@@ -35,7 +35,7 @@ describe("Step 255: DOMSpeed-Style Dish Card with 1:1 WebP Thumbnail & Stepper (
       assert.ok(dish);
 
       assert.strictEqual(resolveDishText(dish.name, "en"), "Lagoon Jumbo Crab Curry");
-      assert.strictEqual(resolveDishText(dish.name, "si"), "කලපු කකුළු ව්‍යංජනය");
+      assert.strictEqual(resolveDishText(dish.name, "si"), "කලපු කකුළු ව්යංජනය");
       assert.strictEqual(resolveDishText(dish.name, "ta"), "மட்டக்களப்பு நண்டு கறி");
 
       // Fallback to English when SI or TA is missing
@@ -149,7 +149,7 @@ describe("Step 255: DOMSpeed-Style Dish Card with 1:1 WebP Thumbnail & Stepper (
           language: "si",
         }),
       );
-      assert.ok(sinhalaMarkup.includes("කලපු කකුළු ව්‍යංජනය"));
+      assert.ok(sinhalaMarkup.includes("කලපු කකුළු ව්යංජනය"));
 
       const tamilMarkup = renderToStaticMarkup(
         React.createElement(GuestDishCard, {
@@ -182,7 +182,7 @@ describe("Step 255: DOMSpeed-Style Dish Card with 1:1 WebP Thumbnail & Stepper (
 
     it("renders SpicyIndicator and DietaryTagChip subcomponents correctly", () => {
       const spiceMarkup = renderToStaticMarkup(React.createElement(SpicyIndicator, { level: 3 }));
-      assert.ok(spiceMarkup.includes("🌶️🌶️🌶️"));
+      assert.ok(spiceMarkup.includes("Spicy"));
 
       const chipMarkup = renderToStaticMarkup(
         React.createElement(DietaryTagChip, { tag: "VEGETARIAN" }),

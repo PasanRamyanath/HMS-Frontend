@@ -207,7 +207,7 @@ export function App() {
     return (
       <>
         <DynamicToastPill toast={activeToast} onDismiss={() => setActiveToast(null)} />
-        <main className="min-h-screen bg-apple-gray-50 p-4 sm:p-6 md:p-8 dark:bg-apple-gray-900">
+        <main className="min-h-screen bg-apple-gray-50 p-4 sm:p-6 md:p-8 ">
           <DirectBookingEngine
             tenantId={currentRoute.params.tenantId}
             onProceedToCheckout={(_selection, tax) => {
@@ -244,6 +244,18 @@ export function App() {
         <StaffMobileHub
           hotelName={activeTenantName}
           initialView={initialView}
+          onNavigateTool={(toolId) => {
+            const viewMap: Record<string, string> = {
+              KITCHEN_KDS: "kds",
+              BAR_BOT: "bar",
+              WAITER_POS: "pos",
+              ORDER_RUNNER: "runner",
+              BUFFET_HOST: "buffet",
+              HOUSEKEEPING: "housekeeping",
+            };
+            const path = viewMap[toolId] ? `/staff/${viewMap[toolId]}` : "/staff";
+            navigateTo(path);
+          }}
           onLogout={() => {
             showToast("Signed Out", "Shift session ended safely", "info");
             navigateTo("/login");

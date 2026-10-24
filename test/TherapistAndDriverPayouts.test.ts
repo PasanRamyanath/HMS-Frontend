@@ -124,7 +124,7 @@ describe("Step 360: Spa Therapist & Chauffeur Commission Ledger (TherapistAndDri
 
       assert.ok(html.includes("තෙරපිවරුන් සහ රියදුරන්ගේ කොමිස් ලෙජරය"));
       assert.ok(html.includes("ස්පා තෙරපිවරුන්"));
-      assert.ok(html.includes("සෆාරි සහ ප්‍රවාහන රියදුරන්"));
+      assert.ok(html.includes("සෆාරි සහ ප්රවාහන රියදුරන්"));
       assert.ok(html.includes("පියවීමට ඇති මුදල"));
     });
 

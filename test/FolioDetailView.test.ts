@@ -186,7 +186,7 @@ describe("Interactive Guest Folio Workspace (FolioDetailView.tsx)", () => {
       // Apple HIG styling classes
       assert.ok(html.includes("apple-liquid-glass"));
       assert.ok(html.includes("tabular-nums-lkr"));
-      assert.ok(html.includes("rounded-3xl"));
+      assert.ok(html.includes("rounded-2xl"));
       assert.ok(html.includes("min-h-[44px]"));
     });
   });

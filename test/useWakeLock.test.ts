@@ -213,14 +213,14 @@ describe("Step 297: Screen Wake-Lock Helper (useWakeLock.ts)", () => {
         formatWakeLockStatusLabel("active", "en"),
         "Display Kept Awake (Sleep Prevented)",
       );
-      assert.strictEqual(formatWakeLockStatusLabel("active", "si"), "තිරය සක්‍රීයයි (නිද්‍රාව වළක්වා ඇත)");
+      assert.strictEqual(formatWakeLockStatusLabel("active", "si"), "තිරය සක්රීයයි (නිද්රාව වළක්වා ඇත)");
       assert.strictEqual(
         formatWakeLockStatusLabel("active", "ta"),
         "திரை விழித்திருக்கிறது (தூக்கம் தடுக்கப்பட்டது)",
       );
 
       assert.strictEqual(formatWakeLockStatusLabel("released", "en"), "Display Sleep Allowed");
-      assert.strictEqual(formatWakeLockStatusLabel("released", "si"), "තිර නිද්‍රාව සක්‍රීයයි");
+      assert.strictEqual(formatWakeLockStatusLabel("released", "si"), "තිර නිද්රාව සක්රීයයි");
       assert.strictEqual(formatWakeLockStatusLabel("released", "ta"), "திரை தூங்க அனுமதிக்கப்பட்டது");
 
       assert.strictEqual(formatWakeLockStatusLabel("unsupported", "en"), "Wake-Lock Unavailable");

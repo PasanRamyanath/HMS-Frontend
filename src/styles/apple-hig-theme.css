@@ -1,29 +1,29 @@
 @theme {
-  --color-apple-blue: var(--brand-primary, #0d7450);
-  --color-apple-green: #34c759;
-  --color-apple-amber: #ff9500;
-  --color-apple-red: #ff3b30;
-  --color-apple-indigo: #5856d6;
-  --color-apple-purple: #af52de;
-  --color-apple-teal: #30b0c7;
+  --color-apple-blue: var(--brand-primary, #0b6e4f);
+  --color-apple-green: #16a34a;
+  --color-apple-amber: #d97706;
+  --color-apple-red: #dc2626;
+  --color-apple-indigo: #4f46e5;
+  --color-apple-purple: #7c3aed;
+  --color-apple-teal: #0d9488;
   --color-hms-coral: #e8772e;
 
-  /* Sri Lanka HMS Dynamic Brand Palette */
-  --color-brand-primary: var(--brand-primary, #0d7450);
-  --color-brand-hover: var(--brand-hover, #0a5e40);
-  --color-brand-surface: var(--brand-surface, rgba(13, 116, 80, 0.08));
-  --color-brand-border: var(--brand-border, rgba(13, 116, 80, 0.25));
+  /* Sri Lanka HMS Dynamic Brand Palette (Version 2 Botanical Emerald) */
+  --color-brand-primary: var(--brand-primary, #0b6e4f);
+  --color-brand-hover: var(--brand-hover, #09583f);
+  --color-brand-surface: var(--brand-surface, #ecfdf5);
+  --color-brand-border: var(--brand-border, #a7f3d0);
 
-  --color-apple-gray-50: #fbfbfd;
-  --color-apple-gray-100: #f5f5f7;
-  --color-apple-gray-200: #e5e5ea;
-  --color-apple-gray-300: #d1d1d6;
-  --color-apple-gray-400: #c7c7cc;
-  --color-apple-gray-500: #8e8e93;
-  --color-apple-gray-600: #636366;
-  --color-apple-gray-700: #48484a;
-  --color-apple-gray-800: #2c2c2e;
-  --color-apple-gray-900: #1c1c1e;
+  --color-apple-gray-50: #f4f7f5;
+  --color-apple-gray-100: #eef2ef;
+  --color-apple-gray-200: #e2e8f0;
+  --color-apple-gray-300: #cbd5e1;
+  --color-apple-gray-400: #94a3b8;
+  --color-apple-gray-500: #64748b;
+  --color-apple-gray-600: #475569;
+  --color-apple-gray-700: #334155;
+  --color-apple-gray-800: #1e293b;
+  --color-apple-gray-900: #0f172a;
 
   --font-sf-pro: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -36,52 +36,102 @@
 
   --radius-squircle-sm: 8px;
   --radius-squircle-md: 12px;
-  --radius-squircle-lg: 18px;
-  --radius-squircle-xl: 24px;
+  --radius-squircle-lg: 16px;
+  --radius-squircle-xl: 20px;
 }
 
-/* Dynamic Brand CSS Variables (Defaults to UX-UI v1/v2 Ceylon Botanical Emerald) */
+/* Dynamic Brand CSS Variables (Version 2 Ceylon Botanical Emerald) */
 :root {
-  --brand-primary: #0d7450;
-  --brand-hover: #0a5e40;
-  --brand-surface: rgba(13, 116, 80, 0.08);
-  --brand-border: rgba(13, 116, 80, 0.25);
-  --brand-ring: rgba(13, 116, 80, 0.35);
-  --brand-text: #0d7450;
+  --brand-primary: #0b6e4f;
+  --brand-hover: #09583f;
+  --brand-surface: #ecfdf5;
+  --brand-border: #a7f3d0;
+  --brand-ring: rgba(11, 110, 79, 0.25);
+  --brand-text: #0b6e4f;
   --brand-contrast-text: #ffffff;
 
   --brand-dark-primary: #10b981;
   --brand-dark-hover: #34d399;
-  --brand-dark-surface: rgba(16, 185, 129, 0.18);
+  --brand-dark-surface: rgba(16, 185, 129, 0.16);
   --brand-dark-border: rgba(16, 185, 129, 0.35);
 }
 
-.bg-brand {
-  background-color: var(--brand-primary);
-}
-.dark .bg-brand {
-  background-color: var(--brand-dark-primary);
-}
-
-.text-brand {
-  color: var(--brand-primary);
-}
-.dark .text-brand {
-  color: var(--brand-dark-primary);
-}
-
-.border-brand {
-  border-color: var(--brand-border);
-}
-.dark .border-brand {
-  border-color: var(--brand-dark-border);
+/* ============================================================================
+ * Dynamic Brand Theme Bindings Across the Entire Platform
+ * Maps both semantic brand classes and arbitrary hex classes (#0B6E4F, #ECFDF5,
+ * #E6F4EE, #A7F3D0) to CSS custom properties so changing the theme color in
+ * Settings > Appearance immediately recolors buttons, active nav pills, tabs,
+ * badges, and focus rings system-wide.
+ * ============================================================================ */
+.bg-brand,
+.bg-\[\#0B6E4F\],
+.bg-\[\#0b6e4f\],
+.bg-\[\#0D7450\] {
+  background-color: var(--brand-primary) !important;
+  color: var(--brand-contrast-text, #ffffff);
 }
 
-.bg-brand-surface {
-  background-color: var(--brand-surface);
+.hover\:bg-\[\#09583F\]:hover,
+.hover\:bg-\[\#095C42\]:hover,
+.hover\:bg-\[\#0B6E4F\]\/90:hover {
+  background-color: var(--brand-hover) !important;
 }
-.dark .bg-brand-surface {
-  background-color: var(--brand-dark-surface);
+
+.dark .bg-brand,
+.dark .bg-\[\#0B6E4F\],
+.dark .bg-\[\#0b6e4f\],
+.dark .bg-\[\#0D7450\] {
+  background-color: var(--brand-dark-primary) !important;
+  color: #0b1120 !important;
+}
+
+.dark .hover\:bg-\[\#09583F\]:hover,
+.dark .hover\:bg-\[\#095C42\]:hover {
+  background-color: var(--brand-dark-hover) !important;
+}
+
+.text-brand,
+.text-\[\#0B6E4F\],
+.text-\[\#0b6e4f\],
+.text-\[\#0D7450\] {
+  color: var(--brand-primary) !important;
+}
+
+.dark .text-brand,
+.dark .text-\[\#0B6E4F\],
+.dark .text-\[\#0b6e4f\],
+.dark .text-\[\#0D7450\] {
+  color: var(--brand-dark-primary) !important;
+}
+
+.bg-brand-surface,
+.bg-\[\#ECFDF5\],
+.bg-\[\#E6F4EE\] {
+  background-color: var(--brand-surface) !important;
+}
+
+.dark .bg-brand-surface,
+.dark .bg-\[\#ECFDF5\],
+.dark .bg-\[\#E6F4EE\] {
+  background-color: var(--brand-dark-surface) !important;
+}
+
+.border-brand,
+.border-\[\#0B6E4F\],
+.border-\[\#A7F3D0\] {
+  border-color: var(--brand-border) !important;
+}
+
+.dark .border-brand,
+.dark .border-\[\#0B6E4F\],
+.dark .border-\[\#A7F3D0\] {
+  border-color: var(--brand-dark-border) !important;
+}
+
+.focus\:border-\[\#0B6E4F\]:focus,
+.focus\:ring-\[\#0B6E4F\]:focus {
+  border-color: var(--brand-primary) !important;
+  --tw-ring-color: var(--brand-ring) !important;
 }
 
 .text-brand-contrast {
@@ -89,107 +139,289 @@
 }
 
 .shadow-brand {
-  box-shadow: 0 10px 25px -5px var(--brand-ring);
+  box-shadow: 0 2px 8px -2px var(--brand-ring);
 }
 
-/* Global Typography & Base Smoothness */
+/* ============================================================================
+ * Global Typography & Base Canvas (Light & Dark Mode)
+ * ============================================================================ */
 body {
   font-family: var(--font-sf-pro);
+  background-color: #f4f7f5;
+  color: #0f172a;
   letter-spacing: -0.011em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
-/* Apple Liquid Glass dynamic translucency material */
+html.dark,
+html.dark body {
+  background-color: #0b1120 !important;
+  color: #f8fafc !important;
+  color-scheme: dark;
+}
+
+/* ============================================================================
+ * Universal Card & Surface System (Light & Comprehensive Dark Mode)
+ * ============================================================================ */
 .apple-liquid-glass,
-.apple-material-regular {
-  background-color: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(226, 232, 240, 0.85);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
+.apple-material-regular,
+.apple-material-thin {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
 }
 
-.dark .apple-liquid-glass,
-.dark .apple-material-regular {
-  background-color: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
-}
-
-/* Clear / Ultra-Thin Liquid Glass variant */
 .apple-liquid-glass-clear,
 .apple-material-ultra-thin {
-  background-color: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(12px) saturate(140%);
-  -webkit-backdrop-filter: blur(12px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.4), 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
 }
 
-.dark .apple-liquid-glass-clear,
-.dark .apple-material-ultra-thin {
-  background-color: rgba(20, 20, 22, 0.45);
-  backdrop-filter: blur(12px) saturate(140%);
-  -webkit-backdrop-filter: blur(12px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1), 0 4px 16px 0 rgba(0, 0, 0, 0.2);
-}
-
-/* Thin Liquid Glass variant */
-.apple-material-thin {
-  background-color: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.38);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5), 0 6px 24px 0 rgba(0, 0, 0, 0.05);
-}
-
-.dark .apple-material-thin {
-  background-color: rgba(28, 28, 30, 0.62);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15), 0 6px 24px 0 rgba(0, 0, 0, 0.24);
-}
-
-/* Thick Liquid Glass variant */
 .apple-material-thick {
-  background-color: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(32px) saturate(190%);
-  -webkit-backdrop-filter: blur(32px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.8), 0 12px 36px 0 rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.05);
 }
 
-.dark .apple-material-thick {
-  background-color: rgba(24, 24, 26, 0.88);
-  backdrop-filter: blur(32px) saturate(190%);
-  -webkit-backdrop-filter: blur(32px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.22), 0 12px 36px 0 rgba(0, 0, 0, 0.35);
-}
-
-/* Elevated Liquid Glass variant */
 .apple-material-elevated {
-  background-color: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(28px) saturate(190%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.9), 0 20px 48px -8px rgba(0, 0, 0, 0.12), 0 8px
-    16px -4px rgba(0, 0, 0, 0.04);
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
 }
 
-.dark .apple-material-elevated {
-  background-color: rgba(36, 36, 38, 0.85);
-  backdrop-filter: blur(28px) saturate(190%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.28), 0 20px 48px -8px rgba(0, 0, 0, 0.45), 0 8px
-    16px -4px rgba(0, 0, 0, 0.2);
+/* Full System-Wide Dark Mode Overrides */
+html.dark .bg-\[\#F4F7F5\],
+html.dark .bg-\[\#f4f7f5\],
+html.dark .bg-apple-gray-50 {
+  background-color: #0b1120 !important;
+}
+
+html.dark .apple-liquid-glass,
+html.dark .apple-material-regular,
+html.dark .apple-material-thin,
+html.dark .bg-white,
+html.dark .bg-white\/90,
+html.dark .bg-white\/80,
+html.dark .bg-white\/70 {
+  background-color: #111827 !important;
+  border-color: #1e293b !important;
+  color: #f8fafc;
+}
+
+html.dark .apple-material-thick,
+html.dark .apple-material-elevated,
+html.dark .apple-liquid-glass-clear,
+html.dark .apple-material-ultra-thin,
+html.dark .bg-slate-50,
+html.dark .bg-slate-50\/80,
+html.dark .bg-slate-50\/60,
+html.dark .bg-slate-50\/50,
+html.dark .bg-gray-50,
+html.dark .bg-neutral-50,
+html.dark .bg-zinc-50 {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+html.dark .bg-slate-100,
+html.dark .bg-slate-100\/80,
+html.dark .bg-gray-100,
+html.dark .bg-neutral-100,
+html.dark .bg-zinc-100,
+html.dark .bg-apple-gray-100 {
+  background-color: #263349 !important;
+  border-color: #334155 !important;
+}
+
+html.dark .hover\:bg-slate-50:hover,
+html.dark .hover\:bg-slate-100:hover,
+html.dark .hover\:bg-gray-100:hover,
+html.dark .hover\:bg-neutral-100:hover {
+  background-color: #1e293b !important;
+}
+
+/* Dark Mode Borders & Dividers */
+html.dark .border-\[\#E2E8F0\],
+html.dark .border-slate-100,
+html.dark .border-slate-200,
+html.dark .border-slate-200\/90,
+html.dark .border-slate-200\/80,
+html.dark .border-slate-200\/60,
+html.dark .border-slate-200\/50,
+html.dark .border-slate-300,
+html.dark .border-gray-200,
+html.dark .border-gray-300,
+html.dark .border-neutral-200,
+html.dark .border-zinc-200,
+html.dark .border-apple-gray-200,
+html.dark .border-apple-gray-300 {
+  border-color: #1e293b !important;
+}
+
+html.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
+html.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]),
+html.dark .divide-gray-200 > :not([hidden]) ~ :not([hidden]),
+html.dark .divide-neutral-200 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #1e293b !important;
+}
+
+/* Dark Mode Typography Hierarchy */
+html.dark .text-slate-950,
+html.dark .text-slate-900,
+html.dark .text-gray-900,
+html.dark .text-neutral-900,
+html.dark .text-zinc-900,
+html.dark .text-apple-gray-900 {
+  color: #f8fafc !important;
+}
+
+html.dark .text-slate-800,
+html.dark .text-slate-700,
+html.dark .text-gray-800,
+html.dark .text-gray-700,
+html.dark .text-neutral-800,
+html.dark .text-neutral-700,
+html.dark .text-zinc-800,
+html.dark .text-zinc-700,
+html.dark .text-apple-gray-800,
+html.dark .text-apple-gray-700 {
+  color: #e2e8f0 !important;
+}
+
+html.dark .text-slate-600,
+html.dark .text-slate-500,
+html.dark .text-gray-600,
+html.dark .text-gray-500,
+html.dark .text-neutral-600,
+html.dark .text-neutral-500,
+html.dark .text-zinc-600,
+html.dark .text-zinc-500,
+html.dark .text-apple-gray-600,
+html.dark .text-apple-gray-500 {
+  color: #94a3b8 !important;
+}
+
+html.dark .text-slate-400,
+html.dark .text-gray-400,
+html.dark .text-neutral-400 {
+  color: #64748b !important;
+}
+
+/* Dark Mode Form Inputs, Selects, and Tables */
+html.dark input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+html.dark select,
+html.dark textarea {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+html.dark thead,
+html.dark th {
+  background-color: #1e293b !important;
+  color: #94a3b8 !important;
+  border-color: #334155 !important;
+}
+
+html.dark tbody tr {
+  border-color: #1e293b !important;
+}
+
+html.dark tbody tr:hover {
+  background-color: rgba(30, 41, 59, 0.55) !important;
+}
+
+/* Dark Mode Semantic Status Pill Refinement */
+html.dark .bg-emerald-50,
+html.dark .bg-emerald-100,
+html.dark .bg-green-50,
+html.dark .bg-green-100 {
+  background-color: rgba(16, 185, 129, 0.16) !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
+  color: #34d399 !important;
+}
+
+html.dark .text-emerald-700,
+html.dark .text-emerald-800,
+html.dark .text-green-700,
+html.dark .text-green-800 {
+  color: #34d399 !important;
+}
+
+html.dark .bg-amber-50,
+html.dark .bg-amber-100,
+html.dark .bg-yellow-50,
+html.dark .bg-orange-50 {
+  background-color: rgba(245, 158, 11, 0.16) !important;
+  border-color: rgba(245, 158, 11, 0.35) !important;
+  color: #fbbf24 !important;
+}
+
+html.dark .text-amber-700,
+html.dark .text-amber-800,
+html.dark .text-orange-700 {
+  color: #fbbf24 !important;
+}
+
+html.dark .bg-rose-50,
+html.dark .bg-rose-100,
+html.dark .bg-red-50,
+html.dark .bg-red-100 {
+  background-color: rgba(244, 63, 94, 0.16) !important;
+  border-color: rgba(244, 63, 94, 0.35) !important;
+  color: #fb7185 !important;
+}
+
+html.dark .text-rose-700,
+html.dark .text-rose-800,
+html.dark .text-red-700,
+html.dark .text-red-800 {
+  color: #fb7185 !important;
+}
+
+html.dark .bg-blue-50,
+html.dark .bg-blue-100,
+html.dark .bg-sky-50,
+html.dark .bg-indigo-50 {
+  background-color: rgba(59, 130, 246, 0.16) !important;
+  border-color: rgba(59, 130, 246, 0.35) !important;
+  color: #60a5fa !important;
+}
+
+html.dark .text-blue-700,
+html.dark .text-blue-800,
+html.dark .text-sky-700,
+html.dark .text-indigo-700 {
+  color: #60a5fa !important;
+}
+
+
+/* Dark Mode SVG Chart Typography & Tracks */
+html.dark .fill-slate-900 {
+  fill: #f8fafc !important;
+}
+html.dark .fill-slate-700,
+html.dark .fill-slate-600 {
+  fill: #cbd5e1 !important;
+}
+html.dark .fill-slate-500 {
+  fill: #94a3b8 !important;
+}
+html.dark .fill-slate-200\/60,
+html.dark .fill-slate-200 {
+  fill: #1e293b !important;
+}
+html.dark .stroke-slate-200\/60,
+html.dark .stroke-slate-200 {
+  stroke: #334155 !important;
 }
 
 /* Squircle corner radius utility classes */
@@ -200,76 +432,10 @@ body {
   border-radius: var(--radius-squircle-md, 12px);
 }
 .squircle-lg {
-  border-radius: var(--radius-squircle-lg, 18px);
+  border-radius: var(--radius-squircle-lg, 16px);
 }
 .squircle-xl {
-  border-radius: var(--radius-squircle-xl, 24px);
-}
-
-/* Accessibility: fallback for users who prefer reduced transparency */
-@media (prefers-reduced-transparency: reduce) {
-  .apple-liquid-glass,
-  .apple-liquid-glass-clear,
-  .apple-material-ultra-thin,
-  .apple-material-thin,
-  .apple-material-regular,
-  .apple-material-thick,
-  .apple-material-elevated {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-
-  .apple-material-ultra-thin {
-    background-color: #fbfbfd;
-    border: 1px solid #e5e5ea;
-  }
-  .apple-material-thin {
-    background-color: #f5f5f7;
-    border: 1px solid #d1d1d6;
-  }
-  .apple-liquid-glass,
-  .apple-liquid-glass-clear,
-  .apple-material-regular {
-    background-color: #ffffff;
-    border: 1px solid #d1d1d6;
-    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
-  }
-  .apple-material-thick {
-    background-color: #ffffff;
-    border: 1px solid #c7c7cc;
-    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.1);
-  }
-  .apple-material-elevated {
-    background-color: #ffffff;
-    border: 1px solid #c7c7cc;
-    box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.15);
-  }
-
-  .dark .apple-material-ultra-thin {
-    background-color: #161618;
-    border: 1px solid #2c2c2e;
-  }
-  .dark .apple-material-thin {
-    background-color: #1c1c1e;
-    border: 1px solid #38383a;
-  }
-  .dark .apple-liquid-glass,
-  .dark .apple-liquid-glass-clear,
-  .dark .apple-material-regular {
-    background-color: #1c1c1e;
-    border: 1px solid #38383a;
-    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.4);
-  }
-  .dark .apple-material-thick {
-    background-color: #242426;
-    border: 1px solid #48484a;
-    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.45);
-  }
-  .dark .apple-material-elevated {
-    background-color: #28282a;
-    border: 1px solid #48484a;
-    box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.5);
-  }
+  border-radius: var(--radius-squircle-xl, 20px);
 }
 
 /* Optical tabular numbers for Sri Lankan Rupee (LKR) / USD folios & timers */
@@ -278,16 +444,16 @@ body {
   font-feature-settings: "tnum" 1;
 }
 
-/* Apple HIG 44x44pt ergonomic minimum touch target */
+/* Ergonomic 44x44pt minimum touch target */
 .apple-touch-target {
   min-height: 44px;
   min-width: 44px;
 }
 
-/* Smooth Apple spring physics transitions */
+/* Smooth transitions */
 .transition-apple-spring {
   transition-timing-function: var(--ease-apple-spring);
-  transition-duration: 350ms;
+  transition-duration: 200ms;
 }
 
 /* ============================================================================
@@ -300,8 +466,7 @@ body {
 }
 
 /* ============================================================================
- * Apple HIG & Sri Lankan Statutory @media print Stylesheets
- * Strip glass blurs, drop-shadows and vibrant fills for crisp monochrome output:
+ * Sri Lankan Statutory @media print Stylesheets
  * 1. 80mm Thermal Paper Rolls (Kitchen Order Tickets / KOT, Bar BOT & Guest POS Slips)
  * 2. A4 Laser/Inkjet Invoices (SLTDA / IRD RAMIS Statutory Tax Folios & Audit Receipts)
  * ============================================================================ */
@@ -311,7 +476,6 @@ body {
     size: auto;
   }
 
-  /* Automatically strip glass materials and vibrancy on paper */
   *,
   *::before,
   *::after {
@@ -331,7 +495,6 @@ body {
     line-height: 1.35;
   }
 
-  /* Hide interactive UI elements (sidebars, nav bars, buttons, floating controls) */
   .no-print,
   button,
   nav,
@@ -343,15 +506,10 @@ body {
     display: none !important;
   }
 
-  /* Ensure print-only content is visible */
   .print-only {
     display: block !important;
   }
 
-  /* --------------------------------------------------------------------------
-   * 1. 80mm Thermal Receipt Slip (.print-80mm-receipt)
-   * Designed for Epson TM-T88 / Star Micronics / Bixolon 80mm POS & KDS printers
-   * -------------------------------------------------------------------------- */
   .print-80mm-receipt {
     width: 72mm !important;
     max-width: 72mm !important;
@@ -385,10 +543,6 @@ body {
     margin: 2mm 0 !important;
   }
 
-  /* --------------------------------------------------------------------------
-   * 2. A4 Statutory Guest Folio & IRD Tax Invoice (.print-a4-invoice)
-   * Designed for Inland Revenue Department (IRD) & SLTDA statutory audit print
-   * -------------------------------------------------------------------------- */
   .print-a4-invoice {
     width: 100% !important;
     max-width: 100% !important;

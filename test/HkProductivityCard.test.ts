@@ -115,26 +115,26 @@ describe("Step 320: Housekeeping Turnaround Time & Productivity Report (HkProduc
     it("resolves distinctive icons and styles for all 3 performance tiers", () => {
       const t = getHkProductivityText("en");
       const top = resolvePerformanceTierBadge("TOP_PERFORMER", t);
-      assert.equal(top.icon, "🌟");
+      assert.equal(top.icon, "Top");
       assert.equal(top.label, "Star Attendant");
       assert.match(top.style, /amber/);
 
       const target = resolvePerformanceTierBadge("ON_TARGET", t);
-      assert.equal(target.icon, "🎯");
+      assert.equal(target.icon, "Target");
       assert.equal(target.label, "On Target");
       assert.match(target.style, /emerald/);
 
       const coaching = resolvePerformanceTierBadge("NEEDS_COACHING", t);
-      assert.equal(coaching.icon, "⚠️");
+      assert.equal(coaching.icon, "Alert");
       assert.equal(coaching.label, "Needs Coaching");
       assert.match(coaching.style, /rose/);
     });
 
     it("resolves shift badges for morning, evening, and night", () => {
       const t = getHkProductivityText("en");
-      assert.equal(resolveShiftBadge("MORNING", t).icon, "🌅");
-      assert.equal(resolveShiftBadge("EVENING", t).icon, "🌇");
-      assert.equal(resolveShiftBadge("NIGHT", t).icon, "🌙");
+      assert.equal(resolveShiftBadge("MORNING", t).icon, "AM");
+      assert.equal(resolveShiftBadge("EVENING", t).icon, "PM");
+      assert.equal(resolveShiftBadge("NIGHT", t).icon, "Night");
     });
 
     it("filters attendants by performance tier tab and search query", () => {
@@ -212,7 +212,7 @@ describe("Step 320: Housekeeping Turnaround Time & Productivity Report (HkProduc
       );
 
       assert.match(html, /කාමර පිරිසිදු කිරීමේ කාලය/);
-      assert.match(html, /ක්‍රියාකාරී සේවකයින්/);
+      assert.match(html, /ක්රියාකාරී සේවකයින්/);
     });
   });
 });

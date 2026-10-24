@@ -25,11 +25,16 @@ self.addEventListener("fetch", (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
-  // Skip non-GET and GraphQL/API/WebSocket requests
+  // Skip non-GET, GraphQL/API/WebSocket, Vite dev server, and localhost requests
   if (
     request.method !== "GET" ||
     url.pathname.startsWith("/graphql") ||
-    url.protocol.startsWith("ws")
+    url.protocol.startsWith("ws") ||
+    url.hostname === "localhost" ||
+    url.hostname === "127.0.0.1" ||
+    url.port === "5173" ||
+    url.pathname.startsWith("/@") ||
+    url.pathname.includes("/node_modules/")
   ) {
     return;
   }
@@ -37,9 +42,10 @@ self.addEventListener("fetch", (event) => {
   // Network-First for HTML navigation documents
   if (request.mode === "navigate") {
     event.respondWith(
-      fetch(request).catch(() =>
-        caches.match("/index.html").then((cached) => cached || Response.error()),
-      ),
+      fetch(request).catch(async () => {
+        const cached = await caches.match("/index.html");
+        return cached || (await caches.match("/")) || Response.error();
+      }),
     );
     return;
   }
@@ -57,7 +63,7 @@ self.addEventListener("fetch", (event) => {
           }
           return networkResponse;
         })
-        .catch(() => cachedResponse);
+        .catch(() => cachedResponse || Response.error());
 
       return cachedResponse || fetchPromise;
     }),

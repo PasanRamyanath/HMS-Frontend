@@ -160,7 +160,7 @@ describe("Step 251: Contactless QR Entrypoint & HMAC Session Loader (GuestQrApp.
       assert.ok(html.includes("aspect-[3/1]"));
       assert.ok(html.includes("Galle Fort Lighthouse Villa"));
       assert.ok(html.includes("Galle Fort, Sri Lanka"));
-      assert.ok(html.includes("★★★★★"));
+      assert.ok(html.includes("*****"));
       assert.ok(html.includes("Room 104"));
     });
 
@@ -210,7 +210,7 @@ describe("Step 251: Contactless QR Entrypoint & HMAC Session Loader (GuestQrApp.
       assert.ok(html.includes("Table 04"));
       assert.ok(html.includes("Seated Diner • Instant Digital Pay"));
       // Folio tab button should be hidden for table guests without room attachment
-      assert.ok(!html.includes("<span>🧾</span> Live Folio"));
+      assert.ok(!html.includes("<span>Folio</span> Live Folio"));
     });
 
     it("verifies all exported interfaces and types are constructible", () => {

@@ -218,8 +218,8 @@ describe("Step 346: CasualStewardSheet — Casual Banquet Waiter Attendance & Pa
           language: "si",
         }),
       );
-      assert.ok(sinhalaHtml.includes("භෝජන සංග්‍රහ අනියම් සේවක පැමිණීම"));
-      assert.ok(sinhalaHtml.includes("සේවක සංඛ්‍යාව"));
+      assert.ok(sinhalaHtml.includes("භෝජන සංග්රහ අනියම් සේවක පැමිණීම"));
+      assert.ok(sinhalaHtml.includes("සේවක සංඛ්යාව"));
       assert.ok(sinhalaHtml.includes("මුළු කාර්ය වේතනය"));
 
       const tamilHtml = renderToStaticMarkup(

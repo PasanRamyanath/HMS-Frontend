@@ -75,7 +75,7 @@ describe("Step 276: Touch-First 3-Column Kitchen Display System (KDS) Kanban Boa
     it("getOrderTypeDetails maps order types with trilingual support", () => {
       const roomEn = getOrderTypeDetails("IN_ROOM_DINING", "en");
       assert.strictEqual(roomEn.label, "Room Dining");
-      assert.strictEqual(roomEn.icon, "🛎️");
+      assert.strictEqual(roomEn.icon, "Bell");
 
       const roomSi = getOrderTypeDetails("IN_ROOM_DINING", "si");
       assert.strictEqual(roomSi.label, "කාමර සේවාව");
@@ -85,11 +85,11 @@ describe("Step 276: Touch-First 3-Column Kitchen Display System (KDS) Kanban Boa
 
       const table = getOrderTypeDetails("SEATED_TABLE", "en");
       assert.strictEqual(table.label, "Dine-In Table");
-      assert.strictEqual(table.icon, "🍽️");
+      assert.strictEqual(table.icon, "Dining");
 
       const takeaway = getOrderTypeDetails("TAKEAWAY", "en");
       assert.strictEqual(takeaway.label, "Takeaway");
-      assert.strictEqual(takeaway.icon, "🛍️");
+      assert.strictEqual(takeaway.icon, "Bag");
     });
 
     it("getNextOrderStatus and getPrevOrderStatus manage status transitions cleanly", () => {

@@ -245,8 +245,8 @@ describe("Step 376: StockItemManager & Store SKU Registry", () => {
       // The Add Store SKU button should not be present
       assert.ok(!html.includes("+</span><span>Add Store SKU"));
       // Action buttons (edit, adjust, delete) shouldn't be rendered
-      assert.ok(!html.includes("⚖️ Count"));
-      assert.ok(!html.includes("✏️ Edit"));
+      assert.ok(!html.includes("Count"));
+      assert.ok(!html.includes("Edit"));
     });
 
     it("renders empty state gracefully when item list is empty", () => {

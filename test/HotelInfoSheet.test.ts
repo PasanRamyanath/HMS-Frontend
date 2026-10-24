@@ -92,7 +92,7 @@ describe("HotelInfoSheet (Step 267)", () => {
     const html = renderToStaticMarkup(React.createElement(HotelInfoSheet, props));
     assert.ok(html.includes("හෝටල් තොරතුරු සහ නාමාවලිය"));
     assert.ok(html.includes("නොමිලේ අධිවේගී Wi-Fi"));
-    assert.ok(html.includes("ශ්‍රී ලංකා හදිසි ඇමතුම් සේවා"));
+    assert.ok(html.includes("ශ්රී ලංකා හදිසි ඇමතුම් සේවා"));
   });
 
   it("renders in Tamil language correctly", () => {
@@ -139,20 +139,20 @@ describe("HotelInfoSheet (Step 267)", () => {
       name: "Local Doctor",
       number: "+94770000000",
       description: "On-call physician",
-      icon: "🩺",
+      icon: "Doctor",
     };
     const fac: FacilitySchedule = {
       id: "test-f",
       name: "Tennis Court",
       hours: "06:00 - 18:00",
       location: "East Wing",
-      icon: "🎾",
+      icon: "Court",
     };
     const rule: PropertyRule = {
       id: "test-r",
       title: "Quiet Hours",
       detail: "22:00 to 07:00",
-      icon: "🌙",
+      icon: "Night",
     };
 
     assert.strictEqual(contact.number, "+94770000000");

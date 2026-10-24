@@ -187,8 +187,8 @@ describe("Step 377: SupplierDirectory & Local Market Vendor Registry", () => {
 
       assert.ok(html.includes("Supplier &amp; Local Market Vendor Directory"));
       assert.ok(!html.includes("+</span><span>Register Supplier"));
-      assert.ok(!html.includes("✏️ Edit"));
-      assert.ok(!html.includes("🗑️"));
+      assert.ok(!html.includes("Edit"));
+      assert.ok(!html.includes("Delete"));
     });
 
     it("renders empty state gracefully when supplier list is empty", () => {

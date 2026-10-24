@@ -30,7 +30,7 @@ describe("Step 462 (Phase 19.12): One-Click Full Tenant JSON Backup & Restore Ut
     });
 
     it("handles multi-byte UTF-8 Sri Lankan Unicode characters (Sinhala/Tamil/EMVCo)", () => {
-      const payload = "ශ්‍රී ලංකා හෝටල් පද්ධතිය • இலங்கை விடுதி • Galle Fort Heritage 🇱🇰";
+      const payload = "ශ්රී ලංකා හෝටල් පද්ධතිය • இலங்கை விடுதி • Galle Fort Heritage LK";
       const hash1 = computeSha256Checksum(payload);
       const hash2 = computeSha256Checksum(payload);
       assert.strictEqual(hash1.length, 64);

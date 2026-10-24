@@ -198,7 +198,7 @@ describe("Step 345: BanquetProfitCard — Banquet Profitability & Cost Margin En
           language: "si",
         }),
       );
-      assert.ok(sinhalaHtml.includes("භෝජන සංග්‍රහ ලාභදායීත්වය"));
+      assert.ok(sinhalaHtml.includes("භෝජන සංග්රහ ලාභදායීත්වය"));
       assert.ok(sinhalaHtml.includes("ශුද්ධ හෝටල් ආදායම"));
       assert.ok(sinhalaHtml.includes("මුළු සෘජු පිරිවැය"));
 

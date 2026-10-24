@@ -59,12 +59,12 @@ describe("Step 440: Staff Smartphone Self-Service Payslip & Service Charge Point
       assert.equal(en.secondary, undefined);
 
       const si = resolveStaffHrLabel("headerTitle", "SI");
-      assert.equal(si.primary, "මගේ වැටුප් පත්‍රිකා සහ සේවා ගාස්තු");
+      assert.equal(si.primary, "මගේ වැටුප් පත්රිකා සහ සේවා ගාස්තු");
       assert.equal(si.secondary, undefined);
 
       const bi = resolveStaffHrLabel("headerTitle", "BILINGUAL");
       assert.equal(bi.primary, "My Payslips & Service Charge");
-      assert.equal(bi.secondary, "මගේ වැටුප් පත්‍රිකා සහ සේවා ගාස්තු");
+      assert.equal(bi.secondary, "මගේ වැටුප් පත්රිකා සහ සේවා ගාස්තු");
     });
 
     it("verifies dictionary completeness for all keys", () => {

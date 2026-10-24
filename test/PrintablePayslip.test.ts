@@ -65,7 +65,7 @@ describe("Step 439: Printable A4 / Half-Page Bilingual Employee Payslip (Printab
 
       const title = resolveLabel("title", "BILINGUAL");
       assert.equal(title.primary, "EMPLOYEE PAY VOUCHER / SLIP");
-      assert.equal(title.secondary, "සේවක වැටුප් පත්‍රිකාව");
+      assert.equal(title.secondary, "සේවක වැටුප් පත්රිකාව");
     });
 
     it("verifies dictionary completeness and option constants", () => {

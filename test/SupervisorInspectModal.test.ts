@@ -148,7 +148,7 @@ describe("Step 304: Room Inspection Checklist Modal for Housekeeping Supervisors
     it("renders trilingual localized checklist in Sinhala and Tamil", () => {
       const textSi = getInspectionText("si");
       assert.equal(textSi.title, "පරීක්ෂක කාමර පරීක්ෂාව");
-      assert.equal(textSi.passAllAction, "ලක්ෂ්‍ය 6 ම සමත් කරන්න");
+      assert.equal(textSi.passAllAction, "ලක්ෂ්ය 6 ම සමත් කරන්න");
       assert.equal(textSi.approveAction, "කාමරය පරීක්ෂා කළ බවට අනුමත කරන්න");
 
       const textTa = getInspectionText("ta");
@@ -170,7 +170,7 @@ describe("Step 304: Room Inspection Checklist Modal for Housekeeping Supervisors
       assert.ok(htmlSi.includes("වායු සමීකරණ හා විදුලි පංකා පරීක්ෂාව"));
       assert.ok(htmlSi.includes("මදුරු දැල් සහ වාෂ්පකාරක"));
       assert.ok(htmlSi.includes("සීලෝන් තේ තැටිය සහ පානීය ජලය"));
-      assert.ok(htmlSi.includes("ලක්ෂ්‍ය 6 ම සමත් කරන්න"));
+      assert.ok(htmlSi.includes("ලක්ෂ්ය 6 ම සමත් කරන්න"));
 
       const htmlTa = renderToStaticMarkup(
         React.createElement(SupervisorInspectModal, {

@@ -123,20 +123,20 @@ describe("Step 300: Phase 12 Staff Shared Helpers & Badges (staffShared.test.ts)
         const onTime = getSlaBadgeStyle("ON_TIME", "en");
         assert.strictEqual(onTime.level, "ON_TIME");
         assert.ok(onTime.badgeBg.includes("emerald"));
-        assert.strictEqual(onTime.icon, "⏱️");
+        assert.strictEqual(onTime.icon, "Timer");
         assert.strictEqual(onTime.label, "ON TIME");
 
         const expedite = getSlaBadgeStyle("APPROACHING_SLA", "si");
         assert.strictEqual(expedite.level, "APPROACHING_SLA");
         assert.ok(expedite.badgeBg.includes("amber"));
-        assert.strictEqual(expedite.icon, "⏳");
+        assert.strictEqual(expedite.icon, "Wait");
         assert.strictEqual(expedite.label, "ඉක්මන් කරන්න");
 
         const overdue = getSlaBadgeStyle("OVERDUE", "ta");
         assert.strictEqual(overdue.level, "OVERDUE");
         assert.ok(overdue.badgeBg.includes("rose"));
         assert.ok(overdue.borderClass.includes("animate-pulse"));
-        assert.strictEqual(overdue.icon, "⚠️");
+        assert.strictEqual(overdue.icon, "Alert");
         assert.strictEqual(overdue.label, "தாமதம்");
       });
 
@@ -159,17 +159,17 @@ describe("Step 300: Phase 12 Staff Shared Helpers & Badges (staffShared.test.ts)
       it("resolves styles for KOT, BOT, and POS", () => {
         const kot = getTicketDepartmentStyle("KOT", "en");
         assert.strictEqual(kot.label, "KITCHEN KOT");
-        assert.strictEqual(kot.icon, "🍳");
+        assert.strictEqual(kot.icon, "Kitchen");
         assert.ok(kot.badgeClass.includes("amber"));
 
         const bot = getTicketDepartmentStyle("BOT", "si");
         assert.strictEqual(bot.label, "බාර් BOT");
-        assert.strictEqual(bot.icon, "🍸");
+        assert.strictEqual(bot.icon, "Bar");
         assert.ok(bot.badgeClass.includes("sky"));
 
         const pos = getTicketDepartmentStyle("POS", "ta");
         assert.strictEqual(pos.label, "பணியாளர் POS");
-        assert.strictEqual(pos.icon, "📝");
+        assert.strictEqual(pos.icon, "Note");
         assert.ok(pos.badgeClass.includes("purple"));
       });
 
@@ -182,7 +182,7 @@ describe("Step 300: Phase 12 Staff Shared Helpers & Badges (staffShared.test.ts)
         );
         assert.ok(html.includes('data-testid="ticket-department-badge"'));
         assert.ok(html.includes("BAR BOT"));
-        assert.ok(html.includes("🍸"));
+        assert.ok(html.includes("Bar"));
       });
     });
 
@@ -190,19 +190,19 @@ describe("Step 300: Phase 12 Staff Shared Helpers & Badges (staffShared.test.ts)
       it("resolves destination types: Table, Room, Cabana, Takeaway", () => {
         const table = getDestinationBadgeStyle("TABLE", "en");
         assert.strictEqual(table.label, "Table");
-        assert.strictEqual(table.icon, "🍽️");
+        assert.strictEqual(table.icon, "Dining");
 
         const room = getDestinationBadgeStyle("ROOM", "si");
         assert.strictEqual(room.label, "කාමරය");
-        assert.strictEqual(room.icon, "🛏️");
+        assert.strictEqual(room.icon, "Room");
 
         const cabana = getDestinationBadgeStyle("CABANA", "ta");
         assert.strictEqual(cabana.label, "கபானா");
-        assert.strictEqual(cabana.icon, "🏖️");
+        assert.strictEqual(cabana.icon, "Cabana");
 
         const takeaway = getDestinationBadgeStyle("TAKEAWAY", "en");
         assert.strictEqual(takeaway.label, "Takeaway");
-        assert.strictEqual(takeaway.icon, "🛍️");
+        assert.strictEqual(takeaway.icon, "Bag");
       });
 
       it("renders DestinationBadge component with destination number", () => {
@@ -215,7 +215,7 @@ describe("Step 300: Phase 12 Staff Shared Helpers & Badges (staffShared.test.ts)
         );
         assert.ok(html.includes('data-testid="destination-badge"'));
         assert.ok(html.includes("Room 204"));
-        assert.ok(html.includes("🛏️"));
+        assert.ok(html.includes("Room"));
       });
     });
 
@@ -223,15 +223,15 @@ describe("Step 300: Phase 12 Staff Shared Helpers & Badges (staffShared.test.ts)
       it("resolves dietary tokens for Halal, Vegan, Gluten Free, Nut Free, Spicy", () => {
         const halal = getDietaryBadgeStyle("HALAL");
         assert.ok(halal.badgeClass.includes("sky"));
-        assert.strictEqual(halal.icon, "☪️");
+        assert.strictEqual(halal.icon, "Halal");
 
         const vegan = getDietaryBadgeStyle("VEGAN");
         assert.ok(vegan.badgeClass.includes("emerald"));
-        assert.strictEqual(vegan.icon, "🌱");
+        assert.strictEqual(vegan.icon, "Vegan");
 
         const spicy = getDietaryBadgeStyle("SPICY");
         assert.ok(spicy.badgeClass.includes("rose"));
-        assert.strictEqual(spicy.icon, "🌶️");
+        assert.strictEqual(spicy.icon, "Spicy");
 
         const unknown = getDietaryBadgeStyle("CUSTOM_DIET");
         assert.ok(unknown.badgeClass.includes("slate"));
@@ -245,7 +245,7 @@ describe("Step 300: Phase 12 Staff Shared Helpers & Badges (staffShared.test.ts)
         );
         assert.ok(html.includes('data-testid="dietary-badge-gluten_free"'));
         assert.ok(html.includes("GLUTEN FREE"));
-        assert.ok(html.includes("🌾"));
+        assert.ok(html.includes("Grain"));
       });
     });
 

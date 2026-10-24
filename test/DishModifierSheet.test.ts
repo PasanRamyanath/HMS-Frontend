@@ -61,11 +61,11 @@ describe("Step 256: Dish Customization, Spice Level & Add-Ons Bottom Sheet (Dish
     it("resolves trilingual modifier texts with safe fallbacks", () => {
       const multi = {
         en: "Medium Spice",
-        si: "මධ්‍යම සැර",
+        si: "මධ්යම සැර",
         ta: "நடுத்தர காரம்",
       };
       assert.strictEqual(resolveModifierText(multi, "en"), "Medium Spice");
-      assert.strictEqual(resolveModifierText(multi, "si"), "මධ්‍යම සැර");
+      assert.strictEqual(resolveModifierText(multi, "si"), "මධ්යම සැර");
       assert.strictEqual(resolveModifierText(multi, "ta"), "நடுத்தர காரம்");
 
       const enOnly = { en: "Extra Chilli Paste" };
@@ -141,8 +141,8 @@ describe("Step 256: Dish Customization, Spice Level & Add-Ons Bottom Sheet (Dish
           onConfirm: noop,
         }),
       );
-      assert.ok(sinhalaMarkup.includes("කලපු කකුළු ව්‍යංජනය"));
-      assert.ok(sinhalaMarkup.includes("ප්‍රමාණය"));
+      assert.ok(sinhalaMarkup.includes("කලපු කකුළු ව්යංජනය"));
+      assert.ok(sinhalaMarkup.includes("ප්රමාණය"));
       assert.ok(sinhalaMarkup.includes("මිරිස් සැර මට්ටම"));
       assert.ok(sinhalaMarkup.includes("MSG රහිතව"));
 

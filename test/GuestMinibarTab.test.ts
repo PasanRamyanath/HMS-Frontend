@@ -89,7 +89,7 @@ describe("Step 265: In-Room Minibar Self-Declaration & Refill Tab (GuestMinibarT
 
       const si = getMinibarText("si");
       assert.strictEqual(si.title, "කාමරයේ ඇති මිනි-බාර් පහසුකම");
-      assert.strictEqual(si.declareTab, "භාවිතා කළ ද්‍රව්‍ය ගෙවීම");
+      assert.strictEqual(si.declareTab, "භාවිතා කළ ද්රව්ය ගෙවීම");
 
       const ta = getMinibarText("ta");
       assert.strictEqual(ta.title, "அறை மினிபார் & புத்துணர்ச்சி பானங்கள்");
@@ -136,7 +136,7 @@ describe("Step 265: In-Room Minibar Self-Declaration & Refill Tab (GuestMinibarT
       );
 
       assert.ok(html.includes("කාමරයේ ඇති මිනි-බාර් පහසුකම"));
-      assert.ok(html.includes("භාවිතා කළ ද්‍රව්‍ය ගෙවීම"));
+      assert.ok(html.includes("භාවිතා කළ ද්රව්ය ගෙවීම"));
       assert.ok(html.includes("කාමර ගිණුමට එක් කරන්න"));
     });
   });
