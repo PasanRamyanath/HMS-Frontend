@@ -450,39 +450,39 @@ interface SpaQuickKpiRibbonProps {
 const SpaQuickKpiRibbon: FC<SpaQuickKpiRibbonProps> = ({ kpis, t }) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-      <div className="p-3 rounded-2xl bg-white/60 border border-black/10 apple-liquid-glass">
+      <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
         <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
           {t.totalBookings}
         </span>
-        <span className="text-xl font-bold font-mono tabular-nums-lkr text-slate-900 mt-1 block">
+        <span className="text-xl font-black font-mono tabular-nums-lkr text-slate-900 mt-1 block">
           {kpis.totalAppointments}
         </span>
       </div>
 
-      <div className="p-3 rounded-2xl bg-white/60 border border-black/10 apple-liquid-glass">
+      <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
         <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
           Active / In-Session
         </span>
-        <span className="text-xl font-bold font-mono tabular-nums-lkr text-amber-600 mt-1 block">
+        <span className="text-xl font-black font-mono tabular-nums-lkr text-amber-600 mt-1 block">
           {kpis.inProgressCount}
         </span>
       </div>
 
-      <div className="p-3 rounded-2xl bg-white/60 border border-black/10 apple-liquid-glass">
+      <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
         <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
           {t.revenueToday}
         </span>
-        <span className="text-xl font-bold font-mono tabular-nums-lkr text-indigo-600 mt-1 block">
-          {kpis.totalRevenueLkr.toLocaleString()} LKR
+        <span className="text-xl font-black font-mono tabular-nums-lkr text-[#0B6E4F] mt-1 block">
+          LKR {kpis.totalRevenueLkr.toLocaleString()}
         </span>
       </div>
 
-      <div className="p-3 rounded-2xl bg-white/60 border border-black/10 apple-liquid-glass">
+      <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
         <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
           {t.unpostedFolio}
         </span>
-        <span className="text-xl font-bold font-mono tabular-nums-lkr text-rose-600 mt-1 block">
-          {kpis.totalUnpostedRevenueLkr.toLocaleString()} LKR
+        <span className="text-xl font-black font-mono tabular-nums-lkr text-rose-600 mt-1 block">
+          LKR {kpis.totalUnpostedRevenueLkr.toLocaleString()}
         </span>
       </div>
     </div>

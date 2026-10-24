@@ -536,7 +536,7 @@ function FlashHeader({
         <button
           type="button"
           onClick={onPrint || (() => window.print())}
-          className="min-h-[44px] px-4 py-2 text-xs font-medium rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition flex items-center gap-1.5 cursor-pointer"
+          className="min-h-[44px] px-4 py-2 text-xs font-semibold rounded-xl bg-[#0B6E4F] hover:bg-[#09583F] text-white shadow-sm transition flex items-center gap-1.5 cursor-pointer"
           aria-label="Print Daily Flash Report"
         >
           <span>Print Flash</span>
@@ -790,13 +790,17 @@ function RevenueDepartmentTable({
           {rows.map((row) => (
             <tr key={row.name} className="hover:bg-slate-50/50 transition">
               <td className="px-4 py-2.5 font-sans font-medium text-slate-900 ">{row.name}</td>
-              <td className="px-4 py-2.5 text-right tabular-nums">{formatLkr(row.today)}</td>
-              <td className="px-4 py-2.5 text-right tabular-nums">{formatLkr(row.mtd)}</td>
-              <td className="px-4 py-2.5 text-right tabular-nums text-slate-500">
+              <td className="px-4 py-2.5 text-right tabular-nums-lkr whitespace-nowrap">
+                {formatLkr(row.today)}
+              </td>
+              <td className="px-4 py-2.5 text-right tabular-nums-lkr whitespace-nowrap">
+                {formatLkr(row.mtd)}
+              </td>
+              <td className="px-4 py-2.5 text-right tabular-nums-lkr whitespace-nowrap text-slate-500">
                 {formatLkr(row.lastMonth)}
               </td>
               {budgetMtd && (
-                <td className="px-4 py-2.5 text-right tabular-nums text-slate-500">
+                <td className="px-4 py-2.5 text-right tabular-nums-lkr whitespace-nowrap text-slate-500">
                   {row.budget !== undefined ? formatLkr(row.budget) : "—"}
                 </td>
               )}
@@ -806,17 +810,17 @@ function RevenueDepartmentTable({
         <tfoot className="bg-slate-50/90 font-bold border-t-2 border-slate-300 ">
           <tr>
             <td className="px-4 py-3 font-sans text-slate-900 ">Total Base Revenue:</td>
-            <td className="px-4 py-3 text-right font-mono tabular-nums text-blue-600 ">
+            <td className="px-4 py-3 text-right font-mono tabular-nums-lkr whitespace-nowrap text-[#0B6E4F] ">
               {formatLkr(today.totalBaseRevenueLkr)}
             </td>
-            <td className="px-4 py-3 text-right font-mono tabular-nums text-blue-600 ">
+            <td className="px-4 py-3 text-right font-mono tabular-nums-lkr whitespace-nowrap text-[#0B6E4F] ">
               {formatLkr(mtd.totalBaseRevenueLkr)}
             </td>
-            <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-600 ">
+            <td className="px-4 py-3 text-right font-mono tabular-nums-lkr whitespace-nowrap text-slate-600 ">
               {formatLkr(lastMonth.totalBaseRevenueLkr)}
             </td>
             {budgetMtd && (
-              <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-600 ">
+              <td className="px-4 py-3 text-right font-mono tabular-nums-lkr whitespace-nowrap text-slate-600 ">
                 {formatLkr(budgetMtd.totalBaseRevenueLkr)}
               </td>
             )}

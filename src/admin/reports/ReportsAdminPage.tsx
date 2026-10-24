@@ -263,9 +263,9 @@ function TabNavigationPills({ activeTab, onSelectTab }: TabNavigationPillsProps)
               key={tab.id}
               type="button"
               onClick={() => onSelectTab(tab.id)}
-              className={`flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-2xl transition-all duration-200 ${
+              className={`flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl transition-all duration-200 cursor-pointer ${
                 isActive
-                  ? "bg-white text-slate-900 shadow-sm"
+                  ? "bg-[#0B6E4F] text-white shadow-xs"
                   : "text-slate-600 hover:text-slate-950 hover:bg-slate-100 "
               }`}
             >

@@ -697,44 +697,71 @@ interface TapeChartStatsStripProps {
 function TapeChartStatsStrip({ stats }: TapeChartStatsStripProps) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 font-sf-pro">
-      <div className="p-3 rounded-2xl bg-white/60 border border-slate-200/60 backdrop-blur-md">
-        <span className="text-[11px] font-medium text-slate-500 ">Total Rooms</span>
-        <p className="text-xl font-bold tracking-tight text-slate-900 tabular-nums-lkr mt-0.5">
+      <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
+        <span className="text-[11px] font-semibold text-slate-500 block uppercase tracking-wider">
+          Total Rooms
+        </span>
+        <p className="text-xl font-black tracking-tight text-slate-900 tabular-nums-lkr mt-1">
           {stats.totalRooms}
         </p>
       </div>
 
-      <div className="p-3 rounded-2xl bg-white/60 border border-slate-200/60 backdrop-blur-md">
-        <span className="text-[11px] font-medium text-emerald-600 ">In-House Today</span>
-        <p className="text-xl font-bold tracking-tight text-emerald-600 tabular-nums-lkr mt-0.5">
+      <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+            In-House Today
+          </span>
+          <span className="w-2 h-2 rounded-full bg-emerald-500" />
+        </div>
+        <p className="text-xl font-black tracking-tight text-emerald-700 tabular-nums-lkr mt-1">
           {stats.occupiedRoomsToday}
         </p>
       </div>
 
-      <div className="p-3 rounded-2xl bg-white/60 border border-slate-200/60 backdrop-blur-md">
-        <span className="text-[11px] font-medium text-blue-600 ">Arrivals Today</span>
-        <p className="text-xl font-bold tracking-tight text-blue-600 tabular-nums-lkr mt-0.5">
+      <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+            Arrivals Today
+          </span>
+          <span className="w-2 h-2 rounded-full bg-blue-500" />
+        </div>
+        <p className="text-xl font-black tracking-tight text-blue-700 tabular-nums-lkr mt-1">
           {stats.arrivalsToday}
         </p>
       </div>
 
-      <div className="p-3 rounded-2xl bg-white/60 border border-slate-200/60 backdrop-blur-md">
-        <span className="text-[11px] font-medium text-amber-600 ">Departures Today</span>
-        <p className="text-xl font-bold tracking-tight text-amber-600 tabular-nums-lkr mt-0.5">
+      <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+            Departures Today
+          </span>
+          <span className="w-2 h-2 rounded-full bg-amber-500" />
+        </div>
+        <p className="text-xl font-black tracking-tight text-amber-700 tabular-nums-lkr mt-1">
           {stats.departuresToday}
         </p>
       </div>
 
-      <div className="p-3 rounded-2xl bg-white/60 border border-slate-200/60 backdrop-blur-md">
-        <span className="text-[11px] font-medium text-rose-600 ">Out of Order</span>
-        <p className="text-xl font-bold tracking-tight text-rose-600 tabular-nums-lkr mt-0.5">
+      <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+            Out of Order
+          </span>
+          <span className="w-2 h-2 rounded-full bg-rose-500" />
+        </div>
+        <p className="text-xl font-black tracking-tight text-rose-700 tabular-nums-lkr mt-1">
           {stats.outOfOrderRooms}
         </p>
       </div>
 
-      <div className="p-3 rounded-2xl bg-white/60 border border-slate-200/60 backdrop-blur-md">
-        <span className="text-[11px] font-medium text-slate-500 ">Today's Occupancy</span>
-        <p className="text-xl font-bold tracking-tight text-[#0B6E4F] tabular-nums-lkr mt-0.5">
+      <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs apple-liquid-glass">
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+            Today's Occupancy
+          </span>
+          <span className="w-2 h-2 rounded-full bg-[#0B6E4F]" />
+        </div>
+        <p className="text-xl font-black tracking-tight text-[#0B6E4F] tabular-nums-lkr mt-1">
           {stats.occupancyPercentage}%
         </p>
       </div>

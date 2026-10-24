@@ -404,8 +404,8 @@ function FolioLinesTable({
                 <th className="py-2.5 px-3">Dept</th>
                 <th className="py-2.5 px-3">Description</th>
                 <th className="py-2.5 px-2 text-center">Qty</th>
-                <th className="py-2.5 px-3 text-right">Base LKR</th>
-                <th className="py-2.5 px-3 text-right">Gross LKR</th>
+                <th className="py-2.5 px-3 text-right whitespace-nowrap">Base LKR</th>
+                <th className="py-2.5 px-3 text-right whitespace-nowrap">Gross LKR</th>
                 <th className="py-2.5 px-3 text-center">Actions</th>
               </tr>
             </thead>
@@ -447,10 +447,10 @@ function FolioLinesTable({
                       <td className="py-3 px-2 text-center font-mono tabular-nums-lkr text-slate-600 ">
                         {line.quantity}
                       </td>
-                      <td className="py-3 px-3 text-right font-mono tabular-nums-lkr text-slate-600 ">
+                      <td className="py-3 px-3 text-right font-mono tabular-nums-lkr text-slate-600 whitespace-nowrap">
                         {formatLkr(line.baseSupplyLkr)}
                       </td>
-                      <td className="py-3 px-3 text-right font-bold tabular-nums-lkr text-slate-900 ">
+                      <td className="py-3 px-3 text-right font-bold tabular-nums-lkr text-slate-900 whitespace-nowrap">
                         {formatLkr(line.totalGrossLkr)}
                       </td>
                       <td className="py-3 px-3 text-center">
@@ -524,8 +524,10 @@ function FolioLinesTable({
           <button
             type="button"
             onClick={onSettleClick}
-            className={`px-5 py-2.5 rounded-xl text-white text-xs font-semibold shadow-md transition-all min-h-[44px] flex items-center gap-1.5 ${
-              isMaster ? "bg-white hover:bg-slate-100 " : "bg-emerald-600 hover:bg-emerald-700"
+            className={`px-5 py-2.5 rounded-xl text-xs font-semibold shadow-sm transition-all min-h-[44px] flex items-center gap-1.5 cursor-pointer ${
+              isMaster
+                ? "bg-slate-900 hover:bg-slate-800 text-white"
+                : "bg-[#0B6E4F] hover:bg-[#09583F] text-white"
             }`}
           >
             {isMaster ? "Generate City Ledger Invoice" : "Settle Guest Folio (IRD)"}

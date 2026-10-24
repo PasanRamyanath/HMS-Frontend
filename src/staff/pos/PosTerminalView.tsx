@@ -1239,18 +1239,18 @@ function BillContent(props: BillContentProps) {
             type="button"
             disabled={cartItems.length === 0}
             onClick={onFireOrder}
-            className="min-h-[44px] px-3 py-2 rounded-xl text-xs font-black bg-blue-600 hover:bg-blue-500 disabled:opacity-40 text-white active:scale-95 transition-all cursor-pointer shadow-sm flex items-center justify-center gap-1"
+            className="min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold bg-[#E8772E] hover:bg-[#D46823] disabled:opacity-40 text-white active:scale-95 transition-all cursor-pointer shadow-xs flex items-center justify-center gap-1.5"
           >
-            <span>Hot {t.fireKitchen}</span>
+            <span>🔥 {t.fireKitchen}</span>
           </button>
 
           <button
             type="button"
             disabled={cartItems.length === 0}
             onClick={onOpenSettle}
-            className="min-h-[44px] px-3 py-2 rounded-xl text-xs font-black bg-[#0B6E4F] hover:bg-[#095C42] disabled:opacity-40 text-white active:scale-95 transition-all cursor-pointer shadow-sm flex items-center justify-center gap-1"
+            className="min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold bg-[#0B6E4F] hover:bg-[#09583F] disabled:opacity-40 text-white active:scale-95 transition-all cursor-pointer shadow-xs flex items-center justify-center gap-1.5"
           >
-            <span>Card {t.settleBill}</span>
+            <span>💳 {t.settleBill}</span>
           </button>
         </div>
 
@@ -1259,7 +1259,7 @@ function BillContent(props: BillContentProps) {
             type="button"
             disabled={cartItems.length === 0}
             onClick={onHoldBill}
-            className="flex-1 min-h-[44px] px-3 py-1.5 rounded-xl text-[11px] font-bold bg-slate-100 hover:bg-slate-700 disabled:opacity-40 text-slate-700 active:scale-95 transition-all cursor-pointer"
+            className="flex-1 min-h-[44px] px-3 py-1.5 rounded-xl text-[11px] font-bold bg-slate-100 hover:bg-slate-200 border border-slate-200/80 disabled:opacity-40 text-slate-700 active:scale-95 transition-all cursor-pointer"
           >
             ⏸ {t.holdBill}
           </button>
@@ -1267,7 +1267,7 @@ function BillContent(props: BillContentProps) {
             type="button"
             disabled={cartItems.length === 0}
             onClick={onClearOrder}
-            className="min-h-[44px] px-3 py-1.5 rounded-xl text-[11px] font-bold bg-red-950/40 border border-red-500/30 hover:bg-red-900/60 disabled:opacity-40 text-red-800 active:scale-95 transition-all cursor-pointer"
+            className="min-h-[44px] px-3 py-1.5 rounded-xl text-[11px] font-bold bg-rose-50 border border-rose-200 hover:bg-rose-100 disabled:opacity-40 text-rose-700 active:scale-95 transition-all cursor-pointer"
           >
             {t.clear}
           </button>

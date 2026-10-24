@@ -715,7 +715,7 @@ export const AllOrdersView: FC<AllOrdersViewProps> = ({
         {/* Top Filter Row */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Status Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
             {[
               { id: "ALL", label: "All Statuses" },
               { id: "NEW", label: "New Orders" },
@@ -752,7 +752,7 @@ export const AllOrdersView: FC<AllOrdersViewProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t.searchPlaceholder}
-                className="pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0B6E4F] min-h-[36px]"
+                className="w-64 sm:w-80 pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0B6E4F] min-h-[36px]"
               />
             </div>
 
@@ -784,9 +784,9 @@ export const AllOrdersView: FC<AllOrdersViewProps> = ({
         </div>
 
         {/* Orders Master Table */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto rounded-xl border border-slate-200/80">
           <table className="w-full text-left text-xs" aria-label="Master Orders Table">
-            <thead className="border-b border-slate-200 text-slate-500 font-semibold text-[11px]">
+            <thead className="bg-slate-50/75 border-b border-slate-200 text-slate-500 font-semibold text-[11px]">
               <tr>
                 <th className="py-3 px-3">{t.colReceipt}</th>
                 <th className="py-3 px-3">{t.colTime}</th>

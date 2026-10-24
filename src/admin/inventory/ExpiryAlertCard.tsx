@@ -678,50 +678,66 @@ interface ExpiryKpiGridProps {
 function ExpiryKpiGrid({ t, summary }: ExpiryKpiGridProps) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <GlassCard material="regular" radius="xl" className="p-4 border-l-4 border-l-amber-500">
-        <p className="text-[11px] font-medium uppercase tracking-wider text-gray-500 ">
+      <GlassCard
+        material="regular"
+        radius="xl"
+        className="p-4 border-l-4 border-l-[#0B6E4F] bg-white apple-liquid-glass shadow-xs"
+      >
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
           {t.kpi.totalAtRisk}
         </p>
-        <p className="text-xl font-bold text-gray-900 mt-1 tabular-nums-lkr">
+        <p className="text-xl font-black text-slate-900 mt-1 tabular-nums-lkr">
           {formatLkr(summary.totalAtRiskValueLkr)}
         </p>
-        <p className="text-[10px] text-gray-500 mt-1">
+        <p className="text-[10px] text-slate-500 mt-1">
           {summary.totalBatchesCount} {t.kpi.batchesCount}
         </p>
       </GlassCard>
 
-      <GlassCard material="regular" radius="xl" className="p-4 border-l-4 border-l-orange-500">
-        <p className="text-[11px] font-medium uppercase tracking-wider text-gray-500 ">
+      <GlassCard
+        material="regular"
+        radius="xl"
+        className="p-4 border-l-4 border-l-amber-500 bg-white apple-liquid-glass shadow-xs"
+      >
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
           {t.kpi.critical72h}
         </p>
-        <p className="text-xl font-bold text-orange-600 mt-1 tabular-nums-lkr">
+        <p className="text-xl font-black text-amber-700 mt-1 tabular-nums-lkr">
           {formatLkr(summary.critical72hValueLkr)}
         </p>
-        <p className="text-[10px] text-orange-600/80 mt-1 font-semibold">
+        <p className="text-[10px] text-amber-700 font-semibold mt-1">
           {summary.critical72hCount} Batches Expiring Soon
         </p>
       </GlassCard>
 
-      <GlassCard material="regular" radius="xl" className="p-4 border-l-4 border-l-red-500">
-        <p className="text-[11px] font-medium uppercase tracking-wider text-gray-500 ">
+      <GlassCard
+        material="regular"
+        radius="xl"
+        className="p-4 border-l-4 border-l-rose-500 bg-white apple-liquid-glass shadow-xs"
+      >
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
           {t.kpi.expired}
         </p>
-        <p className="text-xl font-bold text-red-600 mt-1 tabular-nums-lkr">
+        <p className="text-xl font-black text-rose-700 mt-1 tabular-nums-lkr">
           {formatLkr(summary.expiredValueLkr)}
         </p>
-        <p className="text-[10px] text-red-600/80 mt-1 font-semibold">
+        <p className="text-[10px] text-rose-700 font-semibold mt-1">
           {summary.expiredCount} Batches Write-Off Exposure
         </p>
       </GlassCard>
 
-      <GlassCard material="regular" radius="xl" className="p-4 border-l-4 border-l-yellow-500">
-        <p className="text-[11px] font-medium uppercase tracking-wider text-gray-500 ">
+      <GlassCard
+        material="regular"
+        radius="xl"
+        className="p-4 border-l-4 border-l-blue-500 bg-white apple-liquid-glass shadow-xs"
+      >
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
           {t.kpi.expiring7d}
         </p>
-        <p className="text-xl font-bold text-yellow-600 mt-1 tabular-nums-lkr">
+        <p className="text-xl font-black text-blue-700 mt-1 tabular-nums-lkr">
           {formatLkr(summary.expiring7dValueLkr)}
         </p>
-        <p className="text-[10px] text-gray-500 mt-1 font-medium">
+        <p className="text-[10px] text-slate-500 mt-1 font-medium">
           {summary.expiring7dCount} Batches (7-Day Watch)
         </p>
       </GlassCard>

@@ -29,7 +29,7 @@ import { EpfEtfReturnView } from "./EpfEtfReturnView.js";
 import { GratuityReportCard } from "./GratuityReportCard.js";
 import { LaborCostCard } from "./LaborCostCard.js";
 import { PayrollRunView } from "./PayrollRunView.js";
-import { ServiceChargePoolView, formatLkr } from "./ServiceChargePoolView.js";
+import { ServiceChargePoolView } from "./ServiceChargePoolView.js";
 import { ShiftRosterGrid } from "./ShiftRosterGrid.js";
 import { SriLankaHolidaysCard } from "./SriLankaHolidaysCard.js";
 import { StaffBenefitsCard } from "./StaffBenefitsCard.js";
@@ -91,9 +91,16 @@ export interface HrSummaryRibbonProps {
   readonly metrics: HrPayrollOverviewMetrics;
 }
 
+function formatPayrollKpiLkr(amount: number): string {
+  if (amount >= 1_000_000) {
+    return `LKR ${(amount / 1_000_000).toFixed(2)}M`;
+  }
+  return `LKR ${Number(amount).toLocaleString("en-LK")}`;
+}
+
 export function HrSummaryRibbon({ metrics }: HrSummaryRibbonProps) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-4 2xl:grid-cols-8 gap-3">
       <AdminKpiCard
         title="Total Staff"
         size="sm"
@@ -113,7 +120,7 @@ export function HrSummaryRibbon({ metrics }: HrSummaryRibbonProps) {
       <AdminKpiCard
         title="10% SC Pool"
         size="sm"
-        value={formatLkr(metrics.grossScPoolLkr)}
+        value={formatPayrollKpiLkr(metrics.grossScPoolLkr)}
         badge={{ text: "Pass-Through", variant: "info" }}
         subtitle="Guest service charge"
       />
@@ -121,7 +128,7 @@ export function HrSummaryRibbon({ metrics }: HrSummaryRibbonProps) {
       <AdminKpiCard
         title="Net Payroll"
         size="sm"
-        value={formatLkr(metrics.netPayrollDisbursementLkr)}
+        value={formatPayrollKpiLkr(metrics.netPayrollDisbursementLkr)}
         badge={{ text: "SLIPS", variant: "neutral" }}
         subtitle="Bank direct credit"
       />
@@ -129,7 +136,7 @@ export function HrSummaryRibbon({ metrics }: HrSummaryRibbonProps) {
       <AdminKpiCard
         title="EPF/ETF Remit"
         size="sm"
-        value={formatLkr(metrics.employerEpfEtfRemittanceLkr)}
+        value={formatPayrollKpiLkr(metrics.employerEpfEtfRemittanceLkr)}
         badge={{ text: "15% CBSL", variant: "info" }}
         subtitle="Monthly C-Form"
       />
@@ -145,7 +152,7 @@ export function HrSummaryRibbon({ metrics }: HrSummaryRibbonProps) {
       <AdminKpiCard
         title="Gratuity Accrual"
         size="sm"
-        value={formatLkr(metrics.totalGratuityLiabilityLkr)}
+        value={formatPayrollKpiLkr(metrics.totalGratuityLiabilityLkr)}
         badge={{ text: "LKAS 19", variant: "warning" }}
         subtitle="Balance sheet provision"
       />

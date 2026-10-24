@@ -197,16 +197,16 @@ export function LoginView({
           alt="Galle Fort Lighthouse Villa Ocean Suite"
           className="absolute inset-0 w-full h-full object-cover opacity-80"
         />
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/30" />
 
         {/* Top Brand Header */}
         <div className="relative z-10 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#0B6E4F] flex items-center justify-center text-white shadow-sm">
+          <div className="w-10 h-10 rounded-xl bg-[#0B6E4F] flex items-center justify-center text-white shadow-md">
             <LeafLogoIcon size={20} />
           </div>
           <div>
-            <span className="font-bold text-sm text-slate-900 block">Sri Lanka Cloud HMS</span>
-            <span className="text-xs text-slate-800 block">
+            <span className="font-bold text-sm text-white block">Sri Lanka Cloud HMS</span>
+            <span className="text-xs text-white/80 block">
               Hospitality Operations &amp; PMS Portal
             </span>
           </div>
@@ -214,10 +214,10 @@ export function LoginView({
 
         {/* Bottom Caption */}
         <div className="relative z-10 max-w-lg space-y-2">
-          <h2 className="text-3xl xl:text-4xl font-serif font-semibold text-slate-900 tracking-tight">
+          <h2 className="text-3xl xl:text-4xl font-serif font-semibold text-white tracking-tight drop-shadow-sm">
             Galle Fort Lighthouse Villa
           </h2>
-          <p className="text-xs sm:text-sm text-slate-800 leading-relaxed">
+          <p className="text-xs sm:text-sm text-white/90 leading-relaxed">
             Unified front desk, 4-stage IRD/SLTDA tax compliance, KDS/BOT terminals, and contactless
             guest dining.
           </p>

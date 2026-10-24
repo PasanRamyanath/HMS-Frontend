@@ -49,23 +49,26 @@ export function AdminKpiCard({
 }: AdminKpiCardProps): React.JSX.Element {
   const valueSizeClass =
     size === "sm"
-      ? "text-xl sm:text-2xl font-bold"
+      ? "text-base sm:text-lg xl:text-xl font-bold"
       : size === "lg"
-        ? "text-3xl sm:text-4xl font-extrabold"
-        : "text-2xl sm:text-3xl font-extrabold";
+        ? "text-2xl sm:text-3xl xl:text-4xl font-black"
+        : "text-xl xl:text-2xl font-black";
 
-  const paddingClass = size === "sm" ? "p-3.5 sm:p-4" : size === "lg" ? "p-5 sm:p-6" : "p-4 sm:p-5";
+  const paddingClass =
+    size === "sm" ? "p-3 sm:p-3.5" : size === "lg" ? "p-5 sm:p-6" : "p-4 sm:p-4.5";
 
   const cardContent = (
     <>
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-1.5 min-w-0">
           {icon && <span className="shrink-0 text-slate-400">{icon}</span>}
-          <span className="text-xs font-medium text-slate-500 truncate">{title}</span>
+          <span className="text-xs font-semibold text-slate-500 truncate" title={title}>
+            {title}
+          </span>
         </div>
         {badge && (
           <span
-            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold border shrink-0 ${getKpiBadgeStyles(
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border shrink-0 ${getKpiBadgeStyles(
               badge.variant,
             )}`}
           >
@@ -75,7 +78,7 @@ export function AdminKpiCard({
       </div>
 
       <div
-        className={`${valueSizeClass} tracking-tight text-slate-900 tabular-nums-lkr mt-1.5 block truncate`}
+        className={`${valueSizeClass} tracking-tight text-slate-900 tabular-nums-lkr mt-1.5 block min-w-0 truncate`}
       >
         {value}
       </div>

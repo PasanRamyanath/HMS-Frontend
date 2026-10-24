@@ -664,3 +664,14 @@ html.dark .stroke-slate-200 {
     break-inside: avoid !important;
   }
 }
+
+/* Scrollbar removal utilities */
+.scrollbar-none,
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
