@@ -65,27 +65,27 @@ export const THERMAL_80MM_PRINT_STYLES = `
  * Gracefully handles server-side environments and headless test runners.
  */
 export function triggerThermalPrint(onAfterPrint?: (() => void) | undefined): boolean {
- if (typeof window === "undefined" || typeof window.print !== "function") {
- if (onAfterPrint) {
- onAfterPrint();
- }
- return false;
- }
+  if (typeof window === "undefined" || typeof window.print !== "function") {
+    if (onAfterPrint) {
+      onAfterPrint();
+    }
+    return false;
+  }
 
- if (onAfterPrint) {
- const handleAfterPrint = () => {
- window.removeEventListener("afterprint", handleAfterPrint);
- onAfterPrint();
- };
- window.addEventListener("afterprint", handleAfterPrint, { once: true });
- }
+  if (onAfterPrint) {
+    const handleAfterPrint = () => {
+      window.removeEventListener("afterprint", handleAfterPrint);
+      onAfterPrint();
+    };
+    window.addEventListener("afterprint", handleAfterPrint, { once: true });
+  }
 
- try {
- window.print();
- return true;
- } catch {
- return false;
- }
+  try {
+    window.print();
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 // ============================================================================
@@ -97,17 +97,17 @@ export function triggerThermalPrint(onAfterPrint?: (() => void) | undefined): bo
  * Example output: "2026-10-20 14:30:00"
  */
 export function formatThermalTimestamp(isoOrDate?: string | Date | undefined): string {
- if (!isoOrDate) {
- const now = new Date();
- return now.toISOString().replace("T", " ").substring(0, 19);
- }
+  if (!isoOrDate) {
+    const now = new Date();
+    return now.toISOString().replace("T", " ").substring(0, 19);
+  }
 
- const date = typeof isoOrDate === "string" ? new Date(isoOrDate) : isoOrDate;
- if (Number.isNaN(date.getTime())) {
- return typeof isoOrDate === "string" ? isoOrDate : "";
- }
+  const date = typeof isoOrDate === "string" ? new Date(isoOrDate) : isoOrDate;
+  if (Number.isNaN(date.getTime())) {
+    return typeof isoOrDate === "string" ? isoOrDate : "";
+  }
 
- return date.toISOString().replace("T", " ").substring(0, 19);
+  return date.toISOString().replace("T", " ").substring(0, 19);
 }
 
 /**
@@ -115,23 +115,23 @@ export function formatThermalTimestamp(isoOrDate?: string | Date | undefined): s
  * Example: 15450.5 -> "15,450.50"
  */
 export function formatThermalCurrency(amountLkr: number): string {
- if (!Number.isFinite(amountLkr)) {
- return "0.00";
- }
- const rounded = Math.round((amountLkr + Number.EPSILON) * 100) / 100;
- return rounded.toLocaleString("en-US", {
- minimumFractionDigits: 2,
- maximumFractionDigits: 2,
- });
+  if (!Number.isFinite(amountLkr)) {
+    return "0.00";
+  }
+  const rounded = Math.round((amountLkr + Number.EPSILON) * 100) / 100;
+  return rounded.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 }
 
 /**
  * Generates an ASCII horizontal line divider of specified width and character.
  */
 export function generateReceiptDivider(char = "-", width = THERMAL_80MM_COLUMN_WIDTH): string {
- const safeChar = char.length > 0 ? char.charAt(0) : "-";
- const safeWidth = Math.max(1, Math.min(width, 120));
- return safeChar.repeat(safeWidth);
+  const safeChar = char.length > 0 ? char.charAt(0) : "-";
+  const safeWidth = Math.max(1, Math.min(width, 120));
+  return safeChar.repeat(safeWidth);
 }
 
 /**
@@ -139,37 +139,37 @@ export function generateReceiptDivider(char = "-", width = THERMAL_80MM_COLUMN_W
  * If text exceeds the column width, right text is preserved and left is truncated with ellipsis.
  */
 export function padReceiptLine(
- left: string,
- right: string,
- width = THERMAL_80MM_COLUMN_WIDTH,
+  left: string,
+  right: string,
+  width = THERMAL_80MM_COLUMN_WIDTH,
 ): string {
- const safeWidth = Math.max(10, width);
- const rightClean = right.trim();
- const leftClean = left.trim();
+  const safeWidth = Math.max(10, width);
+  const rightClean = right.trim();
+  const leftClean = left.trim();
 
- const spaceNeeded = safeWidth - rightClean.length;
- if (spaceNeeded <= 0) {
- return `${leftClean.slice(0, 6)}... ${rightClean}`;
- }
+  const spaceNeeded = safeWidth - rightClean.length;
+  if (spaceNeeded <= 0) {
+    return `${leftClean.slice(0, 6)}... ${rightClean}`;
+  }
 
- if (leftClean.length > spaceNeeded - 1) {
- const truncatedLeft = `${leftClean.slice(0, spaceNeeded - 4)}...`;
- return `${truncatedLeft.padEnd(spaceNeeded, " ")}${rightClean}`;
- }
+  if (leftClean.length > spaceNeeded - 1) {
+    const truncatedLeft = `${leftClean.slice(0, spaceNeeded - 4)}...`;
+    return `${truncatedLeft.padEnd(spaceNeeded, " ")}${rightClean}`;
+  }
 
- return `${leftClean.padEnd(spaceNeeded, " ")}${rightClean}`;
+  return `${leftClean.padEnd(spaceNeeded, " ")}${rightClean}`;
 }
 
 /**
  * Centers text within the specified column width.
  */
 export function centerReceiptText(text: string, width = THERMAL_80MM_COLUMN_WIDTH): string {
- const safeWidth = Math.max(10, width);
- const trimmed = text.trim();
- if (trimmed.length >= safeWidth) {
- return trimmed;
- }
- const leftPadding = Math.floor((safeWidth - trimmed.length) / 2);
- const rightPadding = safeWidth - trimmed.length - leftPadding;
- return `${" ".repeat(leftPadding)}${trimmed}${" ".repeat(rightPadding)}`;
+  const safeWidth = Math.max(10, width);
+  const trimmed = text.trim();
+  if (trimmed.length >= safeWidth) {
+    return trimmed;
+  }
+  const leftPadding = Math.floor((safeWidth - trimmed.length) / 2);
+  const rightPadding = safeWidth - trimmed.length - leftPadding;
+  return `${" ".repeat(leftPadding)}${trimmed}${" ".repeat(rightPadding)}`;
 }

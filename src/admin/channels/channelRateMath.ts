@@ -34,16 +34,16 @@ export const DEFAULT_AVG_OTA_COMMISSION_PERCENT = 18.0;
  * @returns Integer rounded net savings in LKR.
  */
 export function computeDirectBookingNetSavings(
- grossRevenueLkr: number,
- otaCommissionPercent: number,
- paymentGatewayFeePercent = DEFAULT_PAYHERE_GATEWAY_FEE_PERCENT,
+  grossRevenueLkr: number,
+  otaCommissionPercent: number,
+  paymentGatewayFeePercent = DEFAULT_PAYHERE_GATEWAY_FEE_PERCENT,
 ): number {
- if (grossRevenueLkr <= 0 || otaCommissionPercent <= 0) {
- return 0;
- }
+  if (grossRevenueLkr <= 0 || otaCommissionPercent <= 0) {
+    return 0;
+  }
 
- const netCommissionAdvantage = Math.max(0, otaCommissionPercent - paymentGatewayFeePercent);
- return Math.round(grossRevenueLkr * (netCommissionAdvantage / 100));
+  const netCommissionAdvantage = Math.max(0, otaCommissionPercent - paymentGatewayFeePercent);
+  return Math.round(grossRevenueLkr * (netCommissionAdvantage / 100));
 }
 
 /**
@@ -55,13 +55,13 @@ export function computeDirectBookingNetSavings(
  * @returns Integer rounded projected savings in LKR.
  */
 export function computeProjectedDirectSavings(
- directRevenueLkr: number,
- avgOtaCommissionRate = DEFAULT_AVG_OTA_COMMISSION_PERCENT / 100,
+  directRevenueLkr: number,
+  avgOtaCommissionRate = DEFAULT_AVG_OTA_COMMISSION_PERCENT / 100,
 ): number {
- if (directRevenueLkr <= 0 || avgOtaCommissionRate <= 0) {
- return 0;
- }
- return Math.round(directRevenueLkr * avgOtaCommissionRate);
+  if (directRevenueLkr <= 0 || avgOtaCommissionRate <= 0) {
+    return 0;
+  }
+  return Math.round(directRevenueLkr * avgOtaCommissionRate);
 }
 
 /**
@@ -72,13 +72,13 @@ export function computeProjectedDirectSavings(
  * @returns Effective commission rate percentage (e.g. 15.5), or 0 if gross is non-positive.
  */
 export function computeEffectiveCommissionPercent(
- grossRevenue: number,
- totalCommission: number,
+  grossRevenue: number,
+  totalCommission: number,
 ): number {
- if (grossRevenue <= 0 || totalCommission <= 0) {
- return 0;
- }
- return Math.round((totalCommission / grossRevenue) * 1000) / 10;
+  if (grossRevenue <= 0 || totalCommission <= 0) {
+    return 0;
+  }
+  return Math.round((totalCommission / grossRevenue) * 1000) / 10;
 }
 
 /**
@@ -89,8 +89,8 @@ export function computeEffectiveCommissionPercent(
  * @returns Net payable amount, clamped to zero if commission exceeds gross.
  */
 export function computeOtaNetPayable(grossRevenue: number, totalCommission: number): number {
- if (grossRevenue <= 0) {
- return 0;
- }
- return Math.max(0, Math.round(grossRevenue - totalCommission));
+  if (grossRevenue <= 0) {
+    return 0;
+  }
+  return Math.max(0, Math.round(grossRevenue - totalCommission));
 }

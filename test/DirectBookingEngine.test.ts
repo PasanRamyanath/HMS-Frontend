@@ -30,7 +30,9 @@ describe("Public Direct Booking Engine Route (DirectBookingEngine.tsx)", () => {
         assert.ok(typedRoom.baseRateResidentLkr > 0);
         assert.ok(typedRoom.baseRateForeignUsd > 0);
         assert.ok(typedRoom.amenities.length > 0);
-        assert.ok(typedRoom.photoUrl.startsWith("/images/") || typedRoom.photoUrl.startsWith("http"));
+        assert.ok(
+          typedRoom.photoUrl.startsWith("/images/") || typedRoom.photoUrl.startsWith("http"),
+        );
       }
     });
 
