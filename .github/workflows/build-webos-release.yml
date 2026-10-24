@@ -80,53 +80,90 @@ jobs:
 
       - name: Resolve Version and Metadata
         id: meta
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+          INPUT_APP_ID: ${{ inputs.app_id || 'com.srilankahms.app' }}
+          INPUT_APP_TITLE: ${{ inputs.app_title || 'Sri Lanka HMS' }}
         run: |
-          if [ -n "${{ inputs.version }}" ]; then
-            RAW_VER="${{ inputs.version }}"
-          elif [[ "$GITHUB_REF" == refs/tags/v* ]]; then
-            RAW_VER="${GITHUB_REF#refs/tags/v}"
-          elif [[ "$GITHUB_REF" == refs/tags/* ]]; then
-            RAW_VER="${GITHUB_REF#refs/tags/}"
+          set -euo pipefail
+
+          # 1. Pick the raw version source (input > pushed tag > latest tag bump > appinfo.json)
+          if [ -n "${INPUT_VERSION}" ]; then
+            RAW_VER="${INPUT_VERSION}"
+          elif [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            RAW_VER="${GITHUB_REF_NAME}"
           else
-            RAW_VER=$(node -p "require('./package.json').version")
+            LATEST_TAG=$(git tag --list 'v[0-9]*' --sort=-v:refname | head -n 1 || true)
+            if [ -n "${LATEST_TAG}" ]; then
+              IFS=. read -r L_MAJ L_MIN L_PAT _ <<< "${LATEST_TAG#v}"
+              L_PAT="${L_PAT%%[-+]*}"
+              RAW_VER="${L_MAJ:-0}.${L_MIN:-0}.$(( 10#${L_PAT:-0} + 1 ))"
+            else
+              RAW_VER=$(node -p "require('./webos/appinfo.json').version || '1.0.0'")
+            fi
           fi
 
-          CLEAN_VER="${RAW_VER#v}"
-          TAG_NAME="v${CLEAN_VER}"
+          # 2. Normalize to strict webOS format: MAJOR.MINOR.PATCH (no leading zeros, max 9 digits)
+          CLEAN_VER="${RAW_VER#[vV]}"
+          CLEAN_VER="${CLEAN_VER%%[-+]*}"
+          IFS=. read -r MAJ MIN PAT EXTRA <<< "${CLEAN_VER}"
+          if [ -n "${EXTRA:-}" ]; then
+            echo "::error::Version '${RAW_VER}' has more than three parts. Use MAJOR.MINOR.PATCH (e.g. 1.0.0)."
+            exit 1
+          fi
+          PARTS=()
+          for P in "${MAJ:-0}" "${MIN:-0}" "${PAT:-0}"; do
+            if ! [[ "${P}" =~ ^[0-9]{1,9}$ ]]; then
+              echo "::error::Invalid version '${RAW_VER}'. Each part must be a non-negative integer (max 9 digits)."
+              exit 1
+            fi
+            PARTS+=("$(( 10#${P} ))")
+          done
+          VERSION="${PARTS[0]}.${PARTS[1]}.${PARTS[2]}"
 
-          APP_ID="${{ inputs.app_id || 'com.srilankahms.app' }}"
-          APP_TITLE="${{ inputs.app_title || 'Sri Lanka HMS' }}"
+          # 3. Reuse the pushed tag as-is; otherwise create v<version>
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            TAG_NAME="${GITHUB_REF_NAME}"
+          else
+            TAG_NAME="v${VERSION}"
+          fi
 
-          echo "version=${CLEAN_VER}" >> $GITHUB_OUTPUT
-          echo "tag=${TAG_NAME}" >> $GITHUB_OUTPUT
-          echo "app_id=${APP_ID}" >> $GITHUB_OUTPUT
-          echo "app_title=${APP_TITLE}" >> $GITHUB_OUTPUT
+          {
+            echo "version=${VERSION}"
+            echo "tag=${TAG_NAME}"
+            echo "app_id=${INPUT_APP_ID}"
+            echo "app_title=${INPUT_APP_TITLE}"
+          } >> "${GITHUB_OUTPUT}"
 
           echo "Target webOS Configuration:"
-          echo "  App ID:      ${APP_ID}"
-          echo "  Version:     ${CLEAN_VER}"
+          echo "  App ID:      ${INPUT_APP_ID}"
+          echo "  Raw Version: ${RAW_VER}"
+          echo "  Version:     ${VERSION}"
           echo "  Release Tag: ${TAG_NAME}"
-          echo "  Title:       ${APP_TITLE}"
+          echo "  Title:       ${INPUT_APP_TITLE}"
 
       - name: Build Web Application for webOS (Relative Base)
         run: |
           npx vite build --base ./
 
       - name: Prepare webOS Package Directory
+        env:
+          WEBOS_APP_ID: ${{ steps.meta.outputs.app_id }}
+          WEBOS_VERSION: ${{ steps.meta.outputs.version }}
+          WEBOS_TITLE: ${{ steps.meta.outputs.app_title }}
         run: |
           node -e '
             const fs = require("fs");
             const path = require("path");
 
             const templatePath = path.join("webos", "appinfo.json");
-            let manifest = {};
-            if (fs.existsSync(templatePath)) {
-              manifest = JSON.parse(fs.readFileSync(templatePath, "utf-8"));
-            }
+            const manifest = fs.existsSync(templatePath)
+              ? JSON.parse(fs.readFileSync(templatePath, "utf-8"))
+              : {};
 
-            manifest.id = "${{ steps.meta.outputs.app_id }}";
-            manifest.version = "${{ steps.meta.outputs.version }}";
-            manifest.title = "${{ steps.meta.outputs.app_title }}";
+            manifest.id = process.env.WEBOS_APP_ID;
+            manifest.version = process.env.WEBOS_VERSION;
+            manifest.title = process.env.WEBOS_TITLE;
             manifest.type = manifest.type || "web";
             manifest.main = "index.html";
             manifest.icon = "icon.png";
@@ -137,6 +174,8 @@ jobs:
 
             fs.writeFileSync(path.join("dist", "appinfo.json"), JSON.stringify(manifest, null, 2));
           '
+          echo "Generated dist/appinfo.json:"
+          cat dist/appinfo.json
 
           if [ -d "webos" ]; then
             cp -f webos/*.png dist/ 2>/dev/null || true
