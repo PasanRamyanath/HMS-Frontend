@@ -142,9 +142,13 @@ jobs:
           echo "  Release Tag: ${TAG_NAME}"
           echo "  Title:       ${INPUT_APP_TITLE}"
 
-      - name: Build Web Application for webOS (Relative Base)
+      - name: Build Web Application for webOS (Legacy Chromium CSS + Relative Base)
         run: |
-          npx vite build --base ./
+          npx vite build --mode webos --base ./
+          if grep -q "@layer" dist/assets/*.css; then
+            echo "::error::Cascade layers survived the webOS build; LG TV Chromium will drop all Tailwind utilities."
+            exit 1
+          fi
 
       - name: Prepare webOS Package Directory
         env:

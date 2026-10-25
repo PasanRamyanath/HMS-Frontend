@@ -1,6 +1,6 @@
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
-import { defineConfig, type Plugin } from "vite";
+import { type Plugin, defineConfig } from "vite";
 
 /**
  * LG webOS TVs ship old Chromium engines (webOS 6 = Chromium 79, webOS 22 = 87,
@@ -16,24 +16,25 @@ import { defineConfig, type Plugin } from "vite";
  */
 const WEBOS_CHROMIUM = "chrome79";
 
+/** Index of the last character of a string literal or comment starting at `i`, else `i`. */
+function skipLiteral(css: string, i: number): number {
+  const ch = css[i];
+  if (ch === "/" && css[i + 1] === "*") {
+    const end = css.indexOf("*/", i + 2);
+    return end === -1 ? css.length : end + 1;
+  }
+  if (ch !== '"' && ch !== "'") return i;
+  let end = css.indexOf(ch, i + 1);
+  while (end !== -1 && css[end - 1] === "\\") end = css.indexOf(ch, end + 1);
+  return end === -1 ? css.length : end;
+}
+
 /** Index of the `}` matching the `{` at `openIndex`, skipping strings and comments. */
 function findBlockEnd(css: string, openIndex: number): number {
   let depth = 0;
-  let i = openIndex;
-  while (i < css.length) {
-    const ch = css[i];
-    if (ch === '"' || ch === "'") {
-      i = css.indexOf(ch, i + 1);
-      while (i > 0 && css[i - 1] === "\\") i = css.indexOf(ch, i + 1);
-    } else if (ch === "/" && css[i + 1] === "*") {
-      i = css.indexOf("*/", i + 2) + 1;
-    } else if (ch === "{") {
-      depth++;
-    } else if (ch === "}" && --depth === 0) {
-      return i;
-    }
-    if (i <= 0) break;
-    i++;
+  for (let i = openIndex; i < css.length; i = skipLiteral(css, i) + 1) {
+    if (css[i] === "{") depth++;
+    if (css[i] === "}" && --depth === 0) return i;
   }
   return css.length - 1;
 }
@@ -100,6 +101,20 @@ const webOsLegacyCss = (): Plugin => ({
   },
 });
 
+/** First matching source-path fragment decides the output chunk. */
+const CHUNK_RULES: ReadonlyArray<readonly [chunk: string, fragments: readonly string[]]> = [
+  ["vendor-react", ["node_modules/react", "node_modules/react-dom"]],
+  ["hms-graphql-schema", ["/src/generated/"]],
+  ["hms-common", ["/src/lib/", "/src/components/"]],
+  ["route-guest-qr", ["/src/qr/"]],
+  ["route-staff-pwa", ["/src/staff/"]],
+  ["route-admin-pms", ["/src/admin/"]],
+];
+
+function manualChunks(id: string): string | undefined {
+  return CHUNK_RULES.find(([, fragments]) => fragments.some((f) => id.includes(f)))?.[0];
+}
+
 export default defineConfig(({ mode }) => {
   const isWebOs = mode === "webos";
 
@@ -116,28 +131,7 @@ export default defineConfig(({ mode }) => {
       cssTarget: isWebOs ? WEBOS_CHROMIUM : undefined,
       cssMinify: isWebOs ? "lightningcss" : true,
       rollupOptions: {
-        output: {
-          manualChunks(id: string) {
-            if (id.includes("node_modules/react") || id.includes("node_modules/react-dom")) {
-              return "vendor-react";
-            }
-            if (id.includes("/src/generated/")) {
-              return "hms-graphql-schema";
-            }
-            if (id.includes("/src/lib/") || id.includes("/src/components/")) {
-              return "hms-common";
-            }
-            if (id.includes("/src/qr/")) {
-              return "route-guest-qr";
-            }
-            if (id.includes("/src/staff/")) {
-              return "route-staff-pwa";
-            }
-            if (id.includes("/src/admin/")) {
-              return "route-admin-pms";
-            }
-          },
-        },
+        output: { manualChunks },
       },
     },
   };
